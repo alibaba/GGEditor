@@ -1,0 +1,68 @@
+{
+  "name": "gg-editor",
+  "version": "1.0.0",
+  "description": "A visual graph editor based G6 and React",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
+    "watch": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.dev.js --watch",
+    "build": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.prod.js --colors --profile --optimize-minimize",
+    "build:demo": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.demo.prod.js --colors --profile --optimize-minimize"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaoli/gg-editor.git"
+  },
+  "author": {
+    "name": "高力",
+    "email": "3071730@qq.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gaoli/gg-editor/issues"
+  },
+  "homepage": "https://github.com/gaoli/gg-editor#readme",
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "prop-types": "^15.0.0"
+  },
+  "dependencies": {
+    "@antv/g6-editor": "1.0.8",
+    "@antv/g6": "2.0.5-beta.6",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "antd": "^3.8.0",
+    "autoprefixer": "^8.2.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
+    "moment": "^2.22.2",
+    "postcss-loader": "^2.1.3",
+    "precss": "^3.1.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-router-dom": "^4.3.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
