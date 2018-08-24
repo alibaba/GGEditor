@@ -5,7 +5,7 @@ import {
   EVENT_BEFORE_ADD_PAGE,
   EVENT_AFTER_ADD_PAGE,
 } from '@common/constants';
-import Page from '../Page';
+import Page from '@components/Page';
 
 class Flow extends Page {
   get pageId() {

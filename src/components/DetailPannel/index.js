@@ -1,7 +1,7 @@
 import React from 'react';
 import { pick } from '@utils';
 import { STATUS_CANVAS_SELECTED, EVENT_AFTER_ADD_PAGE } from '@common/constants';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 import Pannel from './pannel';
 
 class DetailPannel extends BaseComponent {

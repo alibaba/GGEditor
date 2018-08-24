@@ -1,7 +1,7 @@
 import React from 'react';
 import Editor from '@antv/g6-editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 
 class ContextMenu extends BaseComponent {
   contextMenu = null;
