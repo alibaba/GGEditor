@@ -6,11 +6,17 @@ import BaseComponent from '../Base';
 class ContextMenu extends BaseComponent {
   contextMenu = null;
 
+  get containerId() {
+    const { editorId } = this.context;
+
+    return `${CONTEXT_MENU_CONTAINER}_${editorId}`;
+  }
+
   componentDidMount() {
     const { editor } = this.context;
 
     this.contextMenu = new Editor.Contextmenu({
-      container: CONTEXT_MENU_CONTAINER,
+      container: this.containerId,
     });
 
     editor.add(this.contextMenu);
@@ -20,7 +26,7 @@ class ContextMenu extends BaseComponent {
     const { children } = this.props;
 
     return (
-      <div id={CONTEXT_MENU_CONTAINER} style={{ display: 'none' }}>
+      <div id={this.containerId} style={{ display: 'none' }}>
         {children}
       </div>
     );
