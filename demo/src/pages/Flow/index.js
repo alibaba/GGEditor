@@ -161,10 +161,7 @@ class FlowPage extends React.Component {
   renderMinimap() {
     return (
       <Card type="inner" title="缩略图" bordered={false}>
-        <Minimap
-          width={200}
-          height={200}
-        />
+        <Minimap height={200} />
       </Card>
     );
   }
