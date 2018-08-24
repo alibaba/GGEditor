@@ -7,11 +7,17 @@ import BaseComponent from '../Base';
 class Toolbar extends BaseComponent {
   toolbar = null;
 
+  get containerId() {
+    const { editorId } = this.context;
+
+    return `${TOOLBAR_CONTAINER}_${editorId}`;
+  }
+
   componentDidMount() {
     const { editor } = this.context;
 
     this.toolbar = new Editor.Toolbar({
-      container: TOOLBAR_CONTAINER,
+      container: this.containerId,
     });
 
     editor.add(this.toolbar);
@@ -21,7 +27,7 @@ class Toolbar extends BaseComponent {
     const { children } = this.props;
 
     return (
-      <div id={TOOLBAR_CONTAINER} {...pick(this.props, ['style', 'className'])}>
+      <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>
         {children}
       </div>
     );

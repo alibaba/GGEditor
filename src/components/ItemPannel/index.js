@@ -8,11 +8,17 @@ import Item from './item';
 class ItemPannel extends BaseComponent {
   itemPannel = null;
 
+  get containerId() {
+    const { editorId } = this.context;
+
+    return `${ITEM_PANNEL_CONTAINER}_${editorId}`;
+  }
+
   componentDidMount() {
     const { editor } = this.context;
 
     this.itemPannel = new Editor.Itempannel({
-      container: ITEM_PANNEL_CONTAINER,
+      container: this.containerId,
     });
 
     editor.add(this.itemPannel);
@@ -22,7 +28,7 @@ class ItemPannel extends BaseComponent {
     const { children } = this.props;
 
     return (
-      <div id={ITEM_PANNEL_CONTAINER} {...pick(this.props, ['style', 'className'])}>
+      <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>
         {children}
       </div>
     );

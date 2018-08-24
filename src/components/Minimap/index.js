@@ -5,10 +5,16 @@ import { MINIMAP_CONTAINER } from '@common/constants';
 import BaseComponent from '../Base';
 
 class Minimap extends BaseComponent {
+  get containerId() {
+    const { editorId } = this.context;
+
+    return `${MINIMAP_CONTAINER}_${editorId}`;
+  }
+
   componentDidMount() {
     const { editor } = this.context;
     const {
-      container = MINIMAP_CONTAINER,
+      container = this.containerId,
       width,
       height,
       viewportWindowStyle,
@@ -34,7 +40,7 @@ class Minimap extends BaseComponent {
     }
 
     return (
-      <div id={MINIMAP_CONTAINER} {...pick(this.props, ['style', 'className'])} />
+      <div id={this.containerId} {...pick(this.props, ['style', 'className'])} />
     );
   }
 }
