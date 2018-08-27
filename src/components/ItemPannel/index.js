@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@antv/g6-editor';
 import { pick } from '@utils';
 import { ITEM_PANNEL_CONTAINER } from '@common/constants';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 import Item from './item';
 
 class ItemPannel extends BaseComponent {

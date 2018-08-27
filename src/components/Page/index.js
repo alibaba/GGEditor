@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pick, merge, upperFirst } from '@utils';
 import { GRAPH_MOUSE_EVENTS, GRAPH_OTHER_EVENTS, PAGE_EVENTS } from '@common/constants';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 
 class Page extends BaseComponent {
   static childContextTypes = {

@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@antv/g6-editor';
 import { pick } from '@utils';
 import { TOOLBAR_CONTAINER } from '@common/constants';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 
 class Toolbar extends BaseComponent {
   toolbar = null;

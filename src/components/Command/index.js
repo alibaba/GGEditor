@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from '../Base';
+import BaseComponent from '@components/Base';
 
 class Command extends BaseComponent {
   render() {
