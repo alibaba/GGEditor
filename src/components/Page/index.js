@@ -63,37 +63,26 @@ class Page extends BaseComponent {
       },
     });
   }
+  get graph() {
+    return this.page.getGraph();
+  }
+
+  addListener = (target, eventName, handler) => {
+    if (typeof handler === 'function') target.on(eventName, handler);
+  }
 
   bindEvent() {
-    const graph = this.page.getGraph();
-
     GRAPH_MOUSE_EVENTS.forEach((event) => {
-      const handleNodeEvent = this.props[`onNode${upperFirst(event)}`];
-      const handleEdgeEvent = this.props[`onEdge${upperFirst(event)}`];
-
-      if (handleNodeEvent) {
-        graph.on(`node:${event}`, handleNodeEvent);
-      }
-
-      if (handleEdgeEvent) {
-        graph.on(`edge:${event}`, handleEdgeEvent);
-      }
+      this.addListener(this.graph, `node:${event}`, this.props[`onNode${upperFirst(event)}`]);
+      this.addListener(this.graph, `edge:${event}`, this.props[`onEdge${upperFirst(event)}`]);
     });
 
     GRAPH_OTHER_EVENTS.forEach((event) => {
-      const handleEvent = this.props[(`on${upperFirst(event)}`)];
-
-      if (handleEvent) {
-        graph.on([event], handleEvent);
-      }
+      this.addListener(this.graph, [event], this.props[`on${upperFirst(event)}`]);
     });
 
     PAGE_EVENTS.forEach((event) => {
-      const handleEvent = this.props[(`on${upperFirst(event)}`)];
-
-      if (handleEvent) {
-        this.page.on([event], handleEvent);
-      }
+      this.addListener(this.page, [event], this.props[`on${upperFirst(event)}`]);
     });
   }
 
