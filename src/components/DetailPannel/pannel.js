@@ -25,7 +25,7 @@ class Pannel extends BaseComponent {
         {
           React.Children.toArray(children).map(child => React.cloneElement(child, {
             items,
-            ...this.context,
+            ...this.context.propsAPI,
           }))
         }
       </div>

@@ -13,26 +13,21 @@ class DetailPannel extends BaseComponent {
     const { editor } = this.context;
 
     editor.on(EVENT_AFTER_ADD_PAGE, () => {
-      this.setState({
-        status: STATUS_CANVAS_SELECTED,
-      });
-
+      this.setState({ status: STATUS_CANVAS_SELECTED });
       this.bindEvent();
     });
   }
 
-  bindEvent() {
-    const page = this.context.getCurrentPage();
+  get page() {
+    return this.context.editor.getCurrentPage();
+  }
 
-    page.on('statuschange', ({ status }) => {
-      this.setState({
-        status,
-      });
-    });
+  bindEvent() {
+    this.page.on('statuschange', ({ status }) => { this.setState({ status }); });
   }
 
   render() {
-    const { getSelected } = this.context;
+    const { getSelected } = this.context.propsAPI;
     const { children } = this.props;
     const { status } = this.state;
 
