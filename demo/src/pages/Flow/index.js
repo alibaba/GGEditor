@@ -6,13 +6,13 @@ import GGEditor, {
   Minimap,
   Toolbar,
   Item,
-  ItemPannel,
-  NodePannel,
-  EdgePannel,
-  GroupPannel,
-  MultiPannel,
-  CanvasPannel,
-  DetailPannel,
+  ItemPanel,
+  NodePanel,
+  EdgePanel,
+  GroupPanel,
+  MultiPanel,
+  CanvasPanel,
+  DetailPanel,
 } from '@src';
 import NodeDetail from '../../components/NodeDetail';
 import styles from './index.scss';
@@ -87,9 +87,9 @@ class FlowPage extends React.Component {
     );
   }
 
-  renderItemPannel() {
+  renderItemPanel() {
     return (
-      <ItemPannel className={styles.itemPannel}>
+      <ItemPanel className={styles.itemPanel}>
         <Card bordered={false}>
           <Item
             type="node"
@@ -132,29 +132,29 @@ class FlowPage extends React.Component {
             src="https://gw.alipayobjects.com/zos/rmsportal/rQMUhHHSqwYsPwjXxcfP.svg"
           />
         </Card>
-      </ItemPannel>
+      </ItemPanel>
     );
   }
 
-  renderDetailPannel() {
+  renderDetailPanel() {
     return (
-      <DetailPannel className={styles.detailPannel}>
-        <NodePannel>
+      <DetailPanel className={styles.detailPanel}>
+        <NodePanel>
           <NodeDetail />
-        </NodePannel>
-        <EdgePannel>
+        </NodePanel>
+        <EdgePanel>
           <Card type="inner" title="边线属性" bordered={false} />
-        </EdgePannel>
-        <GroupPannel>
+        </EdgePanel>
+        <GroupPanel>
           <Card type="inner" title="群组属性" bordered={false} />
-        </GroupPannel>
-        <MultiPannel>
+        </GroupPanel>
+        <MultiPanel>
           <Card type="inner" title="多选属性" bordered={false} />
-        </MultiPannel>
-        <CanvasPannel>
+        </MultiPanel>
+        <CanvasPanel>
           <Card type="inner" title="画布属性" bordered={false} />
-        </CanvasPannel>
-      </DetailPannel>
+        </CanvasPanel>
+      </DetailPanel>
     );
   }
 
@@ -176,13 +176,13 @@ class FlowPage extends React.Component {
         </Row>
         <Row type="flex" className={styles.editorBd}>
           <Col span={4} className={styles.editorSidebar}>
-            {this.renderItemPannel()}
+            {this.renderItemPanel()}
           </Col>
           <Col span={16} className={styles.editorContent}>
             {this.renderFlow()}
           </Col>
           <Col span={4} className={styles.editorSidebar}>
-            {this.renderDetailPannel()}
+            {this.renderDetailPanel()}
             {this.renderMinimap()}
           </Col>
         </Row>

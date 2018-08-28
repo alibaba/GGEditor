@@ -5,8 +5,8 @@ import { ITEM_PANNEL_CONTAINER } from '@common/constants';
 import BaseComponent from '@components/Base';
 import Item from './item';
 
-class ItemPannel extends BaseComponent {
-  itemPannel = null;
+class ItemPanel extends BaseComponent {
+  itemPanel = null;
 
   get containerId() {
     const { editorId } = this.context;
@@ -17,11 +17,11 @@ class ItemPannel extends BaseComponent {
   componentDidMount() {
     const { editor } = this.context;
 
-    this.itemPannel = new Editor.Itempannel({
+    this.itemPanel = new Editor.Itempannel({
       container: this.containerId,
     });
 
-    editor.add(this.itemPannel);
+    editor.add(this.itemPanel);
   }
 
   render() {
@@ -37,4 +37,4 @@ class ItemPannel extends BaseComponent {
 
 export { Item };
 
-export default ItemPannel;
+export default ItemPanel;
