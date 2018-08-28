@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pick, merge, upperFirst } from '@utils';
-import { GRAPH_MOUSE_EVENTS, GRAPH_OTHER_EVENTS, PAGE_EVENTS } from '@common/constants';
+import { pick, merge } from '@utils';
+import {
+  GRAPH_MOUSE_EVENTS,
+  GRAPH_OTHER_EVENTS,
+  PAGE_EVENTS,
+  GRAPH_MOUSE_REACT_EVENTS,
+  GRAPH_OTHER_REACT_EVENTS,
+  PAGE_REACT_EVENTS,
+} from '@common/constants';
 import BaseComponent from '@components/Base';
 
 class Page extends BaseComponent {
@@ -76,16 +83,17 @@ class Page extends BaseComponent {
     const { addListener } = this;
 
     GRAPH_MOUSE_EVENTS.forEach((event) => {
-      addListener(this.graph, `node:${event}`, this.props[`onNode${upperFirst(event)}`]);
-      addListener(this.graph, `edge:${event}`, this.props[`onEdge${upperFirst(event)}`]);
+      const eventName = GRAPH_MOUSE_REACT_EVENTS[event];
+      addListener(this.graph, `node:${event}`, this.props[`onNode${eventName}`]);
+      addListener(this.graph, `edge:${event}`, this.props[`onEdge${eventName}`]);
     });
 
     GRAPH_OTHER_EVENTS.forEach((event) => {
-      addListener(this.graph, [event], this.props[`on${upperFirst(event)}`]);
+      addListener(this.graph, [event], this.props[GRAPH_OTHER_REACT_EVENTS[event]]);
     });
 
     PAGE_EVENTS.forEach((event) => {
-      addListener(this.page, [event], this.props[`on${upperFirst(event)}`]);
+      addListener(this.page, [event], this.props[PAGE_REACT_EVENTS[event]]);
     });
   }
 

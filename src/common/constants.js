@@ -18,49 +18,59 @@ export const STATUS_GROUP_SELECTED = 'group-selected';
 export const STATUS_MULTI_SELECTED = 'multi-selected';
 
 /* eslint-disable */
-export const GRAPH_MOUSE_EVENTS = [
-  'click',                // 鼠标左键点击事件
-  'dblclick',             // 鼠标左键双击事件
-  'mouseenter',           // 鼠标移入事件
-  'mouseleave',           // 鼠标移除事件
-  'mousedown',            // 鼠标按下事件
-  'mouseup',              // 鼠标抬起事件
-  'mousemove',            // 鼠标移动事件
-  'dragstart',            // 鼠标开始拖拽事件
-  'drag',                 // 鼠标拖拽事件
-  'dragend',              // 鼠标拖拽结束事件
-  'dragenter',            // 鼠标拖拽进入事件
-  'dragleave',            // 鼠标拖拽移出事件
-  'drop',                 // 鼠标拖拽放置事件
-  'contextmenu',          // 菜单事件
-];
+export const GRAPH_MOUSE_REACT_EVENTS = {
+  click: 'Click',
+  contextmenu: 'ContextMenu',
+  dblclick: 'DoubleClick',
+  drag: 'Drag',
+  Itemdragend: 'DragEnd',
+  dragenter: 'DragEnter',
+  dragleave: 'DragLeave',
+  dragstart: 'DragStart',
+  drop: 'Drop',
+  mousedown: 'MouseDown',
+  mouseenter: 'MouseEnter',
+  mouseleave: 'MouseLeave',
+  mousemove: 'MouseMove',
+  mouseup: 'MouseUp',
+};
 
-export const GRAPH_OTHER_EVENTS = [
-  'mousewheel',           // 鼠标滚轮事件
-  'keydown',              // 键盘按键按下事件
-  'keyup',                // 键盘按键抬起事件
-  'beforechange',         // 子项数据变化前
-  'afterchange',          // 子项数据变化后
-  'beforechangesize',     // 画布尺寸变化前
-  'afterchangesize',      // 画布尺寸变化后
-  'beforeviewportchange', // 视口变化前
-  'afterviewportchange',  // 视口变化后
-];
+export const GRAPH_OTHER_REACT_EVENTS = {
+  afterChange: 'onAfterChange',
+  afterChangeSize: 'onAfterChangeSize',
+  afterViewportChange: 'onAfterViewportChange',
+  beforeChange: 'onBeforeChange',
+  beforeChangeSize: 'onBeforeChangeSize',
+  beforeViewportChange: 'onBeforeViewportChange',
+  keydown: 'onKeyDown',
+  keyup: 'onKeyUp',
+  mousewheel: 'onMouseWheel',
+};
 
-export const PAGE_EVENTS = [
-  'beforeitemactived',    // 激活前
-  'afteritemactived',     // 激活后
-  'beforeitemunactived',  // 取消激活前
-  'afteritemunactived',   // 取消激活后
-  'beforeitemselected',   // 选中前
-  'afteritemselected',    // 选中后
-  'beforeitemunselected', // 取消选中前
-  'afteritemunselected',  // 取消选中后
-  'keyupeditlabel',       // 键盘按键抬起事件（节点编辑）
-];
+export const PAGE_REACT_EVENTS = {
+  afteritemactived: 'onAfterItemActived',
+  afteritemselected: 'onAfterItemSelected',
+  afteritemunactived: 'onAfterItemUnactived',
+  afteritemunselected: 'onAfterItemUnselected',
+  beforeitemactived: 'onBeforeItemActived',
+  beforeitemselected: 'onBeforeItemSelected',
+  beforeitemunactived: 'onBeforeItemUnactived',
+  beforeitemunselected: 'onBeforeItemUnselected',
+  keyupeditlabel: 'onKeyUpEditLabel',
+};
 
-export const EDITOR_EVENTS = [
-  'beforecommandexecute', // 命令执行前
-  'aftercommandexecute',  // 命令执行后
-];
+export const EDITOR_REACT_EVENTS = {
+  aftercommandexecute: 'onAfterCommandExecute',
+  beforecommandexecute: 'onBeforeCommandExecute',
+};
+
+
+export const GRAPH_MOUSE_EVENTS = Object.keys(GRAPH_MOUSE_REACT_EVENTS);
+
+export const GRAPH_OTHER_EVENTS = Object.keys(GRAPH_OTHER_REACT_EVENTS);
+
+export const PAGE_EVENTS = Object.keys(PAGE_REACT_EVENTS);
+
+export const EDITOR_EVENTS = Object.keys(EDITOR_REACT_EVENTS);
+
 /* eslint-enable */

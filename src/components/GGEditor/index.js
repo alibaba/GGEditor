@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Editor from '@antv/g6-editor';
-import { EDITOR_EVENTS } from '@common/constants';
-import { pick, upperFirst, createId } from '@utils';
+import { EDITOR_EVENTS, EDITOR_REACT_EVENTS } from '@common/constants';
+import { pick, createId } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
 
 class GGEditor extends React.Component {
@@ -42,7 +42,7 @@ class GGEditor extends React.Component {
 
   bindEvent() {
     EDITOR_EVENTS.forEach((event) => {
-      this.addListener(this.editor, [event], this.props[`on${upperFirst(event)}`]);
+      this.addListener(this.editor, [event], this.props[EDITOR_REACT_EVENTS[event]]);
     });
   }
 
