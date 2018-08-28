@@ -14,4 +14,4 @@ import GGEditor, { Flow } from 'gg-editor';
 
 ## Events
 
-请移步至 [EditorEvents](editorEvents.md) 查看详情
+请移步至 [EditorEvents](editorEvents.zh-CN.md) 查看详情

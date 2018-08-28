@@ -2,29 +2,29 @@
 
 ## API
 
-- [GGEditor](/docs/api/ggEditor.md)
+- [GGEditor](/docs/api/ggEditor.zh-CN.md)
 
 ### 组件
 
-- [Flow](/docs/api/flow.md)
-- [Mind](/docs/api/mind.md)
-- [Command](/docs/api/command.md)
-- [Minimap](/docs/api/minimap.md)
-- [ContextMenu](/docs/api/contextMenu.md)
-- [Toolbar](/docs/api/toolbar.md)
-- [ItemPannel](/docs/api/itemPannel.md)
-- [DetailPannel](/docs/api/detailPannel.md)
+- [Flow](/docs/api/flow.zh-CN.md)
+- [Mind](/docs/api/mind.zh-CN.md)
+- [Command](/docs/api/command.zh-CN.md)
+- [Minimap](/docs/api/minimap.zh-CN.md)
+- [ContextMenu](/docs/api/contextMenu.zh-CN.md)
+- [Toolbar](/docs/api/toolbar.zh-CN.md)
+- [ItemPannel](/docs/api/itemPannel.zh-CN.md)
+- [DetailPannel](/docs/api/detailPannel.zh-CN.md)
 
 ### 注册
 
-- [RegisterNode](/docs/api/registerNode.md)
-- [RegisterEdge](/docs/api/registerEdge.md)
-- [RegisterGroup](/docs/api/registerGroup.md)
-- [RegisterGuide](/docs/api/registerGuide.md)
-- [RegisterCommand](/docs/api/registerCommand.md)
-- [RegisterBehaviour](/docs/api/registerBehaviour.md)
+- [RegisterNode](/docs/api/registerNode.zh-CN.md)
+- [RegisterEdge](/docs/api/registerEdge.zh-CN.md)
+- [RegisterGroup](/docs/api/registerGroup.zh-CN.md)
+- [RegisterGuide](/docs/api/registerGuide.zh-CN.md)
+- [RegisterCommand](/docs/api/registerCommand.zh-CN.md)
+- [RegisterBehaviour](/docs/api/registerBehaviour.zh-CN.md)
 
 ### 事件
 
-- [PageEvents](/docs/api/pageEvents.md)
-- [EditorEvents](/docs/api/editorEvents.md)
+- [PageEvents](/docs/api/pageEvents.zh-CN.md)
+- [EditorEvents](/docs/api/editorEvents.zh-CN.md)
