@@ -27,7 +27,6 @@ class DetailPannel extends BaseComponent {
   }
 
   render() {
-    const { getSelected } = this.context.propsAPI;
     const { children } = this.props;
     const { status } = this.state;
 
@@ -40,7 +39,6 @@ class DetailPannel extends BaseComponent {
         {
           React.Children.toArray(children).map(child => React.cloneElement(child, {
             status,
-            items: getSelected(),
           }))
         }
       </div>

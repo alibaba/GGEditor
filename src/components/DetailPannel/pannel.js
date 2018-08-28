@@ -1,4 +1,5 @@
 import React from 'react';
+import { pick } from '@utils';
 import BaseComponent from '@components/Base';
 
 class Pannel extends BaseComponent {
@@ -17,14 +18,17 @@ class Pannel extends BaseComponent {
   }
 
   render() {
-    const { status, items, children } = this.props;
+    const { status, children } = this.props;
     const { type } = this;
 
+    if (`${type}-selected` !== status) {
+      return null;
+    }
+
     return (
-      <div style={{ display: `${type}-selected` === status ? 'block' : 'none' }}>
+      <div {...pick(this.props, ['style', 'className'])}>
         {
           React.Children.toArray(children).map(child => React.cloneElement(child, {
-            items,
             ...this.context.propsAPI,
           }))
         }
