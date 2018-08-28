@@ -14,24 +14,30 @@ const inlineFormItemLayout = {
 
 class NodeDetail extends React.Component {
   handleSubmit = () => {
-    const { form, items, updateItem } = this.props;
+    const { form, getSelected, updateItem } = this.props;
 
     form.validateFieldsAndScroll((err, values) => {
       if (err) {
         return;
       }
 
-      updateItem(items[0], {
+      const item = getSelected()[0];
+
+      if (!item) {
+        return;
+      }
+
+      updateItem(item, {
         ...values,
       });
     });
   }
 
   render() {
-    const { form, items } = this.props;
+    const { form, getSelected } = this.props;
     const { getFieldDecorator } = form;
 
-    const item = items[0];
+    const item = getSelected()[0];
 
     if (!item) {
       return null;
