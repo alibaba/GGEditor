@@ -3,17 +3,13 @@ import PropTypes from 'prop-types';
 import Editor from '@antv/g6-editor';
 import { EDITOR_EVENTS } from '@common/constants';
 import { pick, upperFirst, createId } from '@utils';
+import PropsAPI from '@components/Adapter/propsAPI';
 
 class GGEditor extends React.Component {
   static childContextTypes = {
     editor: PropTypes.object,
     editorId: PropTypes.number,
-    getCurrentPage: PropTypes.func,
-    getSelected: PropTypes.func,
-    addItem: PropTypes.func,
-    removeItem: PropTypes.func,
-    updateItem: PropTypes.func,
-    findItem: PropTypes.func,
+    propsAPI: PropTypes.object,
   }
 
   editor = null;
@@ -31,42 +27,22 @@ class GGEditor extends React.Component {
     return {
       editor: this.editor,
       editorId: this.editorId,
-      getCurrentPage: this.getCurrentPage,
-      getSelected: this.getSelected,
-      addItem: this.addItem,
-      removeItem: this.removeItem,
-      updateItem: this.updateItem,
-      findItem: this.findItem,
+      propsAPI: this.propsAPI,
     };
   }
 
-  get page() {
-    return this.editor.getCurrentPage();
-  }
-
-  getCurrentPage = () => this.page;
-
-  getSelected = () => this.page.getSelected();
-
-  addItem = (type, model) => this.page.add(type, model);
-
-  removeItem = item => this.page.remove(item);
-
-  updateItem = (item, model) => this.page.update(item, model);
-
-  findItem = id => this.page.find(id);
-
   init() {
     this.editor = new Editor();
+    this.propsAPI = new PropsAPI(this.editor);
+  }
+
+  addListener = (target, eventName, handler) => {
+    if (typeof handler === 'function') target.on(eventName, handler);
   }
 
   bindEvent() {
     EDITOR_EVENTS.forEach((event) => {
-      const handleEvent = this.props[(`on${upperFirst(event)}`)];
-
-      if (handleEvent) {
-        this.editor.on([event], handleEvent);
-      }
+      this.addListener(this.editor, [event], this.props[`on${upperFirst(event)}`]);
     });
   }
 

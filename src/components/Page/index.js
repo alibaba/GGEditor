@@ -63,6 +63,7 @@ class Page extends BaseComponent {
       },
     });
   }
+
   get graph() {
     return this.page.getGraph();
   }
@@ -72,17 +73,19 @@ class Page extends BaseComponent {
   }
 
   bindEvent() {
+    const { addListener } = this;
+
     GRAPH_MOUSE_EVENTS.forEach((event) => {
-      this.addListener(this.graph, `node:${event}`, this.props[`onNode${upperFirst(event)}`]);
-      this.addListener(this.graph, `edge:${event}`, this.props[`onEdge${upperFirst(event)}`]);
+      addListener(this.graph, `node:${event}`, this.props[`onNode${upperFirst(event)}`]);
+      addListener(this.graph, `edge:${event}`, this.props[`onEdge${upperFirst(event)}`]);
     });
 
     GRAPH_OTHER_EVENTS.forEach((event) => {
-      this.addListener(this.graph, [event], this.props[`on${upperFirst(event)}`]);
+      addListener(this.graph, [event], this.props[`on${upperFirst(event)}`]);
     });
 
     PAGE_EVENTS.forEach((event) => {
-      this.addListener(this.page, [event], this.props[`on${upperFirst(event)}`]);
+      addListener(this.page, [event], this.props[`on${upperFirst(event)}`]);
     });
   }
 

@@ -23,21 +23,9 @@ class Register extends BaseComponent {
     const { type } = this;
 
     editor.on(EVENT_BEFORE_ADD_PAGE, ({ className }) => {
-      let args = [];
-
-      switch (type) {
-        case 'behaviour': {
-          const { name, behaviour, dependences } = this.props;
-          args = [name, behaviour, dependences];
-          break;
-        }
-
-        default: {
-          const { name, config, extend } = this.props;
-          args = [name, config, extend];
-          break;
-        }
-      }
+      let keys = ['name', 'config', 'extend'];
+      if (type === 'behaviour') keys = ['name', 'behaviour', 'dependences'];
+      const args = keys.map(key => this.props[key]);
 
       Editor[className][`register${upperFirst(type)}`](...args);
     });

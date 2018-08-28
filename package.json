@@ -28,8 +28,8 @@
     "prop-types": "^15.0.0"
   },
   "dependencies": {
-    "@antv/g6-editor": "1.0.8",
     "@antv/g6": "2.0.5-beta.6",
+    "@antv/g6-editor": "1.0.8",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
