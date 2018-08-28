@@ -34,8 +34,7 @@ import GGEditor, {
 ```jsx
 class NodeDetail extends React.Component {
   render() {
-    const { items } = this.props;
-    ...
+    console.log('this.props', this.props);
   }
 }
 ```

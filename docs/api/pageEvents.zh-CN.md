@@ -8,7 +8,7 @@ import GGEditor, { Flow } from 'gg-editor';
 <GGEditor>
   <Flow
     onClick={(e) => {
-      ...
+      console.log(e);
     }}
   />
 </GGEditor>
@@ -42,10 +42,10 @@ import GGEditor, { Flow } from 'gg-editor';
 
 <GGEditor>
   <Flow
-    onClick={...}     // 点击任意
-    onItemclick={...} // 点击图项
-    onNodeclick={...} // 点击节点
-    onEdgeclick={...} // 点击边
+    onClick={() => {}}     // 点击任意
+    onItemclick={() => {}} // 点击图项
+    onNodeclick={() => {}} // 点击节点
+    onEdgeclick={() => {}} // 点击边
   />
 </GGEditor>
 ```

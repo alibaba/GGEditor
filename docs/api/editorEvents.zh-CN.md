@@ -7,7 +7,7 @@ import GGEditor, { Flow } from 'gg-editor';
 
 <GGEditor
   onBeforecommandexecute={({ command }) => {
-    ...
+    console.log('command', command);
   }}
 >
   <Flow />
