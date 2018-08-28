@@ -12,14 +12,14 @@ import Command from '@components/Command';
 import Minimap from '@components/Minimap';
 import ContextMenu from '@components/ContextMenu';
 import Toolbar from '@components/Toolbar';
-import ItemPannel, { Item } from '@components/ItemPannel';
-import DetailPannel, {
-  NodePannel,
-  EdgePannel,
-  GroupPannel,
-  MultiPannel,
-  CanvasPannel,
-} from '@components/DetailPannel';
+import ItemPanel, { Item } from '@components/ItemPanel';
+import DetailPanel, {
+  NodePanel,
+  EdgePanel,
+  GroupPanel,
+  MultiPanel,
+  CanvasPanel,
+} from '@components/DetailPanel';
 import GGEditor from '@components/GGEditor';
 
 export {
@@ -37,13 +37,13 @@ export {
   ContextMenu,
   Toolbar,
   Item,
-  ItemPannel,
-  NodePannel,
-  EdgePannel,
-  GroupPannel,
-  MultiPannel,
-  CanvasPannel,
-  DetailPannel,
+  ItemPanel,
+  NodePanel,
+  EdgePanel,
+  GroupPanel,
+  MultiPanel,
+  CanvasPanel,
+  DetailPanel,
 };
 
 export default GGEditor;

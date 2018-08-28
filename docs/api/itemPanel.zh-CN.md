@@ -1,4 +1,4 @@
-# ItemPannel
+# ItemPanel
 
 元素面板栏
 
@@ -7,11 +7,11 @@
 必需配合 `<Item />` 组件使用，如果 `<Item />` 包含 `src` 属性则自动显示元素概览图片。
 
 ```jsx
-import GGEditor, { Flow, Item, ItemPannel } from 'gg-editor';
+import GGEditor, { Flow, Item, ItemPanel } from 'gg-editor';
 
 <GGEditor>
   <Flow />
-  <ItemPannel>
+  <ItemPanel>
     <Item
       type="node"
       size="72*72"
@@ -22,7 +22,7 @@ import GGEditor, { Flow, Item, ItemPannel } from 'gg-editor';
       }}
       src="https://gw.alipayobjects.com/zos/rmsportal/ZnPxbVjKYADMYxkTQXRi.svg"
     />
-  </ItemPannel>
+  </ItemPanel>
 </GGEditor>
 ```
 

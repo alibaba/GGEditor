@@ -1,33 +1,33 @@
-# DetailPannel
+# DetailPanel
 
 属性栏
 
 ## 使用说明
 
-属性栏会自动根据不同页面状态显示对应面板，例如：选中节点时则只会显示 `NodePannel`。
+属性栏会自动根据不同页面状态显示对应面板，例如：选中节点时则只会显示 `NodePanel`。
 
 ```jsx
 import GGEditor, {
   Flow,
-  DetailPannel,
-  NodePannel,
-  EdgePannel,
-  GroupPannel,
-  MultiPannel,
-  CanvasPannel,
+  DetailPanel,
+  NodePanel,
+  EdgePanel,
+  GroupPanel,
+  MultiPanel,
+  CanvasPanel,
 } from 'gg-editor';
 
 <GGEditor>
   <Flow />
-  <DetailPannel>
-    <NodePannel>     // 节点属性面板
+  <DetailPanel>
+    <NodePanel>     // 节点属性面板
       <NodeDetail />
-    </NodePannel>
-    <EdgePannel />   // 边线属性面板
-    <GroupPannel />  // 群组属性面板
-    <MultiPannel />  // 多选属性面板
-    <CanvasPannel /> // 画布属性面板
-  </DetailPannel>
+    </NodePanel>
+    <EdgePanel />   // 边线属性面板
+    <GroupPanel />  // 群组属性面板
+    <MultiPanel />  // 多选属性面板
+    <CanvasPanel /> // 画布属性面板
+  </DetailPanel>
 </GGEditor>
 ```
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { pick } from '@utils';
 import BaseComponent from '@components/Base';
 
-class Pannel extends BaseComponent {
+class Panel extends BaseComponent {
   static create = function (type) {
-    return class TypedPannel extends Pannel {
+    return class TypedPanel extends Panel {
       constructor(props) {
         super(props, type);
       }
@@ -37,4 +37,4 @@ class Pannel extends BaseComponent {
   }
 }
 
-export default Pannel;
+export default Panel;

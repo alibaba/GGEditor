@@ -12,8 +12,8 @@
 - [Minimap](/docs/api/minimap.zh-CN.md)
 - [ContextMenu](/docs/api/contextMenu.zh-CN.md)
 - [Toolbar](/docs/api/toolbar.zh-CN.md)
-- [ItemPannel](/docs/api/itemPannel.zh-CN.md)
-- [DetailPannel](/docs/api/detailPannel.zh-CN.md)
+- [ItemPanel](/docs/api/itemPanel.zh-CN.md)
+- [DetailPanel](/docs/api/detailPanel.zh-CN.md)
 
 ### 注册
 

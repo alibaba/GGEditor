@@ -2,9 +2,9 @@ import React from 'react';
 import { pick } from '@utils';
 import { STATUS_CANVAS_SELECTED, EVENT_AFTER_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base';
-import Pannel from './pannel';
+import Panel from './panel';
 
-class DetailPannel extends BaseComponent {
+class DetailPanel extends BaseComponent {
   state = {
     status: '',
   }
@@ -46,10 +46,10 @@ class DetailPannel extends BaseComponent {
   }
 }
 
-export const NodePannel = Pannel.create('node');
-export const EdgePannel = Pannel.create('edge');
-export const GroupPannel = Pannel.create('group');
-export const MultiPannel = Pannel.create('multi');
-export const CanvasPannel = Pannel.create('canvas');
+export const NodePanel = Panel.create('node');
+export const EdgePanel = Panel.create('edge');
+export const GroupPanel = Panel.create('group');
+export const MultiPanel = Panel.create('multi');
+export const CanvasPanel = Panel.create('canvas');
 
-export default DetailPannel;
+export default DetailPanel;
