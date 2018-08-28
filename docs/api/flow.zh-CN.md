@@ -20,7 +20,7 @@ import GGEditor, { Flow } from 'gg-editor';
 | graph | 图配置项，参考 [G6 Graph API](https://antv.alipay.com/zh-cn/g6/1.x/api/graph.html) | `object` | - |
 | align | 对齐配置 | [`object`](#align) | - |
 | grid | 网格线配置 | [`object`](#grid) | - |
-| shortcut | 快捷键配置，[内置命令](command.md#内置命令) | [`object`](#shortcut) | - |
+| shortcut | 快捷键配置，[内置命令](command.zh-CN.md#内置命令) | [`object`](#shortcut) | - |
 | noEndEdge | 是否支持悬空边 | `boolean` | `true` |
 
 ### align
@@ -51,4 +51,4 @@ import GGEditor, { Flow } from 'gg-editor';
 
 ## Events
 
-请移步至 [PageEvents](pageEvents.md) 查看详情
+请移步至 [PageEvents](pageEvents.zh-CN.md) 查看详情

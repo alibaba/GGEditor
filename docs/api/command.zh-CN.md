@@ -4,7 +4,7 @@
 
 ## 使用说明
 
-此组件只能嵌套在 [`<Toolbar />`](toolbar.md) 或 [`<ContextMenu />`](contextMenu.md) 组件内使用：
+此组件只能嵌套在 [`<Toolbar />`](toolbar.zh-CN.md) 或 [`<ContextMenu />`](contextMenu.zh-CN.md) 组件内使用：
 
 ```jsx
 import GGEditor, { Flow, Command, Toolbar, ContextMenu } from 'gg-editor';
