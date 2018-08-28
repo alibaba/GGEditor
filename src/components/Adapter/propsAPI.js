@@ -1,10 +1,12 @@
+let editor;
+
 class PropsAPI {
-  constructor(editor) {
-    this.editor = editor;
+  constructor(_editor) {
+    editor = _editor;
   }
 
   get activePage() {
-    return this.editor.getCurrentPage();
+    return editor.getCurrentPage();
   }
 
   getSelected = () => this.activePage.getSelected();
