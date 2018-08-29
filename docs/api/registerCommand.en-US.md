@@ -1,0 +1,22 @@
+# RegisterCommand
+
+To register a command.
+
+## Usage
+
+```jsx
+import GGEditor, { Flow, RegisterCommand } from 'gg-editor';
+
+<GGEditor>
+  <Flow />
+  <RegisterCommand name={...} config={...} extend={...} />
+</GGEditor>
+```
+
+## API
+
+| Property | Description | Type | Default |
+| :--- | :--- | :--- | :--- |
+| name | The name of a command. | `string` | - |
+| config | To configurate a command. | `object` | - |
+| extend | to inherit a command. See more on [Built-in commands](./command.en-US.md#Built-in commands). | `string` | - |
