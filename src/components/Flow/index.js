@@ -14,9 +14,7 @@ class Flow extends Page {
     return `${FLOW_CONTAINER}_${editorId}`;
   }
 
-  init() {
-    super.init();
-
+  initPage() {
     const { editor } = this.context;
 
     editor.emit(EVENT_BEFORE_ADD_PAGE, { className: FLOW_CLASS_NAME });
