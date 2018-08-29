@@ -82,8 +82,8 @@ import GGEditor, { Flow } from 'gg-editor';
 | onAfterViewportChange | 视口变化后 |
 | onBeforeItemActived | 激活前 |
 | onAfterItemActived | 激活后 |
-| onBeforeItemUnactived | 取消激活前 |
-| onAfterItemUnactived | 取消激活后 |
+| onBeforeItemInactivated | 取消激活前 |
+| onAfterItemInactivated | 取消激活后 |
 | onBeforeItemSelected | 选中前 |
 | onAfterItemSelected | 选中后 |
 | onBeforeItemUnselected | 取消选中前 |
