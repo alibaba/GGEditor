@@ -18,7 +18,7 @@ import GGEditor, { Mind } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | data | The initial data. | `object` | - |
 | graph | To configurate the graph. See more on [G6 Graph API (Chinese)](https://antv.alipay.com/zh-cn/g6/1.x/api/graph.html). | `object` | - |
-| shortcut | To set the shortcut key [Built-in Commands](./command.en-US.md#Built-in Commands). | [`object`](#Shortcut) | - |
+| shortcut | To set the shortcut key [Built-in Commands](./command.en-US.md#Built-in%20Commands). | [`object`](#Shortcut) | - |
 
 
 ### Shortcut

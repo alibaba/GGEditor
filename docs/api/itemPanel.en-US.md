@@ -34,6 +34,6 @@ import GGEditor, { Flow, Item, ItemPanel } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | type | **required** The type of an item. Options: `node`, `edge`. | `string` | - |
 | size | **required** The size of an item. Format: `50*50`. | `string` | - |
-| shape | **required** The shape of an item. Built-in shapes: [node](./registerNode.en-US.md#Built-in Nodes), [edge](./registerEdge.en-US.md#Built-in Edges). | `string` | - |
+| shape | **required** The shape of an item. Built-in shapes: [node](./registerNode.en-US.md#Built-in%20Nodes), [edge](./registerEdge.en-US.md#Built-in%20Edges). | `string` | - |
 | model | The initial model of an item. | `object` | - |
 | src | The overview image source of an item. | `string` | - |
