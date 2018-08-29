@@ -49,12 +49,14 @@ export const GRAPH_OTHER_REACT_EVENTS = {
 
 export const PAGE_REACT_EVENTS = {
   afteritemactived: 'onAfterItemActived',
+  afteriteminactivated: 'onAfterItemInactivated',
   afteritemselected: 'onAfterItemSelected',
-  afteritemunactived: 'onAfterItemUnactived',
+  afteritemunactived: 'onAfterItemInactivated',
   afteritemunselected: 'onAfterItemUnselected',
   beforeitemactived: 'onBeforeItemActived',
+  beforeiteminactivated: 'onBeforeItemInactivated',
   beforeitemselected: 'onBeforeItemSelected',
-  beforeitemunactived: 'onBeforeItemUnactived',
+  beforeitemunactived: 'onBeforeItemInactivated',
   beforeitemunselected: 'onBeforeItemUnselected',
   keyupeditlabel: 'onKeyUpEditLabel',
 };

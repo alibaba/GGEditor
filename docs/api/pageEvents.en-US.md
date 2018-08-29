@@ -82,8 +82,8 @@ import GGEditor, { Flow } from 'gg-editor';
 | onAfterViewportChange | This event is fired after the `onViewportChange` event. |
 | onBeforeItemActived | This event is fired before the item is activated. |
 | onAfterItemActived | This event is fired after the item is activated. |
-| onBeforeItemUnactived | This event is fired before the item is inactivated. |
-| onAfterItemUnactived | This event is fired after the item is inactivated. |
+| onBeforeItemInactivated | This event is fired before the item is inactivated. |
+| onAfterItemInactivated | This event is fired after the item is inactivated. |
 | onBeforeItemSelected | This event is fired before the item is selected. |
 | onAfterItemSelected | This event is fired after the item is selected. |
 | onBeforeItemUnselected | This event is fired before the item is unselected.
