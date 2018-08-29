@@ -20,7 +20,7 @@ import GGEditor, { Flow } from 'gg-editor';
 | graph | To configurate the graph. See more on [G6 Graph API (Chinese)](https://antv.alipay.com/zh-cn/g6/1.x/api/graph.html). | `object` | - |
 | align | To set the alignment. | [`object`](#Align) | - |
 | grid | To set the grid. | [`object`](#Grid) | - |
-| shortcut | To set the shortcut keys. See more on [Built-in commands](./command.en-US.md# Built-in commands). | [`object`](#Shortcut) | - |
+| shortcut | To set the shortcut keys. See more on [Built-in Commands](./command.en-US.md# Built-in Commands). | [`object`](#Shortcut) | - |
 | noEndEdge | To set if the no-end-edge is supported. | `boolean` | `true` |
 
 ### Align

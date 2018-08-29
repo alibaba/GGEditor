@@ -28,7 +28,7 @@ import GGEditor, { Flow, Command, Toolbar, ContextMenu } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | name | Command name | `string` | - |
 
-## Built-in commands
+## Built-in Commands
 
 |  Command Name | Shortcut Key (Mac) | Shortcut Key (Win) | Applicable Page |
 | :--- | :--- | :--- | :--- |
