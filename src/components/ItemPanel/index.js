@@ -1,9 +1,11 @@
 import React from 'react';
 import Editor from '@antv/g6-editor';
 import { pick } from '@utils';
-import { ITEM_PANNEL_CONTAINER } from '@common/constants';
+import { ITEM_PANEL_CONTAINER } from '@common/constants';
 import BaseComponent from '@components/Base';
 import Item from './item';
+
+Editor.ItemPanel = Editor.Itempannel || Editor.Itempanel;
 
 class ItemPanel extends BaseComponent {
   itemPanel = null;
@@ -11,13 +13,13 @@ class ItemPanel extends BaseComponent {
   get containerId() {
     const { editorId } = this.context;
 
-    return `${ITEM_PANNEL_CONTAINER}_${editorId}`;
+    return `${ITEM_PANEL_CONTAINER}_${editorId}`;
   }
 
   componentDidMount() {
     const { editor } = this.context;
 
-    this.itemPanel = new Editor.Itempannel({
+    this.itemPanel = new Editor.ItemPanel({
       container: this.containerId,
     });
 
