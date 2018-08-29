@@ -59,24 +59,33 @@ class Page extends BaseComponent {
     return false;
   }
 
-  init() {
-    this.mixConfig();
+  get graph() {
+    return this.page.getGraph();
   }
 
-  mixConfig() {
+  initPage() {}
+
+  readData() {
+    const { data } = this.props;
+
+    if (data) {
+      this.page.read(data);
+    }
+  }
+
+  addListener = (target, eventName, handler) => {
+    if (typeof handler === 'function') target.on(eventName, handler);
+  }
+
+  init() {
     merge(this.config, this.props, {
       graph: {
         container: this.pageId,
       },
     });
-  }
 
-  get graph() {
-    return this.page.getGraph();
-  }
-
-  addListener = (target, eventName, handler) => {
-    if (typeof handler === 'function') target.on(eventName, handler);
+    this.initPage();
+    this.readData();
   }
 
   bindEvent() {
