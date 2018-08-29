@@ -58,7 +58,7 @@ export const PAGE_REACT_EVENTS = {
   beforeitemselected: 'onBeforeItemSelected',
   beforeitemunactived: 'onBeforeItemInactivated',
   beforeitemunselected: 'onBeforeItemUnselected',
-  keyupeditlabel: 'onKeyUpEditLabel',
+  keyUpEditLabel: 'onKeyUpEditLabel',
 };
 
 export const EDITOR_REACT_EVENTS = {
