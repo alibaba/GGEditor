@@ -19,4 +19,4 @@ import GGEditor, { Flow, RegisterCommand } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | name | The name of a command. | `string` | - |
 | config | To configurate a command. | `object` | - |
-| extend | To extend a command. See more on [Built-in Commands](./command.en-US.md#Built-in Commands). | `string` | - |
+| extend | To extend a command. See more on [Built-in Commands](./command.en-US.md#Built-in%20Commands). | `string` | - |
