@@ -21,4 +21,4 @@ import GGEditor, { Flow, RegisterBehaviour } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | name | The name of a behaviour. | `string` | - |
 | behaviour | To configurate a behaviour. | `function(page)` | - |
-| dependences | to inherit a behaviour. | `string[]` | - |
+| dependences | To extend a behaviour or more. | `string[]` | - |

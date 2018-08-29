@@ -21,7 +21,7 @@ import GGEditor, { Flow, RegisterEdge } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | name | The name of a `edge`. | `string` | - |
 | config | To configurate a edge. | `object` | - |
-| extend | To extend a shape.. | `string` | - |
+| extend | To extend a shape. | `string` | - |
 
 ## Built-in Edges
 

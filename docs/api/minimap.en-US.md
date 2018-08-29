@@ -1,6 +1,6 @@
 # Minimap
 
-A minigraph of the map. It will auto-resized if the width and height have not been specified.
+A mini-map that will auto-resize if its width and height have not been specified.
 
 ## Usage
 
@@ -14,15 +14,6 @@ import GGEditor, { Flow, Minimap } from 'gg-editor';
 ```
 
 ## API
-
-| 属性 | 说明 | 类型 | 默认值 |
-| :--- | :--- | :--- | :--- |
-| container | 容器 id | `string` | - |
-| width | 宽度 | `number` | - |
-| height | 高度 | `number` | - |
-| viewportWindowStyle | 视窗样式，参考 [G 绘图属性](https://antv.alipay.com/zh-cn/g2/3.x/api/graphic.html) | `object` | - |
-| viewportBackStyle | 背景样式，参考 [G 绘图属性](https://antv.alipay.com/zh-cn/g2/3.x/api/graphic.html) | `object` | - |
-
 
 | Property | Description | Type | Default |
 | :--- | :--- | :--- | :--- |

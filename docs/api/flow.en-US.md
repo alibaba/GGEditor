@@ -35,8 +35,8 @@ import GGEditor, { Flow } from 'gg-editor';
 
 | Property | Description | Type | Default |
 | :--- | :--- | :--- | :--- |
-| cell | The size of the grid | `number` | - |
-| line | The line style of the grid | `object` | - |
+| cell | The size of the grid. | `number` | - |
+| line | The line style of the grid. | `object` | - |
 
 ### Shortcut
 

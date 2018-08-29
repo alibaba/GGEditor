@@ -18,18 +18,18 @@ import GGEditor, { Flow } from 'gg-editor';
 
 | Property | Description |
 | :--- | :--- |
-| action | The actions includes: `add`, `update`, `remove`, `changeData` |
-| item | The item in the graph |
-| shape | The sharp of the graph |
-| x | The `x` cooridate of the item |
-| y | The `y` cooridate of the item |
-| domX | The `x` cooridate of the item to the DOM |
-| domY | The `y` cooridate of the item to the DOM |
-| domEvent | The native DOM event |
-| currentItem | The current item in the drag event |
-| currentShape | The current sharp in the drag event  |
-| toShape | The sharp in `mouseleave` and `dragleave` events |
-| toItem | The item in `mouseleave` and `dragleave` events |
+| action | The actions includes: `add`, `update`, `remove`, `changeData`. |
+| item | The item in the graph. |
+| shape | The sharp of the graph. |
+| x | The `x` cooridate of the item. |
+| y | The `y` cooridate of the item. |
+| domX | The `x` cooridate of the item to the DOM. |
+| domY | The `y` cooridate of the item to the DOM. |
+| domEvent | The native DOM event. |
+| currentItem | The current item in the drag event. |
+| currentShape | The current sharp in the drag event . |
+| toShape | The sharp in `mouseleave` and `dragleave` events. |
+| toItem | The item in `mouseleave` and `dragleave` events. |
 
 ## Event list
 
@@ -42,10 +42,10 @@ import GGEditor, { Flow } from 'gg-editor';
 
 <GGEditor>
   <Flow
-    onClick={() => {}}     // triggered when chlicking on the graph
-    onItemClick={() => {}} // triggered when chlicking on the item in the graph
-    onNodeClick={() => {}} // triggered when chlicking on the node in the graph
-    onEdgeClick={() => {}} // triggered when chlicking on the edge in the graph
+    onClick={() => {}}     // triggered when chlicking on a graph
+    onItemClick={() => {}} // triggered when chlicking on an item in a graph
+    onNodeClick={() => {}} // triggered when chlicking on a node in a graph
+    onEdgeClick={() => {}} // triggered when chlicking on an edge in a graph
   />
 </GGEditor>
 ```

@@ -1,6 +1,6 @@
 # Toolbars
 
-A toolbar that can configuate with the command buttons and control the available and disabled states.
+A toolbar that can be configuated with the command buttons and control its available and disabled states.
 
 ## Usage
 

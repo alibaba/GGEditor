@@ -1,6 +1,6 @@
 # ContextMenu
 
-A right-click menu that can show or hide the menu, configuate with the commands button and control the available and disabled states.
+A right-click menu that can show or hide the menu, configuate with the commands button and control its available and disabled states.
 
 ## Usage
 
