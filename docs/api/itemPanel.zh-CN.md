@@ -32,8 +32,8 @@ import GGEditor, { Flow, Item, ItemPanel } from 'gg-editor';
 
 | 属性 | 说明 | 类型 | 默认值 |
 | :--- | :--- | :--- | :--- |
-| type | `必填` 元素类型，可选类型：`node` `edge` | `string` | - |
-| size | `必填` 元素尺寸，书写格式：`50*50` | `string` | - |
-| shape | `必填` 元素形状，内置形状：[node](registerNode.zh-CN.md#内置节点)、[edge](registerEdge.zh-CN.md#内置边) | `string` | - |
+| type | **必填** 元素类型，可选类型：`node` `edge` | `string` | - |
+| size | **必填** 元素尺寸，书写格式：`50*50` | `string` | - |
+| shape | **必填** 元素形状，内置形状：[node](./registerNode.zh-CN.md#内置节点)、[edge](./registerEdge.zh-CN.md#内置边) | `string` | - |
 | model | 元素初始 model | `object` | - |
 | src | 元素概览 src | `string` | - |
