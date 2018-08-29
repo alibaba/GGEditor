@@ -28,17 +28,35 @@ npm install --save gg-editor
 
 ## Usage
 
+### Flow
+
 ```jsx
-import GGEditor, { Flow, Mind } from 'gg-editor';
+import GGEditor, { Flow } from 'gg-editor';
 
-const data = {};
+const data = {
+  nodes: [],
+  edges: [],
+};
 
-// Flow
 <GGEditor>
   <Flow data={data} />
 </GGEditor>
+```
 
-// Mind
+### Mind
+
+```jsx
+import GGEditor, { Mind } from 'gg-editor';
+
+const data = {
+  roots: [{
+    label: '',
+    children: [{
+      label: '',
+    }],
+  }],
+};
+
 <GGEditor>
   <Mind data={data} />
 </GGEditor>

@@ -28,15 +28,35 @@ npm i gg-editor
 
 ## 快速开始
 
-```jsx
-import GGEditor, { Flow, Mind } from 'gg-editor';
+### 流程图
 
-// Flow
+```jsx
+import GGEditor, { Flow } from 'gg-editor';
+
+const data = {
+  nodes: [],
+  edges: [],
+};
+
 <GGEditor>
   <Flow data={data} />
 </GGEditor>
+```
 
-// Mind
+### 思维导图
+
+```jsx
+import GGEditor, { Mind } from 'gg-editor';
+
+const data = {
+  roots: [{
+    label: '',
+    children: [{
+      label: '',
+    }],
+  }],
+};
+
 <GGEditor>
   <Mind data={data} />
 </GGEditor>
