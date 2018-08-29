@@ -18,9 +18,9 @@ import GGEditor, { Mind } from 'gg-editor';
 | :--- | :--- | :--- | :--- |
 | data | 初始数据 | `object` | - |
 | graph | 图配置项，参考 [G6 Graph API](https://antv.alipay.com/zh-cn/g6/1.x/api/graph.html) | `object` | - |
-| shortcut | 快捷键配置，[内置命令](command.zh-CN.md#内置命令) | [`object`](#shortcut) | - |
+| shortcut | 快捷键配置，[内置命令](./command.zh-CN.md#内置命令) | [`object`](#Shortcut) | - |
 
-### shortcut
+### Shortcut
 
 示例：
 
@@ -33,4 +33,4 @@ import GGEditor, { Mind } from 'gg-editor';
 
 ## Events
 
-请移步至 [PageEvents](pageEvents.zh-CN.md) 查看详情
+请移步至 [PageEvents](./pageEvents.zh-CN.md) 查看详情
