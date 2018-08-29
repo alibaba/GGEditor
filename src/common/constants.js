@@ -17,13 +17,12 @@ export const STATUS_EDGE_SELECTED = 'edge-selected';
 export const STATUS_GROUP_SELECTED = 'group-selected';
 export const STATUS_MULTI_SELECTED = 'multi-selected';
 
-/* eslint-disable */
 export const GRAPH_MOUSE_REACT_EVENTS = {
   click: 'Click',
   contextmenu: 'ContextMenu',
   dblclick: 'DoubleClick',
   drag: 'Drag',
-  Itemdragend: 'DragEnd',
+  dragend: 'DragEnd',
   dragenter: 'DragEnter',
   dragleave: 'DragLeave',
   dragstart: 'DragStart',
@@ -36,12 +35,12 @@ export const GRAPH_MOUSE_REACT_EVENTS = {
 };
 
 export const GRAPH_OTHER_REACT_EVENTS = {
-  afterChange: 'onAfterChange',
-  afterChangeSize: 'onAfterChangeSize',
-  afterViewportChange: 'onAfterViewportChange',
-  beforeChange: 'onBeforeChange',
-  beforeChangeSize: 'onBeforeChangeSize',
-  beforeViewportChange: 'onBeforeViewportChange',
+  afterchange: 'onAfterChange',
+  afterchangesize: 'onAfterChangeSize',
+  afterviewportchange: 'onAfterViewportChange',
+  beforechange: 'onBeforeChange',
+  beforechangesize: 'onBeforeChangeSize',
+  beforeviewportchange: 'onBeforeViewportChange',
   keydown: 'onKeyDown',
   keyup: 'onKeyUp',
   mousewheel: 'onMouseWheel',
@@ -66,13 +65,7 @@ export const EDITOR_REACT_EVENTS = {
   beforecommandexecute: 'onBeforeCommandExecute',
 };
 
-
 export const GRAPH_MOUSE_EVENTS = Object.keys(GRAPH_MOUSE_REACT_EVENTS);
-
 export const GRAPH_OTHER_EVENTS = Object.keys(GRAPH_OTHER_REACT_EVENTS);
-
 export const PAGE_EVENTS = Object.keys(PAGE_REACT_EVENTS);
-
 export const EDITOR_EVENTS = Object.keys(EDITOR_REACT_EVENTS);
-
-/* eslint-enable */
