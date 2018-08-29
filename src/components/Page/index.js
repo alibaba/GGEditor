@@ -41,8 +41,8 @@ class Page extends BaseComponent {
   }
 
   shouldComponentUpdate(props) {
-    const { defaultData: newData } = props;
-    const { defaultData: oldData } = this.props;
+    const { data: newData } = props;
+    const { data: oldData } = this.props;
     const { mode: newMode } = (props.graph || {});
     const { mode: oldMode } = (this.props.graph || {});
 
