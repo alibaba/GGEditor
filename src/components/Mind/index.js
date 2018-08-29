@@ -28,16 +28,22 @@ class Mind extends Page {
 
   bindEvent() {
     super.bindEvent();
-    this.bindKeyupEditLabel();
+    this.bindKeyUpEditLabel();
   }
 
-  bindKeyupEditLabel() {
+  bindKeyUpEditLabel() {
     const editLabel = this.page.get('labelTextArea');
-    const { focusItem: item, textContent: text } = editLabel;
 
     editLabel.on('keyup', (e) => {
       e.stopPropagation();
-      this.page.emit('keyupeditlabel', { item, text });
+
+      const item = editLabel.focusItem;
+      const text = editLabel.textContent;
+
+      this.page.emit('keyUpEditLabel', {
+        item,
+        text,
+      });
     });
   }
 }
