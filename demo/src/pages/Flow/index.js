@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import GGEditor, { Flow } from '@src';
 import EditorMinimap from '../../components/EditorMinimap';
+import EditorContextMenu from '../../components/EditorContextMenu';
 import EditorToolbar from '../../components/EditorToolbar';
 import EditorItemPanel from '../../components/EditorItemPanel';
 import EditorDetailPanel from '../../components/EditorDetailPanel';
@@ -34,6 +35,7 @@ class FlowPage extends React.Component {
             <EditorMinimap />
           </Col>
         </Row>
+        <EditorContextMenu />
       </GGEditor>
     );
   }

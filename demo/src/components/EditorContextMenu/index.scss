@@ -1,0 +1,36 @@
+.context-menu {
+  display: none;
+  width: 100px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+  overflow: hidden;
+
+  .item {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 12px;
+    transition: all .3s;
+
+    &:hover {
+      background: #E6F7FF;
+    }
+  }
+  
+  :global {
+    .disable {
+      :local {
+        .item {
+          cursor: auto;
+          color: rgba(0, 0, 0, 0.25);
+    
+          &:hover {
+            background: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+}

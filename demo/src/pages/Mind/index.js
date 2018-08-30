@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import GGEditor, { Mind } from '@src';
 import EditorMinimap from '../../components/EditorMinimap';
+import EditorContextMenu from '../../components/EditorContextMenu';
 import EditorToolbar from '../../components/EditorToolbar';
 import EditorDetailPanel from '../../components/EditorDetailPanel';
 import data from '../../mock/worldCup2018.json';
@@ -34,6 +35,7 @@ class MindPage extends React.Component {
             <EditorMinimap />
           </Col>
         </Row>
+        <EditorContextMenu />
       </GGEditor>
     );
   }
