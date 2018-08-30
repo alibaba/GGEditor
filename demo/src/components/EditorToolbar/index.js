@@ -1,4 +1,5 @@
 import React from 'react';
+import { Divider } from 'antd';
 import { Toolbar, Command } from '@src';
 import styles from './index.scss';
 import iconfont from '../../theme/iconfont.scss';
@@ -13,7 +14,7 @@ class EditorToolbar extends React.Component {
         <Command name="redo">
           <i className={`${iconfont.iconfont} ${iconfont.iconRedo}`} title="重做" />
         </Command>
-
+        <Divider type="vertical" />
         <Command name="copy">
           <i className={`${iconfont.iconfont} ${iconfont.iconCopyO}`} title="复制" />
         </Command>
@@ -23,7 +24,7 @@ class EditorToolbar extends React.Component {
         <Command name="delete">
           <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} title="删除" />
         </Command>
-
+        <Divider type="vertical" />
         <Command name="zoomIn">
           <i className={`${iconfont.iconfont} ${iconfont.iconZoomInO}`} title="放大" />
         </Command>
@@ -36,14 +37,14 @@ class EditorToolbar extends React.Component {
         <Command name="resetZoom">
           <i className={`${iconfont.iconfont} ${iconfont.iconActualSizeO}`} title="实际尺寸" />
         </Command>
-
+        <Divider type="vertical" />
         <Command name="toBack">
           <i className={`${iconfont.iconfont} ${iconfont.iconToBack}`} title="层级后置" />
         </Command>
         <Command name="toFront">
           <i className={`${iconfont.iconfont} ${iconfont.iconToFront}`} title="层级前置" />
         </Command>
-
+        <Divider type="vertical" />
         <Command name="multiSelect">
           <i className={`${iconfont.iconfont} ${iconfont.iconSelect}`} title="多选" />
         </Command>
