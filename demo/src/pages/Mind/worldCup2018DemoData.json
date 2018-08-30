@@ -1,0 +1,148 @@
+{
+  "roots": [
+    {
+      "label": "法国",
+      "children": [
+        {
+          "label": "克罗地亚",
+          "children": [
+            {
+              "label": "克罗地亚",
+              "children": [
+                {
+                  "side": "right",
+                  "label": "克罗地亚",
+                  "children": [
+                    {
+                      "label": "克罗地亚",
+                      "side": "right"
+                    },
+                    {
+                      "label": "丹麦"
+                    }
+                  ]
+                },
+                {
+                  "label": "俄罗斯",
+                  "children": [
+                    {
+                      "label": "俄罗斯",
+                      "side": "right"
+                    },
+                    {
+                      "label": "西班牙",
+                      "side": "right"
+                    }
+                  ]
+                }
+              ],
+              "side": "right"
+            },
+            {
+              "side": "right",
+              "label": "英格兰",
+              "children": [
+                {
+                  "label": "英格兰",
+                  "side": "right",
+                  "children": [
+                    {
+                      "label": "英格兰"
+                    },
+                    {
+                      "label": "哥伦比亚"
+                    }
+                  ]
+                },
+                {
+                  "side": "right",
+                  "label": "瑞典",
+                  "children": [
+                    {
+                      "label": "瑞士"
+                    },
+                    {
+                      "label": "瑞典"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "side": "right"
+        },
+        {
+          "label": "法国",
+          "side": "left",
+          "children": [
+            {
+              "label": "法国",
+              "children": [
+                {
+                  "label": "法国",
+                  "children": [
+                    {
+                      "label": "法国",
+                      "side": "left"
+                    },
+                    {
+                      "label": "阿根廷"
+                    }
+                  ],
+                  "side": "left"
+                },
+                {
+                  "side": "left",
+                  "label": "乌拉圭",
+                  "children": [
+                    {
+                      "label": "乌拉圭",
+                      "side": "left"
+                    },
+                    {
+                      "label": "葡萄牙"
+                    }
+                  ]
+                }
+              ],
+              "side": "left"
+            },
+            {
+              "label": "比利时",
+              "children": [
+                {
+                  "side": "left",
+                  "label": "比利时",
+                  "children": [
+                    {
+                      "label": "比利时",
+                      "children": [],
+                      "side": "left"
+                    },
+                    {
+                      "label": "日本"
+                    }
+                  ]
+                },
+                {
+                  "side": "left",
+                  "label": "巴西",
+                  "children": [
+                    {
+                      "label": "巴西",
+                      "side": "left"
+                    },
+                    {
+                      "label": "墨西哥"
+                    }
+                  ]
+                }
+              ],
+              "side": "left"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

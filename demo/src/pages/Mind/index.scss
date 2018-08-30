@@ -1,0 +1,94 @@
+.editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.editor-hd {
+  padding: 8px;
+  border: 1px solid #E6E9ED;
+}
+
+.editor-bd {
+  flex: 1;
+}
+
+.editor-sidebar,
+.editor-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-sidebar {
+  background: #FAFAFA;
+
+  &:first-child {
+    border-right: 1px solid #E6E9ED;
+  }
+
+  &:last-child {
+    border-left: 1px solid #E6E9ED;
+  }
+}
+
+.mind {
+  flex: 1;
+}
+
+:global {
+  #J_ContextMenuContainer_0 {
+    .command button {
+      margin-bottom: 10px;
+    }
+
+    .command:last-child  button {
+      margin-bottom: 0;
+    }
+
+    .command.disable button {
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 0.25);
+      background-color: #f5f5f5;
+      border-color: #d9d9d9;
+    }
+  }
+}
+
+.toolbar {
+  display: flex;
+
+  :global {
+    .command {
+      cursor: pointer;
+      margin: 0 8px;
+      width: 27px;
+      height: 27px;
+      text-align: center;
+      border: 1px solid #FFFFFF;
+
+      &:hover {
+        border: 1px solid #E6E9ED;
+      }
+    }
+
+    .disable {
+      cursor: auto;
+      color: rgba(0, 0, 0, 0.25);
+
+      &:hover {
+        border: 1px solid #FFFFFF;
+      }
+    }
+  }
+}
+
+.item-panel, .detail-panel {
+  flex: 1;
+  background: #FAFAFA;
+
+  :global {
+    .ant-card {
+      background: #FAFAFA;
+    }
+  }
+}
