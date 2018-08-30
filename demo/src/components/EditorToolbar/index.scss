@@ -1,0 +1,27 @@
+.toolbar {
+  display: flex;
+
+  :global {
+    .command {
+      cursor: pointer;
+      margin: 0 8px;
+      width: 27px;
+      height: 27px;
+      text-align: center;
+      border: 1px solid #FFFFFF;
+
+      &:hover {
+        border: 1px solid #E6E9ED;
+      }
+    }
+
+    .disable {
+      cursor: auto;
+      color: rgba(0, 0, 0, 0.25);
+
+      &:hover {
+        border: 1px solid #FFFFFF;
+      }
+    }
+  }
+}
