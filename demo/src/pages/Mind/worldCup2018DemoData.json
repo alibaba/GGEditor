@@ -10,72 +10,58 @@
               "label": "克罗地亚",
               "children": [
                 {
-                  "id": "0c686625",
                   "side": "right",
                   "label": "克罗地亚",
                   "children": [
                     {
-                      "id": "a09dd5a9",
                       "label": "克罗地亚",
                       "side": "right"
                     },
                     {
-                      "id": "91c5e767",
                       "label": "丹麦"
                     }
                   ]
                 },
                 {
-                  "id": "86f22347",
                   "label": "俄罗斯",
                   "children": [
                     {
-                      "id": "369713e9",
                       "label": "俄罗斯",
                       "side": "right"
                     },
                     {
-                      "id": "03156964",
                       "label": "西班牙",
                       "side": "right"
                     }
                   ]
                 }
               ],
-              "side": "right",
-              "id": "df1ca437"
+              "side": "right"
             },
             {
-              "id": "76276154",
               "side": "right",
               "label": "英格兰",
               "children": [
                 {
-                  "id": "c78d33c9",
                   "label": "英格兰",
                   "side": "right",
                   "children": [
                     {
-                      "id": "a9bac3d0",
                       "label": "英格兰"
                     },
                     {
-                      "id": "6258edef",
                       "label": "哥伦比亚"
                     }
                   ]
                 },
                 {
-                  "id": "6bb3749c",
                   "side": "right",
                   "label": "瑞典",
                   "children": [
                     {
-                      "id": "cf70206d",
                       "label": "瑞士"
                     },
                     {
-                      "id": "cd8e569a",
                       "label": "瑞典"
                     }
                   ]
@@ -83,46 +69,37 @@
               ]
             }
           ],
-          "side": "right",
-          "id": "c9c1a348"
+          "side": "right"
         },
         {
-          "id": "39c16d66",
           "label": "法国",
           "side": "left",
           "children": [
             {
-              "id": "05bf2410",
               "label": "法国",
               "children": [
                 {
-                  "id": "b4ed7aeb",
                   "label": "法国",
                   "children": [
                     {
-                      "id": "f7ca9c8b",
                       "label": "法国",
                       "side": "left"
                     },
                     {
-                      "id": "ed82d9ce",
                       "label": "阿根廷"
                     }
                   ],
                   "side": "left"
                 },
                 {
-                  "id": "1140582c",
                   "side": "left",
                   "label": "乌拉圭",
                   "children": [
                     {
-                      "id": "ac5fe8f1",
                       "label": "乌拉圭",
                       "side": "left"
                     },
                     {
-                      "id": "acaec9dd",
                       "label": "葡萄牙"
                     }
                   ]
@@ -131,38 +108,31 @@
               "side": "left"
             },
             {
-              "id": "03439f62",
               "label": "比利时",
               "children": [
                 {
-                  "id": "e6390e93",
                   "side": "left",
                   "label": "比利时",
                   "children": [
                     {
-                      "id": "3c2919aa",
                       "label": "比利时",
                       "children": [],
                       "side": "left"
                     },
                     {
-                      "id": "54e0ebcd",
                       "label": "日本"
                     }
                   ]
                 },
                 {
-                  "id": "b7f5b3db",
                   "side": "left",
                   "label": "巴西",
                   "children": [
                     {
-                      "id": "48daeff4",
                       "label": "巴西",
                       "side": "left"
                     },
                     {
-                      "id": "ae029940",
                       "label": "墨西哥"
                     }
                   ]
@@ -172,8 +142,7 @@
             }
           ]
         }
-      ],
-      "id": "2d962aea"
+      ]
     }
   ]
 }
