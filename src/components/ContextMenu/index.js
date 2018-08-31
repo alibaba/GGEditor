@@ -3,6 +3,7 @@ import { pick } from '@utils';
 import Editor from '@antv/g6-editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
 import BaseComponent from '@components/Base';
+import Menu from './menu';
 
 class ContextMenu extends BaseComponent {
   contextMenu = null;
@@ -33,5 +34,11 @@ class ContextMenu extends BaseComponent {
     );
   }
 }
+
+export const NodeMenu = Menu.create('node');
+export const EdgeMenu = Menu.create('edge');
+export const GroupMenu = Menu.create('group');
+export const MultiMenu = Menu.create('multi');
+export const CanvasMenu = Menu.create('canvas');
 
 export default ContextMenu;

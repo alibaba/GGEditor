@@ -10,7 +10,13 @@ import Register, {
 } from '@components/Register';
 import Command from '@components/Command';
 import Minimap from '@components/Minimap';
-import ContextMenu from '@components/ContextMenu';
+import ContextMenu, {
+  NodeMenu,
+  EdgeMenu,
+  GroupMenu,
+  MultiMenu,
+  CanvasMenu,
+} from '@components/ContextMenu';
 import Toolbar from '@components/Toolbar';
 import ItemPanel, { Item } from '@components/ItemPanel';
 import DetailPanel, {
@@ -35,6 +41,11 @@ export {
   Command,
   Minimap,
   ContextMenu,
+  NodeMenu,
+  EdgeMenu,
+  GroupMenu,
+  MultiMenu,
+  CanvasMenu,
   Toolbar,
   Item,
   ItemPanel,
