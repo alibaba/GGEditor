@@ -4,9 +4,9 @@
 
 ## 使用说明
 
-必需配合 [`<Command />`](command.zh-CN.md) 组件使用
+必需配合 [`<Command />`](./command.zh-CN.md) 组件使用
 
-自动根据不同页面状态显示对应菜单，例如：选中节点时则只会显示 NodeMenu。
+自动根据不同页面状态显示对应菜单，例如：选中节点时则只会显示 `NodeMenu`。
 
 ```jsx
 import GGEditor, {
