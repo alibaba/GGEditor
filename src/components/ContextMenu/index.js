@@ -1,6 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
-import Editor from '@antv/g6-editor';
+import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
 import BaseComponent from '@components/Base';
 import Menu from './menu';

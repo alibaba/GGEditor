@@ -1,4 +1,4 @@
-import Editor from '@antv/g6-editor';
+import Editor from '@components/Base/Editor';
 import {
   FLOW_CONTAINER,
   FLOW_CLASS_NAME,

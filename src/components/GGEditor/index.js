@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Editor from '@antv/g6-editor';
+import Editor from '@components/Base/Editor';
 import { EDITOR_EVENTS, EDITOR_REACT_EVENTS } from '@common/constants';
 import { pick, createId } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
