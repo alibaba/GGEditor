@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const pkg = require('../package.json');
 
 const rules = [{
   test: /\.js$/,
@@ -30,12 +32,24 @@ const rules = [{
   }],
 }];
 
+const plugins = [
+  new webpack.DefinePlugin({
+    GG_EDITOR_VERSION: JSON.stringify(pkg.version),
+    G6_VERSION: JSON.stringify(pkg.dependencies['@antv/g6']),
+    G6_EDITOR_VERSION: JSON.stringify(pkg.dependencies['@antv/g6-editor']),
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    },
+  }),
+];
+
 const alias = {
   // '@antv/g6$': '@antv/g6/src',
   // '@antv/g6-editor$': '@antv/g6-editor/src',
-  '@utils': path.resolve(__dirname, '..', 'src/utils'),
   '@common': path.resolve(__dirname, '..', 'src/common'),
   '@components': path.resolve(__dirname, '..', 'src/components'),
+  '@helpers': path.resolve(__dirname, '..', 'src/helpers'),
+  '@utils': path.resolve(__dirname, '..', 'src/utils'),
 };
 
 const externals = {
@@ -57,6 +71,7 @@ module.exports = {
   module: {
     rules,
   },
+  plugins,
   resolve: {
     alias,
   },
