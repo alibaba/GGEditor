@@ -1,4 +1,4 @@
-import Editor from '@antv/g6-editor';
+import Editor from '@components/Base/Editor';
 import {
   MIND_CONTAINER,
   MIND_CLASS_NAME,

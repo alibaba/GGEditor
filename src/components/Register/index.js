@@ -1,4 +1,4 @@
-import Editor from '@antv/g6-editor';
+import Editor from '@components/Base/Editor';
 import { upperFirst } from '@utils';
 import { EVENT_BEFORE_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base';
