@@ -71,3 +71,6 @@ const data = {
 ## Documentation
 
 * [API](/docs/README.md#api)
+
+## DingTalk Group
+[<img src="https://img.alicdn.com/tfs/TB10GcGvlnTBKNjSZPfXXbf1XXa-300-300.png" alt="DingTalk Group" width="150">](https://qr.dingtalk.com/action/joingroup?code=v1,k1,KWj9Iev99l7EahXdG4vcriMmqu1rgWjRuk3SomhDATY=&_dt_no_comment=1&origin=11)
