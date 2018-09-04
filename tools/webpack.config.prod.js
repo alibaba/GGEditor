@@ -16,7 +16,7 @@ const output = {
 };
 
 module.exports = merge(baseConfig, {
-  entry,
   devtool,
+  entry,
   output,
 });
