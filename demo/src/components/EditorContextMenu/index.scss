@@ -1,6 +1,5 @@
 .context-menu {
   display: none;
-  width: 150px;
   background: #FFFFFF;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
@@ -10,12 +9,16 @@
     cursor: pointer;
     user-select: none;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 5px 12px;
     transition: all .3s;
 
     &:hover {
       background: #E6F7FF;
+    }
+
+    i {
+      margin-right: 8px;
     }
   }
   
