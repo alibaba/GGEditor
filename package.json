@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
     "watch": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.dev.js --watch",
-    "build": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.prod.js --colors --profile --optimize-minimize",
-    "build:demo": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.demo.prod.js --colors --profile --optimize-minimize"
+    "build": "NODE_ENV=production node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.prod.js --colors --profile --optimize-minimize",
+    "build:demo": "NODE_ENV=production node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.demo.prod.js --colors --profile --optimize-minimize"
   },
   "repository": {
     "type": "git",
