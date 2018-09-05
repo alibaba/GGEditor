@@ -49,7 +49,7 @@ class NodeDetail extends React.Component {
       <Card type="inner" title="节点属性" bordered={false}>
         <Form onSubmit={this.handleSubmit}>
           <Item
-            label="label"
+            label="标签"
             {...inlineFormItemLayout}
           >
             {
