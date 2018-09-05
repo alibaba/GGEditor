@@ -5,7 +5,7 @@ import EditorMinimap from '../../components/EditorMinimap';
 import { FlowContextMenu } from '../../components/EditorContextMenu';
 import { FlowToolbar } from '../../components/EditorToolbar';
 import EditorItemPanel from '../../components/EditorItemPanel';
-import EditorDetailPanel from '../../components/EditorDetailPanel';
+import { FlowDetailPanel } from '../../components/EditorDetailPanel';
 import styles from './index.scss';
 
 class FlowPage extends React.Component {
@@ -31,7 +31,7 @@ class FlowPage extends React.Component {
             {this.renderFlow()}
           </Col>
           <Col span={4} className={styles.editorSidebar}>
-            <EditorDetailPanel />
+            <FlowDetailPanel />
             <EditorMinimap />
           </Col>
         </Row>

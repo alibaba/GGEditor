@@ -4,7 +4,7 @@ import GGEditor, { Mind } from '@src';
 import EditorMinimap from '../../components/EditorMinimap';
 import { MindContextMenu } from '../../components/EditorContextMenu';
 import { MindToolbar } from '../../components/EditorToolbar';
-import EditorDetailPanel from '../../components/EditorDetailPanel';
+import { MindDetailPanel } from '../../components/EditorDetailPanel';
 import data from '../../mock/worldCup2018.json';
 import styles from './index.scss';
 
@@ -31,7 +31,7 @@ class MindPage extends React.Component {
             {this.renderMind()}
           </Col>
           <Col span={4} className={styles.editorSidebar}>
-            <EditorDetailPanel />
+            <MindDetailPanel />
             <EditorMinimap />
           </Col>
         </Row>
