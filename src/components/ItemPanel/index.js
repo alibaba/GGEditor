@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { ITEM_PANEL_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 import Item from './item';
 
 Editor.ItemPanel = Editor.Itempannel || Editor.Itempanel;

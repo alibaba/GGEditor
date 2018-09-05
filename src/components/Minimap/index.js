@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { MINIMAP_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Minimap extends BaseComponent {
   get containerId() {

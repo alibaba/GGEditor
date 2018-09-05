@@ -9,7 +9,7 @@ import {
   GRAPH_OTHER_REACT_EVENTS,
   PAGE_REACT_EVENTS,
 } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Page extends BaseComponent {
   static childContextTypes = {
