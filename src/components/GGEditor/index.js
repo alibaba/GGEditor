@@ -4,12 +4,17 @@ import Editor from '@components/Base/Editor';
 import { EDITOR_EVENTS, EDITOR_REACT_EVENTS } from '@common/constants';
 import { pick, createId } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
+import Global from '@common/Global';
 
 class GGEditor extends React.Component {
   static childContextTypes = {
     editor: PropTypes.object,
     editorId: PropTypes.number,
     propsAPI: PropTypes.object,
+  }
+
+  static setTrackable(value) {
+    Global.set('trackable', Boolean(value));
   }
 
   editor = null;
