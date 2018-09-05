@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Menu extends BaseComponent {
   static create = function (type) {

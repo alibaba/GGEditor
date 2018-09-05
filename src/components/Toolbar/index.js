@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { TOOLBAR_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Toolbar extends BaseComponent {
   toolbar = null;

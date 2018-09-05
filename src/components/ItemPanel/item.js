@@ -1,6 +1,6 @@
 import React from 'react';
 import { mapKeys } from '@utils';
-import BaseComponent from '../Base';
+import BaseComponent from '../Base/BaseComponent';
 
 class Item extends BaseComponent {
   render() {

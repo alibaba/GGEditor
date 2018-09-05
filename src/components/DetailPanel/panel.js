@@ -1,6 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Panel extends BaseComponent {
   static create = function (type) {

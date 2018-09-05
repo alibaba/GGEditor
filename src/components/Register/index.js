@@ -1,7 +1,7 @@
 import Editor from '@components/Base/Editor';
 import { upperFirst } from '@utils';
 import { EVENT_BEFORE_ADD_PAGE } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Register extends BaseComponent {
   static create = function (type) {

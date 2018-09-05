@@ -2,7 +2,7 @@ import React from 'react';
 import { pick } from '@utils';
 import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base';
+import BaseComponent from '@components/Base/BaseComponent';
 import Menu from './menu';
 
 class ContextMenu extends BaseComponent {
