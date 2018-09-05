@@ -1,18 +1,13 @@
-/* global G6_VERSION, G6_EDITOR_VERSION, GG_EDITOR_VERSION */
-
 import { toQueryString } from '@utils';
+import Global from '@common/Global';
 
 const BASE_URL = 'http://gm.mmstat.com/fsp.1.1';
-
-const { location, navigator } = window;
-
-const rels = {
-  g6: G6_VERSION,
-  'g6-editor': G6_EDITOR_VERSION,
-  'gg-editor': GG_EDITOR_VERSION,
-};
+const rels = Global.get('versions');
 
 const track = (options) => {
+  if (!Global.get('trackable')) return;
+
+  const { location, navigator } = window;
   const image = new Image();
   const params = toQueryString({
     pid: 'ggeditor',
