@@ -30,6 +30,6 @@ GGEditor 仅在首次加载时发送埋点数据，只会收集 URL 与相应版
 
 如果你担心信息泄漏，可通过以下代码关闭：
 
-```
+```js
 GGEditor.setTrackable(false);
 ```
