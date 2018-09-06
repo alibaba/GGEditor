@@ -1,7 +1,7 @@
 {
   "name": "gg-editor",
   "version": "1.1.1",
-  "description": "A visual graph editor based G6 and React",
+  "description": "A visual graph editor based on G6 and React",
   "main": "dist/bundle.js",
   "scripts": {
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
