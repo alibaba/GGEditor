@@ -13,10 +13,9 @@ const track = (options) => {
     pid: 'ggeditor',
     code: '11',
     msg: 'syslog',
-    ua: navigator.userAgent,
+    page: `${location.protocol}//${location.host}${location.pathname}`,
     hash: location.hash,
-    query: location.search,
-    page: location.host + location.pathname,
+    ua: navigator.userAgent,
     rel: Object.keys(rels).map(key => `${key}@${rels[key]}`).join(';'),
     ...options,
   });
