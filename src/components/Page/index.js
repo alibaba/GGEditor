@@ -66,7 +66,7 @@ class Page extends BaseComponent {
   initPage() {}
 
   readData() {
-    const { data } = this.props;
+    const { data } = this.config;
 
     if (data) {
       this.page.read(data);

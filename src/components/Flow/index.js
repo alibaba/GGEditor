@@ -14,6 +14,13 @@ class Flow extends Page {
     return `${FLOW_CONTAINER}_${editorId}`;
   }
 
+  config = {
+    data: {
+      nodes: [],
+      edges: [],
+    },
+  }
+
   initPage() {
     const { editor } = this.context;
 
