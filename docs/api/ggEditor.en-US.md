@@ -12,6 +12,21 @@ import GGEditor, { Flow } from 'gg-editor';
 </GGEditor>
 ```
 
+## API
+
+| Method | Description | Type |
+| :--- | :--- | :--- |
+| setTrackable | Turn on / off the tracking by setting the trackable value | `function(value: boolean)` |
+
 ## Events
 
 See more on [EditorEvents](./editorEvents.en-US.md).
+
+
+## Experience Improvement Program
+
+GGEditor collects the information of the URL and its versions when it is initialized. This is for the purpose of improving our project. You can turn off the tracker with the following code:
+
+```js
+GGEditor.setTrackable(false);
+```
