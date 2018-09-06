@@ -8,17 +8,17 @@ import {
 import Page from '@components/Page';
 
 class Flow extends Page {
-  get pageId() {
-    const { editorId } = this.context;
-
-    return `${FLOW_CONTAINER}_${editorId}`;
-  }
-
-  config = {
+  static defaultProps = {
     data: {
       nodes: [],
       edges: [],
     },
+  }
+
+  get pageId() {
+    const { editorId } = this.context;
+
+    return `${FLOW_CONTAINER}_${editorId}`;
   }
 
   initPage() {
