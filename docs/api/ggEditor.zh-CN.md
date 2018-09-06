@@ -24,7 +24,7 @@ import GGEditor, { Flow } from 'gg-editor';
 
 ## 体验改进计划说明
 
-GGEditor 仅在首次加载时发送埋点数据，只会收集 URL 与相应版本信息，
+GGEditor 仅在页面加载时发送埋点数据，只会收集 URL 与相应版本信息，
 
 一切只为能对 GGEditor 的运行情况有更多了解，以便更好的服务于用户。
 
