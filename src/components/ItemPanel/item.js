@@ -1,32 +1,41 @@
 import React from 'react';
-import { mapKeys } from '@utils';
-import BaseComponent from '../Base/BaseComponent';
+import { EVENT_AFTER_ADD_PAGE } from '@common/constants';
+import BaseComponent from '@components/Base/BaseComponent';
 
 class Item extends BaseComponent {
+  constructor(props, context) {
+    super(props, context);
+
+    this.bindEvent({ context });
+  }
+
+  handleMouseDown = () => {
+    const { type, size, shape, model } = this.props;
+
+    if (this.page) {
+      this.page.beginAdd(type, {
+        type,
+        size,
+        shape,
+        ...model,
+      });
+    }
+  }
+
+  bindEvent({ context }) {
+    const { editor } = context;
+
+    editor.on(EVENT_AFTER_ADD_PAGE, ({ page }) => {
+      this.page = page;
+    });
+  }
+
   render() {
-    const {
-      src,
-      type,
-      size,
-      shape,
-      model,
-      children,
-    } = this.props;
+    const { src, shape, children } = this.props;
 
     return (
-      <div
-        className="getItem"
-        data-type={type}
-        data-size={size}
-        data-shape={shape}
-        {
-          ...mapKeys(model, (val, key) => `data-${key}`)
-        }
-        style={{ cursor: 'pointer' }}
-      >
-        {
-          src ? <img alt="" src={src} draggable={false} /> : children
-        }
+      <div style={{ cursor: 'pointer' }} onMouseDown={this.handleMouseDown}>
+        {src ? <img src={src} alt={shape} draggable={false} /> : children}
       </div>
     );
   }

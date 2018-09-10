@@ -1,29 +1,34 @@
 import React from 'react';
-import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
-import { ITEM_PANEL_CONTAINER } from '@common/constants';
+import { EVENT_AFTER_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 import Item from './item';
 
-Editor.ItemPanel = Editor.Itempannel || Editor.Itempanel;
-
 class ItemPanel extends BaseComponent {
-  itemPanel = null;
+  page = null;
 
-  get containerId() {
-    const { editorId } = this.context;
+  constructor(props, context) {
+    super(props, context);
 
-    return `${ITEM_PANEL_CONTAINER}_${editorId}`;
+    this.bindEvent({ context });
   }
 
-  componentDidMount() {
-    const { editor } = this.context;
+  handleMouseUp = () => {
+    this.page.cancelAdd();
+  }
 
-    this.itemPanel = new Editor.ItemPanel({
-      container: this.containerId,
+  bindEvent({ context }) {
+    const { editor } = context;
+
+    editor.on(EVENT_AFTER_ADD_PAGE, ({ page }) => {
+      this.page = page;
+
+      document.addEventListener('mouseup', this.handleMouseUp);
     });
+  }
 
-    editor.add(this.itemPanel);
+  componentWillUnmount() {
+    document.removeEventListener('mouseup', this.handleMouseUp);
   }
 
   render() {
