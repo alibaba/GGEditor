@@ -23,7 +23,7 @@ class Mind extends Page {
 
     editor.add(this.page);
 
-    editor.emit(EVENT_AFTER_ADD_PAGE);
+    editor.emit(EVENT_AFTER_ADD_PAGE, { page: this.page });
   }
 
   bindEvent() {
