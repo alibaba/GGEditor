@@ -32,6 +32,15 @@ npm install --save gg-editor
 <script src="https://unpkg.com/gg-editor@${version}/dist/bundle.js"></script>
 ```
 
+### run demo
+
+```sh
+$ git clone https://github.com/gaoli/gg-editor.git
+$ cd gg-editor
+$ npm install
+$ npm start
+```
+
 ## 快速开始
 
 ### 流程图
