@@ -1,6 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
-import { STATUS_CANVAS_SELECTED, EVENT_AFTER_ADD_PAGE } from '@common/constants';
+import { STATUS_CANVAS_SELECTED } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 import Panel from './panel';
 
@@ -16,9 +16,9 @@ class DetailPanel extends BaseComponent {
   }
 
   bindEvent({ context }) {
-    const { editor } = context;
+    const { onAfterAddPage } = context;
 
-    editor.on(EVENT_AFTER_ADD_PAGE, ({ page }) => {
+    onAfterAddPage(({ page }) => {
       this.setState({
         status: STATUS_CANVAS_SELECTED,
       });
