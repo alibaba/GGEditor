@@ -1,6 +1,5 @@
 import React from 'react';
 import { pick } from '@utils';
-import { EVENT_AFTER_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 import Item from './item';
 
@@ -18,9 +17,9 @@ class ItemPanel extends BaseComponent {
   }
 
   bindEvent({ context }) {
-    const { editor } = context;
+    const { onAfterAddPage } = context;
 
-    editor.on(EVENT_AFTER_ADD_PAGE, ({ page }) => {
+    onAfterAddPage(({ page }) => {
       this.page = page;
 
       document.addEventListener('mouseup', this.handleMouseUp);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { EVENT_AFTER_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 
 class Item extends BaseComponent {
@@ -23,9 +22,9 @@ class Item extends BaseComponent {
   }
 
   bindEvent({ context }) {
-    const { editor } = context;
+    const { onAfterAddPage } = context;
 
-    editor.on(EVENT_AFTER_ADD_PAGE, ({ page }) => {
+    onAfterAddPage(({ page }) => {
       this.page = page;
     });
   }
