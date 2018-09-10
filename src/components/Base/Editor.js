@@ -6,6 +6,6 @@ export default class Editor extends G6Editor {
   constructor(options) {
     super(options);
 
-    this.on(EVENT_BEFORE_ADD_PAGE, data => track({ c1: data.className }));
+    this.on(EVENT_BEFORE_ADD_PAGE, ({ className }) => track({ c1: className }));
   }
 }
