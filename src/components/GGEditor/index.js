@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Editor from '@components/Base/Editor';
-import { EDITOR_EVENTS, EDITOR_REACT_EVENTS } from '@common/constants';
+import { EDITOR_EVENTS, EDITOR_REACT_EVENTS, EVENT_BEFORE_ADD_PAGE, EVENT_AFTER_ADD_PAGE } from '@common/constants';
 import { pick, createId } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
 import Global from '@common/Global';
@@ -11,6 +11,8 @@ class GGEditor extends React.Component {
     editor: PropTypes.object,
     editorId: PropTypes.number,
     propsAPI: PropTypes.object,
+    onBeforeAddPage: PropTypes.func,
+    onAfterAddPage: PropTypes.func,
   }
 
   static setTrackable(value) {
@@ -20,6 +22,10 @@ class GGEditor extends React.Component {
   editor = null;
 
   editorId = createId();
+
+  get currentPage() {
+    return this.editor.getCurrentPage();
+  }
 
   constructor(props) {
     super(props);
@@ -33,16 +39,33 @@ class GGEditor extends React.Component {
       editor: this.editor,
       editorId: this.editorId,
       propsAPI: this.propsAPI,
+      onBeforeAddPage: this.handleBeforeAddPage,
+      onAfterAddPage: this.handleAfterAddPage,
     };
+  }
+
+  addListener = (target, eventName, handler) => {
+    if (typeof handler === 'function') target.on(eventName, handler);
+  }
+
+  handleBeforeAddPage = (func) => {
+    this.editor.on(EVENT_BEFORE_ADD_PAGE, func);
+  }
+
+  handleAfterAddPage = (func) => {
+    const { currentPage: page } = this;
+
+    if (page) {
+      func({ page });
+      return;
+    }
+
+    this.editor.on(EVENT_AFTER_ADD_PAGE, func);
   }
 
   init() {
     this.editor = new Editor();
     this.propsAPI = new PropsAPI(this.editor);
-  }
-
-  addListener = (target, eventName, handler) => {
-    if (typeof handler === 'function') target.on(eventName, handler);
   }
 
   bindEvent() {

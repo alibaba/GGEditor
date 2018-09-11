@@ -1,9 +1,8 @@
 export const FLOW_CONTAINER = 'J_FlowContainer';
 export const MIND_CONTAINER = 'J_MindContainer';
+export const TOOLBAR_CONTAINER = 'J_ToolbarContainer';
 export const MINIMAP_CONTAINER = 'J_MinimapContainer';
 export const CONTEXT_MENU_CONTAINER = 'J_ContextMenuContainer';
-export const TOOLBAR_CONTAINER = 'J_ToolbarContainer';
-export const ITEM_PANEL_CONTAINER = 'J_ItemPanelContainer';
 
 export const FLOW_CLASS_NAME = 'Flow';
 export const MIND_CLASS_NAME = 'Mind';

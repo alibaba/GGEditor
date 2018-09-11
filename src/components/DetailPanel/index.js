@@ -1,6 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
-import { STATUS_CANVAS_SELECTED, EVENT_AFTER_ADD_PAGE } from '@common/constants';
+import { STATUS_CANVAS_SELECTED } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 import Panel from './panel';
 
@@ -9,21 +9,24 @@ class DetailPanel extends BaseComponent {
     status: '',
   }
 
-  componentWillMount() {
-    const { editor } = this.context;
+  constructor(props, context) {
+    super(props, context);
 
-    editor.on(EVENT_AFTER_ADD_PAGE, () => {
-      this.setState({ status: STATUS_CANVAS_SELECTED });
-      this.bindEvent();
+    this.bindEvent({ context });
+  }
+
+  bindEvent({ context }) {
+    const { onAfterAddPage } = context;
+
+    onAfterAddPage(({ page }) => {
+      this.setState({
+        status: STATUS_CANVAS_SELECTED,
+      });
+
+      page.on('statuschange', ({ status }) => {
+        this.setState({ status });
+      });
     });
-  }
-
-  get page() {
-    return this.context.editor.getCurrentPage();
-  }
-
-  bindEvent() {
-    this.page.on('statuschange', ({ status }) => { this.setState({ status }); });
   }
 
   render() {

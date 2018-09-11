@@ -1,28 +1,29 @@
 import Editor from '@components/Base/Editor';
 import { upperFirst } from '@utils';
-import { EVENT_BEFORE_ADD_PAGE } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
 
 class Register extends BaseComponent {
   static create = function (type) {
     return class TypedRegister extends Register {
-      constructor(props) {
-        super(props, type);
+      constructor(props, context) {
+        super(props, context, type);
       }
     };
   }
 
-  constructor(props, type) {
+  constructor(props, context, type) {
     super(props);
 
     this.type = type;
+
+    this.bindEvent({ context });
   }
 
-  componentWillMount() {
-    const { editor } = this.context;
+  bindEvent({ context }) {
     const { type } = this;
+    const { onBeforeAddPage } = context;
 
-    editor.on(EVENT_BEFORE_ADD_PAGE, ({ className }) => {
+    onBeforeAddPage(({ className }) => {
       let host = Editor[className];
       let keys = ['name', 'config', 'extend'];
 
