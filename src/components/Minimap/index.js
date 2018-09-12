@@ -6,9 +6,9 @@ import BaseComponent from '@components/Base/BaseComponent';
 
 class Minimap extends BaseComponent {
   get containerId() {
-    const { editorId } = this.context;
+    const { editor } = this.context;
 
-    return `${MINIMAP_CONTAINER}_${editorId}`;
+    return `${MINIMAP_CONTAINER}_${editor.id}`;
   }
 
   componentDidMount() {
@@ -39,9 +39,7 @@ class Minimap extends BaseComponent {
       return null;
     }
 
-    return (
-      <div id={this.containerId} {...pick(this.props, ['style', 'className'])} />
-    );
+    return <div id={this.containerId} {...pick(this.props, ['style', 'className'])} />;
   }
 }
 
