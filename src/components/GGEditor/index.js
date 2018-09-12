@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Editor from '@components/Base/Editor';
-import { EDITOR_EVENTS, EDITOR_REACT_EVENTS, EVENT_BEFORE_ADD_PAGE, EVENT_AFTER_ADD_PAGE } from '@common/constants';
-import { pick, createId } from '@utils';
+import {
+  EDITOR_EVENTS,
+  EDITOR_REACT_EVENTS,
+  EVENT_BEFORE_ADD_PAGE,
+  EVENT_AFTER_ADD_PAGE,
+} from '@common/constants';
+import { pick } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
 import Global from '@common/Global';
 
 class GGEditor extends React.Component {
   static childContextTypes = {
     editor: PropTypes.object,
-    editorId: PropTypes.number,
     propsAPI: PropTypes.object,
     onBeforeAddPage: PropTypes.func,
     onAfterAddPage: PropTypes.func,
-  }
+  };
 
   static setTrackable(value) {
     Global.set('trackable', Boolean(value));
   }
 
   editor = null;
-
-  editorId = createId();
 
   get currentPage() {
     return this.editor.getCurrentPage();
@@ -37,7 +39,6 @@ class GGEditor extends React.Component {
   getChildContext() {
     return {
       editor: this.editor,
-      editorId: this.editorId,
       propsAPI: this.propsAPI,
       onBeforeAddPage: this.handleBeforeAddPage,
       onAfterAddPage: this.handleAfterAddPage,
@@ -46,11 +47,11 @@ class GGEditor extends React.Component {
 
   addListener = (target, eventName, handler) => {
     if (typeof handler === 'function') target.on(eventName, handler);
-  }
+  };
 
   handleBeforeAddPage = (func) => {
     this.editor.on(EVENT_BEFORE_ADD_PAGE, func);
-  }
+  };
 
   handleAfterAddPage = (func) => {
     const { currentPage: page } = this;
@@ -61,7 +62,7 @@ class GGEditor extends React.Component {
     }
 
     this.editor.on(EVENT_AFTER_ADD_PAGE, func);
-  }
+  };
 
   init() {
     this.editor = new Editor();
@@ -81,11 +82,7 @@ class GGEditor extends React.Component {
   render() {
     const { children } = this.props;
 
-    return (
-      <div {...pick(this.props, ['style', 'className'])}>
-        {children}
-      </div>
-    );
+    return <div {...pick(this.props, ['style', 'className'])}>{children}</div>;
   }
 }
 

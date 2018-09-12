@@ -8,9 +8,9 @@ class Toolbar extends BaseComponent {
   toolbar = null;
 
   get containerId() {
-    const { editorId } = this.context;
+    const { editor } = this.context;
 
-    return `${TOOLBAR_CONTAINER}_${editorId}`;
+    return `${TOOLBAR_CONTAINER}_${editor.id}`;
   }
 
   componentDidMount() {
