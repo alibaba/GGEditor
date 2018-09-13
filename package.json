@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gaoli/gg-editor.git"
+    "url": "git+https://github.com/gaoli/GGEditor.git"
   },
   "author": {
     "name": "高力",
@@ -19,9 +19,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gaoli/gg-editor/issues"
+    "url": "https://github.com/gaoli/GGEditor/issues"
   },
-  "homepage": "https://github.com/gaoli/gg-editor#readme",
+  "homepage": "https://github.com/gaoli/GGEditor#readme",
   "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
