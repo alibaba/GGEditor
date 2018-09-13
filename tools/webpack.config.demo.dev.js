@@ -37,6 +37,8 @@ const devServer = {
   contentBase: path.resolve(__dirname, '..', 'demo'),
   publicPath: '/dist',
   disableHostCheck: true,
+  open: true,
+  openPage: '/#/mind',
 };
 
 const output = {

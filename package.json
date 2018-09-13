@@ -4,7 +4,7 @@
   "description": "A visual graph editor based on G6 and React",
   "main": "dist/bundle.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
+    "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js",
     "watch": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.dev.js --watch",
     "build": "NODE_ENV=production node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.prod.js --colors --profile --optimize-minimize",
     "build:demo": "NODE_ENV=production node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack --config ./tools/webpack.config.demo.prod.js --colors --profile --optimize-minimize"
