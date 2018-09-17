@@ -14,9 +14,9 @@ import BaseComponent from '@components/Base/BaseComponent';
 class Page extends BaseComponent {
   static childContextTypes = {
     page: PropTypes.object,
-    pageId: PropTypes.number,
+    pageId: PropTypes.string,
     config: PropTypes.object,
-  }
+  };
 
   page;
 
@@ -43,8 +43,8 @@ class Page extends BaseComponent {
   shouldComponentUpdate(props) {
     const { data: newData } = props;
     const { data: oldData } = this.props;
-    const { mode: newMode } = (props.graph || {});
-    const { mode: oldMode } = (this.props.graph || {});
+    const { mode: newMode } = props.graph || {};
+    const { mode: oldMode } = this.props.graph || {};
 
     if (newMode !== oldMode) {
       this.page.changeMode(newMode);
@@ -75,7 +75,7 @@ class Page extends BaseComponent {
 
   addListener = (target, eventName, handler) => {
     if (typeof handler === 'function') target.on(eventName, handler);
-  }
+  };
 
   init() {
     merge(this.config, this.props, {
@@ -112,9 +112,7 @@ class Page extends BaseComponent {
 
     return (
       <div id={pageId} {...pick(this.props, ['style', 'className'])}>
-        {
-          page ? children : null
-        }
+        {page ? children : null}
       </div>
     );
   }

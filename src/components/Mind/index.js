@@ -9,9 +9,9 @@ import Page from '@components/Page';
 
 class Mind extends Page {
   get pageId() {
-    const { editorId } = this.context;
+    const { editor } = this.context;
 
-    return `${MIND_CONTAINER}_${editorId}`;
+    return `${MIND_CONTAINER}_${editor.id}`;
   }
 
   initPage() {

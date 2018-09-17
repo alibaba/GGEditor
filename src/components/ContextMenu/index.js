@@ -9,9 +9,9 @@ class ContextMenu extends BaseComponent {
   contextMenu = null;
 
   get containerId() {
-    const { editorId } = this.context;
+    const { editor } = this.context;
 
-    return `${CONTEXT_MENU_CONTAINER}_${editorId}`;
+    return `${CONTEXT_MENU_CONTAINER}_${editor.id}`;
   }
 
   componentDidMount() {

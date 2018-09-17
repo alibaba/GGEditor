@@ -13,12 +13,12 @@ class Flow extends Page {
       nodes: [],
       edges: [],
     },
-  }
+  };
 
   get pageId() {
-    const { editorId } = this.context;
+    const { editor } = this.context;
 
-    return `${FLOW_CONTAINER}_${editorId}`;
+    return `${FLOW_CONTAINER}_${editor.id}`;
   }
 
   initPage() {
