@@ -2,7 +2,7 @@ import React from 'react';
 import { pick } from '@utils';
 import { STATUS_CANVAS_SELECTED } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
-import Panel from './panel';
+import Panel from './Panel';
 
 class DetailPanel extends BaseComponent {
   state = {
