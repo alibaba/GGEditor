@@ -1,7 +1,7 @@
 import React from 'react';
 import { pick } from '@utils';
 import BaseComponent from '@components/Base/BaseComponent';
-import Item from './item';
+import Item from './Item';
 
 class ItemPanel extends BaseComponent {
   page = null;
