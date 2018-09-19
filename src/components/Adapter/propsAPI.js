@@ -5,15 +5,19 @@ class PropsAPI {
     editor = _editor;
   }
 
-  get activePage() {
+  get currentPage() {
     return editor.getCurrentPage();
   }
 
-  getSelected = () => this.activePage.getSelected();
-  addItem = (type, model) => this.activePage.add(type, model);
-  removeItem = item => this.activePage.remove(item);
-  updateItem = (item, model) => this.activePage.update(item, model);
-  findItem = id => this.activePage.find(id);
+  read = data => this.currentPage.read(data);
+  save = () => this.currentPage.save();
+
+  add = (type, model) => this.currentPage.add(type, model);
+  find = id => this.currentPage.find(id);
+  update = (item, model) => this.currentPage.update(item, model);
+  remove = item => this.currentPage.remove(item);
+
+  getSelected = () => this.currentPage.getSelected();
 }
 
 export default PropsAPI;
