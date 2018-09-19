@@ -3,7 +3,7 @@ import { pick } from '@utils';
 import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
 import BaseComponent from '@components/Base/BaseComponent';
-import Menu from './menu';
+import Menu from './Menu';
 
 class ContextMenu extends BaseComponent {
   contextMenu = null;
