@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input } from 'antd';
+import { Card, Form, Input,InputNumber} from 'antd';
 
 const { Item } = Form;
 
@@ -27,6 +27,8 @@ class NodeDetail extends React.Component {
         return;
       }
 
+        values.size=`${values.width}*${values.height}`;
+
       updateItem(item, {
         ...values,
       });
@@ -43,7 +45,7 @@ class NodeDetail extends React.Component {
       return null;
     }
 
-    const { label } = item.getModel();
+    const { label,color,size } = item.getModel();
 
     return (
       <Card type="inner" title="节点属性" bordered={false}>
@@ -58,6 +60,26 @@ class NodeDetail extends React.Component {
               })(<Input onBlur={this.handleSubmit} />)
             }
           </Item>
+
+            <Item label={'尺寸'} {...inlineFormItemLayout}>
+                {
+                    getFieldDecorator('width',{
+                        initialValue:size.split('*')[0],
+                    })(<InputNumber onKeyUp={this.handleSubmit} onChange={this.handleSubmit}/>)
+                }
+                {
+                    getFieldDecorator('height',{
+                        initialValue:size.split('*')[1],
+                    })(<InputNumber onKeyUp={this.handleSubmit} onChange={this.handleSubmit}/>)
+                }
+            </Item>
+            <Item label={'颜色'} {...inlineFormItemLayout}>
+                {
+                    getFieldDecorator('color',{
+                        initialValue:color
+                    })(<Input type={'color'} onBlur={this.handleSubmit} size="small"/>)
+                }
+            </Item>
         </Form>
       </Card>
     );
