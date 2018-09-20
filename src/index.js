@@ -26,6 +26,7 @@ import DetailPanel, {
   MultiPanel,
   CanvasPanel,
 } from '@components/DetailPanel';
+import withPropsAPI from '@components/Adapter/withPropsAPI';
 import GGEditor from '@components/GGEditor';
 
 export {
@@ -55,6 +56,7 @@ export {
   MultiPanel,
   CanvasPanel,
   DetailPanel,
+  withPropsAPI,
 };
 
 export default GGEditor;
