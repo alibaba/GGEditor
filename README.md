@@ -83,5 +83,4 @@ const data = {
 
 ## DingTalk Group
 
-[<img src="https://img.alicdn.com/tfs/TB1YCy7X5LaK1RjSZFxXXamPFXa-1242-1602.jpg" alt="DingTalk Group" width="200">](https://qr.dingtalk.com/action/joingroup?code=v1,k1,uxy3p6dUh9bEahXdG4vcrssNCVhnUYDJO5MZr3gjhqk=&_dt_no_comment=1&origin=11)
 [<img src="https://img.alicdn.com/tfs/TB1nfGMX3HqK1RjSZFEXXcGMXXa-1242-1602.jpg" alt="DingTalk Group" width="200">](https://qr.dingtalk.com/action/joingroup?code=v1,k1,PSFRQbatttuFXEJhDNG1P4CMMUI1+sUDO5MZr3gjhqk=&_dt_no_comment=1&origin=11)
