@@ -18,14 +18,14 @@ export default withPropsAPI(Component);
 
 ## API
 
-If the component has been decorated by `withPropsAPI` then it has `propsAPI` property. `propsAPI` provides some APIs as follows:
+If the component has been decorated by `withPropsAPI` then it will have a `this.props.propsAPI`. The `propsAPI` provides the APIs as the following:
 
 | Attribute | Description | Type |
 | :--- | :--- | :--- |
-| read | A function to read data. | `function(data)` |
-| save | A function to save data. | `function() => object` |
+| read | A function to read the data. | `function(data)` |
+| save | A function to save the data. | `function() => object` |
 | add | A function to add a new item. | `function(type, model)` |
-| find | A function to find the item. | `function(id)` |
-| update | A function to update the item. | `function(item, model)` |
-| remove | A function to delete the item. | `function(item)` |
+| find | A function to find an item by its id. | `function(id)` |
+| update | A function to update an item. | `function(item, model)` |
+| remove | A function to delete an item. | `function(item)` |
 | getSelected | A function to get the currently selected item. | `function` |
