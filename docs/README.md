@@ -28,3 +28,7 @@
 
 - [PageEvents](./api/pageEvents.en-US.md)
 - [EditorEvents](./api/editorEvents.en-US.md)
+
+### Methods
+
+- [PropsAPI](./api/propsAPI.en-US.md)
