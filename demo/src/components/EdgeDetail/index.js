@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Form, Input, Select } from 'antd';
+import GGEditor from '@src';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -15,7 +16,8 @@ const inlineFormItemLayout = {
 
 class EdgeDetail extends React.Component {
   handleSubmit = () => {
-    const { form, getSelected, updateItem } = this.props;
+    const { form, propsAPI } = this.props;
+    const { getSelected, update } = propsAPI;
 
     setTimeout(() => {
       form.validateFieldsAndScroll((err, values) => {
@@ -29,7 +31,7 @@ class EdgeDetail extends React.Component {
           return;
         }
 
-        updateItem(item, {
+        update(item, {
           ...values,
         });
       });
@@ -47,8 +49,9 @@ class EdgeDetail extends React.Component {
   }
 
   render() {
-    const { form, getSelected } = this.props;
+    const { form, propsAPI } = this.props;
     const { getFieldDecorator } = form;
+    const { getSelected } = propsAPI;
 
     const item = getSelected()[0];
 
@@ -87,4 +90,4 @@ class EdgeDetail extends React.Component {
   }
 }
 
-export default Form.create()(EdgeDetail);
+export default Form.create()(GGEditor.withPropsAPI(EdgeDetail));

@@ -27,11 +27,7 @@ class Panel extends BaseComponent {
 
     return (
       <div {...pick(this.props, ['style', 'className'])}>
-        {
-          React.Children.toArray(children).map(child => React.cloneElement(child, {
-            ...this.context.propsAPI,
-          }))
-        }
+        {children}
       </div>
     );
   }

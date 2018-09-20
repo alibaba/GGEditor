@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Form, Input } from 'antd';
+import GGEditor from '@src';
 
 const { Item } = Form;
 
@@ -14,7 +15,8 @@ const inlineFormItemLayout = {
 
 class NodeDetail extends React.Component {
   handleSubmit = () => {
-    const { form, getSelected, updateItem } = this.props;
+    const { form, propsAPI } = this.props;
+    const { getSelected, update } = propsAPI;
 
     form.validateFieldsAndScroll((err, values) => {
       if (err) {
@@ -27,15 +29,16 @@ class NodeDetail extends React.Component {
         return;
       }
 
-      updateItem(item, {
+      update(item, {
         ...values,
       });
     });
   }
 
   render() {
-    const { form, getSelected } = this.props;
+    const { form, propsAPI } = this.props;
     const { getFieldDecorator } = form;
+    const { getSelected } = propsAPI;
 
     const item = getSelected()[0];
 
@@ -64,4 +67,4 @@ class NodeDetail extends React.Component {
   }
 }
 
-export default Form.create()(NodeDetail);
+export default Form.create()(GGEditor.withPropsAPI(NodeDetail));
