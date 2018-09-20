@@ -23,6 +23,18 @@ class GGEditor extends React.Component {
     Global.set('trackable', Boolean(value));
   }
 
+  static withPropsAPI(WrappedComponent) {
+    return class extends React.Component {
+      static contextTypes = {
+        propsAPI: PropTypes.object,
+      };
+
+      render() {
+        return <WrappedComponent propsAPI={this.context.propsAPI} {...this.props} />;
+      }
+    };
+  }
+
   editor = null;
 
   get currentPage() {
