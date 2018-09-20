@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Form, Input, Select } from 'antd';
-import GGEditor from '@src';
+import { withPropsAPI } from '@src';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -90,4 +90,4 @@ class EdgeDetail extends React.Component {
   }
 }
 
-export default Form.create()(GGEditor.withPropsAPI(EdgeDetail));
+export default Form.create()(withPropsAPI(EdgeDetail));

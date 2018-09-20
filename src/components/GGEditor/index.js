@@ -9,7 +9,6 @@ import {
 } from '@common/constants';
 import { pick } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
-import withPropsAPI from '@components/Adapter/withPropsAPI';
 import Global from '@common/Global';
 
 class GGEditor extends React.Component {
@@ -22,10 +21,6 @@ class GGEditor extends React.Component {
 
   static setTrackable(value) {
     Global.set('trackable', Boolean(value));
-  }
-
-  static withPropsAPI(WrappedComponent) {
-    return withPropsAPI(WrappedComponent);
   }
 
   editor = null;

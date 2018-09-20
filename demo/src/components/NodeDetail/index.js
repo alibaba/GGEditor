@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Form, Input } from 'antd';
-import GGEditor from '@src';
+import { withPropsAPI } from '@src';
 
 const { Item } = Form;
 
@@ -67,4 +67,4 @@ class NodeDetail extends React.Component {
   }
 }
 
-export default Form.create()(GGEditor.withPropsAPI(NodeDetail));
+export default Form.create()(withPropsAPI(NodeDetail));
