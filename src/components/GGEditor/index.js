@@ -9,6 +9,7 @@ import {
 } from '@common/constants';
 import { pick } from '@utils';
 import PropsAPI from '@components/Adapter/propsAPI';
+import withPropsAPI from '@components/Adapter/withPropsAPI';
 import Global from '@common/Global';
 
 class GGEditor extends React.Component {
@@ -24,15 +25,7 @@ class GGEditor extends React.Component {
   }
 
   static withPropsAPI(WrappedComponent) {
-    return class extends React.Component {
-      static contextTypes = {
-        propsAPI: PropTypes.object,
-      };
-
-      render() {
-        return <WrappedComponent propsAPI={this.context.propsAPI} {...this.props} />;
-      }
-    };
+    return withPropsAPI(WrappedComponent);
   }
 
   editor = null;
