@@ -28,3 +28,7 @@
 
 - [PageEvents](./api/pageEvents.zh-CN.md)
 - [EditorEvents](./api/editorEvents.zh-CN.md)
+
+### 方法
+
+- [PropsAPI](./api/propsAPI.zh-CN.md)

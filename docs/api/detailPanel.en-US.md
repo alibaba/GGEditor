@@ -38,15 +38,3 @@ class NodeDetail extends React.Component {
   }
 }
 ```
-
-## API
-
-The properties of the `DetailPanel` sub-components.
-
-| Attribute | Description | Type |
-| :--- | :--- | :--- |
-| getSelected | A function to get the currently selected item. | `function` |
-| addItem | A function to add a new item. | `function(type, model)` |
-| removeItem | A function to delete the item. | `function(item)` |
-| updateItem | A function to update the item. | `function(item, model)` |
-| findItem | A function to find the item. | `function(id)` |

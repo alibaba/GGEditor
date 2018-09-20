@@ -38,15 +38,3 @@ class NodeDetail extends React.Component {
   }
 }
 ```
-
-## API
-
-属性面板子组件属性
-
-| 属性 | 说明 | 类型 |
-| :--- | :--- | :--- |
-| getSelected | 获取当前选中图项 | `function` |
-| addItem | 添加图项 | `function(type, model)` |
-| removeItem | 删除图项 | `function(item)` |
-| updateItem | 更新图项 | `function(item, model)` |
-| findItem | 查找图项 | `function(id)` |
