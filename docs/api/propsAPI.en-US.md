@@ -22,6 +22,7 @@ If the component has been decorated by `withPropsAPI` then it will have a `this.
 
 | Attribute | Description | Type |
 | :--- | :--- | :--- |
+| executeCommand | A function to execute the command. | `function(command)` |
 | read | A function to read the data. | `function(data)` |
 | save | A function to save the data. | `function() => object` |
 | add | A function to add a new item. | `function(type, model)` |
