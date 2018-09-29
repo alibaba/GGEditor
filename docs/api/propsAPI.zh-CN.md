@@ -22,7 +22,7 @@ export default withPropsAPI(Component);
 
 | 属性 | 说明 | 类型 |
 | :--- | :--- | :--- |
-| executeCommand | 执行命令 | `function(command)` |
+| executeCommand | 执行命令 | `function(command)` |
 | read | 读取数据 | `function(data)` |
 | save | 保存数据 | `function() => object` |
 | add | 添加图项 | `function(type, model)` |
