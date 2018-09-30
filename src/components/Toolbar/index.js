@@ -13,14 +13,18 @@ class Toolbar extends BaseComponent {
     return `${TOOLBAR_CONTAINER}_${editor.id}`;
   }
 
-  componentDidMount() {
-    const { editor } = this.context;
+  constructor(props, context) {
+    super(props);
 
-    this.toolbar = new Editor.Toolbar({
-      container: this.containerId,
+    const { editor, onAfterAddPage } = context;
+
+    onAfterAddPage(() => {
+      this.toolbar = new Editor.Toolbar({
+        container: this.containerId,
+      });
+
+      editor.add(this.toolbar);
     });
-
-    editor.add(this.toolbar);
   }
 
   render() {
