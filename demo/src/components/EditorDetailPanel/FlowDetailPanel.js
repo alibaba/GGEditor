@@ -10,6 +10,7 @@ import {
 } from '@src';
 import NodeDetail from '../NodeDetail';
 import EdgeDetail from '../EdgeDetail';
+import GroupDetail from '../GroupDetail';
 import styles from './index.scss';
 
 class FlowDetailPanel extends React.Component {
@@ -23,7 +24,7 @@ class FlowDetailPanel extends React.Component {
           <EdgeDetail />
         </EdgePanel>
         <GroupPanel>
-          <Card type="inner" title="群组属性" bordered={false} />
+          <GroupDetail />
         </GroupPanel>
         <MultiPanel>
           <Card type="inner" title="多选属性" bordered={false} />
