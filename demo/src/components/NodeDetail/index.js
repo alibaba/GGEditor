@@ -14,7 +14,9 @@ const inlineFormItemLayout = {
 };
 
 class NodeDetail extends React.Component {
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+
     const { form, propsAPI } = this.props;
     const { getSelected, update } = propsAPI;
 
