@@ -2,7 +2,7 @@ import React from 'react';
 import { pick } from '@utils';
 import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 import Menu from './Menu';
 
 class ContextMenu extends React.Component {
@@ -41,4 +41,4 @@ export const GroupMenu = Menu.create('group');
 export const MultiMenu = Menu.create('multi');
 export const CanvasMenu = Menu.create('canvas');
 
-export default withGGEditor(ContextMenu);
+export default withGGEditorContext(ContextMenu);

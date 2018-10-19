@@ -1,6 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 import Item from './Item';
 
 class ItemPanel extends React.Component {
@@ -43,4 +43,4 @@ class ItemPanel extends React.Component {
 
 export { Item };
 
-export default withGGEditor(ItemPanel);
+export default withGGEditorContext(ItemPanel);

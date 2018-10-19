@@ -2,7 +2,7 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { TOOLBAR_CONTAINER } from '@common/constants';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 
 class Toolbar extends React.Component {
   toolbar = null;
@@ -38,4 +38,4 @@ class Toolbar extends React.Component {
   }
 }
 
-export default withGGEditor(Toolbar);
+export default withGGEditorContext(Toolbar);

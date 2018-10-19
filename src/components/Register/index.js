@@ -1,7 +1,7 @@
 import React from 'react';
 import Editor from '@components/Base/Editor';
 import { upperFirst } from '@utils';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 
 class Register extends React.Component {
   static create = function (type) {
@@ -50,4 +50,4 @@ export const RegisterGuide = Register.create('guide');
 export const RegisterCommand = Register.create('command');
 export const RegisterBehaviour = Register.create('behaviour');
 
-export default withGGEditor(Register);
+export default withGGEditorContext(Register);

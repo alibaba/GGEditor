@@ -6,7 +6,7 @@ import {
   EVENT_AFTER_ADD_PAGE,
 } from '@common/constants';
 import Page from '@components/Page';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 
 class Flow extends Page {
   static defaultProps = {
@@ -35,4 +35,4 @@ class Flow extends Page {
   }
 }
 
-export default withGGEditor(Flow);
+export default withGGEditorContext(Flow);
