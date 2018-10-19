@@ -1,6 +1,6 @@
 {
   "name": "gg-editor",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A visual graph editor based on G6 and React",
   "main": "dist/bundle.js",
   "scripts": {
