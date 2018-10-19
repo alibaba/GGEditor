@@ -44,8 +44,6 @@ const plugins = [
 ];
 
 const alias = {
-  // '@antv/g6$': '@antv/g6/src',
-  // '@antv/g6-editor$': '@antv/g6-editor/src',
   '@common': path.resolve(__dirname, '..', 'src/common'),
   '@components': path.resolve(__dirname, '..', 'src/components'),
   '@helpers': path.resolve(__dirname, '..', 'src/helpers'),
@@ -58,12 +56,6 @@ const externals = {
     commonjs: 'react',
     commonjs2: 'react',
     amd: 'react',
-  },
-  'prop-types': {
-    root: 'PropTypes',
-    commonjs: 'prop-types',
-    commonjs2: 'prop-types',
-    amd: 'prop-types',
   },
 };
 

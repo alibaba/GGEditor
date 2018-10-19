@@ -6,16 +6,17 @@ import {
   EVENT_AFTER_ADD_PAGE,
 } from '@common/constants';
 import Page from '@components/Page';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
 class Mind extends Page {
   get pageId() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     return `${MIND_CONTAINER}_${editor.id}`;
   }
 
   initPage() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     editor.emit(EVENT_BEFORE_ADD_PAGE, { className: MIND_CLASS_NAME });
 
@@ -48,4 +49,4 @@ class Mind extends Page {
   }
 }
 
-export default Mind;
+export default withGGEditor(Mind);

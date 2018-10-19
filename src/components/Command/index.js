@@ -1,7 +1,6 @@
 import React from 'react';
-import BaseComponent from '@components/Base/BaseComponent';
 
-class Command extends BaseComponent {
+class Command extends React.Component {
   render() {
     const { name, children } = this.props;
 

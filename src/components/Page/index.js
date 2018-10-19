@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { pick, merge } from '@utils';
 import {
   GRAPH_MOUSE_EVENTS,
@@ -9,30 +8,13 @@ import {
   GRAPH_OTHER_REACT_EVENTS,
   PAGE_REACT_EVENTS,
 } from '@common/constants';
-import BaseComponent from '@components/Base/BaseComponent';
 
-class Page extends BaseComponent {
-  static childContextTypes = {
-    page: PropTypes.object,
-    pageId: PropTypes.string,
-    config: PropTypes.object,
-  };
-
+class Page extends React.Component {
   page;
 
   pageId;
 
   config = {};
-
-  getChildContext() {
-    const { page, pageId, config } = this;
-
-    return {
-      page,
-      pageId,
-      config,
-    };
-  }
 
   componentDidMount() {
     this.init();

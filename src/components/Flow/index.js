@@ -6,6 +6,7 @@ import {
   EVENT_AFTER_ADD_PAGE,
 } from '@common/constants';
 import Page from '@components/Page';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
 class Flow extends Page {
   static defaultProps = {
@@ -16,13 +17,13 @@ class Flow extends Page {
   };
 
   get pageId() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     return `${FLOW_CONTAINER}_${editor.id}`;
   }
 
   initPage() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     editor.emit(EVENT_BEFORE_ADD_PAGE, { className: FLOW_CLASS_NAME });
 
@@ -34,4 +35,4 @@ class Flow extends Page {
   }
 }
 
-export default Flow;
+export default withGGEditor(Flow);

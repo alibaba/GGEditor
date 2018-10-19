@@ -2,20 +2,20 @@ import React from 'react';
 import { pick } from '@utils';
 import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 import Menu from './Menu';
 
-class ContextMenu extends BaseComponent {
+class ContextMenu extends React.Component {
   contextMenu = null;
 
   get containerId() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     return `${CONTEXT_MENU_CONTAINER}_${editor.id}`;
   }
 
   componentDidMount() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     this.contextMenu = new Editor.Contextmenu({
       container: this.containerId,
@@ -41,4 +41,4 @@ export const GroupMenu = Menu.create('group');
 export const MultiMenu = Menu.create('multi');
 export const CanvasMenu = Menu.create('canvas');
 
-export default ContextMenu;
+export default withGGEditor(ContextMenu);

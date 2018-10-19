@@ -1,27 +1,28 @@
+import React from 'react';
 import Editor from '@components/Base/Editor';
 import { upperFirst } from '@utils';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
-class Register extends BaseComponent {
+class Register extends React.Component {
   static create = function (type) {
     return class TypedRegister extends Register {
-      constructor(props, context) {
-        super(props, context, type);
+      constructor(props) {
+        super(props, type);
       }
     };
   }
 
-  constructor(props, context, type) {
+  constructor(props, type) {
     super(props);
 
     this.type = type;
 
-    this.bindEvent({ context });
+    this.bindEvent();
   }
 
-  bindEvent({ context }) {
+  bindEvent() {
     const { type } = this;
-    const { onBeforeAddPage } = context;
+    const { onBeforeAddPage } = this.props;
 
     onBeforeAddPage(({ className }) => {
       let host = Editor[className];
@@ -49,4 +50,4 @@ export const RegisterGuide = Register.create('guide');
 export const RegisterCommand = Register.create('command');
 export const RegisterBehaviour = Register.create('behaviour');
 
-export default Register;
+export default withGGEditor(Register);

@@ -26,7 +26,7 @@ import DetailPanel, {
   MultiPanel,
   CanvasPanel,
 } from '@components/DetailPanel';
-import withPropsAPI from '@components/Adapter/withPropsAPI';
+import withPropsAPI from '@common/context/PropsAPIContext/withPropsAPI';
 import GGEditor from '@components/GGEditor';
 
 export {
