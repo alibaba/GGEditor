@@ -17,7 +17,7 @@ const inlineFormItemLayout = {
 class EdgeDetail extends React.Component {
   handleSubmit = () => {
     const { form, propsAPI } = this.props;
-    const { getSelected, update } = propsAPI;
+    const { getSelected, executeCommand, update } = propsAPI;
 
     setTimeout(() => {
       form.validateFieldsAndScroll((err, values) => {
@@ -31,8 +31,10 @@ class EdgeDetail extends React.Component {
           return;
         }
 
-        update(item, {
-          ...values,
+        executeCommand(() => {
+          update(item, {
+            ...values,
+          });
         });
       });
     }, 0);

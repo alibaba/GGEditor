@@ -18,7 +18,7 @@ class NodeDetail extends React.Component {
     e.preventDefault();
 
     const { form, propsAPI } = this.props;
-    const { getSelected, update } = propsAPI;
+    const { getSelected, executeCommand, update } = propsAPI;
 
     form.validateFieldsAndScroll((err, values) => {
       if (err) {
@@ -31,8 +31,10 @@ class NodeDetail extends React.Component {
         return;
       }
 
-      update(item, {
-        ...values,
+      executeCommand(() => {
+        update(item, {
+          ...values,
+        });
       });
     });
   }
