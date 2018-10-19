@@ -1,5 +1,5 @@
 import React from 'react';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 
 class Item extends React.Component {
   constructor(props) {
@@ -40,4 +40,4 @@ class Item extends React.Component {
   }
 }
 
-export default withGGEditor(Item);
+export default withGGEditorContext(Item);

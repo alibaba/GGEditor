@@ -6,7 +6,7 @@ export default function (WrappedComponent) {
     render() {
       return (
         <GGEditorContext.Consumer>
-          {GGEditor => <WrappedComponent {...GGEditor} {...this.props} />}
+          {context => <WrappedComponent {...context} {...this.props} />}
         </GGEditorContext.Consumer>
       );
     }

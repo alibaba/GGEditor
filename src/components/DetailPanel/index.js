@@ -1,7 +1,7 @@
 import React from 'react';
 import { pick } from '@utils';
 import { STATUS_CANVAS_SELECTED } from '@common/constants';
-import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
+import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 import Panel from './Panel';
 
 class DetailPanel extends React.Component {
@@ -55,4 +55,4 @@ export const GroupPanel = Panel.create('group');
 export const MultiPanel = Panel.create('multi');
 export const CanvasPanel = Panel.create('canvas');
 
-export default withGGEditor(DetailPanel);
+export default withGGEditorContext(DetailPanel);
