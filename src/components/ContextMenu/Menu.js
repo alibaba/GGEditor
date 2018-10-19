@@ -1,7 +1,6 @@
 import React from 'react';
-import BaseComponent from '@components/Base/BaseComponent';
 
-class Menu extends BaseComponent {
+class Menu extends React.Component {
   static create = function (type) {
     return class TypedMenu extends Menu {
       constructor(props) {

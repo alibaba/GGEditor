@@ -1,22 +1,22 @@
 import React from 'react';
 import { pick } from '@utils';
 import { STATUS_CANVAS_SELECTED } from '@common/constants';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 import Panel from './Panel';
 
-class DetailPanel extends BaseComponent {
+class DetailPanel extends React.Component {
   state = {
     status: '',
   }
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
-    this.bindEvent({ context });
+    this.bindEvent();
   }
 
-  bindEvent({ context }) {
-    const { onAfterAddPage } = context;
+  bindEvent() {
+    const { onAfterAddPage } = this.props;
 
     onAfterAddPage(({ page }) => {
       this.setState({
@@ -55,4 +55,4 @@ export const GroupPanel = Panel.create('group');
 export const MultiPanel = Panel.create('multi');
 export const CanvasPanel = Panel.create('canvas');
 
-export default DetailPanel;
+export default withGGEditor(DetailPanel);

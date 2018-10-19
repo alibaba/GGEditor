@@ -2,17 +2,17 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { MINIMAP_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
-class Minimap extends BaseComponent {
+class Minimap extends React.Component {
   get containerId() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     return `${MINIMAP_CONTAINER}_${editor.id}`;
   }
 
   componentDidMount() {
-    const { editor } = this.context;
+    const { editor } = this.props;
     const {
       container = this.containerId,
       width,
@@ -43,4 +43,4 @@ class Minimap extends BaseComponent {
   }
 }
 
-export default Minimap;
+export default withGGEditor(Minimap);

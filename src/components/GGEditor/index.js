@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Editor from '@components/Base/Editor';
 import {
   EDITOR_EVENTS,
@@ -8,17 +7,12 @@ import {
   EVENT_AFTER_ADD_PAGE,
 } from '@common/constants';
 import { pick } from '@utils';
-import PropsAPI from '@components/Adapter/propsAPI';
 import Global from '@common/Global';
+import GGEditorContext from '@common/context/GGEditorContext';
+import PropsAPIContext from '@common/context/PropsAPIContext';
+import PropsAPI from '@common/context/PropsAPIContext/propsAPI';
 
 class GGEditor extends React.Component {
-  static childContextTypes = {
-    editor: PropTypes.object,
-    propsAPI: PropTypes.object,
-    onBeforeAddPage: PropTypes.func,
-    onAfterAddPage: PropTypes.func,
-  };
-
   static setTrackable(value) {
     Global.set('trackable', Boolean(value));
   }
@@ -34,15 +28,6 @@ class GGEditor extends React.Component {
 
     this.init();
     this.bindEvent();
-  }
-
-  getChildContext() {
-    return {
-      editor: this.editor,
-      propsAPI: this.propsAPI,
-      onBeforeAddPage: this.handleBeforeAddPage,
-      onAfterAddPage: this.handleAfterAddPage,
-    };
   }
 
   addListener = (target, eventName, handler) => {
@@ -66,6 +51,11 @@ class GGEditor extends React.Component {
 
   init() {
     this.editor = new Editor();
+    this.ggEditor = {
+      editor: this.editor,
+      onBeforeAddPage: this.handleBeforeAddPage,
+      onAfterAddPage: this.handleAfterAddPage,
+    };
     this.propsAPI = new PropsAPI(this.editor);
   }
 
@@ -82,7 +72,13 @@ class GGEditor extends React.Component {
   render() {
     const { children } = this.props;
 
-    return <div {...pick(this.props, ['style', 'className'])}>{children}</div>;
+    return (
+      <GGEditorContext.Provider value={this.ggEditor}>
+        <PropsAPIContext.Provider value={this.propsAPI}>
+          <div {...pick(this.props, ['style', 'className'])}>{children}</div>
+        </PropsAPIContext.Provider>
+      </GGEditorContext.Provider>
+    );
   }
 }
 

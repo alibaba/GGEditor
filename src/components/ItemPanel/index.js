@@ -1,23 +1,23 @@
 import React from 'react';
 import { pick } from '@utils';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 import Item from './Item';
 
-class ItemPanel extends BaseComponent {
+class ItemPanel extends React.Component {
   page = null;
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
-    this.bindEvent({ context });
+    this.bindEvent();
   }
 
   handleMouseUp = () => {
     this.page.cancelAdd();
   }
 
-  bindEvent({ context }) {
-    const { onAfterAddPage } = context;
+  bindEvent() {
+    const { onAfterAddPage } = this.props;
 
     onAfterAddPage(({ page }) => {
       this.page = page;
@@ -43,4 +43,4 @@ class ItemPanel extends BaseComponent {
 
 export { Item };
 
-export default ItemPanel;
+export default withGGEditor(ItemPanel);

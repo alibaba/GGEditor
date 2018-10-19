@@ -2,21 +2,21 @@ import React from 'react';
 import Editor from '@components/Base/Editor';
 import { pick } from '@utils';
 import { TOOLBAR_CONTAINER } from '@common/constants';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
-class Toolbar extends BaseComponent {
+class Toolbar extends React.Component {
   toolbar = null;
 
   get containerId() {
-    const { editor } = this.context;
+    const { editor } = this.props;
 
     return `${TOOLBAR_CONTAINER}_${editor.id}`;
   }
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
-    const { editor, onAfterAddPage } = context;
+    const { editor, onAfterAddPage } = props;
 
     onAfterAddPage(() => {
       this.toolbar = new Editor.Toolbar({
@@ -38,4 +38,4 @@ class Toolbar extends BaseComponent {
   }
 }
 
-export default Toolbar;
+export default withGGEditor(Toolbar);

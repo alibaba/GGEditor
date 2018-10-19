@@ -1,11 +1,11 @@
 import React from 'react';
-import BaseComponent from '@components/Base/BaseComponent';
+import withGGEditor from '@common/context/GGEditorContext/withGGEditor';
 
-class Item extends BaseComponent {
-  constructor(props, context) {
-    super(props, context);
+class Item extends React.Component {
+  constructor(props) {
+    super(props);
 
-    this.bindEvent({ context });
+    this.bindEvent();
   }
 
   handleMouseDown = () => {
@@ -21,8 +21,8 @@ class Item extends BaseComponent {
     }
   }
 
-  bindEvent({ context }) {
-    const { onAfterAddPage } = context;
+  bindEvent() {
+    const { onAfterAddPage } = this.props;
 
     onAfterAddPage(({ page }) => {
       this.page = page;
@@ -40,4 +40,4 @@ class Item extends BaseComponent {
   }
 }
 
-export default Item;
+export default withGGEditor(Item);
