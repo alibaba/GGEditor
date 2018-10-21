@@ -1,6 +1,6 @@
 import Flow from '@components/Flow';
 import Mind from '@components/Mind';
-import Register, {
+import {
   RegisterNode,
   RegisterEdge,
   RegisterGroup,
@@ -32,7 +32,6 @@ import GGEditor from '@components/GGEditor';
 export {
   Flow,
   Mind,
-  Register,
   RegisterNode,
   RegisterEdge,
   RegisterGroup,

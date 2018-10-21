@@ -5,11 +5,13 @@ import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorCon
 
 class Register extends React.Component {
   static create = function (type) {
-    return class TypedRegister extends Register {
+    class TypedRegister extends Register {
       constructor(props) {
         super(props, type);
       }
-    };
+    }
+
+    return withGGEditorContext(TypedRegister);
   }
 
   constructor(props, type) {
@@ -41,6 +43,10 @@ class Register extends React.Component {
       host[`register${upperFirst(type)}`](...args);
     });
   }
+
+  render() {
+    return null;
+  }
 }
 
 export const RegisterNode = Register.create('node');
@@ -49,5 +55,3 @@ export const RegisterGroup = Register.create('group');
 export const RegisterGuide = Register.create('guide');
 export const RegisterCommand = Register.create('command');
 export const RegisterBehaviour = Register.create('behaviour');
-
-export default withGGEditorContext(Register);
