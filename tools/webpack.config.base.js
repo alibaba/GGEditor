@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const pkg = require('../package.json');
 
 const rules = [{
   test: /\.js$/,
@@ -34,9 +33,6 @@ const rules = [{
 
 const plugins = [
   new webpack.DefinePlugin({
-    GG_EDITOR_VERSION: JSON.stringify(pkg.version),
-    G6_VERSION: JSON.stringify(pkg.dependencies['@antv/g6']),
-    G6_EDITOR_VERSION: JSON.stringify(pkg.dependencies['@antv/g6-editor']),
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
     },
