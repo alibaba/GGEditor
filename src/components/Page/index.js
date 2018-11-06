@@ -75,8 +75,13 @@ class Page extends React.Component {
 
     GRAPH_MOUSE_EVENTS.forEach((event) => {
       const eventName = GRAPH_MOUSE_REACT_EVENTS[event];
+
+      addListener(this.graph, `${event}`, this.props[`on${eventName}`]);
       addListener(this.graph, `node:${event}`, this.props[`onNode${eventName}`]);
       addListener(this.graph, `edge:${event}`, this.props[`onEdge${eventName}`]);
+      addListener(this.graph, `group:${event}`, this.props[`onGroup${eventName}`]);
+      addListener(this.graph, `guide:${event}`, this.props[`onGuide${eventName}`]);
+      addListener(this.graph, `anchor:${event}`, this.props[`onAnchor${eventName}`]);
     });
 
     GRAPH_OTHER_EVENTS.forEach((event) => {

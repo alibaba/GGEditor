@@ -35,17 +35,19 @@ import GGEditor, { Flow } from 'gg-editor';
 
 ### Synthetic Events
 
-These events are with the prefix of `item`, `node` or `edge`. For example:
+These `SyntheticEvent` are available with the one of the following prefixes: `node`, `edge`, `group`, `guide` or `anchor`. For example:
 
 ```jsx
 import GGEditor, { Flow } from 'gg-editor';
 
 <GGEditor>
   <Flow
-    onClick={() => {}}     // triggered when chlicking on a graph
-    onItemClick={() => {}} // triggered when chlicking on an item in a graph
-    onNodeClick={() => {}} // triggered when chlicking on a node in a graph
-    onEdgeClick={() => {}} // triggered when chlicking on an edge in a graph
+    onClick={() => {}}       // triggered when chlicking on a canvas
+    onNodeClick={() => {}}   // triggered when chlicking on a node in a canvas
+    onEdgeClick={() => {}}   // triggered when chlicking on an edge in a canvas
+    onGroupClick={() => {}}  // triggered when chlicking on a group in a canvas
+    onGuideClick={() => {}}  // triggered when chlicking on a guide in a canvas
+    onAnchorClick={() => {}} // triggered when chlicking on an anchor in a canvas
   />
 </GGEditor>
 ```
