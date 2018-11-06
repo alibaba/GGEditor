@@ -35,17 +35,19 @@ import GGEditor, { Flow } from 'gg-editor';
 
 ### 组合事件
 
-此类事件可以结合前缀 `item`、`node`、`edge` 组合使用，例如：
+此类事件可以结合前缀 `node`、`edge`、`group`、`guide`、`anchor` 组合使用，例如：
 
 ```jsx
 import GGEditor, { Flow } from 'gg-editor';
 
 <GGEditor>
   <Flow
-    onClick={() => {}}     // 点击任意
-    onItemClick={() => {}} // 点击图项
-    onNodeClick={() => {}} // 点击节点
-    onEdgeClick={() => {}} // 点击边
+    onClick={() => {}}       // 点击画布
+    onNodeClick={() => {}}   // 点击节点
+    onEdgeClick={() => {}}   // 点击边线
+    onGroupClick={() => {}}  // 点击群组
+    onGuideClick={() => {}}  // 点击导引
+    onAnchorClick={() => {}} // 点击锚点
   />
 </GGEditor>
 ```
