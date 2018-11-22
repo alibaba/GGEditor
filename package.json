@@ -26,7 +26,7 @@
     "react": "^16.3.0"
   },
   "dependencies": {
-    "@antv/g6-editor": "1.1.2-beta.6",
+    "@antv/g6-editor": "1.2.0",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
