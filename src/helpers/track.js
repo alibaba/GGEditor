@@ -30,4 +30,8 @@ const track = (options) => {
   image.src = `${BASE_URL}?${params}`;
 };
 
-export default track;
+export default (options) => {
+  setTimeout(() => {
+    track(options);
+  }, 1000);
+};
