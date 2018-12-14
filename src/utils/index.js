@@ -1,13 +1,11 @@
-import pick from 'lodash/pick';
 import merge from 'lodash/merge';
+import pick from 'lodash/pick';
+import uniqueId from 'lodash/uniqueId';
 import upperFirst from 'lodash/upperFirst';
 
-const createCounter = (count = 0) => () => count++;
-const createId = createCounter();
-
 export {
-  createId,
   merge,
   pick,
+  uniqueId,
   upperFirst,
 };

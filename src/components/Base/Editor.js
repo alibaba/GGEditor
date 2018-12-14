@@ -1,5 +1,5 @@
 import G6Editor from '@antv/g6-editor';
-import { createId } from '@utils';
+import { uniqueId } from '@utils';
 import Global from '@common/Global';
 
 export default class Editor extends G6Editor {
@@ -16,6 +16,6 @@ export default class Editor extends G6Editor {
       G6Editor.track(false);
     }
 
-    this.id = createId();
+    this.id = uniqueId();
   }
 }
