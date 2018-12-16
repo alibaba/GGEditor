@@ -1,11 +1,13 @@
 export const FLOW_CONTAINER = 'J_FlowContainer';
 export const MIND_CONTAINER = 'J_MindContainer';
+export const KONI_CONTAINER = 'J_KoniContainer';
 export const TOOLBAR_CONTAINER = 'J_ToolbarContainer';
 export const MINIMAP_CONTAINER = 'J_MinimapContainer';
 export const CONTEXT_MENU_CONTAINER = 'J_ContextMenuContainer';
 
 export const FLOW_CLASS_NAME = 'Flow';
 export const MIND_CLASS_NAME = 'Mind';
+export const KONI_CLASS_NAME = 'Koni';
 
 export const EVENT_BEFORE_ADD_PAGE = 'beforeAddPage';
 export const EVENT_AFTER_ADD_PAGE = 'afterAddPage';

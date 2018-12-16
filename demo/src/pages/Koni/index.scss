@@ -1,0 +1,36 @@
+.editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.editor-hd {
+  padding: 8px;
+  border: 1px solid #E6E9ED;
+}
+
+.editor-bd {
+  flex: 1;
+}
+
+.editor-sidebar,
+.editor-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-sidebar {
+  background: #FAFAFA;
+
+  &:first-child {
+    border-right: 1px solid #E6E9ED;
+  }
+
+  &:last-child {
+    border-left: 1px solid #E6E9ED;
+  }
+}
+
+.koni {
+  flex: 1;
+}

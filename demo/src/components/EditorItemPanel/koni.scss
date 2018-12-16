@@ -1,0 +1,19 @@
+.item-panel {
+  flex: 1;
+  background: #FAFAFA;
+
+  :global {
+    .ant-card {
+      background: #FAFAFA;
+    }
+
+    .ant-card-body {
+      display: flex;
+      align-items: center;
+
+      > div {
+        margin-bottom: 16px;
+      }
+    }
+  }
+}

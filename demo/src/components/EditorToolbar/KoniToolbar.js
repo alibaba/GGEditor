@@ -4,7 +4,7 @@ import {Toolbar, Command} from '@src';
 import styles from './index.scss';
 import iconfont from '../../theme/iconfont.scss';
 
-class FlowToolbar extends React.Component {
+class KoniToolbar extends React.Component {
     render() {
         return (
             <Toolbar className={styles.toolbar}>
@@ -72,16 +72,7 @@ class FlowToolbar extends React.Component {
                         <i className={`${iconfont.iconfont} ${iconfont.iconSelect}`}/>
                     </Tooltip>
                 </Command>
-                <Command name="addGroup">
-                    <Tooltip title="成组" placement="bottom" overlayClassName={styles.tooltip}>
-                        <i className={`${iconfont.iconfont} ${iconfont.iconGroup}`}/>
-                    </Tooltip>
-                </Command>
-                <Command name="unGroup">
-                    <Tooltip title="解组" placement="bottom" overlayClassName={styles.tooltip}>
-                        <i className={`${iconfont.iconfont} ${iconfont.iconUngroup}`}/>
-                    </Tooltip>
-                </Command>
+                <Divider type="vertical"/>
                 <Command name="saveRemote">
                     <Tooltip title="保存" placement="bottom" overlayClassName={styles.tooltip}>
                         <i className={`${iconfont.iconfont} ${iconfont.iconSave}`}/>
@@ -92,4 +83,4 @@ class FlowToolbar extends React.Component {
     }
 }
 
-export default FlowToolbar;
+export default KoniToolbar;

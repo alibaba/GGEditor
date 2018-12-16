@@ -11,6 +11,7 @@ class HomePage extends React.Component {
           <Card title="DEMO">
             <p><Link to="/flow">流程图</Link></p>
             <p><Link to="/mind">思维导图</Link></p>
+            <p><Link to="/koni">拓扑图</Link></p>
           </Card>
         </Col>
         <Col span={4} />

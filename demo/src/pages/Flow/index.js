@@ -4,7 +4,7 @@ import GGEditor, { Flow } from '@src';
 import EditorMinimap from '../../components/EditorMinimap';
 import { FlowContextMenu } from '../../components/EditorContextMenu';
 import { FlowToolbar } from '../../components/EditorToolbar';
-import EditorItemPanel from '../../components/EditorItemPanel';
+import { FlowItemPanel } from '../../components/EditorItemPanel';
 import { FlowDetailPanel } from '../../components/EditorDetailPanel';
 import styles from './index.scss';
 
@@ -25,7 +25,7 @@ class FlowPage extends React.Component {
         </Row>
         <Row type="flex" className={styles.editorBd}>
           <Col span={4} className={styles.editorSidebar}>
-            <EditorItemPanel />
+            <FlowItemPanel />
           </Col>
           <Col span={16} className={styles.editorContent}>
             {this.renderFlow()}
