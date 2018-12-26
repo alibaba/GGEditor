@@ -1,17 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import GGEditor, { Flow } from '@src';
+import GGEditor, { Koni } from '@src';
 import EditorMinimap from '../../components/EditorMinimap';
-import { FlowContextMenu } from '../../components/EditorContextMenu';
-import { FlowToolbar } from '../../components/EditorToolbar';
-import { FlowItemPanel } from '../../components/EditorItemPanel';
-import { FlowDetailPanel } from '../../components/EditorDetailPanel';
+import { KoniContextMenu } from '../../components/EditorContextMenu';
+import { KoniToolbar } from '../../components/EditorToolbar';
+import { KoniItemPanel } from '../../components/EditorItemPanel';
+import { KoniDetailPanel } from '../../components/EditorDetailPanel';
+import KoniCustomNode from './shape/nodes/KoniCustomNode';
 import styles from './index.scss';
 
-class FlowPage extends React.Component {
-  renderFlow() {
+class KoniPage extends React.Component {
+  renderKoni() {
     return (
-      <Flow className={styles.flow} />
+      <Koni className={styles.koni} />
     );
   }
 
@@ -20,25 +21,26 @@ class FlowPage extends React.Component {
       <GGEditor className={styles.editor}>
         <Row type="flex" className={styles.editorHd}>
           <Col span={24}>
-            <FlowToolbar />
+            <KoniToolbar />
           </Col>
         </Row>
         <Row type="flex" className={styles.editorBd}>
           <Col span={4} className={styles.editorSidebar}>
-            <FlowItemPanel />
+            <KoniItemPanel />
           </Col>
           <Col span={16} className={styles.editorContent}>
-            {this.renderFlow()}
+            {this.renderKoni()}
           </Col>
           <Col span={4} className={styles.editorSidebar}>
-            <FlowDetailPanel />
+            <KoniDetailPanel />
             <EditorMinimap />
           </Col>
         </Row>
-        <FlowContextMenu />
+        <KoniCustomNode />
+        <KoniContextMenu />
       </GGEditor>
     );
   }
 }
 
-export default FlowPage;
+export default KoniPage;

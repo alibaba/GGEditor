@@ -10,6 +10,7 @@ class HomePage extends React.Component {
         <Col span={16}>
           <Card title="DEMO">
             <p><Link to="/flow">流程图</Link></p>
+            <p><Link to="/koni">拓扑图</Link></p>
             <p><Link to="/mind">思维导图</Link></p>
           </Card>
         </Col>
