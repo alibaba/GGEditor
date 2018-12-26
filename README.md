@@ -12,11 +12,15 @@ A visual graph editor based on [G6](https://github.com/antvis/g6) and [React](ht
 
 [Flow](http://ggeditor.com/demo/#/flow)
 
-[![Flow](https://camo.githubusercontent.com/20982b9b9043c92c8bbe337ae4d47d684d63d2c1/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f6e7a6d79634265776a66784b4462657054446c542e676966)](http://ggeditor.com/demo/#/flow)
+[![Flow](https://img.alicdn.com/tfs/TB1cl0LyAzoK1RjSZFlXXai4VXa-800-407.gif)](http://ggeditor.com/demo/#/flow)
+
+[Koni](http://ggeditor.com/demo/#/koni)
+
+[![Koni](https://img.alicdn.com/tfs/TB1vWxUyAvoK1RjSZFwXXciCFXa-1920-1003.png)](http://ggeditor.com/demo/#/koni)
 
 [Mind](http://ggeditor.com/demo/#/mind)
 
-[![Mind](https://camo.githubusercontent.com/e8b06c0b19b5e60888d7ff1be0d930446c73d786/68747470733a2f2f67772e616c697061796f626a656374732e636f6d2f7a6f732f726d73706f7274616c2f5756716e62674a6d616d6461686241754470424c2e676966)](http://ggeditor.com/demo/#/mind)
+[![Mind](https://img.alicdn.com/tfs/TB1Qed2yxjaK1RjSZFAXXbdLFXa-800-467.gif)](http://ggeditor.com/demo/#/mind)
 
 ## Installation
 
@@ -114,4 +118,4 @@ const data = {
 
 ## DingTalk Group
 
-[<img src="https://img.alicdn.com/tfs/TB1nfGMX3HqK1RjSZFEXXcGMXXa-1242-1602.jpg" alt="DingTalk Group" width="200">](https://qr.dingtalk.com/action/joingroup?code=v1,k1,PSFRQbatttuFXEJhDNG1P4CMMUI1+sUDO5MZr3gjhqk=&_dt_no_comment=1&origin=11)
+[<img src="https://img.alicdn.com/tfs/TB1AWhRywHqK1RjSZJnXXbNLpXa-1242-1602.jpg" alt="DingTalk Group" width="200">](https://qr.dingtalk.com/action/joingroup?code=v1,k1,PSFRQbatttuFXEJhDNG1P4CMMUI1+sUDO5MZr3gjhqk=&_dt_no_comment=1&origin=11)
