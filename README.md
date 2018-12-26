@@ -14,13 +14,13 @@ A visual graph editor based on [G6](https://github.com/antvis/g6) and [React](ht
 
 [![Flow](https://img.alicdn.com/tfs/TB1cl0LyAzoK1RjSZFlXXai4VXa-800-407.gif)](http://ggeditor.com/demo/#/flow)
 
-[Koni](http://ggeditor.com/demo/#/koni)
-
-[![Koni](https://img.alicdn.com/tfs/TB1vWxUyAvoK1RjSZFwXXciCFXa-1920-1003.png)](http://ggeditor.com/demo/#/koni)
-
 [Mind](http://ggeditor.com/demo/#/mind)
 
 [![Mind](https://img.alicdn.com/tfs/TB1Qed2yxjaK1RjSZFAXXbdLFXa-800-467.gif)](http://ggeditor.com/demo/#/mind)
+
+[Koni](http://ggeditor.com/demo/#/koni)
+
+[<img src="https://img.alicdn.com/tfs/TB1vWxUyAvoK1RjSZFwXXciCFXa-1920-1003.png" alt="Koni" width="800">](http://ggeditor.com/demo/#/koni)
 
 ## Installation
 
