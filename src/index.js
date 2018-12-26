@@ -1,5 +1,6 @@
 import Flow from '@components/Flow';
 import Mind from '@components/Mind';
+import Koni from '@components/Koni';
 import {
   RegisterNode,
   RegisterEdge,
@@ -32,6 +33,7 @@ import GGEditor from '@components/GGEditor';
 export {
   Flow,
   Mind,
+  Koni,
   RegisterNode,
   RegisterEdge,
   RegisterGroup,
