@@ -2,6 +2,8 @@ const path = require('path');
 const { merge } = require('lodash');
 const baseConfig = require('./webpack.config.base');
 
+const mode = 'production';
+
 const entry = {
   bundle: path.resolve(__dirname, '..', 'demo/src/index.js'),
 };
@@ -40,6 +42,7 @@ const output = {
 };
 
 module.exports = merge(baseConfig, {
+  mode,
   entry,
   resolve: {
     alias,

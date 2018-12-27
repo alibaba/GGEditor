@@ -2,6 +2,8 @@ const path = require('path');
 const { merge } = require('lodash');
 const baseConfig = require('./webpack.config.base');
 
+const mode = 'development';
+
 const entry = {
   bundle: path.resolve(__dirname, '..', 'src/index.js'),
 };
@@ -16,6 +18,7 @@ const output = {
 };
 
 module.exports = merge(baseConfig, {
+  mode,
   entry,
   devtool,
   output,
