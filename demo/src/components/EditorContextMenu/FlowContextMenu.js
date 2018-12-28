@@ -8,8 +8,8 @@ import {
   CanvasMenu,
   ContextMenu,
 } from '@src';
-import styles from './index.scss';
-import iconfont from '../../theme/iconfont.scss';
+import styles from './index.less';
+import iconfont from '../../theme/iconfont.less';
 
 class FlowContextMenu extends React.Component {
   render() {

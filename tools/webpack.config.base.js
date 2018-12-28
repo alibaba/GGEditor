@@ -11,7 +11,7 @@ const rules = [{
     loader: 'babel-loader',
   },
 }, {
-  test: /\.scss$/,
+  test: /\.less$/,
   use: [{
     loader: 'style-loader',
   }, {
@@ -29,6 +29,8 @@ const rules = [{
         path: path.resolve(__dirname, './postcss.config.js'),
       },
     },
+  }, {
+    loader: 'less-loader',
   }],
 }];
 

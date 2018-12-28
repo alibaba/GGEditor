@@ -11,7 +11,7 @@ import {
 import NodeDetail from '../NodeDetail';
 import EdgeDetail from '../EdgeDetail';
 import GroupDetail from '../GroupDetail';
-import styles from './index.scss';
+import styles from './index.less';
 
 class FlowDetailPanel extends React.Component {
   render() {

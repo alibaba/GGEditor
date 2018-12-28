@@ -6,7 +6,7 @@ import { FlowContextMenu } from '../../components/EditorContextMenu';
 import { FlowToolbar } from '../../components/EditorToolbar';
 import { FlowItemPanel } from '../../components/EditorItemPanel';
 import { FlowDetailPanel } from '../../components/EditorDetailPanel';
-import styles from './index.scss';
+import styles from './index.less';
 
 class FlowPage extends React.Component {
   renderFlow() {
