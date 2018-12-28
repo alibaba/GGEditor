@@ -1,6 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
-const pkg = require('../package.json');
 
 const rules = [{
   test: /\.js$/,
@@ -34,11 +32,7 @@ const rules = [{
   }],
 }];
 
-const plugins = [
-  new webpack.DefinePlugin({
-    GG_EDITOR_VERSION: JSON.stringify(pkg.version),
-  }),
-];
+const plugins = [];
 
 const alias = {
   '@common': path.resolve(__dirname, '..', 'src/common'),

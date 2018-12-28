@@ -1,6 +1,6 @@
 {
   "name": "gg-editor",
-  "version": "1.5.1-beta",
+  "version": "1.5.1",
   "description": "A visual graph editor based on G6 and React",
   "keywords": [
     "react",
