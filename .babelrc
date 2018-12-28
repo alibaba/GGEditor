@@ -16,6 +16,17 @@
       {
         "loose": true
       }
+    ],
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@common": "./src/common",
+          "@components": "./src/components",
+          "@helpers": "./src/helpers",
+          "@utils": "./src/utils"
+        }
+      }
     ]
   ]
 }
