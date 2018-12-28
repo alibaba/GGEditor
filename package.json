@@ -2,11 +2,27 @@
   "name": "gg-editor",
   "version": "1.4.0",
   "description": "A visual graph editor based on G6 and React",
-  "main": "dist/bundle.js",
+  "keywords": [
+    "react",
+    "graphics",
+    "editor",
+    "tree",
+    "mind"
+  ],
+  "main": "cjs/index.js",
+  "module": "es/index.js",
+  "files": [
+    "es",
+    "cjs",
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
     "watch": "webpack --config ./tools/webpack.config.dev.js --watch",
-    "build": "webpack --config ./tools/webpack.config.prod.js",
+    "build": "npm run build:es && npm run build:cjs && npm run build:umd",
+    "build:es": "rimraf es && babel ./src -d es",
+    "build:cjs": "rimraf cjs && babel ./src -d cjs --plugins @babel/plugin-transform-modules-commonjs",
+    "build:umd": "rimraf dist && webpack --config ./tools/webpack.config.prod.js",
     "build:demo": "webpack --config ./tools/webpack.config.demo.prod.js"
   },
   "repository": {
@@ -30,8 +46,10 @@
     "lodash": "^4.17.10"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
@@ -50,6 +68,7 @@
     "less-loader": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.5.0",
+    "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2",
