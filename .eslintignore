@@ -1,5 +1,3 @@
-# dist
+es
+cjs
 dist
-
-# postcss config
-postcss.config.js
