@@ -33,7 +33,7 @@ const externals = {
   },
 };
 
-const devtool = 'source-map';
+const devtool = 'cheap-module-eval-source-map';
 
 const devServer = {
   contentBase: path.resolve(__dirname, '..', 'demo'),
