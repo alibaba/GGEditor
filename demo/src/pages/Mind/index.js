@@ -6,7 +6,7 @@ import { MindContextMenu } from '../../components/EditorContextMenu';
 import { MindToolbar } from '../../components/EditorToolbar';
 import { MindDetailPanel } from '../../components/EditorDetailPanel';
 import data from '../../mock/worldCup2018.json';
-import styles from './index.scss';
+import styles from './index.less';
 
 class MindPage extends React.Component {
   renderMind() {

@@ -6,7 +6,7 @@ import {
   DetailPanel,
 } from '@src';
 import NodeDetail from '../NodeDetail';
-import styles from './index.scss';
+import styles from './index.less';
 
 class MindDetailPanel extends React.Component {
   render() {

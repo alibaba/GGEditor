@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip, Divider } from 'antd';
 import { Toolbar, Command } from '@src';
-import styles from './index.scss';
-import iconfont from '../../theme/iconfont.scss';
+import styles from './index.less';
+import iconfont from '../../theme/iconfont.less';
 
 class FlowToolbar extends React.Component {
   render() {

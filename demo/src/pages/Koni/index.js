@@ -7,7 +7,7 @@ import { KoniToolbar } from '../../components/EditorToolbar';
 import { KoniItemPanel } from '../../components/EditorItemPanel';
 import { KoniDetailPanel } from '../../components/EditorDetailPanel';
 import KoniCustomNode from './shape/nodes/KoniCustomNode';
-import styles from './index.scss';
+import styles from './index.less';
 
 class KoniPage extends React.Component {
   renderKoni() {

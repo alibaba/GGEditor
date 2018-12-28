@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import { ItemPanel, Item } from '@src';
-import styles from './index.scss';
+import styles from './index.less';
 
 class FlowItemPanel extends React.Component {
   render() {
