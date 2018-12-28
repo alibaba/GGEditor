@@ -12,7 +12,9 @@ import {
 class Page extends React.Component {
   page;
 
-  pageId;
+  get pageId() {
+    return '';
+  }
 
   config = {};
 
