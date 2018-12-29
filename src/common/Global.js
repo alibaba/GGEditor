@@ -1,8 +1,6 @@
-import { version } from '@common/version';
-
 const global = {
   trackable: process.env.NODE_ENV === 'production',
-  version,
+  version: process.env.GG_EDITOR_VERSION,
 };
 
 export default {
