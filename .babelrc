@@ -27,6 +27,14 @@
           "@utils": "./src/utils"
         }
       }
+    ],
+    [
+      "transform-inline-environment-variables",
+      {
+        "include": [
+          "GG_EDITOR_VERSION"
+        ]
+      }
     ]
   ]
 }

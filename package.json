@@ -19,11 +19,11 @@
   "scripts": {
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
     "watch": "webpack --config ./tools/webpack.config.dev.js --watch",
-    "build": "npm run build:es && npm run build:cjs && npm run build:umd",
-    "build:es": "rimraf es && babel ./src -d es",
-    "build:cjs": "rimraf cjs && babel ./src -d cjs --plugins @babel/plugin-transform-modules-commonjs",
-    "build:umd": "rimraf dist && webpack --config ./tools/webpack.config.prod.js",
-    "build:demo": "webpack --config ./tools/webpack.config.demo.prod.js"
+    "build": "node ./scripts/build.js",
+    "build:es": "rimraf ./es && babel ./src -d ./es",
+    "build:cjs": "rimraf ./cjs && babel ./src -d ./cjs --plugins @babel/plugin-transform-modules-commonjs",
+    "build:umd": "rimraf ./dist && webpack --config ./tools/webpack.config.prod.js",
+    "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js"
   },
   "repository": {
     "type": "git",
@@ -58,6 +58,8 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.11.1",
