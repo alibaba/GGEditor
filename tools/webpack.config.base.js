@@ -32,15 +32,6 @@ const rules = [{
   }],
 }];
 
-const plugins = [];
-
-const alias = {
-  '@common': path.resolve(__dirname, '..', 'src/common'),
-  '@components': path.resolve(__dirname, '..', 'src/components'),
-  '@helpers': path.resolve(__dirname, '..', 'src/helpers'),
-  '@utils': path.resolve(__dirname, '..', 'src/utils'),
-};
-
 const externals = {
   react: {
     root: 'React',
@@ -53,10 +44,6 @@ const externals = {
 module.exports = {
   module: {
     rules,
-  },
-  plugins,
-  resolve: {
-    alias,
   },
   externals,
 };
