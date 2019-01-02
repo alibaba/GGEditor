@@ -23,7 +23,8 @@
     "build:es": "rimraf ./es && babel ./src -d ./es",
     "build:cjs": "rimraf ./cjs && babel ./src -d ./cjs --plugins @babel/plugin-transform-modules-commonjs",
     "build:umd": "rimraf ./dist && webpack --config ./tools/webpack.config.prod.js",
-    "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js"
+    "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "repository": {
     "type": "git",
