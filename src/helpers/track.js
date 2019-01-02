@@ -1,10 +1,7 @@
-import G6Editor from '@antv/g6-editor';
 import Global from '@common/Global';
 import { toQueryString } from '@utils';
 
 const BASE_URL = 'http://gm.mmstat.com/fsp.1.1';
-
-G6Editor.track(false);
 
 const track = (options) => {
   const trackable = Global.get('trackable');
