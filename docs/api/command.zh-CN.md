@@ -50,4 +50,4 @@ import GGEditor, { Flow, Command, Toolbar, ContextMenu } from 'gg-editor';
 | unGroup | 取消组 | `⇧⌘G` | `Shift + Ctrl + G` | Flow |
 | append | 添加相邻节点 | `Enter` | `Enter` | Mind |
 | appendChild | 添加子节点 | `Tab` | `Tab` | Mind |
-| collaspeExpand | 折叠/展开 | `⌘/` | `Ctrl + /` | Mind |
+| collapseExpand | 折叠/展开 | `⌘/` | `Ctrl + /` | Mind |

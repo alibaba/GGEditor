@@ -50,4 +50,4 @@ import GGEditor, { Flow, Command, Toolbar, ContextMenu } from 'gg-editor';
 | unGroup | `⇧⌘G` | `Shift + Ctrl + G` | Flow |
 | append | `Enter` | `Enter` | Mind |
 | appendChild | `Tab` | `Tab` | Mind |
-| collaspeExpand | `⌘/` | `Ctrl + /` | Mind |
+| collapseExpand | `⌘/` | `Ctrl + /` | Mind |
