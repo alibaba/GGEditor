@@ -1,4 +1,4 @@
-## [2.0.1](https://github.com/gaoli/GGEditor/compare/1.5.2...2.0.1) (2019-01-15)
+## [2.0.1](https://github.com/gaoli/GGEditor/compare/2.0.0...2.0.1) (2019-01-15)
 
 
 ### Bug Fixes
@@ -8,8 +8,16 @@
 
 ### Features
 
-* Replace `[@antv](https://github.com/antv)/g6-editor` with `gg-editor-core` ([44c0e92](https://github.com/gaoli/GGEditor/commit/44c0e92))
 * **Minimap:** Import the `Minimap` component directly from `G6` ([4bba85e](https://github.com/gaoli/GGEditor/commit/4bba85e))
+
+
+
+# [2.0.0](https://github.com/gaoli/GGEditor/compare/1.5.2...2.0.0) (2019-01-02)
+
+
+### Features
+
+* Replace `[@antv](https://github.com/antv)/g6-editor` with `gg-editor-core` ([44c0e92](https://github.com/gaoli/GGEditor/commit/44c0e92))
 
 
 
