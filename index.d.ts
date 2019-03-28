@@ -41,7 +41,7 @@ declare module 'gg-editor' {
   export interface BasicProps extends ReactProps {
     /** 初始数据 */
     data?: any
-    /** G6的配置项 https://www.yuque.com/antv/g6/graph  */
+    /** G6的配置项 @see https://www.yuque.com/antv/g6/graph  */
     graph?: any
     /** 快捷键配置，内置命令 */
     shortcut?: Shortcut
@@ -230,32 +230,32 @@ declare module 'gg-editor' {
     static setTrackable(state: boolean)
   }
 
-  /** 流程图  https://github.com/gaoli/GGEditor/blob/master/docs/api/flow.zh-CN.md*/
+  /** 流程图  @see https://github.com/gaoli/GGEditor/blob/master/docs/api/flow.zh-CN.md*/
   export const Flow: React.ComponentClass<FlowProps & GraphMouseReactEventsProps & GraphOtherReactEventsProps & PageReactEventsProps, any>
 
-  /** 思维导图  https://github.com/gaoli/GGEditor/blob/master/docs/api/mind.zh-CN.md*/
+  /** 思维导图  @see https://github.com/gaoli/GGEditor/blob/master/docs/api/mind.zh-CN.md*/
   export const Mind: React.ComponentClass<MindProps & GraphMouseReactEventsProps & GraphOtherReactEventsProps & PageReactEventsProps, any>
 
   /** 脑图 */
   export const Koni: React.ComponentClass<KoniProps & GraphMouseReactEventsProps & GraphOtherReactEventsProps & PageReactEventsProps, any>
 
-  /** 此组件只能嵌套在 <Toolbar /> 或 <ContextMenu /> 组件内使用： https://github.com/gaoli/GGEditor/blob/master/docs/api/command.zh-CN.md */
+  /** 此组件只能嵌套在 <Toolbar /> 或 <ContextMenu /> 组件内使用： @see https://github.com/gaoli/GGEditor/blob/master/docs/api/command.zh-CN.md */
   export const Command: React.ComponentClass<CommondProps, any>
 
-  /** 不指定宽高的情况下则自动适应容器尺寸 https://github.com/gaoli/GGEditor/blob/master/docs/api/minimap.zh-CN.md */
+  /** 不指定宽高的情况下则自动适应容器尺寸 @see https://github.com/gaoli/GGEditor/blob/master/docs/api/minimap.zh-CN.md */
   export const Minimap: React.ComponentClass<MninimapProps, any>
 
-  /** 右键菜单，负责菜单显示隐藏，命令按钮绑定与可用禁用状态控制。 https://github.com/gaoli/GGEditor/blob/master/docs/api/contextMenu.zh-CN.md */
+  /** 右键菜单，负责菜单显示隐藏，命令按钮绑定与可用禁用状态控制。 @see https://github.com/gaoli/GGEditor/blob/master/docs/api/contextMenu.zh-CN.md */
   export const ContextMenu: React.ComponentClass<BasicProps, any>
 
-  /** 工具栏，负责命令按钮绑定与可用禁用状态控制。 https://github.com/gaoli/GGEditor/blob/master/docs/api/toolbar.zh-CN.md */
+  /** 工具栏，负责命令按钮绑定与可用禁用状态控制。 @see https://github.com/gaoli/GGEditor/blob/master/docs/api/toolbar.zh-CN.md */
   export const Toolbar: React.ComponentClass<BasicProps, any>
 
-  /** 元素面板栏  必需配合 <Item /> 组件使用，如果 <Item /> 包含 src 属性则自动显示元素概览图片。 https://github.com/gaoli/GGEditor/blob/master/docs/api/itemPanel.zh-CN.md */
+  /** 元素面板栏  必需配合 <Item /> 组件使用，如果 <Item /> 包含 src 属性则自动显示元素概览图片。 @see https://github.com/gaoli/GGEditor/blob/master/docs/api/itemPanel.zh-CN.md */
   export const ItemPanel: React.ComponentClass<ReactProps, any>
   export const Item: React.ComponentClass<ItemPanelProps, any>
 
-  /** 属性栏会自动根据不同页面状态显示对应面板，例如：选中节点时则只会显示 NodePanel https://github.com/gaoli/GGEditor/blob/master/docs/api/detailPanel.zh-CN.md */
+  /** 属性栏会自动根据不同页面状态显示对应面板，例如：选中节点时则只会显示 NodePanel @see https://github.com/gaoli/GGEditor/blob/master/docs/api/detailPanel.zh-CN.md */
   export const DetailPanel: React.ComponentClass<ReactProps, any>
   
   export const RegisterNode: React.ComponentClass<RegisterProps, any>
@@ -278,6 +278,6 @@ declare module 'gg-editor' {
   
   export const KoniCustomNode: React.ComponentClass<ReactProps & GraphMouseReactEventsProps & GraphOtherReactEventsProps & PageReactEventsProps, any>
   
-  /** 这里会带一个 Props 属性 https://github.com/gaoli/GGEditor/blob/master/docs/api/propsAPI.zh-CN.md */
+  /** 这里会带一个 Props 属性 @see https://github.com/gaoli/GGEditor/blob/master/docs/api/propsAPI.zh-CN.md */
   export function withPropsAPI(com: React.ComponentClass<ReactProps, any>): React.ComponentClass<any, any>
 }
