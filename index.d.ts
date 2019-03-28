@@ -1,4 +1,3 @@
-
 declare module 'gg-editor' {
   
   export interface Align {
@@ -227,7 +226,6 @@ declare module 'gg-editor' {
     onAfterCommandExecute?: (e: EditorCommand) => void
     onBeforeCommandExecute?: (e: EditorCommand) => void
   }
-
   export default class GGEditor extends React.Component<ReactProps & EditorReactEventsProps, any> {
     static setTrackable(state: boolean)
   }
@@ -282,5 +280,4 @@ declare module 'gg-editor' {
   
   /** 这里会带一个 Props 属性 https://github.com/gaoli/GGEditor/blob/master/docs/api/propsAPI.zh-CN.md */
   export function withPropsAPI(com: React.ComponentClass<ReactProps, any>): React.ComponentClass<any, any>
-
 }
