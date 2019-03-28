@@ -34,8 +34,8 @@ declare module 'gg-editor' {
   }
 
   interface ReactProps {
-    style?: React.StyleHTMLAttributes<any>
-    className?: React.ClassAttributes<any>
+    style?: React.CSSProperties
+    className?: string
   }
 
   export interface BasicProps extends ReactProps {
@@ -253,7 +253,7 @@ declare module 'gg-editor' {
 
   /** 元素面板栏  必需配合 <Item /> 组件使用，如果 <Item /> 包含 src 属性则自动显示元素概览图片。 https://github.com/gaoli/GGEditor/blob/master/docs/api/itemPanel.zh-CN.md */
   export const ItemPanel: React.ComponentClass<ReactProps, any>
-  export const Item: React.ComponentClass<ReactProps, any>
+  export const Item: React.ComponentClass<ItemPanelProps, any>
 
   /** 属性栏会自动根据不同页面状态显示对应面板，例如：选中节点时则只会显示 NodePanel https://github.com/gaoli/GGEditor/blob/master/docs/api/detailPanel.zh-CN.md */
   export const DetailPanel: React.ComponentClass<ReactProps, any>
