@@ -1,111 +1,36 @@
 import React from 'react';
-import {
-  Command,
-  NodeMenu,
-  EdgeMenu,
-  GroupMenu,
-  MultiMenu,
-  CanvasMenu,
-  ContextMenu,
-} from '@src';
+import { NodeMenu, EdgeMenu, GroupMenu, MultiMenu, CanvasMenu, ContextMenu } from 'gg-editor';
+import MenuItem from './MenuItem';
 import styles from './index.less';
-import iconfont from '../../theme/iconfont.less';
 
-class FlowContextMenu extends React.Component {
-  render() {
-    return (
-      <ContextMenu className={styles.contextMenu}>
-        <NodeMenu>
-          <Command name="copy">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconCopyO}`} />
-              <span>复制</span>
-            </div>
-          </Command>
-          <Command name="delete">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} />
-              <span>删除</span>
-            </div>
-          </Command>
-        </NodeMenu>
-        <EdgeMenu>
-          <Command name="delete">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} />
-              <span>删除</span>
-            </div>
-          </Command>
-        </EdgeMenu>
-        <GroupMenu>
-          <Command name="copy">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconCopyO}`} />
-              <span>复制</span>
-            </div>
-          </Command>
-          <Command name="delete">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} />
-              <span>删除</span>
-            </div>
-          </Command>
-          <Command name="unGroup">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconUngroup}`} />
-              <span>解组</span>
-            </div>
-          </Command>
-        </GroupMenu>
-        <MultiMenu>
-          <Command name="copy">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconCopyO}`} />
-              <span>复制</span>
-            </div>
-          </Command>
-          <Command name="paste">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconPasterO}`} />
-              <span>粘贴</span>
-            </div>
-          </Command>
-          <Command name="addGroup">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconGroup}`} />
-              <span>成组</span>
-            </div>
-          </Command>
-          <Command name="delete">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} />
-              <span>删除</span>
-            </div>
-          </Command>
-        </MultiMenu>
-        <CanvasMenu>
-          <Command name="undo">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconUndo}`} />
-              <span>撤销</span>
-            </div>
-          </Command>
-          <Command name="redo">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconRedo}`} />
-              <span>重做</span>
-            </div>
-          </Command>
-          <Command name="pasteHere">
-            <div className={styles.item}>
-              <i className={`${iconfont.iconfont} ${iconfont.iconPasterO}`} />
-              <span>粘贴</span>
-            </div>
-          </Command>
-        </CanvasMenu>
-      </ContextMenu>
-    );
-  }
-}
+const FlowContextMenu = () => {
+  return (
+    <ContextMenu className={styles.contextMenu}>
+      <NodeMenu>
+        <MenuItem command="copy" />
+        <MenuItem command="delete" />
+      </NodeMenu>
+      <EdgeMenu>
+        <MenuItem command="delete" />
+      </EdgeMenu>
+      <GroupMenu>
+        <MenuItem command="copy" />
+        <MenuItem command="delete" />
+        <MenuItem command="unGroup" icon="ungroup" text="Ungroup" />
+      </GroupMenu>
+      <MultiMenu>
+        <MenuItem command="copy" />
+        <MenuItem command="paste" />
+        <MenuItem command="addGroup" icon="group" text="Add Group" />
+        <MenuItem command="delete" />
+      </MultiMenu>
+      <CanvasMenu>
+        <MenuItem command="undo" />
+        <MenuItem command="redo" />
+        <MenuItem command="pasteHere" icon="paste" text="Paste Here" />
+      </CanvasMenu>
+    </ContextMenu>
+  );
+};
 
 export default FlowContextMenu;

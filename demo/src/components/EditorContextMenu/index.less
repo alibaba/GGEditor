@@ -1,36 +1,36 @@
-.context-menu {
+.contextMenu {
   display: none;
-  background: #FFFFFF;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
   overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
   .item {
-    cursor: pointer;
-    user-select: none;
     display: flex;
     align-items: center;
     padding: 5px 12px;
-    transition: all .3s;
+    cursor: pointer;
+    transition: all 0.3s;
+    user-select: none;
 
     &:hover {
-      background: #E6F7FF;
+      background: #e6f7ff;
     }
 
     i {
       margin-right: 8px;
     }
   }
-  
+
   :global {
     .disable {
       :local {
         .item {
-          cursor: auto;
           color: rgba(0, 0, 0, 0.25);
-    
+          cursor: auto;
+
           &:hover {
-            background: #FFFFFF;
+            background: #fff;
           }
         }
       }

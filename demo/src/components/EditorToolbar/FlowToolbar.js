@@ -1,90 +1,32 @@
 import React from 'react';
-import { Tooltip, Divider } from 'antd';
-import { Toolbar, Command } from '@src';
+import { Divider } from 'antd';
+import { Toolbar } from 'gg-editor';
+import ToolbarButton from './ToolbarButton';
 import styles from './index.less';
-import iconfont from '../../theme/iconfont.less';
 
-class FlowToolbar extends React.Component {
-  render() {
-    return (
-      <Toolbar className={styles.toolbar}>
-        <Command name="undo">
-          <Tooltip title="撤销" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconUndo}`} />
-          </Tooltip>
-        </Command>
-        <Command name="redo">
-          <Tooltip title="重做" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconRedo}`} />
-          </Tooltip>
-        </Command>
-        <Divider type="vertical" />
-        <Command name="copy">
-          <Tooltip title="复制" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconCopyO}`} />
-          </Tooltip>
-        </Command>
-        <Command name="paste">
-          <Tooltip title="粘贴" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconPasterO}`} />
-          </Tooltip>
-        </Command>
-        <Command name="delete">
-          <Tooltip title="删除" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconDeleteO}`} />
-          </Tooltip>
-        </Command>
-        <Divider type="vertical" />
-        <Command name="zoomIn">
-          <Tooltip title="放大" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconZoomInO}`} />
-          </Tooltip>
-        </Command>
-        <Command name="zoomOut">
-          <Tooltip title="缩小" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconZoomOutO}`} />
-          </Tooltip>
-        </Command>
-        <Command name="autoZoom">
-          <Tooltip title="适应画布" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconFit}`} />
-          </Tooltip>
-        </Command>
-        <Command name="resetZoom">
-          <Tooltip title="实际尺寸" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconActualSizeO}`} />
-          </Tooltip>
-        </Command>
-        <Divider type="vertical" />
-        <Command name="toBack">
-          <Tooltip title="层级后置" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconToBack}`} />
-          </Tooltip>
-        </Command>
-        <Command name="toFront">
-          <Tooltip title="层级前置" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconToFront}`} />
-          </Tooltip>
-        </Command>
-        <Divider type="vertical" />
-        <Command name="multiSelect">
-          <Tooltip title="多选" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconSelect}`} />
-          </Tooltip>
-        </Command>
-        <Command name="addGroup">
-          <Tooltip title="成组" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconGroup}`} />
-          </Tooltip>
-        </Command>
-        <Command name="unGroup">
-          <Tooltip title="解组" placement="bottom" overlayClassName={styles.tooltip}>
-            <i className={`${iconfont.iconfont} ${iconfont.iconUngroup}`} />
-          </Tooltip>
-        </Command>
-      </Toolbar>
-    );
-  }
-}
+const FlowToolbar = () => {
+  return (
+    <Toolbar className={styles.toolbar}>
+      <ToolbarButton command="undo" />
+      <ToolbarButton command="redo" />
+      <Divider type="vertical" />
+      <ToolbarButton command="copy" />
+      <ToolbarButton command="paste" />
+      <ToolbarButton command="delete" />
+      <Divider type="vertical" />
+      <ToolbarButton command="zoomIn" icon="zoom-in" text="Zoom In" />
+      <ToolbarButton command="zoomOut" icon="zoom-out" text="Zoom Out" />
+      <ToolbarButton command="autoZoom" icon="fit-map" text="Fit Map" />
+      <ToolbarButton command="resetZoom" icon="actual-size" text="Actual Size" />
+      <Divider type="vertical" />
+      <ToolbarButton command="toBack" icon="to-back" text="To Back" />
+      <ToolbarButton command="toFront" icon="to-front" text="To Front" />
+      <Divider type="vertical" />
+      <ToolbarButton command="multiSelect" icon="multi-select" text="Multi Select" />
+      <ToolbarButton command="addGroup" icon="group" text="Add Group" />
+      <ToolbarButton command="unGroup" icon="ungroup" text="Ungroup" />
+    </Toolbar>
+  );
+};
 
 export default FlowToolbar;
