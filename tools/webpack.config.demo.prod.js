@@ -9,7 +9,7 @@ const entry = {
 };
 
 const alias = {
-  '@src': path.resolve(__dirname, '..', 'src'),
+  'gg-editor': path.resolve(__dirname, '..', 'src'),
 };
 
 const externals = {
