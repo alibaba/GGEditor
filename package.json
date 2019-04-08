@@ -11,10 +11,15 @@
   ],
   "main": "cjs/index.js",
   "module": "es/index.js",
+  "types": "typings/index.d.ts",
   "files": [
+    "src",
     "es",
     "cjs",
-    "dist"
+    "dist",
+    "demo",
+    "*.md",
+    "typings"
   ],
   "scripts": {
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
