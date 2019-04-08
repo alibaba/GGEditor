@@ -1,3 +1,12 @@
+## [2.0.3](https://github.com/gaoli/GGEditor/compare/2.0.2...2.0.3) (2019-04-08)
+
+
+### Features
+
+* Add the type definitions for the project ([b70ff04](https://github.com/gaoli/GGEditor/commit/b70ff04))
+
+
+
 ## [2.0.2](https://github.com/gaoli/GGEditor/compare/2.0.1...2.0.2) (2019-03-20)
 
 
