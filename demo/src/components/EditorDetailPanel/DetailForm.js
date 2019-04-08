@@ -22,7 +22,7 @@ class DetailForm extends React.Component {
     return propsAPI.getSelected()[0];
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
