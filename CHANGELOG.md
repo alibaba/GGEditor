@@ -1,3 +1,12 @@
+## [2.0.4](https://github.com/gaoli/GGEditor/compare/2.0.3...2.0.4) (2019-04-24)
+
+
+### Bug Fixes
+
+* Fix the position of the edges of the group ([8ea67e4](https://github.com/gaoli/GGEditor/commit/8ea67e4))
+
+
+
 ## [2.0.3](https://github.com/gaoli/GGEditor/compare/2.0.2...2.0.3) (2019-04-08)
 
 
