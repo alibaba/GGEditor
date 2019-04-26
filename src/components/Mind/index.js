@@ -1,52 +1,43 @@
-import Editor from '@components/Base/Editor';
-import {
-  MIND_CONTAINER,
-  MIND_CLASS_NAME,
-  EVENT_BEFORE_ADD_PAGE,
-  EVENT_AFTER_ADD_PAGE,
-} from '@common/constants';
-import Page from '@components/Page';
-import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
+import React from 'react';
+import { TreeGraph } from '@antv/g6';
+import Hierarchy from '@antv/hierarchy';
+import { MIND_CONTAINER_ID } from '@common/constants';
+import { uniqueId } from '@utils';
+import Graph from '@components/Graph';
 
-class Mind extends Page {
-  get pageId() {
-    const { editor } = this.props;
+class Mind extends React.Component {
+  constructor(props) {
+    super(props);
 
-    return `${MIND_CONTAINER}_${editor.id}`;
+    this.containerId = `${MIND_CONTAINER_ID}_${uniqueId()}`;
   }
 
-  initPage() {
-    const { editor } = this.props;
+  initGraph = ({ width, height }) => {
+    const { containerId } = this;
 
-    editor.emit(EVENT_BEFORE_ADD_PAGE, { className: MIND_CLASS_NAME });
-
-    this.page = new Editor.Mind(this.config);
-
-    editor.add(this.page);
-
-    editor.emit(EVENT_AFTER_ADD_PAGE, { page: this.page });
-  }
-
-  bindEvent() {
-    super.bindEvent();
-    this.bindKeyUpEditLabel();
-  }
-
-  bindKeyUpEditLabel() {
-    const editLabel = this.page.get('labelTextArea');
-
-    editLabel.on('keyup', (e) => {
-      e.stopPropagation();
-
-      const item = editLabel.focusItem;
-      const text = editLabel.textContent;
-
-      this.page.emit('keyUpEditLabel', {
-        item,
-        text,
-      });
+    this.graph = new TreeGraph({
+      container: containerId,
+      width,
+      height,
+      layout: (data) => {
+        return Hierarchy.dendrogram(data, {
+          direction: 'H',
+          nodeSep: 50,
+          rankSep: 100,
+        });
+      },
     });
+
+    return this.graph;
+  }
+
+  render() {
+    const { containerId, initGraph } = this;
+
+    return (
+      <Graph containerId={containerId} initGraph={initGraph} {...this.props} />
+    );
   }
 }
 
-export default withGGEditorContext(Mind);
+export default Mind;
