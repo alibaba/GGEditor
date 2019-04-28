@@ -1,5 +1,6 @@
 import React from 'react';
 import { pick } from '@utils';
+import withEditorContext from '@common/context/EditorContext/withEditorContext';
 
 class Graph extends React.Component {
   componentDidMount() {
@@ -8,17 +9,21 @@ class Graph extends React.Component {
   }
 
   initGraph() {
-    const { containerId, initGraph, data } = this.props;
+    const { containerId, initGraph, data, editor } = this.props;
     const { clientWidth, clientHeight } = document.getElementById(containerId);
 
-    this.graph = initGraph({
+    const graph = initGraph({
       width: clientWidth,
       height: clientHeight,
     });
 
-    this.graph.data(data);
-    this.graph.render();
-    this.graph.fitView();
+    graph.data(data);
+    graph.render();
+    graph.fitView();
+
+    editor.init({
+      graph,
+    });
   }
 
   bindEvent() {
@@ -36,4 +41,4 @@ class Graph extends React.Component {
   }
 }
 
-export default Graph;
+export default withEditorContext(Graph);
