@@ -1,14 +1,19 @@
-import merge from 'lodash/merge';
-import pick from 'lodash/pick';
-import uniqueId from 'lodash/uniqueId';
-import upperFirst from 'lodash/upperFirst';
+import uuidv4 from 'uuid/v4';
 
-const toQueryString = obj => Object.keys(obj).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`).join('&');
+export function uuid() {
+  return uuidv4().replace(/-/g, '');
+}
 
-export {
-  merge,
-  pick,
-  toQueryString,
-  uniqueId,
-  upperFirst,
-};
+export function recursiveTraversal(root, callback) {
+  if (!root) {
+    return;
+  }
+
+  callback(root);
+
+  if (!root.children) {
+    return;
+  }
+
+  root.children.forEach(item => recursiveTraversal(item, callback));
+}

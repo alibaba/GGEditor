@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick } from '@utils';
+import pick from 'lodash/pick';
 import withEditorContext from '@common/context/EditorContext/withEditorContext';
 
 class Graph extends React.Component {
@@ -9,9 +9,15 @@ class Graph extends React.Component {
   }
 
   initGraph() {
-    const { containerId, initGraph, data, editor } = this.props;
+    const { containerId, parseData, initGraph, editor } = this.props;
     const { clientWidth, clientHeight } = document.getElementById(containerId);
 
+    // Parse data
+    const data = { ...this.props.data };
+
+    parseData({ data });
+
+    // Init Graph
     const graph = initGraph({
       width: clientWidth,
       height: clientHeight,

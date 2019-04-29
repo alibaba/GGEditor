@@ -1,6 +1,6 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { upperFirst } from '@utils';
+import upperFirst from 'lodash/upperFirst';
 import commandManager from '@components/Command/CommandManager';
 
 class Register extends React.Component {
