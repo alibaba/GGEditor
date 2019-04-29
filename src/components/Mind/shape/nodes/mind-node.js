@@ -23,19 +23,26 @@ G6.registerNode('mind-node', {
     return this.keyShape;
   },
   drawLabel(cfg, group) {
-    // 展示文本
-    const text = Util.getLabelTextByTextLineWidth(cfg.data.label, this.getMaxTextLineWidth());
     // 文本样式
     const textCfg = this.getTextStyle();
     // 绘制文本
     this.textShape = group.addShape('text', {
       attrs: {
-        text,
+        text: cfg.data.label,
         x: 0,
         y: 0,
         ...Object.assign({}, textCfg.default, textCfg[`depth${cfg.depth}`]),
       },
     });
+    // 更改文本内容
+    const text = this.textShape.attr('text');
+    const fontWeight = this.textShape.attr('fontWeight');
+    const fontFamily = this.textShape.attr('fontFamily');
+    const fontSize = this.textShape.attr('fontSize');
+    const fontStyle = this.textShape.attr('fontStyle');
+    const fontVariant = this.textShape.attr('fontVariant');
+    const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
+    this.textShape.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
   },
   adjustKeyShape() {
     const padding = this.getPadding();
@@ -79,6 +86,8 @@ G6.registerNode('mind-node', {
         fill: '#000',
         fontSize: 12,
         fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontVariant: 'normal',
         textAlign: 'center',
         textBaseline: 'middle',
       },
