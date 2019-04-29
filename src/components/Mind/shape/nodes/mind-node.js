@@ -17,7 +17,7 @@ G6.registerNode('mind-node', {
       attrs: {
         x: 0,
         y: 0,
-        ...Object.assign({}, shapeCfg.default, shapeCfg[cfg.depth]),
+        ...Object.assign({}, shapeCfg.default, shapeCfg[`depth${cfg.depth}`]),
       },
     });
     return this.keyShape;
@@ -25,11 +25,15 @@ G6.registerNode('mind-node', {
   drawLabel(cfg, group) {
     // 展示文本
     const text = Util.getLabelTextByTextLineWidth(cfg.data.label, this.getMaxTextLineWidth());
+    // 文本样式
+    const textCfg = this.getTextStyle();
     // 绘制文本
     this.textShape = group.addShape('text', {
       attrs: {
         text,
-        ...this.getTextStyle(),
+        x: 0,
+        y: 0,
+        ...Object.assign({}, textCfg.default, textCfg[`depth${cfg.depth}`]),
       },
     });
   },
@@ -58,12 +62,12 @@ G6.registerNode('mind-node', {
         stroke: '#000',
         radius: 5,
       },
-      0: {
+      depth0: {
         fill: '#419ee0',
         stroke: '#4156e0',
         radius: 20,
       },
-      1: {
+      depth1: {
         fill: '#eaeaea',
         stroke: '#ccc',
       },
@@ -71,13 +75,20 @@ G6.registerNode('mind-node', {
   },
   getTextStyle() {
     return {
-      fill: '#000',
-      fontSize: 12,
-      fontWeight: 'normal',
-      x: 40,
-      y: 20,
-      textAlign: 'center',
-      textBaseline: 'middle',
+      default: {
+        fill: '#000',
+        fontSize: 12,
+        fontWeight: 'normal',
+        textAlign: 'center',
+        textBaseline: 'middle',
+      },
+      depth0: {
+        fontSize: 20,
+        fill: '#fff',
+      },
+      depth1: {
+        fill: '#00bcd4',
+      },
     };
   },
   getNodeShape() {
