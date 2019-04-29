@@ -4,7 +4,7 @@ import Util from '../../util';
 G6.registerNode('mind-node', {
   draw(cfg, group) {
     this.drawShape(cfg, group);
-    if (cfg.data.label) {
+    if (cfg.label) {
       this.drawLabel(cfg, group);
     }
     this.adjustKeyShape();
@@ -28,7 +28,7 @@ G6.registerNode('mind-node', {
     // 绘制文本
     this.textShape = group.addShape('text', {
       attrs: {
-        text: cfg.data.label,
+        text: cfg.label,
         x: 0,
         y: 0,
         ...Object.assign({}, textCfg.default, textCfg[`depth${cfg.depth}`]),

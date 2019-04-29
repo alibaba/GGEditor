@@ -1,6 +1,8 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import withEditorContext from '@common/context/EditorContext/withEditorContext';
+import withEditorContext from '@common/EditorContext/withEditorContext';
+
+import './command';
 
 class Graph extends React.Component {
   componentDidMount() {
@@ -27,7 +29,7 @@ class Graph extends React.Component {
     graph.render();
     graph.fitView();
 
-    editor.init({
+    editor.initGraph({
       graph,
     });
   }
