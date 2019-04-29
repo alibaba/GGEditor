@@ -4,6 +4,7 @@ import Hierarchy from '@antv/hierarchy';
 import { MIND_CONTAINER_ID } from '@common/constants';
 import { uniqueId } from '@utils';
 import Graph from '@components/Graph';
+import './shape';
 
 class Mind extends React.Component {
   constructor(props) {
@@ -25,6 +26,12 @@ class Mind extends React.Component {
           nodeSep: 50,
           rankSep: 100,
         });
+      },
+      defaultNode: {
+        shape: 'mind-node',
+      },
+      defaultEdge: {
+        shape: 'cubic-horizontal',
       },
     });
 
