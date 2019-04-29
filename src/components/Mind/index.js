@@ -1,5 +1,5 @@
 import React from 'react';
-import { TreeGraph } from '@antv/g6';
+import G6 from '@antv/g6';
 import Hierarchy from '@antv/hierarchy';
 import { MIND_CONTAINER_ID } from '@common/constants';
 import { uniqueId } from '@utils';
@@ -16,7 +16,7 @@ class Mind extends React.Component {
   initGraph = ({ width, height }) => {
     const { containerId } = this;
 
-    this.graph = new TreeGraph({
+    this.graph = new G6.TreeGraph({
       container: containerId,
       width,
       height,

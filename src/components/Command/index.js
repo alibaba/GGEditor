@@ -1,15 +1,32 @@
 import React from 'react';
+import withEditorContext from '@common/context/EditorContext/withEditorContext';
+import commandManager from './CommandManager';
 
 class Command extends React.Component {
+  static defaultProps = {
+    name: '',
+    params: {},
+  }
+
+  handleClick = () => {
+    const { name, params, editor } = this.props;
+
+    commandManager.exec({
+      name,
+      params,
+      editor,
+    });
+  }
+
   render() {
-    const { name, children } = this.props;
+    const { children } = this.props;
 
     return (
-      <div className="command" data-command={name}>
+      <div onClick={this.handleClick}>
         {children}
       </div>
     );
   }
 }
 
-export default Command;
+export default withEditorContext(Command);
