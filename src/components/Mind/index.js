@@ -2,7 +2,7 @@ import React from 'react';
 import G6 from '@antv/g6';
 import Hierarchy from '@antv/hierarchy';
 import { MIND_CONTAINER_ID } from '@common/constants';
-import { uniqueId } from '@utils';
+import { uuid, recursiveTraversal } from '@utils';
 import Graph from '@components/Graph';
 import './shape';
 
@@ -10,7 +10,19 @@ class Mind extends React.Component {
   constructor(props) {
     super(props);
 
-    this.containerId = `${MIND_CONTAINER_ID}_${uniqueId()}`;
+    this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
+  }
+
+  parseData = ({ data }) => {
+    recursiveTraversal(data, (item) => {
+      const { id } = item;
+
+      if (id) {
+        return;
+      }
+
+      item.id = uuid();
+    });
   }
 
   initGraph = ({ width, height }) => {
@@ -39,10 +51,15 @@ class Mind extends React.Component {
   }
 
   render() {
-    const { containerId, initGraph } = this;
+    const { containerId, parseData, initGraph } = this;
 
     return (
-      <Graph containerId={containerId} initGraph={initGraph} {...this.props} />
+      <Graph
+        containerId={containerId}
+        parseData={parseData}
+        initGraph={initGraph}
+        {...this.props}
+      />
     );
   }
 }
