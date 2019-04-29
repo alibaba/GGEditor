@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorContext from '@common/context/EditorContext';
+import EditorContext from '@common/EditorContext';
 
 export default function (WrappedComponent) {
   class InjectEditorContext extends React.Component {

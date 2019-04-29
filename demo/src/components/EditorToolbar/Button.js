@@ -5,7 +5,7 @@ import upperFirst from 'lodash/upperFirst';
 import IconFont from '../../common/IconFont';
 import styles from './index.less';
 
-const ToolbarButton = (props) => {
+const Button = (props) => {
   const { command, icon, text } = props;
 
   return (
@@ -21,4 +21,4 @@ const ToolbarButton = (props) => {
   );
 };
 
-export default ToolbarButton;
+export default Button;

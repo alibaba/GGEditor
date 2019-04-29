@@ -1,28 +1,33 @@
 import React from 'react';
-import EditorContext from '@common/context/EditorContext';
-import CommandManager from '@components/Command/CommandManager';
+import pick from 'lodash/pick';
+import EditorContext from '@common/EditorContext';
+import commandManager from '@common/CommandManager';
 
 class GGEditor extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      init: this.init,
-      exec: this.exec,
-      graph: null,
+      initGraph: this.initGraph,
+      execCommand: this.execCommand,
     };
   }
 
-  init = ({ graph }) => {
+  initGraph = ({ graph }) => {
     this.setState({
       graph,
     });
   }
 
-  exec = ({ name, params }) => {
-    CommandManager.exec({
+  execCommand = ({ name, params }) => {
+    const { graph } = this.state;
+
+    commandManager.exec({
       name,
       params,
+      editor: {
+        graph,
+      },
     });
   }
 
@@ -31,7 +36,9 @@ class GGEditor extends React.Component {
 
     return (
       <EditorContext.Provider value={this.state}>
-        {children}
+        <div {...pick(this.props, ['className', 'style'])}>
+          {children}
+        </div>
       </EditorContext.Provider>
     );
   }
