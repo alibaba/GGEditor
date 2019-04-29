@@ -34,6 +34,13 @@ class CommandManager {
       return;
     }
 
+    command.init();
+    command.exec();
+
+    if (!command.queue()) {
+      return;
+    }
+
     const { commandQueue, commandIndex } = this;
 
     commandQueue.splice(
@@ -42,8 +49,7 @@ class CommandManager {
       command,
     );
 
-    command.init();
-    command.exec();
+    this.commandIndex += 1;
   }
 }
 

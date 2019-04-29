@@ -5,10 +5,6 @@ class Command {
     this.editor = editor;
   }
 
-  queue = true;
-
-  shortcut = [];
-
   enable() {
     return true;
   }
@@ -18,6 +14,14 @@ class Command {
   exec() {}
 
   back() {}
+
+  queue() {
+    return true;
+  }
+
+  shortcut() {
+    return [];
+  }
 }
 
 export default Command;

@@ -2,6 +2,8 @@ import React from 'react';
 import pick from 'lodash/pick';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
+import './command';
+
 class Graph extends React.Component {
   componentDidMount() {
     this.initGraph();

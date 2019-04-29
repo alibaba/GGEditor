@@ -41,6 +41,11 @@ commandManager.register({
       }, parentNode);
     },
 
-    back() {},
+    back() {
+      const { graph } = this.editor;
+      const { insertNodeId } = this;
+
+      graph.removeChild(insertNodeId);
+    },
   },
 });

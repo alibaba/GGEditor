@@ -1,2 +1,2 @@
-require('./topic');
-require('./subtopic');
+import './topic';
+import './subtopic';
