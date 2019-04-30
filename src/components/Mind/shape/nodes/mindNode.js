@@ -4,39 +4,40 @@ import upperFirst from 'lodash/upperFirst';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
+    console.log(model)
     this.drawKeyShape(model, group);
     if (model.label) {
       this.drawLabel(model, group);
     }
     this.adjustKeyShape({});
-    this.adjustTextShape({});
+    this.adjustLabelShape({});
     return this.keyShape;
   },
-  drawKeyShape(cfg, group) {
+  drawKeyShape(model, group) {
     const keyShapeType = this.getKeyShapeType({});
-    const keyShapeCfg = this.getKeyShapeStyle({});
+    const keyShapeCfg = this.getKeyShapeStyle({ model });
     this.keyShape = group.addShape(keyShapeType, {
       className: 'keyShape',
       attrs: {
         x: 0,
         y: 0,
-        ...Object.assign({}, keyShapeCfg.default, keyShapeCfg[`depth${cfg.depth}`]),
+        ...keyShapeCfg,
       },
     });
     return this.keyShape;
   },
 
-  drawLabel(cfg, group) {
+  drawLabel(model, group) {
     // 文本样式
-    const textCfg = this.getLabelStyle();
+    const labelCfg = this.getLabelStyle({ model });
     // 绘制文本
     this.labelShape = group.addShape('text', {
       className: 'label',
       attrs: {
-        text: cfg.label,
+        text: model.label,
         x: 0,
         y: 0,
-        ...Object.assign({}, textCfg.default, textCfg[`depth${cfg.depth}`]),
+        ...labelCfg,
       },
     });
     // 更改文本内容
@@ -64,7 +65,7 @@ G6.registerNode('mind-node', {
           });
         }
         _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        _self.adjustTextShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        _self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
       // 激活时样式
       active: (group) => {
@@ -76,13 +77,13 @@ G6.registerNode('mind-node', {
         const groupChildren = group.get('children');
 
         groupChildren.map((child) => {
-          const customStyle = _self[`get${upperFirst(child.get('className'))}Style`]().default;
+          const customStyle = _self[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
           child.attr({
             ...Object.assign({}, child.getDefaultAttrs(), customStyle),
           });
         });
         _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        _self.adjustTextShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        _self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
       // 选中样式
       selected: (group) => {
@@ -138,7 +139,7 @@ G6.registerNode('mind-node', {
       keyShape.attr('width', textWidth + 2 * padding[1]);
     }
   },
-  adjustTextShape({ kshape, lshape }) {
+  adjustLabelShape({ kshape, lshape }) {
     const labelShape = lshape || this.labelShape;
     const keyShape = kshape || this.keyShape;
     if (this.getKeyShapeType() === 'rect') {
@@ -146,45 +147,53 @@ G6.registerNode('mind-node', {
       labelShape.attr('y', keyShape.attr('height') / 2);
     }
   },
-  getKeyShapeStyle() {
-    return {
-      default: {
-        width: 80,
-        height: 40,
-        fill: '#fff',
-        stroke: '#000',
-        radius: 5,
-      },
-      depth0: {
+  getKeyShapeStyle({ model }) {
+    const base = {
+      width: 80,
+      height: 40,
+      fill: '#fff',
+      stroke: '#000',
+      radius: 5,
+    };
+    if (model.depth === 0) {
+      return Object.assign({}, base, {
         fill: '#419ee0',
         stroke: '#4156e0',
         radius: 20,
-      },
-      depth1: {
+      });
+    }
+    if (model.depth === 1) {
+      return Object.assign({}, base, {
         fill: '#eaeaea',
         stroke: '#ccc',
-      },
-    };
+      });
+    }
+
+    return base;
   },
-  getLabelStyle() {
-    return {
-      default: {
-        fill: '#000',
-        fontSize: 12,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        fontVariant: 'normal',
-        textAlign: 'center',
-        textBaseline: 'middle',
-      },
-      depth0: {
+  getLabelStyle({ model }) {
+    const base = {
+      fill: '#000',
+      fontSize: 12,
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      fontVariant: 'normal',
+      textAlign: 'center',
+      textBaseline: 'middle',
+    };
+    if (model.depth === 0) {
+      return Object.assign({}, base, {
         fontSize: 20,
         fill: '#fff',
-      },
-      depth1: {
+      });
+    }
+    if (model.depth === 1) {
+      return Object.assign({}, base, {
         fill: '#00bcd4',
-      },
-    };
+      });
+    }
+
+    return base;
   },
   getKeyShapeType() {
     // G中定义的shape，但不支持text
