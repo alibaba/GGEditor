@@ -4,7 +4,7 @@ commandManager.register({
   name: 'redo',
 
   config: {
-    enable() {
+    isEnable() {
       const { commandQueue, commandIndex } = commandManager;
 
       return commandIndex < commandQueue.length;
@@ -18,7 +18,7 @@ commandManager.register({
       commandManager.commandIndex += 1;
     },
 
-    queue() {
+    isJoinQueue() {
       return false;
     },
   },
