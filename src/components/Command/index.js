@@ -1,6 +1,5 @@
 import React from 'react';
 import withEditorContext from '@common/EditorContext/withEditorContext';
-import commandManager from '@common/CommandManager';
 
 class Command extends React.Component {
   static defaultProps = {
@@ -11,12 +10,9 @@ class Command extends React.Component {
   handleClick = () => {
     const { name, params, editor } = this.props;
 
-    commandManager.exec({
+    editor.executeCommand({
       name,
       params,
-      editor: {
-        graph: editor.graph,
-      },
     });
   }
 

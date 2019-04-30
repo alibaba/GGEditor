@@ -1,6 +1,8 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import {
+  GRAPH_STATUS_NODE_SELECTED,
+  GRAPH_STATUS_CANVAS_SELECTED,
   GRAPH_COMMON_EVENTS,
   GRAPH_ITEM_CHANGE_EVENTS,
 } from '@common/constants';
@@ -38,25 +40,34 @@ class Graph extends React.Component {
     this.graph.render();
     this.graph.fitView();
 
-    editor.setGraph({
-      graph: this.graph,
-    });
+    editor.setGraph(this.graph);
   }
 
   bindEvent() {
-    const { addListener } = this;
+    const { graph, props, addListener } = this;
 
     Object.keys(GRAPH_COMMON_EVENTS).forEach((event) => {
       const eventName = GRAPH_COMMON_EVENTS[event];
 
-      addListener(this.graph, `${event}`, this.props[`on${eventName}`]);
-      addListener(this.graph, `node:${event}`, this.props[`onNode${eventName}`]);
-      addListener(this.graph, `edge:${event}`, this.props[`onEdge${eventName}`]);
-      addListener(this.graph, `canvas:${event}`, this.props[`onCanvas${eventName}`]);
+      addListener(graph, `${event}`, props[`on${eventName}`]);
+      addListener(graph, `node:${event}`, props[`onNode${eventName}`]);
+      addListener(graph, `edge:${event}`, props[`onEdge${eventName}`]);
+      addListener(graph, `canvas:${event}`, props[`onCanvas${eventName}`]);
     });
 
     Object.keys(GRAPH_ITEM_CHANGE_EVENTS).forEach((event) => {
-      addListener(this.graph, [event], this.props[GRAPH_ITEM_CHANGE_EVENTS[event]]);
+      addListener(graph, [event], props[GRAPH_ITEM_CHANGE_EVENTS[event]]);
+    });
+
+    // Add listener for the selected status of the graph
+    const { editor } = this.props;
+
+    addListener(graph, 'nodeselectchange', ({ select }) => {
+      editor.setGraphStatus(select ? GRAPH_STATUS_NODE_SELECTED : GRAPH_STATUS_CANVAS_SELECTED);
+    });
+
+    addListener(graph, 'canvas:click', () => {
+      editor.setGraphStatus(GRAPH_STATUS_CANVAS_SELECTED);
     });
   }
 

@@ -9,17 +9,24 @@ class GGEditor extends React.Component {
 
     this.state = {
       setGraph: this.setGraph,
-      execCommand: this.execCommand,
+      setGraphStatus: this.setGraphStatus,
+      executeCommand: this.executeCommand,
     };
   }
 
-  setGraph = ({ graph }) => {
+  setGraph = (graph) => {
     this.setState({
       graph,
     });
   }
 
-  execCommand = ({ name, params }) => {
+  setGraphStatus = (graphStatus) => {
+    this.setState({
+      graphStatus,
+    });
+  }
+
+  executeCommand = ({ name, params }) => {
     const { graph } = this.state;
 
     commandManager.exec({
