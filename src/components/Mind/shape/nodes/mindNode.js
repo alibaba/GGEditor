@@ -4,17 +4,16 @@ import upperFirst from 'lodash/upperFirst';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
-    console.log(model)
     this.drawKeyShape(model, group);
     if (model.label) {
       this.drawLabel(model, group);
     }
-    this.adjustKeyShape({});
-    this.adjustLabelShape({});
+    this.adjustKeyShape();
+    this.adjustLabelShape();
     return this.keyShape;
   },
   drawKeyShape(model, group) {
-    const keyShapeType = this.getKeyShapeType({});
+    const keyShapeType = this.getKeyShapeType();
     const keyShapeCfg = this.getKeyShapeStyle({ model });
     this.keyShape = group.addShape(keyShapeType, {
       className: 'keyShape',
@@ -123,7 +122,7 @@ G6.registerNode('mind-node', {
       },
     };
   },
-  adjustKeyShape({ kshape, lshape }) {
+  adjustKeyShape({ kshape, lshape } = {}) {
     const keyShape = kshape || this.keyShape;
     const padding = this.getPadding();
     const originWidth = keyShape.attr('width');
@@ -139,7 +138,7 @@ G6.registerNode('mind-node', {
       keyShape.attr('width', textWidth + 2 * padding[1]);
     }
   },
-  adjustLabelShape({ kshape, lshape }) {
+  adjustLabelShape({ kshape, lshape } = {}) {
     const labelShape = lshape || this.labelShape;
     const keyShape = kshape || this.keyShape;
     if (this.getKeyShapeType() === 'rect') {
@@ -156,17 +155,19 @@ G6.registerNode('mind-node', {
       radius: 5,
     };
     if (model.depth === 0) {
-      return Object.assign({}, base, {
-        fill: '#419ee0',
+      const scopedStyle = {
+        ill: '#419ee0',
         stroke: '#4156e0',
         radius: 20,
-      });
+      };
+      return { ...base, ...scopedStyle };
     }
     if (model.depth === 1) {
-      return Object.assign({}, base, {
+      const scopedStyle = {
         fill: '#eaeaea',
         stroke: '#ccc',
-      });
+      };
+      return { ...base, ...scopedStyle };
     }
 
     return base;
@@ -182,15 +183,18 @@ G6.registerNode('mind-node', {
       textBaseline: 'middle',
     };
     if (model.depth === 0) {
-      return Object.assign({}, base, {
+      const scopedStyle = {
         fontSize: 20,
         fill: '#fff',
-      });
+      };
+      return { ...base, ...scopedStyle };
     }
     if (model.depth === 1) {
-      return Object.assign({}, base, {
-        fill: '#00bcd4',
-      });
+      const scopedStyle = {
+        fontSize: 20,
+        fill: '#123',
+      };
+      return { ...base, ...scopedStyle };
     }
 
     return base;
