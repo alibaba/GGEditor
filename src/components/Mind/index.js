@@ -34,7 +34,7 @@ class Mind extends React.Component {
       width,
       height,
       modes: {
-        default: ['drag-canvas', 'click-select'],
+        default: ['drag-canvas', 'click-select', 'hover-node'],
       },
       layout: {
         type: 'mindmap',
