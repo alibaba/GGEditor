@@ -38,10 +38,11 @@ class Mind extends React.Component {
         default: ['drag-canvas', 'click-select'],
       },
       layout: (data) => {
-        return Hierarchy.dendrogram(data, {
+        return Hierarchy.mindmap(data, {
           direction: 'H',
           nodeSep: 50,
           rankSep: 100,
+          getHGap: () => 50,
         });
       },
       defaultNode: {
@@ -52,6 +53,16 @@ class Mind extends React.Component {
       },
     });
 
+    this.graph.on('node:mouseenter', (ev) => {
+      const node = ev.item;
+      this.graph.setItemState(node,'static', false);
+      this.graph.setItemState(node, 'active', true);
+    });
+    this.graph.on('node:mouseleave', (ev) => {
+      const node = ev.item;
+      this.graph.setItemState(node, 'active', false);
+      this.graph.setItemState(node, 'static', true);
+    });
     return this.graph;
   }
 
