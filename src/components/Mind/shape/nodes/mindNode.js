@@ -52,7 +52,8 @@ G6.registerNode('mind-node', {
 
   setState(name, value, item) {
     const _self = this;
-
+    // 获取当前元素所有状态
+    let statesArr = item.getStates();
     const strategies = {
       dynamicBase: (group, type) => {
         const newStyleObj = _self.getCustomStatesStyle()[type];
@@ -85,13 +86,19 @@ G6.registerNode('mind-node', {
       },
       // 选中样式
       selected: (group) => {
-        strategies.dynamicBase(group,'select');
+        strategies.dynamicBase(group, 'select');
       },
     };
 
     const group = item.getContainer();
 
-    strategies[name](group);
+    if (statesArr.includes('selected')) {
+      strategies.selected(group);
+    } else if (statesArr.includes('active') && !statesArr.includes('selected')) {
+      strategies.active(group);
+    } else if (statesArr.length === 0) {
+      strategies.static(group);
+    }
   },
 
   // 提供给开发者
@@ -109,7 +116,7 @@ G6.registerNode('mind-node', {
         },
       },
       select: {
-        keyShape:{
+        keyShape: {
           stroke: 'red',
         },
       },
@@ -188,7 +195,6 @@ G6.registerNode('mind-node', {
   },
   getLabelSize(shape) {
     const labelShape = shape || this.labelShape;
-    console.log(labelShape._attrs.text)
     return {
       width: labelShape.getBBox().width,
       height: labelShape.getBBox().height,
