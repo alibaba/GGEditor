@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 import './command';
+import './behavior';
 
 class Graph extends React.Component {
   componentDidMount() {
