@@ -1,6 +1,5 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import Hierarchy from '@antv/hierarchy';
 import { uuid, recursiveTraversal } from '@utils';
 import { MIND_CONTAINER_ID } from '@common/constants';
 import Graph from '@components/Graph';
@@ -37,13 +36,14 @@ class Mind extends React.Component {
       modes: {
         default: ['drag-canvas', 'click-select'],
       },
-      layout: (data) => {
-        return Hierarchy.dendrogram(data, {
-          direction: 'H',
-          nodeSep: 50,
-          rankSep: 100,
-        });
+      layout: {
+        type: 'mindmap',
+        direction: 'H',
+        getHGap() {
+          return 70;
+        },
       },
+      animate: false,
       defaultNode: {
         shape: 'mind-node',
       },
