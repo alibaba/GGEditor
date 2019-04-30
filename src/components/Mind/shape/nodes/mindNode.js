@@ -27,9 +27,9 @@ G6.registerNode('mind-node', {
   },
 
   drawLabel(model, group) {
-    // 文本样式
+    // get label styles
     const labelCfg = this.getLabelStyle({ model });
-    // 绘制文本
+    // draw label
     this.labelShape = group.addShape('text', {
       className: 'label',
       attrs: {
@@ -39,7 +39,7 @@ G6.registerNode('mind-node', {
         ...labelCfg,
       },
     });
-    // 更改文本内容
+    // change text content according to text line width
     const text = this.labelShape.attr('text');
     const fontWeight = this.labelShape.attr('fontWeight');
     const fontFamily = this.labelShape.attr('fontFamily');
@@ -51,42 +51,42 @@ G6.registerNode('mind-node', {
   },
 
   setState(name, value, item) {
-    const _self = this;
-    // 获取当前元素所有状态
+    const self = this;
+    // get current item's all states <Array>
     let statesArr = item.getStates();
     const strategies = {
       dynamicBase: (group, type) => {
-        const newStyleObj = _self.getCustomStatesStyle()[type];
+        const newStyleObj = self.getCustomStatesStyle()[type];
         for (let className in newStyleObj) {
           const currentChild = group.findByClassName(className);
           currentChild.attr({
             ...newStyleObj[className],
           });
         }
-        _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        _self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
-      // 激活时样式
+      // active style
       active: (group) => {
         strategies.dynamicBase(group, 'active');
       },
-      // 默认样式
+      // initial style
       static: (group) => {
-        // 获取group中所有子图项
+        // get children of group
         const groupChildren = group.get('children');
 
         groupChildren.map((child) => {
-          const customStyle = _self[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
+          const customStyle = self[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
           child.attr({
             ...Object.assign({}, child.getDefaultAttrs(), customStyle),
           });
         });
-        _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        _self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
-      // 选中样式
+      // selected style
       selected: (group) => {
-        strategies.dynamicBase(group, 'select');
+        strategies.dynamicBase(group, 'selected');
       },
     };
 
@@ -101,7 +101,7 @@ G6.registerNode('mind-node', {
     }
   },
 
-  // 提供给开发者
+  // functions that can be overridden by advice
   getCustomStatesStyle() {
     return {
       active: {
@@ -115,7 +115,7 @@ G6.registerNode('mind-node', {
           weight: 'bold',
         },
       },
-      select: {
+      selected: {
         keyShape: {
           stroke: 'red',
         },
@@ -200,7 +200,7 @@ G6.registerNode('mind-node', {
     return base;
   },
   getKeyShapeType() {
-    // G中定义的shape，但不支持text
+    // shape defined in 'G', not support 'text'
     return 'rect';
   },
   getMaxTextLineWidth() {
