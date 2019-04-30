@@ -4,7 +4,7 @@ commandManager.register({
   name: 'undo',
 
   config: {
-    enable() {
+    isEnable() {
       const { commandIndex } = commandManager;
 
       return commandIndex > 0;
@@ -18,7 +18,7 @@ commandManager.register({
       commandManager.commandIndex -= 1;
     },
 
-    queue() {
+    isJoinQueue() {
       return false;
     },
   },

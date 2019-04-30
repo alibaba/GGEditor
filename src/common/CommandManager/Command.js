@@ -5,7 +5,7 @@ class Command {
     this.editor = editor;
   }
 
-  enable() {
+  isEnable() {
     return true;
   }
 
@@ -15,11 +15,11 @@ class Command {
 
   back() {}
 
-  queue() {
+  isJoinQueue() {
     return true;
   }
 
-  shortcut() {
+  getShortcut() {
     return [];
   }
 }

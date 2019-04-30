@@ -8,7 +8,7 @@ commandManager.register({
     insertNodeId: '',
     selectedNode: null,
 
-    enable() {
+    isEnable() {
       const { graph } = this.editor;
 
       const selectedNode = graph.findAllByState('node', 'selected')[0];

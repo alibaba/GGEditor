@@ -30,14 +30,14 @@ class CommandManager {
       editor,
     });
 
-    if (!command.enable()) {
+    if (!command.isEnable()) {
       return;
     }
 
     command.init();
     command.exec();
 
-    if (!command.queue()) {
+    if (!command.isJoinQueue()) {
       return;
     }
 
