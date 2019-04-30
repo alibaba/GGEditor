@@ -1,5 +1,9 @@
 import React from 'react';
 import pick from 'lodash/pick';
+import {
+  GRAPH_COMMON_EVENTS,
+  GRAPH_ITEM_CHANGE_EVENTS,
+} from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 import './command';
@@ -11,6 +15,10 @@ class Graph extends React.Component {
     this.bindEvent();
   }
 
+  addListener = (target, eventName, handler) => {
+    if (typeof handler === 'function') target.on(eventName, handler);
+  };
+
   initGraph() {
     const { containerId, parseData, initGraph, editor } = this.props;
     const { clientWidth, clientHeight } = document.getElementById(containerId);
@@ -21,22 +29,35 @@ class Graph extends React.Component {
     parseData({ data });
 
     // Init Graph
-    const graph = initGraph({
+    this.graph = initGraph({
       width: clientWidth,
       height: clientHeight,
     });
 
-    graph.data(data);
-    graph.render();
-    graph.fitView();
+    this.graph.data(data);
+    this.graph.render();
+    this.graph.fitView();
 
-    editor.initGraph({
-      graph,
+    editor.setGraph({
+      graph: this.graph,
     });
   }
 
   bindEvent() {
+    const { addListener } = this;
 
+    Object.keys(GRAPH_COMMON_EVENTS).forEach((event) => {
+      const eventName = GRAPH_COMMON_EVENTS[event];
+
+      addListener(this.graph, `${event}`, this.props[`on${eventName}`]);
+      addListener(this.graph, `node:${event}`, this.props[`onNode${eventName}`]);
+      addListener(this.graph, `edge:${event}`, this.props[`onEdge${eventName}`]);
+      addListener(this.graph, `canvas:${event}`, this.props[`onCanvas${eventName}`]);
+    });
+
+    Object.keys(GRAPH_ITEM_CHANGE_EVENTS).forEach((event) => {
+      addListener(this.graph, [event], this.props[GRAPH_ITEM_CHANGE_EVENTS[event]]);
+    });
   }
 
   render() {

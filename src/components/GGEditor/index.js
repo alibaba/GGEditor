@@ -8,12 +8,12 @@ class GGEditor extends React.Component {
     super(props);
 
     this.state = {
-      initGraph: this.initGraph,
+      setGraph: this.setGraph,
       execCommand: this.execCommand,
     };
   }
 
-  initGraph = ({ graph }) => {
+  setGraph = ({ graph }) => {
     this.setState({
       graph,
     });
