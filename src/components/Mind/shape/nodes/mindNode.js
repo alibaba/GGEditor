@@ -3,18 +3,18 @@ import Util from '../../util';
 import upperFirst from 'lodash/upperFirst';
 
 G6.registerNode('mind-node', {
-  draw(cfg, group) {
-    this.drawKeyShape(cfg, group);
-    if (cfg.label) {
-      this.drawLabel(cfg, group);
+  draw(model, group) {
+    this.drawKeyShape(model, group);
+    if (model.label) {
+      this.drawLabel(model, group);
     }
-    this.adjustKeyShape();
-    this.adjustTextShape();
+    this.adjustKeyShape({});
+    this.adjustTextShape({});
     return this.keyShape;
   },
   drawKeyShape(cfg, group) {
-    const keyShapeType = this.getKeyShapeType();
-    const keyShapeCfg = this.getKeyShapeStyle();
+    const keyShapeType = this.getKeyShapeType({});
+    const keyShapeCfg = this.getKeyShapeStyle({});
     this.keyShape = group.addShape(keyShapeType, {
       className: 'keyShape',
       attrs: {
@@ -63,8 +63,8 @@ G6.registerNode('mind-node', {
             ...newStyleObj[className],
           });
         }
-        _self.adjustKeyShape(group.findByClassName('keyShape'), group.findByClassName('label'));
-        _self.adjustTextShape(group.findByClassName('keyShape'), group.findByClassName('label'));
+        _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        _self.adjustTextShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
       // 激活时样式
       active: (group) => {
@@ -81,8 +81,8 @@ G6.registerNode('mind-node', {
             ...Object.assign({}, child.getDefaultAttrs(), customStyle),
           });
         });
-        _self.adjustKeyShape(group.findByClassName('keyShape'), group.findByClassName('label'));
-        _self.adjustTextShape(group.findByClassName('keyShape'), group.findByClassName('label'));
+        _self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
+        _self.adjustTextShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
       },
       // 选中样式
       selected: (group) => {
@@ -122,7 +122,7 @@ G6.registerNode('mind-node', {
       },
     };
   },
-  adjustKeyShape(kshape, lshape) {
+  adjustKeyShape({ kshape, lshape }) {
     const keyShape = kshape || this.keyShape;
     const padding = this.getPadding();
     const originWidth = keyShape.attr('width');
@@ -130,7 +130,7 @@ G6.registerNode('mind-node', {
     const [
       textWidth,
       textHeight,
-    ] = [this.getLabelSize(lshape).width, this.getLabelSize(lshape).height];
+    ] = [this.getLabelSize({ lshape }).width, this.getLabelSize({ lshape }).height];
     if (originHeight < textHeight) {
       keyShape.attr('height', textHeight + 2 * padding[0]);
     }
@@ -138,7 +138,7 @@ G6.registerNode('mind-node', {
       keyShape.attr('width', textWidth + 2 * padding[1]);
     }
   },
-  adjustTextShape(kshape, lshape) {
+  adjustTextShape({ kshape, lshape }) {
     const labelShape = lshape || this.labelShape;
     const keyShape = kshape || this.keyShape;
     if (this.getKeyShapeType() === 'rect') {
@@ -193,8 +193,8 @@ G6.registerNode('mind-node', {
   getMaxTextLineWidth() {
     return 80;
   },
-  getLabelSize(shape) {
-    const labelShape = shape || this.labelShape;
+  getLabelSize({ lshape }) {
+    const labelShape = lshape || this.labelShape;
     return {
       width: labelShape.getBBox().width,
       height: labelShape.getBBox().height,
