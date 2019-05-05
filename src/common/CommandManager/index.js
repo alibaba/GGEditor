@@ -7,14 +7,12 @@ class CommandManager {
     this.commandIndex = 0;
   }
 
-  register = ({ name, config, extend }) => {
-    const SuperClass = this.command[name] || this.command[extend] || BaseCommand;
-
-    class Command extends SuperClass {}
-
-    Object.assign(Command.prototype, config);
-
-    this.command[name] = Command;
+  register = ({ name, config = {}, extend = '' }) => {
+    this.command[name] = {
+      ...this.command[name] || this.command[extend] || BaseCommand,
+      ...config,
+      name,
+    };
   }
 
   exec = ({ name, params, editor }) => {
@@ -24,20 +22,19 @@ class CommandManager {
       return;
     }
 
-    const command = new Command({
-      name,
-      params,
-      editor,
-    });
+    const command = Object.create(Command);
 
-    if (!command.isEnable()) {
+    command.params = params;
+    command.editor = editor;
+
+    if (!command.isEnableExec()) {
       return;
     }
 
     command.init();
     command.exec();
 
-    if (!command.isJoinQueue()) {
+    if (!command.isEnableBack()) {
       return;
     }
 

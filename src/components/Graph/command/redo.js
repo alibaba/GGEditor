@@ -4,10 +4,14 @@ commandManager.register({
   name: 'redo',
 
   config: {
-    isEnable() {
+    isEnableExec() {
       const { commandQueue, commandIndex } = commandManager;
 
       return commandIndex < commandQueue.length;
+    },
+
+    isEnableBack() {
+      return false;
     },
 
     exec() {
@@ -16,10 +20,6 @@ commandManager.register({
       commandQueue[commandIndex].exec();
 
       commandManager.commandIndex += 1;
-    },
-
-    isJoinQueue() {
-      return false;
     },
   },
 });

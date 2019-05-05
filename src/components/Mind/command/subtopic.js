@@ -4,7 +4,7 @@ commandManager.register({
   name: 'subtopic',
 
   config: {
-    isEnable() {
+    isEnableExec() {
       const { graph } = this.editor;
 
       const selectedNode = graph.findAllByState('node', 'selected')[0];

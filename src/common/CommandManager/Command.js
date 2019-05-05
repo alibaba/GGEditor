@@ -1,27 +1,23 @@
-class Command {
-  constructor({ name, params, editor }) {
-    this.name = name;
-    this.params = params;
-    this.editor = editor;
-  }
+export default {
+  name: '',
 
-  isEnable() {
+  params: {},
+
+  editor: null,
+
+  isEnableExec() {
     return true;
-  }
+  },
 
-  init() {}
-
-  exec() {}
-
-  back() {}
-
-  isJoinQueue() {
+  isEnableBack() {
     return true;
-  }
+  },
 
-  getShortcut() {
-    return [];
-  }
-}
+  init() {},
 
-export default Command;
+  exec() {},
+
+  back() {},
+
+  shortcut: [],
+};
