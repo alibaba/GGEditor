@@ -1,6 +1,5 @@
 import G6 from '@antv/g6';
 import Util from '../../util';
-import upperFirst from 'lodash/upperFirst';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
@@ -25,7 +24,16 @@ G6.registerNode('mind-node', {
     });
     return this.keyShape;
   },
-
+  afterDraw(model, group) {
+    // model.isRoot has not implement yet
+    if (model.children && model.children.length > 0 && !model.isRoot) {
+      if (model.collapsed) {
+        this.drawExpandButton({ model, group });
+      } else {
+        this.drawCollapseButton({ model, group });
+      }
+    }
+  },
   drawLabel(model, group) {
     // get label styles
     const labelCfg = this.getLabelStyle({ model });
@@ -51,86 +59,90 @@ G6.registerNode('mind-node', {
   },
 
   setState(name, value, item) {
-    const self = this;
     // get current item's all states <Array>
-    let statesArr = item.getStates();
-    const strategies = {
-      dynamicBase: (group, type) => {
-        const newStyleObj = self.getCustomStatesStyle()[type];
-        for (let className in newStyleObj) {
-          const currentChild = group.findByClassName(className);
-          currentChild.attr({
-            ...newStyleObj[className],
-          });
-        }
-        self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-      },
-      // active style
-      active: (group) => {
-        strategies.dynamicBase(group, 'active');
-      },
-      // initial style
-      static: (group) => {
-        // get children of group
-        const groupChildren = group.get('children');
-
-        groupChildren.map((child) => {
-          const customStyle = self[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
-          child.attr({
-            ...Object.assign({}, child.getDefaultAttrs(), customStyle),
-          });
-        });
-        self.adjustKeyShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-        self.adjustLabelShape({ kshape: group.findByClassName('keyShape'), lshape: group.findByClassName('label') });
-      },
-      // selected style
-      selected: (group) => {
-        strategies.dynamicBase(group, 'selected');
-      },
-    };
+    const statesArr = item.getStates();
 
     const group = item.getContainer();
+    const itemStates = Util.itemStates.call(this, { item, group });
 
-    if (statesArr.includes('selected')) {
-      strategies.selected(group);
-    } else if (statesArr.includes('active') && !statesArr.includes('selected')) {
-      strategies.active(group);
-    } else if (statesArr.length === 0) {
-      strategies.static(group);
+    if (item.hasState('selected')) {
+      itemStates.selected();
+    }
+    if (item.hasState('active') && !item.hasState('selected')) {
+      itemStates.active();
+    }
+    if (statesArr.length === 0) {
+      itemStates.staticState();
     }
   },
 
   // functions that can be overridden by advice
+  drawExpandButton({ model, group }) {
+    const keyShape = group.findByClassName('keyShape');
+    const width = 17;
+    const height = 17;
+    const offset = 3;
+    const button = group.addShape('path', {
+      className: 'expandButton',
+      attrs: {
+        path: Util.getExpandButtonPath({ width, height }),
+        stroke: '#000',
+        fill: '#fff',
+      },
+    });
+    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
+    return button;
+  },
+  drawCollapseButton({ model, group }) {
+    const keyShape = group.findByClassName('keyShape');
+    const width = 17;
+    const height = 17;
+    const offset = 3;
+    const button = group.addShape('path', {
+      className: 'collapseButton',
+      attrs: {
+        path: Util.getCollapseButtonPath({ width, height }),
+        opacity: 0,
+        stroke: '#000',
+        fill: '#fff',
+      },
+    });
+    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
+    return button;
+  },
   getCustomStatesStyle() {
     return {
       active: {
         keyShape: {
-          fill: '#facbda',
+          fill: '#acbdfa',
           stroke: 'blue',
           lineWidth: 3,
         },
         label: {
-          fontSize: 16,
-          weight: 'bold',
+          fill: 'red',
+        },
+        collapseButton: {
+          opacity: 1,
         },
       },
       selected: {
         keyShape: {
           stroke: 'red',
+          lineWidth: 3,
         },
       },
     };
   },
-  adjustKeyShape({ kshape, lshape } = {}) {
-    const keyShape = kshape || this.keyShape;
+  adjustKeyShape({ updatedKeyShape, updatedLabelShape } = {}) {
+    const keyShape = updatedKeyShape || this.keyShape;
     const padding = this.getPadding();
     const originWidth = keyShape.attr('width');
     const originHeight = keyShape.attr('height');
     const [
       textWidth,
       textHeight,
-    ] = [this.getLabelSize({ lshape }).width, this.getLabelSize({ lshape }).height];
+    ] = [this.getLabelSize({ updatedLabelShape }).width,
+      this.getLabelSize({ updatedLabelShape }).height];
     if (originHeight < textHeight) {
       keyShape.attr('height', textHeight + 2 * padding[0]);
     }
@@ -138,9 +150,9 @@ G6.registerNode('mind-node', {
       keyShape.attr('width', textWidth + 2 * padding[1]);
     }
   },
-  adjustLabelShape({ kshape, lshape } = {}) {
-    const labelShape = lshape || this.labelShape;
-    const keyShape = kshape || this.keyShape;
+  adjustLabelShape({ updatedKeyShape, updatedLabelShape } = {}) {
+    const labelShape = updatedLabelShape || this.labelShape;
+    const keyShape = updatedKeyShape || this.keyShape;
     if (this.getKeyShapeType() === 'rect') {
       labelShape.attr('x', keyShape.attr('width') / 2);
       labelShape.attr('y', keyShape.attr('height') / 2);
@@ -156,7 +168,7 @@ G6.registerNode('mind-node', {
     };
     if (model.depth === 0) {
       const scopedStyle = {
-        ill: '#419ee0',
+        fill: '#419ee0',
         stroke: '#4156e0',
         radius: 20,
       };
@@ -199,6 +211,11 @@ G6.registerNode('mind-node', {
 
     return base;
   },
+  getCollapseButtonStyle() {
+    return {
+      opacity: 0,
+    };
+  },
   getKeyShapeType() {
     // shape defined in 'G', not support 'text'
     return 'rect';
@@ -206,8 +223,8 @@ G6.registerNode('mind-node', {
   getMaxTextLineWidth() {
     return 80;
   },
-  getLabelSize({ lshape }) {
-    const labelShape = lshape || this.labelShape;
+  getLabelSize({ updatedLabelShape }) {
+    const labelShape = updatedLabelShape || this.labelShape;
     return {
       width: labelShape.getBBox().width,
       height: labelShape.getBBox().height,
