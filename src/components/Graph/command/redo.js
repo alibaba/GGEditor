@@ -4,22 +4,22 @@ commandManager.register({
   name: 'redo',
 
   config: {
-    isEnable() {
+    isEnableExec() {
       const { commandQueue, commandIndex } = commandManager;
 
       return commandIndex < commandQueue.length;
     },
 
-    exec() {
-      const { commandQueue, commandIndex } = commandManager;
-
-      commandQueue[commandIndex].exec();
-
-      commandManager.commandIndex += 1;
+    isEnableBack() {
+      return false;
     },
 
-    isJoinQueue() {
-      return false;
+    exec(graph) {
+      const { commandQueue, commandIndex } = commandManager;
+
+      commandQueue[commandIndex].exec(graph);
+
+      commandManager.commandIndex += 1;
     },
   },
 });

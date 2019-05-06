@@ -1,27 +1,21 @@
-class Command {
-  constructor({ name, params, editor }) {
-    this.name = name;
-    this.params = params;
-    this.editor = editor;
-  }
+export default {
+  name: '',
 
-  isEnable() {
+  params: {},
+
+  isEnableExec(/* graph */) {
     return true;
-  }
+  },
 
-  init() {}
-
-  exec() {}
-
-  back() {}
-
-  isJoinQueue() {
+  isEnableBack(/* graph */) {
     return true;
-  }
+  },
 
-  getShortcut() {
-    return [];
-  }
-}
+  init(/* graph */) {},
 
-export default Command;
+  exec(/* graph */) {},
+
+  back(/* graph */) {},
+
+  shortcut: [],
+};

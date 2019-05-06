@@ -8,16 +8,13 @@ commandManager.register({
     insertNodeId: '',
     selectedNode: null,
 
-    isEnable() {
-      const { graph } = this.editor;
-
+    isEnableExec(graph) {
       const selectedNode = graph.findAllByState('node', 'selected')[0];
 
       return selectedNode && selectedNode.get('parent');
     },
 
-    init() {
-      const { graph } = this.editor;
+    init(graph) {
       const { insertNodeId, selectedNode } = this;
 
       if (!insertNodeId) {
@@ -29,8 +26,7 @@ commandManager.register({
       }
     },
 
-    exec() {
-      const { graph } = this.editor;
+    exec(graph) {
       const { insertNodeId, selectedNode } = this;
 
       const parentNode = selectedNode.get('parent');
@@ -41,8 +37,7 @@ commandManager.register({
       }, parentNode);
     },
 
-    back() {
-      const { graph } = this.editor;
+    back(graph) {
       const { insertNodeId } = this;
 
       graph.removeChild(insertNodeId);

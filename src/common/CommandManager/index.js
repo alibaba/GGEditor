@@ -7,37 +7,39 @@ class CommandManager {
     this.commandIndex = 0;
   }
 
-  register = ({ name, config, extend }) => {
-    const SuperClass = this.command[name] || this.command[extend] || BaseCommand;
-
-    class Command extends SuperClass {}
-
-    Object.assign(Command.prototype, config);
-
-    this.command[name] = Command;
+  setGraph = (graph) => {
+    this.graph = graph;
   }
 
-  exec = ({ name, params, editor }) => {
+  register = ({ name, config = {}, extend = '' }) => {
+    this.command[name] = {
+      ...this.command[name] || this.command[extend] || BaseCommand,
+      ...config,
+      name,
+    };
+  }
+
+  execute = ({ name, params }) => {
     const Command = this.command[name];
 
     if (!Command) {
       return;
     }
 
-    const command = new Command({
-      name,
-      params,
-      editor,
-    });
+    const command = Object.create(Command);
 
-    if (!command.isEnable()) {
+    command.params = params;
+
+    const { graph } = this;
+
+    if (!command.isEnableExec(graph)) {
       return;
     }
 
-    command.init();
-    command.exec();
+    command.init(graph);
+    command.exec(graph);
 
-    if (!command.isJoinQueue()) {
+    if (!command.isEnableBack(graph)) {
       return;
     }
 
