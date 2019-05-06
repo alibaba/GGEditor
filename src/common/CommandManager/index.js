@@ -7,6 +7,10 @@ class CommandManager {
     this.commandIndex = 0;
   }
 
+  setGraph = (graph) => {
+    this.graph = graph;
+  }
+
   register = ({ name, config = {}, extend = '' }) => {
     this.command[name] = {
       ...this.command[name] || this.command[extend] || BaseCommand,
@@ -15,7 +19,7 @@ class CommandManager {
     };
   }
 
-  exec = ({ name, params, editor }) => {
+  execute = ({ name, params }) => {
     const Command = this.command[name];
 
     if (!Command) {
@@ -25,16 +29,17 @@ class CommandManager {
     const command = Object.create(Command);
 
     command.params = params;
-    command.editor = editor;
 
-    if (!command.isEnableExec()) {
+    const { graph } = this;
+
+    if (!command.isEnableExec(graph)) {
       return;
     }
 
-    command.init();
-    command.exec();
+    command.init(graph);
+    command.exec(graph);
 
-    if (!command.isEnableBack()) {
+    if (!command.isEnableBack(graph)) {
       return;
     }
 

@@ -14,10 +14,10 @@ commandManager.register({
       return false;
     },
 
-    exec() {
+    exec(graph) {
       const { commandQueue, commandIndex } = commandManager;
 
-      commandQueue[commandIndex - 1].back();
+      commandQueue[commandIndex - 1].back(graph);
 
       commandManager.commandIndex -= 1;
     },

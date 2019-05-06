@@ -4,16 +4,13 @@ commandManager.register({
   name: 'subtopic',
 
   config: {
-    isEnableExec() {
-      const { graph } = this.editor;
-
+    isEnableExec(graph) {
       const selectedNode = graph.findAllByState('node', 'selected')[0];
 
       return selectedNode;
     },
 
-    exec() {
-      const { graph } = this.editor;
+    exec(graph) {
       const { insertNodeId, selectedNode } = this;
 
       graph.addChild({

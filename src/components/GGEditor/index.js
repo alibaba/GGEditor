@@ -18,6 +18,8 @@ class GGEditor extends React.Component {
     this.setState({
       graph,
     });
+
+    commandManager.setGraph(graph);
   }
 
   setGraphStatus = (graphStatus) => {
@@ -27,14 +29,9 @@ class GGEditor extends React.Component {
   }
 
   executeCommand = ({ name, params }) => {
-    const { graph } = this.state;
-
-    commandManager.exec({
+    commandManager.execute({
       name,
       params,
-      editor: {
-        graph,
-      },
     });
   }
 
