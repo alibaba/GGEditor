@@ -5,42 +5,47 @@ commandManager.register({
   name: 'topic',
 
   config: {
-    insertNodeId: '',
-    selectedNode: null,
-
-    isEnableExec(graph) {
-      const selectedNode = graph.findAllByState('node', 'selected')[0];
-
-      return selectedNode && selectedNode.get('parent');
+    params: {
+      id: '',
+      model: {},
     },
 
-    init(graph) {
-      const { insertNodeId, selectedNode } = this;
-
-      if (!insertNodeId) {
-        this.insertNodeId = uuid();
-      }
-
-      if (!selectedNode) {
-        this.selectedNode = graph.findAllByState('node', 'selected')[0];
-      }
+    getSelectedNode(graph) {
+      return graph.findAllByState('node', 'selected')[0];
     },
 
-    exec(graph) {
-      const { insertNodeId, selectedNode } = this;
+    canExecute(graph) {
+      const node = this.getSelectedNode(graph);
 
-      const parentNode = selectedNode.get('parent');
+      return node && node.get('parent');
+    },
 
-      graph.addChild({
-        id: insertNodeId,
-        label: '新建结点',
-      }, parentNode);
+    beforeExecute() {
+      if (this.params.id) {
+        return;
+      }
+
+      const id = uuid();
+
+      this.params = {
+        id,
+        model: {
+          id,
+          label: '新建结点',
+        },
+      };
+    },
+
+    execute(graph) {
+      const { model } = this.params;
+
+      graph.addChild(model, this.getSelectedNode(graph).get('parent'));
     },
 
     back(graph) {
-      const { insertNodeId } = this;
+      const { id } = this.params;
 
-      graph.removeChild(insertNodeId);
+      graph.removeChild(id);
     },
   },
 });

@@ -63,7 +63,11 @@ class Graph extends React.Component {
     const { editor } = this.props;
 
     addListener(graph, 'nodeselectchange', ({ select }) => {
-      editor.setGraphStatus(select ? GRAPH_STATUS_NODE_SELECTED : GRAPH_STATUS_CANVAS_SELECTED);
+      editor.setGraphStatus(GRAPH_STATUS_CANVAS_SELECTED);
+
+      if (select) {
+        editor.setGraphStatus(GRAPH_STATUS_NODE_SELECTED);
+      }
     });
 
     addListener(graph, 'canvas:click', () => {

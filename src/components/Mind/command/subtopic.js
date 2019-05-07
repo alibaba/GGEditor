@@ -4,19 +4,14 @@ commandManager.register({
   name: 'subtopic',
 
   config: {
-    isEnableExec(graph) {
-      const selectedNode = graph.findAllByState('node', 'selected')[0];
-
-      return selectedNode;
+    canExecute(graph) {
+      return this.getSelectedNode(graph);
     },
 
-    exec(graph) {
-      const { insertNodeId, selectedNode } = this;
+    execute(graph) {
+      const { model } = this.params;
 
-      graph.addChild({
-        id: insertNodeId,
-        label: '新建结点',
-      }, selectedNode);
+      graph.addChild(model, this.getSelectedNode(graph));
     },
   },
 

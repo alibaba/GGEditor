@@ -3,19 +3,21 @@ export default {
 
   params: {},
 
-  isEnableExec(/* graph */) {
+  canExecute() {
     return true;
   },
 
-  isEnableBack(/* graph */) {
+  canBack() {
     return true;
   },
 
-  init(/* graph */) {},
+  beforeExecute() {},
 
-  exec(/* graph */) {},
+  execute() {},
 
-  back(/* graph */) {},
+  afterExecute() {},
 
-  shortcut: [],
+  back() {},
+
+  shortcuts: [],
 };

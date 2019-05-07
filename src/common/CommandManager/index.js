@@ -19,6 +19,12 @@ class CommandManager {
     };
   }
 
+  canExecute = (name) => {
+    const { graph } = this;
+
+    return this.command[name].canExecute(graph);
+  }
+
   execute = ({ name, params }) => {
     const Command = this.command[name];
 
@@ -28,18 +34,21 @@ class CommandManager {
 
     const command = Object.create(Command);
 
-    command.params = params;
+    if (params) {
+      command.params = params;
+    }
 
     const { graph } = this;
 
-    if (!command.isEnableExec(graph)) {
+    if (!command.canExecute(graph)) {
       return;
     }
 
-    command.init(graph);
-    command.exec(graph);
+    command.beforeExecute(graph);
+    command.execute(graph);
+    command.afterExecute(graph);
 
-    if (!command.isEnableBack(graph)) {
+    if (!command.canBack(graph)) {
       return;
     }
 
