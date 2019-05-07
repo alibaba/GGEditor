@@ -1,4 +1,5 @@
 import G6 from '@antv/g6';
+import { ITEM_STATE_ACTIVE } from '@common/constants';
 
 G6.registerBehavior('hover-node', {
   getEvents() {
@@ -11,12 +12,12 @@ G6.registerBehavior('hover-node', {
   handleMouseenter({ item }) {
     const { graph } = this;
 
-    graph.setItemState(item, 'active', true);
+    graph.setItemState(item, ITEM_STATE_ACTIVE, true);
   },
 
   handleMouseleave({ item }) {
     const { graph } = this;
 
-    graph.setItemState(item, 'active', false);
+    graph.setItemState(item, ITEM_STATE_ACTIVE, false);
   },
 });

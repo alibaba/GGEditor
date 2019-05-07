@@ -11,7 +11,7 @@ class GGEditor extends React.Component {
 
     this.state = {
       graph: null,
-      graphStatus: GRAPH_STATUS_CANVAS_SELECTED,
+      graphStatus: '',
       setGraph: this.setGraph,
       setGraphStatus: this.setGraphStatus,
       executeCommand: this.executeCommand,
@@ -21,19 +21,22 @@ class GGEditor extends React.Component {
   setGraph = (graph) => {
     this.setState({
       graph,
+      graphStatus: GRAPH_STATUS_CANVAS_SELECTED,
     });
 
     commandManager.setGraph(graph);
   }
 
   setGraphStatus = (graphStatus) => {
-    this.setState({
-      graphStatus,
-    });
+    setTimeout(() => {
+      this.setState({
+        graphStatus,
+      });
+    }, 0);
   }
 
   executeCommand = (name, params) => {
-    commandManager.execute({
+    commandManager.exec({
       name,
       params,
     });

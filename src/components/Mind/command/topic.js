@@ -1,5 +1,10 @@
 import commandManager from '@common/CommandManager';
 import { uuid } from '@utils';
+import {
+  ITEM_TYPE_NODE,
+  ITEM_STATE_SELECTED,
+  NODE_DEFAULT_LABEL,
+} from '@common/constants';
 
 commandManager.register({
   name: 'topic',
@@ -10,42 +15,66 @@ commandManager.register({
       model: {},
     },
 
-    getSelectedNode(graph) {
-      return graph.findAllByState('node', 'selected')[0];
+    getSelectedNodes(graph) {
+      return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
     },
 
-    canExecute(graph) {
-      const node = this.getSelectedNode(graph);
+    setSelectedNode(graph, id) {
+      const autoPaint = graph.get('autoPaint');
 
-      return node && node.get('parent');
+      graph.setAutoPaint(false);
+
+      const selectedNodes = this.getSelectedNodes(graph);
+
+      selectedNodes.forEach((node) => {
+        if (node.hasState(ITEM_STATE_SELECTED)) {
+          graph.setItemState(node, ITEM_STATE_SELECTED, false);
+        }
+      });
+
+      graph.setItemState(id, ITEM_STATE_SELECTED, true);
+      graph.setAutoPaint(autoPaint);
+      graph.paint();
     },
 
-    beforeExecute() {
+    canExec(graph) {
+      const selectedNodes = this.getSelectedNodes(graph);
+
+      return selectedNodes.length && selectedNodes.length === 1 && selectedNodes[0].get('parent');
+    },
+
+    init(graph) {
       if (this.params.id) {
         return;
       }
 
-      const id = uuid();
+      const selectedNode = this.getSelectedNodes(graph)[0];
 
       this.params = {
-        id,
+        id: selectedNode.get('id'),
         model: {
-          id,
-          label: '新建结点',
+          id: uuid(),
+          label: NODE_DEFAULT_LABEL,
         },
       };
     },
 
-    execute(graph) {
-      const { model } = this.params;
+    exec(graph) {
+      const { id, model } = this.params;
 
-      graph.addChild(model, this.getSelectedNode(graph).get('parent'));
+      const parent = graph.findById(id).get('parent');
+
+      graph.addChild(model, parent);
+
+      this.setSelectedNode(graph, model.id);
     },
 
     back(graph) {
-      const { id } = this.params;
+      const { id, model } = this.params;
 
-      graph.removeChild(id);
+      this.setSelectedNode(graph, id);
+
+      graph.removeChild(model.id);
     },
   },
 });

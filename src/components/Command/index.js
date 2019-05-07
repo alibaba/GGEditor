@@ -1,23 +1,20 @@
 import React from 'react';
-import { GRAPH_STATUS_CANVAS_SELECTED } from '@common/constants';
 import commandManager from '@common/CommandManager';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 class Command extends React.Component {
   state = {
-    graph: null,
-    graphStatus: GRAPH_STATUS_CANVAS_SELECTED,
+    graphStatus: '',
     disabled: false,
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { graph, graphStatus } = props.editor;
+    const { graphStatus } = props.editor;
 
-    if (graph !== state.graph || graphStatus !== state.graphStatus) {
+    if (graphStatus !== state.graphStatus) {
       return {
-        graph,
         graphStatus,
-        disabled: !commandManager.canExecute(props.name),
+        disabled: !commandManager.canExec(props.name),
       };
     }
 
@@ -27,7 +24,7 @@ class Command extends React.Component {
   handleClick = () => {
     const { name } = this.props;
 
-    commandManager.execute({
+    commandManager.exec({
       name,
     });
   }

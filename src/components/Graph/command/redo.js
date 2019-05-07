@@ -4,7 +4,7 @@ commandManager.register({
   name: 'redo',
 
   config: {
-    canExecute() {
+    canExec() {
       const { commandQueue, commandIndex } = commandManager;
 
       return commandIndex < commandQueue.length;
@@ -14,10 +14,10 @@ commandManager.register({
       return false;
     },
 
-    execute(graph) {
+    exec(graph) {
       const { commandQueue, commandIndex } = commandManager;
 
-      commandQueue[commandIndex].execute(graph);
+      commandQueue[commandIndex].exec(graph);
 
       commandManager.commandIndex += 1;
     },

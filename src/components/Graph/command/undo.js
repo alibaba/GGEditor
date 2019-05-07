@@ -4,7 +4,7 @@ commandManager.register({
   name: 'undo',
 
   config: {
-    canExecute() {
+    canExec() {
       const { commandIndex } = commandManager;
 
       return commandIndex > 0;
@@ -14,7 +14,7 @@ commandManager.register({
       return false;
     },
 
-    execute(graph) {
+    exec(graph) {
       const { commandQueue, commandIndex } = commandManager;
 
       commandQueue[commandIndex - 1].back(graph);

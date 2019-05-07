@@ -3,7 +3,7 @@ export default {
 
   params: {},
 
-  canExecute() {
+  canExec() {
     return true;
   },
 
@@ -11,11 +11,9 @@ export default {
     return true;
   },
 
-  beforeExecute() {},
+  init() {},
 
-  execute() {},
-
-  afterExecute() {},
+  exec() {},
 
   back() {},
 
