@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
 import Util from '../../util';
+import { SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON } from '@common/constants';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
@@ -27,11 +28,7 @@ G6.registerNode('mind-node', {
   afterDraw(model, group) {
     // model.isRoot has not implement yet
     if (model.children && model.children.length > 0 && !model.isRoot) {
-      if (model.collapsed) {
-        this.drawExpandButton({ model, group });
-      } else {
-        this.drawCollapseButton({ model, group });
-      }
+      this.drawExpandOrCollapseButton({ model, group });
     }
   },
   drawLabel(model, group) {
@@ -75,15 +72,23 @@ G6.registerNode('mind-node', {
       itemStates.staticState();
     }
   },
+  drawExpandOrCollapseButton({ model, group }) {
+    const className = SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
+    if (model.collapsed) {
+      this.drawExpandButton({ model, group, className });
+    } else {
+      this.drawCollapseButton({ model, group, className });
+    }
+  },
 
   // functions that can be overridden by advice
-  drawExpandButton({ model, group }) {
+  drawExpandButton({ model, group, className }) {
     const keyShape = group.findByClassName('keyShape');
     const width = 17;
     const height = 17;
     const offset = 3;
     const button = group.addShape('path', {
-      className: 'expandButton',
+      className,
       attrs: {
         path: Util.getExpandButtonPath({ width, height }),
         stroke: '#000',
@@ -93,13 +98,13 @@ G6.registerNode('mind-node', {
     button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
     return button;
   },
-  drawCollapseButton({ model, group }) {
+  drawCollapseButton({ model, group, className }) {
     const keyShape = group.findByClassName('keyShape');
     const width = 17;
     const height = 17;
     const offset = 3;
     const button = group.addShape('path', {
-      className: 'collapseButton',
+      className,
       attrs: {
         path: Util.getCollapseButtonPath({ width, height }),
         opacity: 0,
@@ -121,7 +126,7 @@ G6.registerNode('mind-node', {
         label: {
           fill: 'red',
         },
-        collapseButton: {
+        [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
           opacity: 1,
         },
       },
@@ -211,7 +216,7 @@ G6.registerNode('mind-node', {
 
     return base;
   },
-  getCollapseButtonStyle() {
+  [`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}Style`]() {
     return {
       opacity: 0,
     };
