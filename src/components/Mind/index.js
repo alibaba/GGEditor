@@ -1,7 +1,10 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
-import { MIND_CONTAINER_ID } from '@common/constants';
+import {
+  MIND_CONTAINER_ID,
+  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+} from '@common/constants';
 import Graph from '@components/Graph';
 
 import './shape';
@@ -12,6 +15,10 @@ class Mind extends React.Component {
     super(props);
 
     this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
+  }
+
+  shouldBeginCollapseExpandBehavior = ({ target }) => {
+    return target && target.get('className') === SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
   }
 
   parseData = ({ data }) => {
@@ -34,7 +41,16 @@ class Mind extends React.Component {
       width,
       height,
       modes: {
-        default: ['drag-canvas', 'click-select', 'hover-node'],
+        default: [
+          'drag-canvas',
+          'zoom-canvas',
+          'click-select',
+          'hover-node',
+          {
+            type: 'collapse-expand',
+            shouldBegin: this.shouldBeginCollapseExpandBehavior,
+          },
+        ],
       },
       layout: {
         type: 'mindmap',

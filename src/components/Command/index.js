@@ -12,10 +12,7 @@ class Command extends React.Component {
     const { name, editor } = props;
     const { graphState, commandIndex } = editor;
 
-    if (
-      graphState !== state.lastGraphState ||
-      commandIndex !== state.lastCommandIndex
-    ) {
+    if (graphState !== state.lastGraphState || commandIndex !== state.lastCommandIndex) {
       return {
         lastGraphState: graphState,
         lastCommandIndex: commandIndex,
