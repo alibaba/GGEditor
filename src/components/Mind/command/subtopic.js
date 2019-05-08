@@ -4,11 +4,11 @@ commandManager.register({
   name: 'subtopic',
 
   config: {
-    canExec(graph) {
+    canExecute(graph) {
       return this.getSelectedNodes(graph)[0];
     },
 
-    exec(graph) {
+    execute(graph) {
       const { id, model } = this.params;
 
       const parent = graph.findById(id);

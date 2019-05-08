@@ -19,13 +19,13 @@ class CommandManager {
     };
   }
 
-  canExec = (name) => {
+  canExecute = (name) => {
     const { graph } = this;
 
-    return this.command[name].canExec(graph);
+    return this.command[name].canExecute(graph);
   }
 
-  exec = ({ name, params }) => {
+  execute = ({ name, params }) => {
     const Command = this.command[name];
 
     if (!Command) {
@@ -40,14 +40,14 @@ class CommandManager {
 
     const { graph } = this;
 
-    if (!command.canExec(graph)) {
+    if (!command.canExecute(graph)) {
       return;
     }
 
     command.init(graph);
-    command.exec(graph);
+    command.execute(graph);
 
-    if (!command.canBack(graph)) {
+    if (!command.canUndo(graph)) {
       return;
     }
 

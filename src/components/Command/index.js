@@ -14,7 +14,7 @@ class Command extends React.Component {
     if (graphStatus !== state.graphStatus) {
       return {
         graphStatus,
-        disabled: !commandManager.canExec(props.name),
+        disabled: !commandManager.canExecute(props.name),
       };
     }
 
@@ -24,7 +24,7 @@ class Command extends React.Component {
   handleClick = () => {
     const { name } = this.props;
 
-    commandManager.exec({
+    commandManager.execute({
       name,
     });
   }

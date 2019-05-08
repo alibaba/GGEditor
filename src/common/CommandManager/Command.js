@@ -3,19 +3,19 @@ export default {
 
   params: {},
 
-  canExec() {
+  canExecute() {
     return true;
   },
 
-  canBack() {
+  canUndo() {
     return true;
   },
 
   init() {},
 
-  exec() {},
+  execute() {},
 
-  back() {},
+  undo() {},
 
   shortcuts: [],
 };

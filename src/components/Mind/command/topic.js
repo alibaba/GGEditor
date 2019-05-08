@@ -37,7 +37,7 @@ commandManager.register({
       graph.paint();
     },
 
-    canExec(graph) {
+    canExecute(graph) {
       const selectedNodes = this.getSelectedNodes(graph);
 
       return selectedNodes.length && selectedNodes.length === 1 && selectedNodes[0].get('parent');
@@ -59,7 +59,7 @@ commandManager.register({
       };
     },
 
-    exec(graph) {
+    execute(graph) {
       const { id, model } = this.params;
 
       const parent = graph.findById(id).get('parent');
@@ -69,7 +69,7 @@ commandManager.register({
       this.setSelectedNode(graph, model.id);
     },
 
-    back(graph) {
+    undo(graph) {
       const { id, model } = this.params;
 
       this.setSelectedNode(graph, id);
