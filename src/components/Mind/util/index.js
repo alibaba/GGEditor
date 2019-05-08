@@ -1,4 +1,4 @@
-import upperFirst from 'lodash/upperFirst';
+import { upperFirst } from '@utils';
 
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');

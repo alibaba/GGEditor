@@ -56,6 +56,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-transform-modules-commonjs": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/polyfill": "^7.2.5",

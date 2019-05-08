@@ -1,5 +1,5 @@
 import React from 'react';
-import pick from 'lodash/pick';
+import { pick } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,

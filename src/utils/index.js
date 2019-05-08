@@ -1,5 +1,8 @@
 import uuidv4 from 'uuid/v4';
 
+export pick from 'lodash/pick';
+export upperFirst from 'lodash/upperFirst';
+
 export function uuid() {
   return uuidv4().replace(/-/g, '');
 }

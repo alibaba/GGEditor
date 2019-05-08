@@ -1,5 +1,5 @@
 import React from 'react';
-import pick from 'lodash/pick';
+import { pick } from '@utils';
 import { GRAPH_STATE_CANVAS_SELECTED } from '@common/constants';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
