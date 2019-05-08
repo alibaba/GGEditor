@@ -1,20 +1,25 @@
 import React from 'react';
-import commandManager from '@common/CommandManager';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 class Command extends React.Component {
   state = {
-    graphStatus: '',
+    lastGraphState: '',
+    lastCommandIndex: 0,
     disabled: false,
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { graphStatus } = props.editor;
+    const { name, editor } = props;
+    const { graphState, commandIndex } = editor;
 
-    if (graphStatus !== state.graphStatus) {
+    if (
+      graphState !== state.lastGraphState ||
+      commandIndex !== state.lastCommandIndex
+    ) {
       return {
-        graphStatus,
-        disabled: !commandManager.canExecute(props.name),
+        lastGraphState: graphState,
+        lastCommandIndex: commandIndex,
+        disabled: !editor.canExecuteCommand(name),
       };
     }
 
@@ -22,9 +27,9 @@ class Command extends React.Component {
   }
 
   handleClick = () => {
-    const { name } = this.props;
+    const { name, editor } = this.props;
 
-    commandManager.execute({
+    editor.executeCommand({
       name,
     });
   }

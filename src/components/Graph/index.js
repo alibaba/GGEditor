@@ -3,11 +3,11 @@ import pick from 'lodash/pick';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
-  GRAPH_STATUS_NODE_SELECTED,
-  GRAPH_STATUS_NODE_MULTI_SELECTED,
-  GRAPH_STATUS_CANVAS_SELECTED,
-  GRAPH_COMMON_EVENTS,
-  GRAPH_ITEM_CHANGE_EVENTS,
+  GRAPH_STATE_NODE_SELECTED,
+  GRAPH_STATE_NODE_MULTI_SELECTED,
+  GRAPH_STATE_CANVAS_SELECTED,
+  GRAPH_EVENTS_COMMON,
+  GRAPH_EVENTS_ITEM_CHANGE,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
@@ -49,8 +49,8 @@ class Graph extends React.Component {
   bindEvent() {
     const { graph, props, addListener } = this;
 
-    Object.keys(GRAPH_COMMON_EVENTS).forEach((event) => {
-      const eventName = GRAPH_COMMON_EVENTS[event];
+    Object.keys(GRAPH_EVENTS_COMMON).forEach((event) => {
+      const eventName = GRAPH_EVENTS_COMMON[event];
 
       addListener(graph, `${event}`, props[`on${eventName}`]);
       addListener(graph, `node:${event}`, props[`onNode${eventName}`]);
@@ -58,8 +58,8 @@ class Graph extends React.Component {
       addListener(graph, `canvas:${event}`, props[`onCanvas${eventName}`]);
     });
 
-    Object.keys(GRAPH_ITEM_CHANGE_EVENTS).forEach((event) => {
-      addListener(graph, [event], props[GRAPH_ITEM_CHANGE_EVENTS[event]]);
+    Object.keys(GRAPH_EVENTS_ITEM_CHANGE).forEach((event) => {
+      addListener(graph, [event], props[GRAPH_EVENTS_ITEM_CHANGE[event]]);
     });
 
     // Add listener for the selected status of the graph
@@ -76,19 +76,19 @@ class Graph extends React.Component {
 
       switch (selectedNodes.length) {
         case 0:
-          status = GRAPH_STATUS_CANVAS_SELECTED;
+          status = GRAPH_STATE_CANVAS_SELECTED;
           break;
 
         case 1:
-          status = GRAPH_STATUS_NODE_SELECTED;
+          status = GRAPH_STATE_NODE_SELECTED;
           break;
 
         default:
-          status = GRAPH_STATUS_NODE_MULTI_SELECTED;
+          status = GRAPH_STATE_NODE_MULTI_SELECTED;
           break;
       }
 
-      editor.setGraphStatus(status);
+      editor.setGraphState(status);
     });
   }
 

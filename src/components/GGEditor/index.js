@@ -1,6 +1,6 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { GRAPH_STATUS_CANVAS_SELECTED } from '@common/constants';
+import { GRAPH_STATE_CANVAS_SELECTED } from '@common/constants';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
 
@@ -10,10 +10,16 @@ class GGEditor extends React.Component {
     super(props);
 
     this.state = {
+      // graph
       graph: null,
-      graphStatus: '',
+      graphState: '',
       setGraph: this.setGraph,
-      setGraphStatus: this.setGraphStatus,
+      setGraphState: this.setGraphState,
+
+      // command
+      commandQueue: [],
+      commandIndex: 0,
+      canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
   }
@@ -21,24 +27,36 @@ class GGEditor extends React.Component {
   setGraph = (graph) => {
     this.setState({
       graph,
-      graphStatus: GRAPH_STATUS_CANVAS_SELECTED,
+      graphState: GRAPH_STATE_CANVAS_SELECTED,
     });
 
     commandManager.setGraph(graph);
   }
 
-  setGraphStatus = (graphStatus) => {
-    setTimeout(() => {
-      this.setState({
-        graphStatus,
-      });
-    }, 0);
+  setGraphState = (graphState) => {
+    this.setState({
+      graphState,
+    });
   }
 
-  executeCommand = (name, params) => {
-    commandManager.exec({
+  canExecuteCommand = (name) => {
+    return commandManager.canExecute(name);
+  }
+
+  executeCommand = ({ name, params }) => {
+    commandManager.execute({
       name,
       params,
+    });
+
+    const {
+      commandQueue,
+      commandIndex,
+    } = commandManager;
+
+    this.setState({
+      commandQueue,
+      commandIndex,
     });
   }
 
