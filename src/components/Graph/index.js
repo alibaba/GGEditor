@@ -4,7 +4,7 @@ import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
   GRAPH_STATE_NODE_SELECTED,
-  GRAPH_STATE_NODE_MULTI_SELECTED,
+  GRAPH_STATE_MULTI_SELECTED,
   GRAPH_STATE_CANVAS_SELECTED,
   GRAPH_EVENTS_COMMON,
   GRAPH_EVENTS_ITEM_CHANGE,
@@ -84,7 +84,7 @@ class Graph extends React.Component {
           break;
 
         default:
-          status = GRAPH_STATE_NODE_MULTI_SELECTED;
+          status = GRAPH_STATE_MULTI_SELECTED;
           break;
       }
 
