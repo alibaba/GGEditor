@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick, addListener } from '@utils';
+import { pick, uuid, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
@@ -8,6 +8,11 @@ import {
   GRAPH_STATE_CANVAS_SELECTED,
   GRAPH_EVENTS_COMMON,
   GRAPH_EVENTS_ITEM_CHANGE,
+  EDITOR_COMMAND_REDO,
+  EDITOR_COMMAND_UNDO,
+  EDITOR_COMMAND_TOPIC,
+  EDITOR_COMMAND_SUBTOPIC,
+  EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
@@ -20,8 +25,30 @@ class Graph extends React.Component {
     this.bindEvent();
   }
 
+  getGraphState = () => {
+    const selectedNodes = this.graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+
+    let graphState = '';
+
+    switch (selectedNodes.length) {
+      case 0:
+        graphState = GRAPH_STATE_CANVAS_SELECTED;
+        break;
+
+      case 1:
+        graphState = `${GRAPH_STATE_NODE_SELECTED}_${uuid()}`;
+        break;
+
+      default:
+        graphState = `${GRAPH_STATE_MULTI_SELECTED}_${uuid()}`;
+        break;
+    }
+
+    return graphState;
+  }
+
   initGraph() {
-    const { containerId, parseData, initGraph, editor } = this.props;
+    const { containerId, parseData, initGraph, setGraph } = this.props;
     const { clientWidth, clientHeight } = document.getElementById(containerId);
 
     // Parse data
@@ -39,7 +66,7 @@ class Graph extends React.Component {
     this.graph.render();
     this.graph.fitView();
 
-    editor.setGraph(this.graph);
+    setGraph(this.graph);
   }
 
   bindEvent() {
@@ -59,32 +86,25 @@ class Graph extends React.Component {
     });
 
     // Add listener for the selected status of the graph
-    const { editor } = this.props;
+    const { setGraphState } = this.props;
 
     addListener(graph, 'node:click', () => {
-      const selectedNodes = graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+      setGraphState(this.getGraphState());
+    });
 
-      let status = '';
-
-      switch (selectedNodes.length) {
-        case 0:
-          status = GRAPH_STATE_CANVAS_SELECTED;
-          break;
-
-        case 1:
-          status = GRAPH_STATE_NODE_SELECTED;
-          break;
-
-        default:
-          status = GRAPH_STATE_MULTI_SELECTED;
-          break;
+    addListener(graph, EDITOR_EVENTS_AFTER_EXECUTE_COMMAND, ({ name }) => {
+      if ([
+        EDITOR_COMMAND_REDO,
+        EDITOR_COMMAND_UNDO,
+        EDITOR_COMMAND_TOPIC,
+        EDITOR_COMMAND_SUBTOPIC,
+      ].includes(name)) {
+        setGraphState(this.getGraphState());
       }
-
-      editor.setGraphState(status);
     });
 
     addListener(graph, 'canvas:click', () => {
-      editor.setGraphState(GRAPH_STATE_CANVAS_SELECTED);
+      setGraphState(GRAPH_STATE_CANVAS_SELECTED);
     });
   }
 
@@ -99,4 +119,7 @@ class Graph extends React.Component {
   }
 }
 
-export default withEditorContext(Graph);
+export default withEditorContext(Graph, ({ setGraph, setGraphState }) => ({
+  setGraph,
+  setGraphState,
+}));

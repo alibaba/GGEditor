@@ -12,21 +12,17 @@ class GGEditor extends React.Component {
     super(props);
 
     this.state = {
-      // graph
       graph: null,
-      graphState: '',
+      graphState: GRAPH_STATE_CANVAS_SELECTED,
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
-
-      // command
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
   }
 
-  bindEvent() {
+  bindEvent(graph) {
     const { props } = this;
-    const { graph } = this.state;
 
     Object.keys(EDITOR_EVENTS).forEach((event) => {
       addListener(graph, event, props[EDITOR_EVENTS[event]]);
@@ -36,10 +32,9 @@ class GGEditor extends React.Component {
   setGraph = (graph) => {
     this.setState({
       graph,
-      graphState: GRAPH_STATE_CANVAS_SELECTED,
     });
 
-    this.bindEvent();
+    this.bindEvent(graph);
   }
 
   setGraphState = (graphState) => {
