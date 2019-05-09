@@ -1,9 +1,11 @@
 import React from 'react';
-import { pick } from '@utils';
-import { GRAPH_STATE_CANVAS_SELECTED } from '@common/constants';
+import { pick, addListener } from '@utils';
+import {
+  GRAPH_STATE_CANVAS_SELECTED,
+  EDITOR_EVENTS,
+} from '@common/constants';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
-
 
 class GGEditor extends React.Component {
   constructor(props) {
@@ -17,11 +19,18 @@ class GGEditor extends React.Component {
       setGraphState: this.setGraphState,
 
       // command
-      commandQueue: [],
-      commandIndex: 0,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
+  }
+
+  bindEvent() {
+    const { props } = this;
+    const { graph } = this.state;
+
+    Object.keys(EDITOR_EVENTS).forEach((event) => {
+      addListener(graph, event, props[EDITOR_EVENTS[event]]);
+    });
   }
 
   setGraph = (graph) => {
@@ -30,7 +39,7 @@ class GGEditor extends React.Component {
       graphState: GRAPH_STATE_CANVAS_SELECTED,
     });
 
-    commandManager.setGraph(graph);
+    this.bindEvent();
   }
 
   setGraphState = (graphState) => {
@@ -40,23 +49,21 @@ class GGEditor extends React.Component {
   }
 
   canExecuteCommand = (name) => {
-    return commandManager.canExecute(name);
+    const { graph } = this.state;
+
+    return commandManager.canExecute({
+      name,
+      graph,
+    });
   }
 
   executeCommand = ({ name, params }) => {
+    const { graph } = this.state;
+
     commandManager.execute({
       name,
+      graph,
       params,
-    });
-
-    const {
-      commandQueue,
-      commandIndex,
-    } = commandManager;
-
-    this.setState({
-      commandQueue,
-      commandIndex,
     });
   }
 

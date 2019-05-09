@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick } from '@utils';
+import { pick, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
@@ -19,10 +19,6 @@ class Graph extends React.Component {
     this.initGraph();
     this.bindEvent();
   }
-
-  addListener = (target, eventName, handler) => {
-    if (typeof handler === 'function') target.on(eventName, handler);
-  };
 
   initGraph() {
     const { containerId, parseData, initGraph, editor } = this.props;
@@ -47,7 +43,7 @@ class Graph extends React.Component {
   }
 
   bindEvent() {
-    const { graph, props, addListener } = this;
+    const { graph, props } = this;
 
     Object.keys(GRAPH_EVENTS_COMMON).forEach((event) => {
       const eventName = GRAPH_EVENTS_COMMON[event];
@@ -59,17 +55,13 @@ class Graph extends React.Component {
     });
 
     Object.keys(GRAPH_EVENTS_ITEM_CHANGE).forEach((event) => {
-      addListener(graph, [event], props[GRAPH_EVENTS_ITEM_CHANGE[event]]);
+      addListener(graph, event, props[GRAPH_EVENTS_ITEM_CHANGE[event]]);
     });
 
     // Add listener for the selected status of the graph
     const { editor } = this.props;
 
-    addListener(graph, 'afteritemstatechange', ({ state }) => {
-      if (state !== ITEM_STATE_SELECTED) {
-        return;
-      }
-
+    addListener(graph, 'node:click', () => {
       const selectedNodes = graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
 
       let status = '';
@@ -89,6 +81,10 @@ class Graph extends React.Component {
       }
 
       editor.setGraphState(status);
+    });
+
+    addListener(graph, 'canvas:click', () => {
+      editor.setGraphState(GRAPH_STATE_CANVAS_SELECTED);
     });
   }
 

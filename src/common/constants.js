@@ -14,6 +14,14 @@ export const GRAPH_STATE_CANVAS_SELECTED = 'CANVAS_SELECTED';
 
 export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'EXPAND_COLLAPSE_BUTTON';
 
+export const EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND = 'onBeforeExecuteCommand';
+export const EDITOR_EVENTS_AFTER_EXECUTE_COMMAND = 'onAfterExecuteCommand';
+
+export const EDITOR_EVENTS = {
+  [EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND]: 'onBeforeExecuteCommand',
+  [EDITOR_EVENTS_AFTER_EXECUTE_COMMAND]: 'onAfterExecuteCommand',
+};
+
 export const GRAPH_EVENTS_COMMON = {
   click: 'Click',
   dblclick: 'DoubleClick',
@@ -27,6 +35,7 @@ export const GRAPH_EVENTS_COMMON = {
   touchend: 'TouchEnd',
   contextmenu: 'ContextMenu',
 };
+
 export const GRAPH_EVENTS_ITEM_CHANGE = {
   beforeadditem: 'onBeforeAddItem',
   afteradditem: 'onAfterAddItem',

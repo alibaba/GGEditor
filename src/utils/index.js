@@ -7,6 +7,12 @@ export function uuid() {
   return uuidv4().replace(/-/g, '');
 }
 
+export function addListener(target, eventName, handler) {
+  if (typeof handler === 'function') {
+    target.on(eventName, handler);
+  }
+}
+
 export function recursiveTraversal(root, callback) {
   if (!root) {
     return;

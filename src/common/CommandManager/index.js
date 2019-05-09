@@ -1,3 +1,7 @@
+import {
+  EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND,
+  EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
+} from '@common/constants';
 import BaseCommand from './Command';
 
 class CommandManager {
@@ -5,10 +9,6 @@ class CommandManager {
     this.command = {};
     this.commandQueue = [];
     this.commandIndex = 0;
-  }
-
-  setGraph = (graph) => {
-    this.graph = graph;
   }
 
   register = ({ name, config = {}, extend = '' }) => {
@@ -19,13 +19,11 @@ class CommandManager {
     };
   }
 
-  canExecute = (name) => {
-    const { graph } = this;
-
+  canExecute = ({ name, graph }) => {
     return this.command[name].canExecute(graph);
   }
 
-  execute = ({ name, params }) => {
+  execute = ({ name, graph, params }) => {
     const Command = this.command[name];
 
     if (!Command) {
@@ -38,14 +36,23 @@ class CommandManager {
       command.params = params;
     }
 
-    const { graph } = this;
-
     if (!command.canExecute(graph)) {
       return;
     }
 
     command.init(graph);
+
+    graph.emit(EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND, {
+      name: command.name,
+      params: command.params,
+    });
+
     command.execute(graph);
+
+    graph.emit(EDITOR_EVENTS_AFTER_EXECUTE_COMMAND, {
+      name: command.name,
+      params: command.params,
+    });
 
     if (!command.canUndo(graph)) {
       return;
