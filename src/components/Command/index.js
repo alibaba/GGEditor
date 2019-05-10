@@ -9,9 +9,7 @@ class Command extends React.PureComponent {
   handleClick = () => {
     const { name, executeCommand } = this.props;
 
-    executeCommand({
-      name,
-    });
+    executeCommand(name);
   }
 
   render() {

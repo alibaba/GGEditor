@@ -52,7 +52,7 @@ class GGEditor extends React.Component {
     });
   }
 
-  executeCommand = ({ name, params }) => {
+  executeCommand = (name, params) => {
     const { graph } = this.state;
 
     commandManager.execute({

@@ -33,7 +33,10 @@ class CommandManager {
     const command = Object.create(Command);
 
     if (params) {
-      command.params = params;
+      command.params = {
+        ...command.params,
+        ...params,
+      };
     }
 
     if (!command.canExecute(graph)) {
