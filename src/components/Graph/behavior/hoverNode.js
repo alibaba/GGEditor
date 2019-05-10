@@ -4,18 +4,18 @@ import { ITEM_STATE_ACTIVE } from '@common/constants';
 G6.registerBehavior('hover-node', {
   getEvents() {
     return {
-      'node:mouseenter': 'handleMouseenter',
-      'node:mouseleave': 'handleMouseleave',
+      'node:mouseenter': 'handleNodeMouseenter',
+      'node:mouseleave': 'handleNodeMouseleave',
     };
   },
 
-  handleMouseenter({ item }) {
+  handleNodeMouseenter({ item }) {
     const { graph } = this;
 
     graph.setItemState(item, ITEM_STATE_ACTIVE, true);
   },
 
-  handleMouseleave({ item }) {
+  handleNodeMouseleave({ item }) {
     const { graph } = this;
 
     graph.setItemState(item, ITEM_STATE_ACTIVE, false);
