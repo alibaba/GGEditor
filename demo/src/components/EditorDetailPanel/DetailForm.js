@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
-import { Card, Form, Input, Select } from 'antd';
-import { withPropsAPI } from 'gg-editor';
+import React from 'react';
+import { Card, Form, Input } from 'antd';
+import { withEditorContext } from 'gg-editor';
 import upperFirst from 'lodash/upperFirst';
 
 const { Item } = Form;
-const { Option } = Select;
 
 const inlineFormItemLayout = {
   labelCol: {
@@ -16,10 +15,37 @@ const inlineFormItemLayout = {
 };
 
 class DetailForm extends React.Component {
-  get item() {
-    const { propsAPI } = this.props;
+  constructor(props) {
+    super(props);
 
-    return propsAPI.getSelected()[0];
+    this.id = '';
+  }
+
+  get node() {
+    const { graph } = this.props;
+
+    return graph.findAllByState('node', 'selected')[0];
+  }
+
+  componentDidMount() {
+    this.setLabelValue();
+  }
+
+  componentDidUpdate() {
+    this.setLabelValue();
+  }
+
+  setLabelValue = () => {
+    const { form } = this.props;
+    const { id, label } = this.node.getModel();
+
+    if (id !== this.id) {
+      this.id = id;
+
+      form.setFieldsValue({
+        label,
+      });
+    }
   }
 
   handleSubmit = (e) => {
@@ -27,8 +53,7 @@ class DetailForm extends React.Component {
       e.preventDefault();
     }
 
-    const { form, propsAPI } = this.props;
-    const { getSelected, executeCommand, update } = propsAPI;
+    const { form, executeCommand } = this.props;
 
     setTimeout(() => {
       form.validateFieldsAndScroll((err, values) => {
@@ -36,73 +61,24 @@ class DetailForm extends React.Component {
           return;
         }
 
-        const item = getSelected()[0];
+        const { id } = this.node.getModel();
 
-        if (!item) {
-          return;
-        }
-
-        executeCommand(() => {
-          update(item, {
+        executeCommand('update', {
+          id,
+          updateModel: {
             ...values,
-          });
+          },
         });
       });
     }, 0);
   };
 
-  renderEdgeShapeSelect = () => {
-    return (
-      <Select onChange={this.handleSubmit}>
-        <Option value="flow-smooth">Smooth</Option>
-        <Option value="flow-polyline">Polyline</Option>
-        <Option value="flow-polyline-round">Polyline Round</Option>
-      </Select>
-    );
-  };
-
   renderNodeDetail = () => {
     const { form } = this.props;
-    const { label } = this.item.getModel();
 
     return (
       <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label', {
-          initialValue: label,
-        })(<Input onBlur={this.handleSubmit} />)}
-      </Item>
-    );
-  };
-
-  renderEdgeDetail = () => {
-    const { form } = this.props;
-    const { label = '', shape = 'flow-smooth' } = this.item.getModel();
-
-    return (
-      <Fragment>
-        <Item label="Label" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('label', {
-            initialValue: label,
-          })(<Input onBlur={this.handleSubmit} />)}
-        </Item>
-        <Item label="Shape" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('shape', {
-            initialValue: shape,
-          })(this.renderEdgeShapeSelect())}
-        </Item>
-      </Fragment>
-    );
-  };
-
-  renderGroupDetail = () => {
-    const { form } = this.props;
-    const { label = '新建分组' } = this.item.getModel();
-
-    return (
-      <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label', {
-          initialValue: label,
-        })(<Input onBlur={this.handleSubmit} />)}
+        {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
       </Item>
     );
   };
@@ -110,20 +86,14 @@ class DetailForm extends React.Component {
   render() {
     const { type } = this.props;
 
-    if (!this.item) {
-      return null;
-    }
-
     return (
       <Card type="inner" size="small" title={upperFirst(type)} bordered={false}>
         <Form onSubmit={this.handleSubmit}>
-          {type === 'node' && this.renderNodeDetail()}
-          {type === 'edge' && this.renderEdgeDetail()}
-          {type === 'group' && this.renderGroupDetail()}
+          {this.renderNodeDetail()}
         </Form>
       </Card>
     );
   }
 }
 
-export default Form.create()(withPropsAPI(DetailForm));
+export default Form.create()(withEditorContext(DetailForm));

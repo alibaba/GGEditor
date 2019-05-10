@@ -1,3 +1,1 @@
-import MindToolbar from './MindToolbar';
-
-export default MindToolbar;
+export MindToolbar from './MindToolbar';
