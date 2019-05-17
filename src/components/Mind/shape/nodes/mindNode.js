@@ -74,46 +74,61 @@ G6.registerNode('mind-node', {
   },
   drawExpandOrCollapseButton({ model, group }) {
     const className = SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
+    const keyShape = group.findByClassName('keyShape');
+    const expandAttr = this.getExpandButtonAttr();
+    const collapseAttr = this.getCollapseButtonAttr();
     if (model.collapsed) {
-      this.drawExpandButton({ model, group, className });
+      const { path, stroke, fill, width, height, offset } = expandAttr;
+      const button = group.addShape('path', {
+        className,
+        attrs: {
+          path,
+          stroke,
+          fill,
+        },
+      });
+      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
     } else {
-      this.drawCollapseButton({ model, group, className });
+      const { path, stroke, fill, width, height, offset } = collapseAttr;
+      const button = group.addShape('path', {
+        className,
+        attrs: {
+          path,
+          stroke,
+          fill,
+          opacity: 0,
+        },
+      });
+      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
     }
   },
 
   // functions that can be overridden by advice
-  drawExpandButton({ model, group, className }) {
-    const keyShape = group.findByClassName('keyShape');
+  getExpandButtonAttr() {
     const width = 17;
     const height = 17;
     const offset = 3;
-    const button = group.addShape('path', {
-      className,
-      attrs: {
-        path: Util.getExpandButtonPath({ width, height }),
-        stroke: '#000',
-        fill: '#fff',
-      },
-    });
-    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
-    return button;
+    return {
+      path: Util.getExpandButtonPath({ width, height }),
+      stroke: '#000',
+      fill: '#fff',
+      width,
+      height,
+      offset,
+    };
   },
-  drawCollapseButton({ model, group, className }) {
-    const keyShape = group.findByClassName('keyShape');
+  getCollapseButtonAttr() {
     const width = 17;
     const height = 17;
     const offset = 3;
-    const button = group.addShape('path', {
-      className,
-      attrs: {
-        path: Util.getCollapseButtonPath({ width, height }),
-        opacity: 0,
-        stroke: '#000',
-        fill: '#fff',
-      },
-    });
-    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
-    return button;
+    return {
+      path: Util.getCollapseButtonPath({ width, height }),
+      stroke: '#000',
+      fill: '#fff',
+      width,
+      height,
+      offset,
+    };
   },
   getCustomStatesStyle() {
     return {
