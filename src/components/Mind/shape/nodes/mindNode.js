@@ -102,6 +102,38 @@ G6.registerNode('mind-node', {
       button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
     }
   },
+  adjustKeyShape({ updatedKeyShape, updatedLabelShape } = {}) {
+    const keyShape = updatedKeyShape || this.keyShape;
+    const padding = this.getPadding();
+    const originWidth = keyShape.attr('width');
+    const originHeight = keyShape.attr('height');
+    const [
+      textWidth,
+      textHeight,
+    ] = [this.getLabelSize({ updatedLabelShape }).width,
+      this.getLabelSize({ updatedLabelShape }).height];
+    if (originHeight < textHeight) {
+      keyShape.attr('height', textHeight + 2 * padding[0]);
+    }
+    if (originWidth < textWidth) {
+      keyShape.attr('width', textWidth + 2 * padding[1]);
+    }
+  },
+  adjustLabelShape({ updatedKeyShape, updatedLabelShape } = {}) {
+    const labelShape = updatedLabelShape || this.labelShape;
+    const keyShape = updatedKeyShape || this.keyShape;
+    if (this.getKeyShapeType() === 'rect') {
+      labelShape.attr('x', keyShape.attr('width') / 2);
+      labelShape.attr('y', keyShape.attr('height') / 2);
+    }
+  },
+  getLabelSize({ updatedLabelShape }) {
+    const labelShape = updatedLabelShape || this.labelShape;
+    return {
+      width: labelShape.getBBox().width,
+      height: labelShape.getBBox().height,
+    };
+  },
 
   // functions that can be overridden by advice
   getExpandButtonAttr() {
@@ -152,31 +184,6 @@ G6.registerNode('mind-node', {
         },
       },
     };
-  },
-  adjustKeyShape({ updatedKeyShape, updatedLabelShape } = {}) {
-    const keyShape = updatedKeyShape || this.keyShape;
-    const padding = this.getPadding();
-    const originWidth = keyShape.attr('width');
-    const originHeight = keyShape.attr('height');
-    const [
-      textWidth,
-      textHeight,
-    ] = [this.getLabelSize({ updatedLabelShape }).width,
-      this.getLabelSize({ updatedLabelShape }).height];
-    if (originHeight < textHeight) {
-      keyShape.attr('height', textHeight + 2 * padding[0]);
-    }
-    if (originWidth < textWidth) {
-      keyShape.attr('width', textWidth + 2 * padding[1]);
-    }
-  },
-  adjustLabelShape({ updatedKeyShape, updatedLabelShape } = {}) {
-    const labelShape = updatedLabelShape || this.labelShape;
-    const keyShape = updatedKeyShape || this.keyShape;
-    if (this.getKeyShapeType() === 'rect') {
-      labelShape.attr('x', keyShape.attr('width') / 2);
-      labelShape.attr('y', keyShape.attr('height') / 2);
-    }
   },
   getKeyShapeStyle({ model }) {
     const base = {
@@ -241,17 +248,10 @@ G6.registerNode('mind-node', {
     return 'rect';
   },
   getMaxTextLineWidth() {
-    return 80;
-  },
-  getLabelSize({ updatedLabelShape }) {
-    const labelShape = updatedLabelShape || this.labelShape;
-    return {
-      width: labelShape.getBBox().width,
-      height: labelShape.getBBox().height,
-    };
+    return 100;
   },
   getPadding() {
-    return [5, 5];
+    return [5, 20];
   },
   getAnchorPoints() {
     return [
