@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
 import Util from '../../util';
+import { upperFirst } from '@utils';
 import { SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON } from '@common/constants';
 
 G6.registerNode('mind-node', {
@@ -28,7 +29,7 @@ G6.registerNode('mind-node', {
   afterDraw(model, group) {
     // model.isRoot has not implement yet
     if (model.children && model.children.length > 0 && !model.isRoot) {
-      this.drawExpandOrCollapseButton({ model, group });
+      return this.drawExpandOrCollapseButton({ model, group });
     }
   },
   drawLabel(model, group) {
@@ -75,28 +76,25 @@ G6.registerNode('mind-node', {
   drawExpandOrCollapseButton({ model, group }) {
     const className = SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
     const keyShape = group.findByClassName('keyShape');
-    const expandAttr = this.getExpandButtonAttr();
-    const collapseAttr = this.getCollapseButtonAttr();
+    const expandAttr = this.getExpandButtonConfig();
+    const collapseAttr = this.getCollapseButtonConfig();
     if (model.collapsed) {
-      const { path, stroke, fill, width, height, offset } = expandAttr;
+      const { path, width, height, offset } = expandAttr;
       const button = group.addShape('path', {
         className,
         attrs: {
           path,
-          stroke,
-          fill,
+          ...this.getEcButtonStyle(),
         },
       });
       button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
     } else {
-      const { path, stroke, fill, width, height, offset } = collapseAttr;
+      const { path, width, height, offset } = collapseAttr;
       const button = group.addShape('path', {
         className,
         attrs: {
           path,
-          stroke,
-          fill,
-          opacity: 0,
+          ...this.getEcButtonStyle(),
         },
       });
       button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
@@ -136,27 +134,23 @@ G6.registerNode('mind-node', {
   },
 
   // functions that can be overridden by advice
-  getExpandButtonAttr() {
+  getExpandButtonConfig() {
     const width = 17;
     const height = 17;
     const offset = 3;
     return {
       path: Util.getExpandButtonPath({ width, height }),
-      stroke: '#000',
-      fill: '#fff',
       width,
       height,
       offset,
     };
   },
-  getCollapseButtonAttr() {
+  getCollapseButtonConfig() {
     const width = 17;
     const height = 17;
     const offset = 3;
     return {
       path: Util.getCollapseButtonPath({ width, height }),
-      stroke: '#000',
-      fill: '#fff',
       width,
       height,
       offset,
@@ -174,7 +168,7 @@ G6.registerNode('mind-node', {
           fill: 'red',
         },
         [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
-          opacity: 1,
+          fill: '#acbdfa',
         },
       },
       selected: {
@@ -238,9 +232,10 @@ G6.registerNode('mind-node', {
 
     return base;
   },
-  [`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}Style`]() {
+  getEcButtonStyle() {
     return {
-      opacity: 0,
+      stroke: '#000',
+      fill: '#fff',
     };
   },
   getKeyShapeType() {

@@ -2,7 +2,7 @@ export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const NODE_DEFAULT_LABEL = '新建节点';
 
-export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'EXPAND_COLLAPSE_BUTTON';
+export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'ecButton';
 
 export const ITEM_TYPE_NODE = 'node';
 export const ITEM_TYPE_EDGE = 'edge';
