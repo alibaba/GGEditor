@@ -29,8 +29,17 @@ G6.registerNode('mind-node', {
   afterDraw(model, group) {
     // model.isRoot has not implement yet
     if (model.children && model.children.length > 0 && !model.isRoot) {
-      return this.drawExpandOrCollapseButton({ model, group });
+      this.drawExpandOrCollapseButton({ model, group });
     }
+    const customShapes = this.getCustomShapes();
+    customShapes.map(shapeCfg => {
+      group.addShape(shapeCfg.type, {
+        className: shapeCfg.className,
+        attrs: {
+          ...this[`get${upperFirst(shapeCfg.className)}Style`](),
+        },
+      });
+    });
   },
   drawLabel(model, group) {
     // get label styles
@@ -134,6 +143,23 @@ G6.registerNode('mind-node', {
   },
 
   // functions that can be overridden by advice
+  getCustomShapes() {
+    return [
+      {
+        type: 'rect',
+        className: 'myRect',
+      },
+    ];
+  },
+  getMyRectStyle() {
+    return {
+      x: 0,
+      y: 0,
+      width: 10,
+      height: 10,
+      fill: '#ccc',
+    };
+  },
   getExpandButtonConfig() {
     const width = 17;
     const height = 17;
@@ -170,6 +196,9 @@ G6.registerNode('mind-node', {
         [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
           fill: '#acbdfa',
         },
+        myRect: {
+          fill: '#fff',
+        }
       },
       selected: {
         keyShape: {
