@@ -15,39 +15,6 @@ const inlineFormItemLayout = {
 };
 
 class DetailForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.id = '';
-  }
-
-  get node() {
-    const { graph } = this.props;
-
-    return graph.findAllByState('node', 'selected')[0];
-  }
-
-  componentDidMount() {
-    this.setLabelValue();
-  }
-
-  componentDidUpdate() {
-    this.setLabelValue();
-  }
-
-  setLabelValue = () => {
-    const { form } = this.props;
-    const { id, label } = this.node.getModel();
-
-    if (id !== this.id) {
-      this.id = id;
-
-      form.setFieldsValue({
-        label,
-      });
-    }
-  }
-
   handleSubmit = (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
@@ -61,7 +28,7 @@ class DetailForm extends React.Component {
           return;
         }
 
-        const { id } = this.node.getModel();
+        const { id } = this.props.nodes[0].getModel();
 
         executeCommand('update', {
           id,
@@ -96,4 +63,15 @@ class DetailForm extends React.Component {
   }
 }
 
-export default Form.create()(withEditorContext(DetailForm));
+export default Form.create({
+  mapPropsToFields(props) {
+    const { nodes } = props;
+    const { label } = nodes[0].getModel();
+
+    return {
+      label: Form.createFormField({
+        value: label,
+      }),
+    };
+  },
+})(withEditorContext(DetailForm));

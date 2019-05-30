@@ -9,6 +9,7 @@ import Graph from '@components/Graph';
 
 import './shape';
 import './command';
+import './behavior';
 
 class Mind extends React.Component {
   constructor(props) {
@@ -44,8 +45,9 @@ class Mind extends React.Component {
         default: [
           'drag-canvas',
           'zoom-canvas',
-          'click-select',
+          'click-node',
           'hover-node',
+          'edit-label',
           {
             type: 'collapse-expand',
             shouldBegin: this.shouldBeginCollapseExpandBehavior,

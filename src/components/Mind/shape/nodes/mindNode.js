@@ -1,13 +1,15 @@
 import G6 from '@antv/g6';
+import {
+  NODE_MAX_TEXT_LINE_WIDTH,
+  SHAPE_CLASSNAME_LABEL,
+  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+} from '@common/constants';
 import Util from '../../util';
-import { SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON } from '@common/constants';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
     this.drawKeyShape(model, group);
-    if (model.label) {
-      this.drawLabel(model, group);
-    }
+    this.drawLabel(model, group);
     this.adjustKeyShape();
     this.adjustLabelShape();
     return this.keyShape;
@@ -36,7 +38,7 @@ G6.registerNode('mind-node', {
     const labelCfg = this.getLabelStyle({ model });
     // draw label
     this.labelShape = group.addShape('text', {
-      className: 'label',
+      className: SHAPE_CLASSNAME_LABEL,
       attrs: {
         text: model.label,
         x: 0,
@@ -226,7 +228,7 @@ G6.registerNode('mind-node', {
     return 'rect';
   },
   getMaxTextLineWidth() {
-    return 80;
+    return NODE_MAX_TEXT_LINE_WIDTH;
   },
   getLabelSize({ updatedLabelShape }) {
     const labelShape = updatedLabelShape || this.labelShape;
