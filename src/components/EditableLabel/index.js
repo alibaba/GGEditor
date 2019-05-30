@@ -22,19 +22,40 @@ class EditableLabel extends React.PureComponent {
     }
   }
 
-  handleLabelBlur = () => {
-    this.updateLabel();
+  handleBlur = () => {
+    const { labelState } = this.props;
+
+    if (labelState === LABEL_STATE_SHOW) {
+      this.executeUpdate();
+    }
   }
 
-  updateLabel = () => {
+  handleKeyDown = ({ key }) => {
+    if (key === 'Enter' || key === 'Escape') {
+      this.executeUpdate();
+      this.props.setLabelState(LABEL_STATE_HIDE);
+    }
+  }
+
+  executeUpdate = () => {
     const { executeCommand } = this.props;
 
-    const { id } = this.getSelectedNode().getModel();
+    const model = this.getSelectedNode().getModel();
+
+    const { label } = model;
+    const { textContent } = this.labelElement;
+
+
+    if (textContent === label) {
+      return;
+    }
+
+    const { id } = model;
 
     executeCommand('update', {
       id,
       updateModel: {
-        label: this.labelElement.innerText,
+        label: textContent,
       },
     });
   }
@@ -135,7 +156,8 @@ class EditableLabel extends React.PureComponent {
         }}
         style={labelStyle}
         contentEditable="true"
-        onBlur={this.handleLabelBlur}
+        onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
       >
         {label}
       </div>
@@ -146,9 +168,11 @@ class EditableLabel extends React.PureComponent {
 export default withEditorContext(EditableLabel, ({
   graph,
   labelState,
+  setLabelState,
   executeCommand,
 }) => ({
   graph,
   labelState,
+  setLabelState,
   executeCommand,
 }));
