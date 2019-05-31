@@ -9,7 +9,7 @@ import {
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import Graph from '@components/Graph';
 
-import './shape';
+import '../Graph/shape';
 import './command';
 
 class Mind extends React.Component {
@@ -84,7 +84,7 @@ class Mind extends React.Component {
       },
       animate: false,
       defaultNode: {
-        shape: 'mind-node',
+        shape: 'base-node',
       },
       defaultEdge: {
         shape: 'cubic-horizontal',

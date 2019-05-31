@@ -4,10 +4,12 @@ import {
   SHAPE_CLASSNAME_LABEL,
   SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
 } from '@common/constants';
-import Util from '../../util';
+import Util from '../util';
+import { upperFirst } from '@utils';
 
-
-G6.registerNode('mind-node', {
+G6.registerNode('base-node', {
+  keyShape: null,
+  labelShape: null,
   draw(model, group) {
     this.drawKeyShape(model, group);
     this.drawLabel(model, group);
@@ -64,24 +66,31 @@ G6.registerNode('mind-node', {
     const fontStyle = this.labelShape.attr('fontStyle');
     const fontVariant = this.labelShape.attr('fontVariant');
     const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
-    this.labelShape.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
+    this.labelShape.attr('text',
+      Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
   },
 
   setState(name, value, item) {
-    // get current item's all states <Array>
-    const statesArr = item.getStates();
-
-    const group = item.getContainer();
-    const itemStates = Util.itemStates.call(this, { item, group });
-
-    if (item.hasState('selected')) {
-      itemStates.selected();
+    const customStatesStyle = this.getCustomStatesStyle();
+    Object.keys(customStatesStyle).forEach(stateName => {
+      G6.Global.nodeStateStyle[stateName] = customStatesStyle[stateName];
+    });
+    const shape = item.get('keyShape');
+    if (!shape) {
+      return;
     }
-    if (item.hasState('active') && !item.hasState('selected')) {
-      itemStates.active();
-    }
-    if (statesArr.length === 0) {
-      itemStates.staticState();
+    const stateStyle = item.getStateStyle(name);
+    if (value) { // 如果设置状态,在原本状态上叠加绘图属性
+      shape.attr(stateStyle);
+    } else { // 取消状态时重置所有状态，依次叠加仍有的状态
+      const style = item.getCurrentStatesStyle();
+      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
+      Util.each(stateStyle, (val, attr) => {
+        if (!style[attr]) {
+          style[attr] = null;
+        }
+      });
+      shape.attr(style);
     }
   },
   drawExpandOrCollapseButton({ model, group }) {
@@ -98,7 +107,8 @@ G6.registerNode('mind-node', {
           ...this.getEcButtonStyle(),
         },
       });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
+      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
+        (keyShape.attr('height') - height) / 2);
     } else {
       const { path, width, height, offset } = collapseAttr;
       const button = group.addShape('path', {
@@ -108,32 +118,27 @@ G6.registerNode('mind-node', {
           ...this.getEcButtonStyle(),
         },
       });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset, (keyShape.attr('height') - height) / 2);
+      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
+        (keyShape.attr('height') - height) / 2);
     }
   },
+  // adapt to rectangular
   adjustKeyShape({ updatedKeyShape, updatedLabelShape } = {}) {
     const keyShape = updatedKeyShape || this.keyShape;
-    const padding = this.getPadding();
-    const originWidth = keyShape.attr('width');
-    const originHeight = keyShape.attr('height');
-    const [
-      textWidth,
-      textHeight,
-    ] = [this.getLabelSize({ updatedLabelShape }).width,
+    const paddings = this.getTextPadding();
+    const [textWidth, textHeight] = [
+      this.getLabelSize({ updatedLabelShape }).width,
       this.getLabelSize({ updatedLabelShape }).height];
-    if (originHeight < textHeight) {
-      keyShape.attr('height', textHeight + 2 * padding[0]);
-    }
-    if (originWidth < textWidth) {
-      keyShape.attr('width', textWidth + 2 * padding[1]);
-    }
+    keyShape.attr('height', textHeight + paddings[0] + paddings[2]);
+    keyShape.attr('width', textWidth + paddings[1] + paddings[3]);
   },
   adjustLabelShape({ updatedKeyShape, updatedLabelShape } = {}) {
     const labelShape = updatedLabelShape || this.labelShape;
     const keyShape = updatedKeyShape || this.keyShape;
+    const paddings = this.getTextPadding();
     if (this.getKeyShapeType() === 'rect') {
-      labelShape.attr('x', keyShape.attr('width') / 2);
-      labelShape.attr('y', keyShape.attr('height') / 2);
+      labelShape.attr('x', paddings[3]);
+      labelShape.attr('y', paddings[0] + labelShape.getBBox().height / 2);
     }
   },
   getLabelSize({ updatedLabelShape }) {
@@ -154,12 +159,17 @@ G6.registerNode('mind-node', {
     ];
   },
   getMyRectStyle() {
+    const keyShapeWidth = this.keyShape.attr('width');
+    const keyShapeHeight = this.keyShape.attr('height');
+    const paddingArr = this.getTextPadding();
+    const width = Math.min(paddingArr[3], keyShapeHeight) * 0.8;
     return {
-      x: 0,
-      y: 0,
-      width: 10,
-      height: 10,
-      fill: '#ccc',
+      x: keyShapeWidth * 0.1,
+      y: (keyShapeHeight - width) / 2,
+      width,
+      height: width,
+      radius: 5,
+      fill: '#58bfc1',
     };
   },
   getExpandButtonConfig() {
@@ -187,33 +197,18 @@ G6.registerNode('mind-node', {
   getCustomStatesStyle() {
     return {
       active: {
-        keyShape: {
-          fill: '#acbdfa',
-          stroke: 'blue',
-          lineWidth: 3,
-        },
-        label: {
-          fill: 'red',
-        },
-        [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
-          fill: '#acbdfa',
-        },
-        myRect: {
-          fill: '#fff',
-        }
+        fill: '#1890ff',
+        stroke: 'green',
       },
       selected: {
-        keyShape: {
-          stroke: 'red',
-          lineWidth: 3,
-        },
+        stroke: 'red',
       },
     };
   },
   getKeyShapeStyle({ model }) {
     const base = {
-      width: 80,
-      height: 40,
+      width: 120,
+      height: 80,
       fill: '#fff',
       stroke: '#000',
       radius: 5,
@@ -243,7 +238,7 @@ G6.registerNode('mind-node', {
       fontWeight: 'normal',
       fontStyle: 'normal',
       fontVariant: 'normal',
-      textAlign: 'center',
+      textAlign: 'left',
       textBaseline: 'middle',
     };
     if (model.depth === 0) {
@@ -276,8 +271,8 @@ G6.registerNode('mind-node', {
   getMaxTextLineWidth() {
     return NODE_MAX_TEXT_LINE_WIDTH;
   },
-  getPadding() {
-    return [5, 20];
+  getTextPadding() {
+    return [5, 20, 5, 40];
   },
   getAnchorPoints() {
     return [

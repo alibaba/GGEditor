@@ -1,9 +1,16 @@
-import { upperFirst } from '@utils';
+// import { upperFirst } from '@utils';
+import each from '@antv/util/lib/each';
+
 
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');
 
+const BaseUtil = {
+  each,
+};
+
 const Util = {
+  ...BaseUtil,
   optimizeMultilineText(text, font, maxWidth = 320) {
     canvasContext.font = font;
 
@@ -73,10 +80,10 @@ const Util = {
     return rect + hp + vp;
   },
 
-  // called by mindNode.js
+  /*// called by baseNode.js
   itemStates({ item, group }) {
     const getCustomInitialStyle = (child) => {
-      if (typeof this[[`get${upperFirst(child.get('className'))}Style`]] === 'function') {
+      if (typeof this[`get${upperFirst(child.get('className'))}Style`] === 'function') {
         const customStyle = this[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
         return {
           ...child.getDefaultAttrs(),
@@ -92,6 +99,7 @@ const Util = {
       const newStyleObj = this.getCustomStatesStyle()[type];
       Object.keys(newStyleObj).forEach((className) => {
         const currentChild = group.findByClassName(className);
+        console.group(currentChild)
         if (currentChild) {
           currentChild.attr({
             ...getCustomInitialStyle(currentChild),
@@ -144,7 +152,7 @@ const Util = {
       selected,
       staticState,
     };
-  },
+  },*/
 };
 
 export default Util;

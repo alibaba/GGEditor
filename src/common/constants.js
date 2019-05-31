@@ -5,6 +5,7 @@ export const NODE_MAX_TEXT_LINE_WIDTH = 100;
 
 
 export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'ecButton';
+export const SHAPE_CLASSNAME_LABEL = 'node-label';
 
 
 export const ITEM_TYPE_NODE = 'node';
