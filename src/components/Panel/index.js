@@ -1,6 +1,8 @@
 import React from 'react';
 import { pick } from '@utils';
 import {
+  ITEM_TYPE_NODE,
+  ITEM_STATE_SELECTED,
   GRAPH_STATE_NODE_SELECTED,
   GRAPH_STATE_MULTI_SELECTED,
   GRAPH_STATE_CANVAS_SELECTED,
@@ -27,6 +29,12 @@ class Panel extends React.PureComponent {
     this.type = type;
   }
 
+  getSelectedNodes = () => {
+    const { graph } = this.props;
+
+    return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+  }
+
   render() {
     const { graph, graphState, children } = this.props;
 
@@ -40,7 +48,11 @@ class Panel extends React.PureComponent {
 
     return (
       <div {...pick(this.props, ['style', 'className'])}>
-        {children}
+        {
+          React.Children.toArray(children).map(child => React.cloneElement(child, {
+            nodes: this.getSelectedNodes(),
+          }))
+        }
       </div>
     );
   }

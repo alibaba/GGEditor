@@ -15,6 +15,7 @@ import {
   EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
+import EditableLabel from '@components/EditableLabel';
 
 import './command';
 import './behavior';
@@ -114,6 +115,7 @@ class Graph extends React.Component {
     return (
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
+        <EditableLabel />
       </div>
     );
   }

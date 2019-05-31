@@ -1,8 +1,10 @@
 import React from 'react';
 import { pick, addListener } from '@utils';
 import {
+  LABEL_STATE_HIDE,
   GRAPH_STATE_CANVAS_SELECTED,
   EDITOR_EVENTS,
+  EDITOR_EVENTS_EDITOR_LABEL,
 } from '@common/constants';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
@@ -14,8 +16,10 @@ class GGEditor extends React.Component {
     this.state = {
       graph: null,
       graphState: GRAPH_STATE_CANVAS_SELECTED,
+      labelState: LABEL_STATE_HIDE,
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
+      setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
@@ -26,6 +30,14 @@ class GGEditor extends React.Component {
 
     Object.keys(EDITOR_EVENTS).forEach((event) => {
       addListener(graph, event, props[EDITOR_EVENTS[event]]);
+    });
+
+    addListener(graph, EDITOR_EVENTS_EDITOR_LABEL, (labelState) => {
+      if (labelState === this.state.labelState) {
+        return;
+      }
+
+      this.setLabelState(labelState);
     });
   }
 
@@ -40,6 +52,12 @@ class GGEditor extends React.Component {
   setGraphState = (graphState) => {
     this.setState({
       graphState,
+    });
+  }
+
+  setLabelState = (labelState) => {
+    this.setState({
+      labelState,
     });
   }
 

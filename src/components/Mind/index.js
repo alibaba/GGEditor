@@ -4,7 +4,9 @@ import { uuid, recursiveTraversal } from '@utils';
 import {
   MIND_CONTAINER_ID,
   SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+  LABEL_STATE_HIDE,
 } from '@common/constants';
+import withEditorContext from '@common/EditorContext/withEditorContext';
 import Graph from '@components/Graph';
 
 import './shape';
@@ -17,7 +19,19 @@ class Mind extends React.Component {
     this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
   }
 
-  shouldBeginCollapseExpandBehavior = ({ target }) => {
+  canDragCanvas = () => {
+    const { labelState } = this.props;
+
+    return labelState === LABEL_STATE_HIDE;
+  }
+
+  canZoomCanvas = () => {
+    const { labelState } = this.props;
+
+    return labelState === LABEL_STATE_HIDE;
+  }
+
+  canCollapseExpand = ({ target }) => {
     return target && target.get('className') === SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
   }
 
@@ -42,13 +56,22 @@ class Mind extends React.Component {
       height,
       modes: {
         default: [
-          'drag-canvas',
-          'zoom-canvas',
-          'click-select',
+          {
+            type: 'drag-canvas',
+            shouldBegin: this.canDragCanvas,
+            shouldUpdate: this.canDragCanvas,
+            shouldEnd: this.canDragCanvas,
+          },
+          {
+            type: 'zoom-canvas',
+            shouldUpdate: this.canZoomCanvas,
+          },
+          'click-node',
           'hover-node',
+          'edit-label',
           {
             type: 'collapse-expand',
-            shouldBegin: this.shouldBeginCollapseExpandBehavior,
+            shouldBegin: this.canCollapseExpand,
           },
         ],
       },
@@ -85,4 +108,6 @@ class Mind extends React.Component {
   }
 }
 
-export default Mind;
+export default withEditorContext(Mind, ({ labelState }) => ({
+  labelState,
+}));

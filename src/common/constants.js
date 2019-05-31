@@ -1,14 +1,20 @@
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const NODE_DEFAULT_LABEL = '新建节点';
+export const NODE_MAX_TEXT_LINE_WIDTH = 100;
+
 
 export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'ecButton';
+
 
 export const ITEM_TYPE_NODE = 'node';
 export const ITEM_TYPE_EDGE = 'edge';
 
 export const ITEM_STATE_ACTIVE = 'active';
 export const ITEM_STATE_SELECTED = 'selected';
+
+export const LABEL_STATE_HIDE = 'HIDE';
+export const LABEL_STATE_SHOW = 'SHOW';
 
 export const GRAPH_STATE_NODE_SELECTED = 'NODE_SELECTED';
 export const GRAPH_STATE_MULTI_SELECTED = 'MULTI_SELECTED';
@@ -46,8 +52,9 @@ export const EDITOR_COMMAND_UNDO = 'undo';
 export const EDITOR_COMMAND_TOPIC = 'topic';
 export const EDITOR_COMMAND_SUBTOPIC = 'subtopic';
 
-export const EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND = 'onBeforeExecuteCommand';
-export const EDITOR_EVENTS_AFTER_EXECUTE_COMMAND = 'onAfterExecuteCommand';
+export const EDITOR_EVENTS_EDITOR_LABEL = 'EDITOR_LABEL';
+export const EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND = 'BEFORE_EXECUTE_COMMAND';
+export const EDITOR_EVENTS_AFTER_EXECUTE_COMMAND = 'AFTER_EXECUTE_COMMAND';
 
 export const EDITOR_EVENTS = {
   [EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND]: 'onBeforeExecuteCommand',
