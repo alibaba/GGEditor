@@ -36,7 +36,7 @@ G6.registerNode('base-node', {
       this.drawExpandOrCollapseButton({ model, group });
     }
     const customShapes = this.getCustomShapes();
-    customShapes.map(shapeCfg => {
+    customShapes.map((shapeCfg) => {
       group.addShape(shapeCfg.type, {
         className: shapeCfg.className,
         attrs: {
@@ -47,7 +47,7 @@ G6.registerNode('base-node', {
   },
   drawLabel(model, group) {
     // get label styles
-    const labelCfg = this.getLabelStyle({ model });
+    const labelCfg = this[`get${upperFirst(SHAPE_CLASSNAME_LABEL)}Style`]({ model });
     // draw label
     this.labelShape = group.addShape('text', {
       className: SHAPE_CLASSNAME_LABEL,
@@ -56,41 +56,35 @@ G6.registerNode('base-node', {
         x: 0,
         y: 0,
         ...labelCfg,
+        // textBaseline is always middle, for the sake of adjusting position
+        textBaseline: 'middle',
       },
     });
     // change text content according to text line width
-    const text = this.labelShape.attr('text');
-    const fontWeight = this.labelShape.attr('fontWeight');
-    const fontFamily = this.labelShape.attr('fontFamily');
-    const fontSize = this.labelShape.attr('fontSize');
-    const fontStyle = this.labelShape.attr('fontStyle');
-    const fontVariant = this.labelShape.attr('fontVariant');
+    const {
+      text,
+      fontWeight,
+      fontFamily,
+      fontSize,
+      fontStyle,
+      fontVariant,
+    } = this.labelShape.attr();
     const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
     this.labelShape.attr('text',
       Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
   },
 
   setState(name, value, item) {
-    const customStatesStyle = this.getCustomStatesStyle();
-    Object.keys(customStatesStyle).forEach(stateName => {
-      G6.Global.nodeStateStyle[stateName] = customStatesStyle[stateName];
-    });
-    const shape = item.get('keyShape');
-    if (!shape) {
-      return;
-    }
-    const stateStyle = item.getStateStyle(name);
-    if (value) { // 如果设置状态,在原本状态上叠加绘图属性
-      shape.attr(stateStyle);
-    } else { // 取消状态时重置所有状态，依次叠加仍有的状态
-      const style = item.getCurrentStatesStyle();
-      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
-      Util.each(stateStyle, (val, attr) => {
-        if (!style[attr]) {
-          style[attr] = null;
-        }
-      });
-      shape.attr(style);
+    // get current item's all states <Array>
+    const statesArr = item.getStates();
+
+    const group = item.getContainer();
+    const itemStates = Util.itemStates.call(this, { item, group });
+
+    if (statesArr.length === 0) {
+      itemStates.staticState();
+    } else {
+      itemStates[statesArr[statesArr.length - 1]]();
     }
   },
   drawExpandOrCollapseButton({ model, group }) {
@@ -162,9 +156,9 @@ G6.registerNode('base-node', {
     const keyShapeWidth = this.keyShape.attr('width');
     const keyShapeHeight = this.keyShape.attr('height');
     const paddingArr = this.getTextPadding();
-    const width = Math.min(paddingArr[3], keyShapeHeight) * 0.8;
+    const width = Math.min(paddingArr[3], keyShapeHeight) * 0.6;
     return {
-      x: keyShapeWidth * 0.1,
+      x: keyShapeWidth * 0.08,
       y: (keyShapeHeight - width) / 2,
       width,
       height: width,
@@ -197,11 +191,26 @@ G6.registerNode('base-node', {
   getCustomStatesStyle() {
     return {
       active: {
-        fill: '#1890ff',
-        stroke: 'green',
+        keyShape: {
+          fill: '#acbdfa',
+          stroke: 'blue',
+          lineWidth: 3,
+        },
+        [SHAPE_CLASSNAME_LABEL]: {
+          fill: 'red',
+        },
+        [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
+          fill: '#acbdfa',
+        },
+        myRect: {
+          fill: '#ccc',
+        },
       },
       selected: {
-        stroke: 'red',
+        keyShape: {
+          stroke: 'red',
+          lineWidth: 3,
+        },
       },
     };
   },
@@ -231,7 +240,7 @@ G6.registerNode('base-node', {
 
     return base;
   },
-  getLabelStyle({ model }) {
+  [`get${upperFirst(SHAPE_CLASSNAME_LABEL)}Style`]({ model }) {
     const base = {
       fill: '#000',
       fontSize: 12,
@@ -239,7 +248,6 @@ G6.registerNode('base-node', {
       fontStyle: 'normal',
       fontVariant: 'normal',
       textAlign: 'left',
-      textBaseline: 'middle',
     };
     if (model.depth === 0) {
       const scopedStyle = {
