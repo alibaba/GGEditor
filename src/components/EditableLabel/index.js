@@ -1,4 +1,5 @@
 import React from 'react';
+import G6 from '@antv/g6';
 import {
   NODE_MAX_TEXT_LINE_WIDTH,
   SHAPE_CLASSNAME_LABEL,
@@ -69,10 +70,13 @@ class EditableLabel extends React.PureComponent {
   getLabelOffset = ({ labelShape, selectedNode }) => {
     const { graph } = this.props;
 
-    const { x: rectX, y: rectY } = selectedNode.getBBox();
-    const { x: textX, y: textY } = labelShape.getBBox();
+    const { x: relativeX, y: relativeY } = labelShape.getBBox();
+    const { x: absoluteX, y: absoluteY } = G6.Util.applyMatrix({
+      x: relativeX,
+      y: relativeY,
+    }, selectedNode.getContainer().getMatrix());
 
-    const { x: left, y: top } = graph.getCanvasByPoint(rectX + textX, rectY + textY);
+    const { x: left, y: top } = graph.getCanvasByPoint(absoluteX, absoluteY);
 
     return {
       top,
@@ -130,7 +134,7 @@ class EditableLabel extends React.PureComponent {
     } else {
       const selectedNode = this.getSelectedNode();
 
-      const labelShape = selectedNode.get('group').findByClassName(SHAPE_CLASSNAME_LABEL);
+      const labelShape = selectedNode.getContainer().findByClassName(SHAPE_CLASSNAME_LABEL);
 
       label = selectedNode.getModel().label;
       labelStyle = {
