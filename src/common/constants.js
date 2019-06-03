@@ -1,4 +1,5 @@
 export const MIND_CONTAINER_ID = 'J_MindContainer';
+export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 
 export const NODE_DEFAULT_LABEL = '新建节点';
 export const NODE_MAX_TEXT_LINE_WIDTH = 100;

@@ -1,5 +1,7 @@
 import GGEditor from '@components/GGEditor';
 import Mind from '@components/Mind';
+import Flow from '@components/Flow';
+import ItemPanel, { Item } from '@components/ItemPanel';
 import Command from '@components/Command';
 import {
   NodePanel,
@@ -16,7 +18,10 @@ import withEditorContext from '@common/EditorContext/withEditorContext';
 
 export {
   Mind,
+  Flow,
+  Item,
   Command,
+  ItemPanel,
   NodePanel,
   MultiPanel,
   CanvasPanel,
