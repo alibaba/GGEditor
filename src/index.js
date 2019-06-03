@@ -1,4 +1,5 @@
 import GGEditor from '@components/GGEditor';
+import Flow from '@components/Flow';
 import Mind from '@components/Mind';
 import Command from '@components/Command';
 import {
@@ -15,6 +16,7 @@ import {
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 export {
+  Flow,
   Mind,
   Command,
   NodePanel,

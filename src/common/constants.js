@@ -1,3 +1,4 @@
+export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const NODE_DEFAULT_LABEL = '新建节点';
