@@ -60,6 +60,7 @@ class Flow extends React.Component {
             type: 'zoom-canvas',
             shouldUpdate: this.canZoomCanvas,
           },
+          'drag-node',
           'click-node',
           'hover-node',
           'edit-label',
