@@ -30,21 +30,6 @@ G6.registerNode('base-node', {
     });
     return this.keyShape;
   },
-  afterDraw(model, group) {
-    // model.isRoot has not implement yet
-    if (model.children && model.children.length > 0 && !model.isRoot) {
-      this.drawExpandOrCollapseButton({ model, group });
-    }
-    const customShapes = this.getCustomShapes();
-    customShapes.map((shapeCfg) => {
-      group.addShape(shapeCfg.type, {
-        className: shapeCfg.className,
-        attrs: {
-          ...this[`get${upperFirst(shapeCfg.className)}Style`](),
-        },
-      });
-    });
-  },
   drawLabel(model, group) {
     // get label styles
     const labelCfg = this[`get${upperFirst(SHAPE_CLASSNAME_LABEL)}Style`]({ model });
@@ -87,35 +72,6 @@ G6.registerNode('base-node', {
       itemStates[statesArr[statesArr.length - 1]]();
     }
   },
-  drawExpandOrCollapseButton({ model, group }) {
-    const className = SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
-    const keyShape = group.findByClassName('keyShape');
-    const expandAttr = this.getExpandButtonConfig();
-    const collapseAttr = this.getCollapseButtonConfig();
-    if (model.collapsed) {
-      const { path, width, height, offset } = expandAttr;
-      const button = group.addShape('path', {
-        className,
-        attrs: {
-          path,
-          ...this.getEcButtonStyle(),
-        },
-      });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
-        (keyShape.attr('height') - height) / 2);
-    } else {
-      const { path, width, height, offset } = collapseAttr;
-      const button = group.addShape('path', {
-        className,
-        attrs: {
-          path,
-          ...this.getEcButtonStyle(),
-        },
-      });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
-        (keyShape.attr('height') - height) / 2);
-    }
-  },
   // adapt to rectangular
   adjustKeyShape({ updatedKeyShape, updatedLabelShape } = {}) {
     const keyShape = updatedKeyShape || this.keyShape;
@@ -144,50 +100,6 @@ G6.registerNode('base-node', {
   },
 
   // functions that can be overridden by advice
-  getCustomShapes() {
-    return [
-      {
-        type: 'rect',
-        className: 'myRect',
-      },
-    ];
-  },
-  getMyRectStyle() {
-    const keyShapeWidth = this.keyShape.attr('width');
-    const keyShapeHeight = this.keyShape.attr('height');
-    const paddingArr = this.getTextPadding();
-    const width = Math.min(paddingArr[3], keyShapeHeight) * 0.6;
-    return {
-      x: keyShapeWidth * 0.08,
-      y: (keyShapeHeight - width) / 2,
-      width,
-      height: width,
-      radius: 5,
-      fill: '#58bfc1',
-    };
-  },
-  getExpandButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getExpandButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
-  getCollapseButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getCollapseButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
   getCustomStatesStyle() {
     return {
       active: {
@@ -195,15 +107,6 @@ G6.registerNode('base-node', {
           fill: '#acbdfa',
           stroke: 'blue',
           lineWidth: 3,
-        },
-        [SHAPE_CLASSNAME_LABEL]: {
-          fill: 'red',
-        },
-        [SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON]: {
-          fill: '#acbdfa',
-        },
-        myRect: {
-          fill: '#ccc',
         },
       },
       selected: {
@@ -221,23 +124,7 @@ G6.registerNode('base-node', {
       fill: '#fff',
       stroke: '#000',
       radius: 5,
-    };
-    if (model.depth === 0) {
-      const scopedStyle = {
-        fill: '#419ee0',
-        stroke: '#4156e0',
-        radius: 20,
-      };
-      return { ...base, ...scopedStyle };
     }
-    if (model.depth === 1) {
-      const scopedStyle = {
-        fill: '#eaeaea',
-        stroke: '#ccc',
-      };
-      return { ...base, ...scopedStyle };
-    }
-
     return base;
   },
   [`get${upperFirst(SHAPE_CLASSNAME_LABEL)}Style`]({ model }) {
@@ -249,28 +136,7 @@ G6.registerNode('base-node', {
       fontVariant: 'normal',
       textAlign: 'left',
     };
-    if (model.depth === 0) {
-      const scopedStyle = {
-        fontSize: 20,
-        fill: '#fff',
-      };
-      return { ...base, ...scopedStyle };
-    }
-    if (model.depth === 1) {
-      const scopedStyle = {
-        fontSize: 20,
-        fill: '#123',
-      };
-      return { ...base, ...scopedStyle };
-    }
-
     return base;
-  },
-  getEcButtonStyle() {
-    return {
-      stroke: '#000',
-      fill: '#fff',
-    };
   },
   getKeyShapeType() {
     // shape defined in 'G', not support 'text'
