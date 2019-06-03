@@ -1,4 +1,5 @@
 import GGEditor from '@components/GGEditor';
+import Flow from '@components/Flow';
 import Mind from '@components/Mind';
 import Flow from '@components/Flow';
 import ItemPanel, { Item } from '@components/ItemPanel';
@@ -17,6 +18,7 @@ import {
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 export {
+  Flow,
   Mind,
   Flow,
   Item,

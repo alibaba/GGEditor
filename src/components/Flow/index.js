@@ -1,6 +1,6 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { uuid, recursiveTraversal } from '@utils';
+import { uuid } from '@utils';
 import {
   FLOW_CONTAINER_ID,
   LABEL_STATE_HIDE,
@@ -28,7 +28,9 @@ class Flow extends React.Component {
   }
 
   parseData = ({ data }) => {
-    recursiveTraversal(data, (item) => {
+    const { nodes, edges } = data;
+
+    [...nodes, ...edges].forEach((item) => {
       const { id } = item;
 
       if (id) {

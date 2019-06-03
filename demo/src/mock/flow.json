@@ -1,16 +1,29 @@
 {
   "nodes": [{
-    "shape": "cicle",
-    "x": 55,
-    "y": 55,
+    "shape": "circle",
+    "x": 50,
+    "y": 50,
     "size": [70, 70],
-    "label": "开始结点"
+    "label": "Circle"
   }, {
     "shape": "rect",
-    "x": 55,
-    "y": 255,
+    "x": 50,
+    "y": 250,
     "size": [70, 70],
-    "label": "结束节点"
+    "label": "Rect"
+  }, {
+    "shape": "ellipse",
+    "x": 50,
+    "y": 450,
+    "size": [100, 70],
+    "label": "Ellipse"
+  }, {
+    "shape": "image",
+    "x": 50,
+    "y": 650,
+    "size": [70, 70],
+    "img": "https://img.alicdn.com/tfs/TB1fQpdXwmH3KVjSZKzXXb2OXXa-80-70.svg",
+    "label": "Image"
   }],
   "edges": []
 }

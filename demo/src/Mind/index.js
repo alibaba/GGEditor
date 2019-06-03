@@ -3,8 +3,8 @@ import { Row, Col } from 'antd';
 import GGEditor, { Mind } from 'gg-editor';
 import { MindToolbar } from '../components/EditorToolbar';
 import { MindDetailPanel } from '../components/EditorDetailPanel';
-import data from '../mock/worldCup2018.json';
-import styles from './index.less';
+import data from '../mock/mind.json';
+import styles from '../Flow/index.less';
 
 const MindPage = () => {
   return (
