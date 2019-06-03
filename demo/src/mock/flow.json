@@ -1,0 +1,29 @@
+{
+  "nodes": [{
+    "shape": "circle",
+    "x": 50,
+    "y": 50,
+    "size": [70, 70],
+    "label": "Circle"
+  }, {
+    "shape": "rect",
+    "x": 50,
+    "y": 250,
+    "size": [70, 70],
+    "label": "Rect"
+  }, {
+    "shape": "ellipse",
+    "x": 50,
+    "y": 450,
+    "size": [100, 70],
+    "label": "Ellipse"
+  }, {
+    "shape": "image",
+    "x": 50,
+    "y": 650,
+    "size": [70, 70],
+    "img": "https://img.alicdn.com/tfs/TB1fQpdXwmH3KVjSZKzXXb2OXXa-80-70.svg",
+    "label": "Image"
+  }],
+  "edges": []
+}

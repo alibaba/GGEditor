@@ -1,29 +1,29 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import GGEditor, { Mind } from 'gg-editor';
-import { MindToolbar } from '../components/EditorToolbar';
-import { MindDetailPanel } from '../components/EditorDetailPanel';
-import data from '../mock/mind.json';
-import styles from '../Flow/index.less';
+import GGEditor, { Flow } from 'gg-editor';
+// import { FlowToolbar } from '../components/EditorToolbar';
+// import { FlowDetailPanel } from '../components/EditorDetailPanel';
+import data from '../mock/flow.json';
+import styles from './index.less';
 
-const MindPage = () => {
+const FlowPage = () => {
   return (
     <GGEditor className={styles.editor}>
       <Row type="flex" className={styles.editorHd}>
         <Col span={24}>
-          <MindToolbar />
+          {/* <FlowToolbar /> */}
         </Col>
       </Row>
       <Row type="flex" className={styles.editorBd}>
         <Col span={20} className={styles.editorContent}>
-          <Mind data={data} className={styles.mind} />
+          <Flow data={data} className={styles.flow} />
         </Col>
         <Col span={4} className={styles.editorSidebar}>
-          <MindDetailPanel />
+          {/* <FlowDetailPanel /> */}
         </Col>
       </Row>
     </GGEditor>
   );
 };
 
-export default MindPage;
+export default FlowPage;
