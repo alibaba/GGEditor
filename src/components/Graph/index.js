@@ -16,6 +16,7 @@ import {
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import EditableLabel from '@components/EditableLabel';
+import Util from './util';
 
 import './command';
 import './behavior';
@@ -46,7 +47,7 @@ class Graph extends React.Component {
     }
 
     return graphState;
-  }
+  };
 
   initGraph() {
     const { containerId, parseData, initGraph, setGraph } = this.props;
@@ -68,6 +69,28 @@ class Graph extends React.Component {
     this.graph.fitView();
 
     setGraph(this.graph);
+  }
+
+  getDelegation(items, group) {
+    if (!group) {
+      const graph = this.getGraph();
+      group = graph.getRootGroup();
+    }
+    // 移动节点委托图形
+    const startBox = Util.getTotalBBox(items.map(item => {
+      return item.getBBox();
+    }));
+    const delegation = Util.getRectByBox(startBox, group, {
+      stroke: '#1890FF',
+      fill: '#1890FF',
+      fillOpacity: 0.08,
+      lineDash: [4, 4],
+      radius: 4,
+      lineWidth: 1,
+    });
+    delegation.set('capture', false);
+
+    return delegation;
   }
 
   bindEvent() {
@@ -115,7 +138,7 @@ class Graph extends React.Component {
     return (
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
-        <EditableLabel />
+        <EditableLabel/>
       </div>
     );
   }

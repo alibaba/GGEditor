@@ -9,12 +9,15 @@ class Item extends React.PureComponent {
   }
 
   handleMouseDown = () => {
-    const { type, size, shape, model, graph } = this.props;
+    const { type, size, shape, model, graph, executeCommand } = this.props;
     console.log(this.props);
-    graph.add(type, {
-      size: size.split('*'),
-      shape,
-      ...model,
+
+    executeCommand('add', {
+      type,
+      model: {
+        ...model,
+        size: size.split('*'),
+      },
     });
   };
 
@@ -23,7 +26,7 @@ class Item extends React.PureComponent {
 
      onAfterAddPage(({ page }) => {
        this.page = page;
-     });*/
+     }); */
   }
 
   render() {
@@ -37,4 +40,15 @@ class Item extends React.PureComponent {
   }
 }
 
-export default withEditorContext(Item);
+export default withEditorContext(Item,
+  ({
+    graph,
+    graphState,
+    canExecuteCommand,
+    executeCommand,
+  }) => ({
+    graph,
+    graphState,
+    canExecuteCommand,
+    executeCommand,
+  }));

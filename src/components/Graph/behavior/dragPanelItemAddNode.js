@@ -8,9 +8,11 @@ G6.registerBehavior('drag-panel-item-add-node', {
     };
   },
   handleMouseEnter(ev) {
-    console.log(ev);
+    const { graph } = this;
+    console.log(this);
+
   },
   handleMouseMove(ev) {
-    console.log(ev.x);
+    // console.log(ev.x);
   },
 });
