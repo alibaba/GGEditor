@@ -1,29 +1,10 @@
 {
-  "nodes": [{
-    "shape": "circle",
-    "x": 50,
-    "y": 50,
-    "size": [70, 70],
-    "label": "Circle"
-  }, {
-    "shape": "rect",
-    "x": 50,
-    "y": 250,
-    "size": [70, 70],
-    "label": "Rect"
-  }, {
-    "shape": "ellipse",
-    "x": 50,
-    "y": 450,
-    "size": [100, 70],
-    "label": "Ellipse"
-  }, {
-    "shape": "image",
-    "x": 50,
-    "y": 650,
-    "size": [70, 70],
-    "img": "https://img.alicdn.com/tfs/TB1fQpdXwmH3KVjSZKzXXb2OXXa-80-70.svg",
-    "label": "Image"
-  }],
-  "edges": []
+    "nodes": [
+        { "x": 100, "y": 50, "label": "startNode", "shape": "startNode", "id": "startNode" },
+        { "x": 100, "y": 800, "label": "endNode", "shape": "endNode", "id": "endNode" },
+        { "x": 50, "y": 100, "label": "flowNode", "shape": "flowNode", "id": "test" },
+        { "x": 500, "y": 200, "label": "flowNode", "shape": "flowNode", "id": "test2" },
+        { "x": 600, "y": 400, "label": "flowNode", "shape": "flowNode", "id": "test3" }
+    ],
+    "edges": []
 }
