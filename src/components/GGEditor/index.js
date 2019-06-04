@@ -1,5 +1,9 @@
 import React from 'react';
-import { pick, addListener } from '@utils';
+import {
+  addListener,
+  isArray,
+  pick,
+} from '@utils';
 import {
   LABEL_STATE_HIDE,
   GRAPH_STATE_CANVAS_SELECTED,
@@ -41,12 +45,46 @@ class GGEditor extends React.Component {
     });
   }
 
+  bindShortcut(graph) {
+    graph.on('keydown', (e) => {
+      e.preventDefault();
+
+      Object.values(commandManager.command).some((command) => {
+        const { name, shortcuts } = command;
+
+        const flag = shortcuts.some((shortcut) => {
+          const { key } = e;
+
+          if (!isArray(shortcut)) {
+            return shortcut === key;
+          }
+
+          return shortcut.every((item, index) => {
+            if (index === shortcut.length - 1) {
+              return item === key;
+            }
+
+            return e[item];
+          });
+        });
+
+        if (flag) {
+          this.executeCommand(name);
+          return true;
+        }
+
+        return false;
+      });
+    });
+  }
+
   setGraph = (graph) => {
     this.setState({
       graph,
     });
 
     this.bindEvent(graph);
+    this.bindShortcut(graph);
   }
 
   setGraphState = (graphState) => {
