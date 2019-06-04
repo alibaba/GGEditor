@@ -1,9 +1,5 @@
 import G6 from '@antv/g6';
-import {
-  NODE_MAX_TEXT_LINE_WIDTH,
-  SHAPE_CLASSNAME_LABEL,
-  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
-} from '@common/constants';
+import { NODE_MAX_TEXT_LINE_WIDTH, SHAPE_CLASSNAME_LABEL } from '@common/constants';
 import Util from '../util';
 import { upperFirst } from '@utils';
 

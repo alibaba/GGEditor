@@ -3,7 +3,7 @@
 
   "children": [
     {
-      "label": "",
+      "label": "123",
       "side": "left",
       "children": [
         {
@@ -84,7 +84,8 @@
               "label": "乌拉圭",
               "children": [
                 {
-                  "label": "乌拉圭"
+                  "label": "乌拉圭",
+                  "type": "text"
                 },
                 {
                   "label": "葡萄牙"
