@@ -36,7 +36,7 @@ G6.registerNode('biz-node', {
     this.prefix = group.addShape('image', {
       className: SHAPE_CLASSNAME_PREFIX,
       attrs: {
-        img: 'https://zos.alipayobjects.com/rmsportal/FDWrsEmamcNvtEf.png',
+        img: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNLTItMmgyNHYyNEgtMnoiLz48Y2lyY2xlIGN4PSI5Ljg4MiIgY3k9IjkuODgyIiByPSI5Ljg4MiIgZmlsbD0iI0ZGQkYyQyIvPjxwYXRoIGZpbGw9IiM0QzQwMjMiIGQ9Ik05Ljg4MiAxNS41M2E1LjY0OCA1LjY0OCAwIDAgMCA1LjU5Ni00Ljg4NGMuMDM0LS4yNSAwLS43NjQtLjY0OS0uNzY0SDQuOTMzYy0uNjUgMC0uNjgxLjUtLjY1Ljc0M2E1LjY0OCA1LjY0OCAwIDAgMCA1LjYgNC45MDR6Ii8+PHBhdGggZmlsbD0iI0U3NDY0MyIgZD0iTTEzLjI3MSAxNC40YTUuNjIyIDUuNjIyIDAgMCAxLTMuMzg5IDEuMTMgNS42MjIgNS42MjIgMCAwIDEtMy4zODgtMS4xMyA0LjIyOSA0LjIyOSAwIDAgMSAzLjM4OC0xLjY5NGMxLjM4NiAwIDIuNjE2LjY2NSAzLjM4OSAxLjY5NHoiLz48Y2lyY2xlIGN4PSI1LjY0NyIgY3k9IjcuMDU5IiByPSIxLjQxMiIgZmlsbD0iIzRDNDAyMyIvPjxjaXJjbGUgY3g9IjE0LjExOCIgY3k9IjcuMDU5IiByPSIxLjQxMiIgZmlsbD0iIzRDNDAyMyIvPjwvZz48L3N2Zz4=',
         width: 20,
         height: 20,
         x: 0,
@@ -73,11 +73,16 @@ G6.registerNode('biz-node', {
     return this.label;
   },
   update(nextModel, item) {
+    const group = item.getContainer();
+    let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
+    // repaint label
+    label.remove();
+    label = this.drawLabel(nextModel, group);
     this.adjustPosition({ nextModel, item });
   },
   setState(name, value, item) {
     this.setStateStyle(item);
-    this.adjustPosition({ item });
+    // this.adjustPosition({ item });
   },
   adjustPosition({ nextModel, item }) {
     const group = item.getContainer();
@@ -85,8 +90,8 @@ G6.registerNode('biz-node', {
     const label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
     const prefix = group.findByClassName(SHAPE_CLASSNAME_PREFIX);
     const nextKeyShapeSize = this.adjustKeyShapeSize({ keyShape, label, prefix });
-    this.adjustPrefix({ nextKeyShapeSize, keyShape, label, prefix });
-    this.adjustLabel({ nextKeyShapeSize, keyShape, label, prefix });
+    prefix && this.adjustPrefix({ nextKeyShapeSize, keyShape, label, prefix });
+    label && this.adjustLabel({ nextKeyShapeSize, keyShape, label, prefix });
   },
   adjustKeyShapeSize({ keyShape, label, prefix }) {
     const [textWidth, textHeight] = [label.getBBox().width, label.getBBox().height];
@@ -98,9 +103,8 @@ G6.registerNode('biz-node', {
       height: keyShape.attr('height'),
     };
   },
-  adjustLabel({ nextKeyShapeSize, label, prefix }) {
+  adjustLabel({ label, prefix }) {
     const offsetFromPrefix = 3;
-    const { height } = nextKeyShapeSize;
     const prefixWidth = prefix.attr('width');
     const prefixHeight = prefix.attr('height');
     const prefixY = prefix.attr('y');
@@ -110,7 +114,7 @@ G6.registerNode('biz-node', {
   },
   adjustPrefix({ nextKeyShapeSize, prefix }) {
     const { height } = nextKeyShapeSize;
-    const prefixHeight = this.prefix.getBBox().height;
+    const prefixHeight = prefix.getBBox().height;
     prefix.attr('x', this.getPadding());
     prefix.attr('y', (height - prefixHeight) / 2);
     return {
@@ -120,7 +124,6 @@ G6.registerNode('biz-node', {
   },
   setStateStyle(item) {
     const statesArr = item.getStates();
-    console.log(statesArr);
     const group = item.getContainer();
     const allChildren = group.get('children');
 

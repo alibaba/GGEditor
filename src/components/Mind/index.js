@@ -85,7 +85,7 @@ class Mind extends React.Component {
       },
       animate: false,
       defaultNode: {
-        shape: 'biz-node',
+        shape: 'mind-node',
       },
       defaultEdge: {
         shape: 'cubic-horizontal',
