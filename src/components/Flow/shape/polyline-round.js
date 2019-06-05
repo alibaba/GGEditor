@@ -2,17 +2,17 @@ import G6 from '@antv/g6';
 import { simplifyPolyline, getPolylinePoints, getPathWithBorderRadiusByPolyline } from './polyline';
 
 G6.registerEdge(
-    'polyline-round',
-    {
-        offset: 10,
-        borderRadius: 9,
-        getPathByPoints(points, source, target) {
-            const polylinePoints = simplifyPolyline(
-                getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset)
-            );
-            // FIXME default
-            return getPathWithBorderRadiusByPolyline(polylinePoints, this.borderRadius);
-        }
+  'polyline-round',
+  {
+    offset: 10,
+    borderRadius: 9,
+    getPathByPoints(points, source, target) {
+      const polylinePoints = simplifyPolyline(
+        getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset),
+      );
+      // FIXME default
+      return getPathWithBorderRadiusByPolyline(polylinePoints, this.borderRadius);
     },
-    'polyline'
+  },
+  'polyline',
 );

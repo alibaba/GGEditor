@@ -9,83 +9,83 @@ import './shape';
 import './behavior';
 
 class Flow extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
-    }
+    this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
+  }
 
     canDragCanvas = () => {
-        const { labelState } = this.props;
+      const { labelState } = this.props;
 
-        return labelState === LABEL_STATE_HIDE;
+      return labelState === LABEL_STATE_HIDE;
     };
 
     canZoomCanvas = () => {
-        const { labelState } = this.props;
+      const { labelState } = this.props;
 
-        return labelState === LABEL_STATE_HIDE;
+      return labelState === LABEL_STATE_HIDE;
     };
 
     parseData = ({ data }) => {
-        const { nodes, edges } = data;
+      const { nodes, edges } = data;
 
-        [...nodes, ...edges].forEach(item => {
-            const { id } = item;
+      [...nodes, ...edges].forEach((item) => {
+        const { id } = item;
 
-            if (id) {
-                return;
-            }
+        if (id) {
+          return;
+        }
 
-            item.id = uuid();
-        });
+        item.id = uuid();
+      });
     };
 
     initGraph = ({ width, height }) => {
-        const { containerId } = this;
+      const { containerId } = this;
 
-        this.graph = new G6.Graph({
-            container: containerId,
-            width,
-            height,
-            modes: {
-                default: [
-                    {
-                        type: 'drag-canvas',
-                        shouldBegin: this.canDragCanvas,
-                        shouldUpdate: this.canDragCanvas,
-                        shouldEnd: this.canDragCanvas
-                    },
-                    {
-                        type: 'zoom-canvas',
-                        shouldUpdate: this.canZoomCanvas
-                    },
-                    'dragNode',
-                    'dragAddEdge',
-                    'hoverAnchor',
-                    'hoverNode',
-                    'edit-label'
-                ]
-            }
-        });
+      this.graph = new G6.Graph({
+        container: containerId,
+        width,
+        height,
+        modes: {
+          default: [
+            {
+              type: 'drag-canvas',
+              shouldBegin: this.canDragCanvas,
+              shouldUpdate: this.canDragCanvas,
+              shouldEnd: this.canDragCanvas,
+            },
+            {
+              type: 'zoom-canvas',
+              shouldUpdate: this.canZoomCanvas,
+            },
+            'dragNode',
+            'dragAddEdge',
+            'hoverAnchor',
+            'hoverNode',
+            'edit-label',
+          ],
+        },
+      });
 
-        return this.graph;
+      return this.graph;
     };
 
     render() {
-        const { containerId, parseData, initGraph } = this;
+      const { containerId, parseData, initGraph } = this;
 
-        return (
-            <Graph
-                containerId={containerId}
-                parseData={parseData}
-                initGraph={initGraph}
-                {...this.props}
-            />
-        );
+      return (
+        <Graph
+          containerId={containerId}
+          parseData={parseData}
+          initGraph={initGraph}
+          {...this.props}
+        />
+      );
     }
 }
 
 export default withEditorContext(Flow, ({ labelState }) => ({
-    labelState
+  labelState,
 }));
