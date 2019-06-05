@@ -1,3 +1,4 @@
+/*
 import G6 from '@antv/g6';
 import { NODE_MAX_TEXT_LINE_WIDTH, SHAPE_CLASSNAME_LABEL } from '@common/constants';
 import Util from '../util';
@@ -80,7 +81,6 @@ G6.registerNode('base-node', {
   },
   adjustLabelShape({ updatedKeyShape, updatedLabelShape } = {}) {
     const labelShape = updatedLabelShape || this.labelShape;
-    const keyShape = updatedKeyShape || this.keyShape;
     const paddings = this.getTextPadding();
     if (this.getKeyShapeType() === 'rect') {
       labelShape.attr('x', paddings[3]);
@@ -151,3 +151,4 @@ G6.registerNode('base-node', {
     ];
   },
 });
+*/

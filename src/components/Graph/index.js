@@ -77,7 +77,7 @@ class Graph extends React.Component {
       group = graph.getRootGroup();
     }
     // 移动节点委托图形
-    const startBox = Util.getTotalBBox(items.map(item => {
+    const startBox = Util.getTotalBBox(items.map((item) => {
       return item.getBBox();
     }));
     const delegation = Util.getRectByBox(startBox, group, {
@@ -138,7 +138,7 @@ class Graph extends React.Component {
     return (
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
-        <EditableLabel/>
+        <EditableLabel />
       </div>
     );
   }

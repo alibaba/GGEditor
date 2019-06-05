@@ -5,7 +5,7 @@ import {
   SHAPE_CLASSNAME_KEYSHAPE,
   SHAPE_CLASSNAME_PREFIX,
 } from '@common/constants';
-import Util from '../util';
+import Util from './util';
 
 G6.registerNode('biz-node', {
   keyShape: null,
@@ -84,14 +84,18 @@ G6.registerNode('biz-node', {
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
-  adjustPosition({ nextModel, item }) {
+  adjustPosition({ item }) {
     const group = item.getContainer();
     const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
     const label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
     const prefix = group.findByClassName(SHAPE_CLASSNAME_PREFIX);
     const nextKeyShapeSize = this.adjustKeyShapeSize({ keyShape, label, prefix });
-    prefix && this.adjustPrefix({ nextKeyShapeSize, keyShape, label, prefix });
-    label && this.adjustLabel({ nextKeyShapeSize, keyShape, label, prefix });
+    if (prefix) {
+      this.adjustPrefix({ nextKeyShapeSize, keyShape, label, prefix });
+    }
+    if (label) {
+      this.adjustLabel({ nextKeyShapeSize, keyShape, label, prefix });
+    }
   },
   adjustKeyShapeSize({ keyShape, label, prefix }) {
     const [textWidth, textHeight] = [label.getBBox().width, label.getBBox().height];

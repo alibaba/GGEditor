@@ -4,7 +4,7 @@ import {
   SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
   SHAPE_CLASSNAME_KEYSHAPE,
 } from '@common/constants';
-import Util from './util';
+import Util from '../../Graph/shape/nodes/util';
 import '../../Graph/shape/nodes/bizNode';
 
 G6.registerNode('mind-node', {
@@ -25,7 +25,9 @@ G6.registerNode('mind-node', {
     // adjust position
     this.adjustPosition({ nextModel, item });
     // repaint button
-    button && button.remove();
+    if (button) {
+      button.remove();
+    }
     if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
@@ -46,19 +48,18 @@ G6.registerNode('mind-node', {
       button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
         (keyShape.attr('height') - height) / 2);
       return button;
-    } else {
-      const { path, width, height, offset } = collapseAttr;
-      const button = group.addShape('path', {
-        className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
-        attrs: {
-          path,
-          ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
-        },
-      });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
-        (keyShape.attr('height') - height) / 2);
-      return button;
     }
+    const { path, width, height, offset } = collapseAttr;
+    const button = group.addShape('path', {
+      className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+      attrs: {
+        path,
+        ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
+      },
+    });
+    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
+      (keyShape.attr('height') - height) / 2);
+    return button;
   },
   // functions that can be overridden by advice
   getExpandButtonConfig() {

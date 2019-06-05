@@ -4,7 +4,6 @@ import withEditorContext from '@common/EditorContext/withEditorContext';
 import Item from './Item';
 
 class ItemPanel extends React.PureComponent {
-
   constructor(props) {
     super(props);
     this.bindEvent();
@@ -15,13 +14,13 @@ class ItemPanel extends React.PureComponent {
   };
 
   bindEvent() {
-   /* const { onAfterAddPage } = this.props;
+    /* const { onAfterAddPage } = this.props;
 
     onAfterAddPage(({ page }) => {
       this.page = page;
 
       document.addEventListener('mouseup', this.handleMouseUp);
-    });*/
+    }); */
   }
 
   componentWillUnmount() {
@@ -30,7 +29,7 @@ class ItemPanel extends React.PureComponent {
 
   render() {
     const { children } = this.props;
-    console.log(this.props)
+    // console.log(this.props)
 
     return (
       <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>

@@ -9,8 +9,8 @@ class Item extends React.PureComponent {
   }
 
   handleMouseDown = () => {
-    const { type, size, shape, model, graph, executeCommand } = this.props;
-    console.log(this.props);
+    const { type, size, model, executeCommand } = this.props;
+    // console.log(this.props);
 
     executeCommand('add', {
       type,
