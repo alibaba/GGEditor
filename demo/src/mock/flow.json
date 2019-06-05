@@ -1,10 +1,40 @@
 {
-    "nodes": [
-        { "x": 100, "y": 50, "label": "startNode", "shape": "startNode", "id": "startNode" },
-        { "x": 100, "y": 800, "label": "endNode", "shape": "endNode", "id": "endNode" },
-        { "x": 50, "y": 100, "label": "flowNode", "shape": "flowNode", "id": "test" },
-        { "x": 500, "y": 200, "label": "flowNode", "shape": "flowNode", "id": "test2" },
-        { "x": 600, "y": 400, "label": "flowNode", "shape": "flowNode", "id": "test3" }
-    ],
-    "edges": []
+  "nodes": [
+    {
+      "x": 100,
+      "y": 50,
+      "label": "startNode",
+      "shape": "startNode",
+      "id": "startNode"
+    },
+    {
+      "x": 100,
+      "y": 800,
+      "label": "endNode",
+      "shape": "endNode",
+      "id": "endNode"
+    },
+    {
+      "x": 50,
+      "y": 100,
+      "label": "flowNode",
+      "shape": "biz-node",
+      "id": "test"
+    },
+    {
+      "x": 500,
+      "y": 200,
+      "label": "flowNode",
+      "shape": "flowNode",
+      "id": "test2"
+    },
+    {
+      "x": 600,
+      "y": 400,
+      "label": "flowNode",
+      "shape": "flowNode",
+      "id": "test3"
+    }
+  ],
+  "edges": []
 }
