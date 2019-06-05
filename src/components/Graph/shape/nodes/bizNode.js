@@ -15,6 +15,7 @@ G6.registerNode('biz-node', {
     const keyShape = this.drawKeyShape(model, group);
     this.drawPrefix(model, group);
     this.drawLabel(model, group);
+    this.adjustPosition({ model, group });
     return keyShape;
   },
   drawKeyShape(model, group) {
@@ -78,14 +79,16 @@ G6.registerNode('biz-node', {
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
-    this.adjustPosition({ nextModel, item });
+    this.adjustPosition({ item, group });
   },
   setState(name, value, item) {
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
-  adjustPosition({ item }) {
-    const group = item.getContainer();
+  adjustPosition({ item, group }) {
+    if (!group) {
+      group = item.getContainer();
+    }
     const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
     const label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
     const prefix = group.findByClassName(SHAPE_CLASSNAME_PREFIX);

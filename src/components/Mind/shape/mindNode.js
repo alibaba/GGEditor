@@ -23,7 +23,7 @@ G6.registerNode('mind-node', {
     label.remove();
     label = this.drawLabel(nextModel, group);
     // adjust position
-    this.adjustPosition({ nextModel, item });
+    this.adjustPosition({ item, group });
     // repaint button
     if (button) {
       button.remove();
