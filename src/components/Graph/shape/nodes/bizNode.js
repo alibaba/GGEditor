@@ -38,6 +38,61 @@ G6.registerNode('biz-node', {
     });
   },
 
+  setState(stateName, value, item) {
+    /* const allChildren = item.getContainer().get('children');
+    allChildren.map((shape, index) => {
+      // onlyt support keyshape now
+      const initialStyle = item.get('originStyle');
+      // get customized state style for current shape
+      const stateStyle = this.getCustomStatesStyle({ stateName, item });
+      // if no style set for this shape under current style, do nothing
+      if (!stateStyle) {
+        return shape;
+      }
+      if (value) { // if set state,
+        shape.attr(stateStyle);
+      } else { // if unset state
+        // if stateStyle includes attrs that initialStyle doesn't have, reset them
+        Util.each(stateStyle, (val, attr) => {
+          if (!initialStyle[attr]) {
+            initialStyle[attr] = null;
+          }
+        });
+        shape.attr(initialStyle);
+      }
+    }); */
+    const shape = item.get('keyShape');
+    if (!shape) {
+      return;
+    }
+    const stateStyle = this.getCustomStatesStyle({ stateName, item });
+    if (value) { // 如果设置状态,在原本状态上叠加绘图属性
+      shape.attr(stateStyle);
+    } else { // 取消状态时重置所有状态，依次叠加仍有的状态
+      const style = item.getCurrentStatesStyle();
+      // 如果默认状态下没有设置attr，在某状态下设置了，需要重置到没有设置的状态
+      Util.each(stateStyle, (val, attr) => {
+        if (!style[attr]) {
+          style[attr] = null;
+        }
+      });
+      shape.attr(style);
+    }
+  },
+
+  getCustomStatesStyle({ stateName, item }) {
+    G6.Global.nodeStateStyle.active = {
+      fill: '#acbdfa',
+      stroke: 'blue',
+      lineWidth: 3,
+    };
+    G6.Global.nodeStateStyle.selected = {
+      stroke: 'red',
+      lineWidth: 3,
+    };
+    return item.getStateStyle(stateName);
+  },
+
   redrawLabel({ label, nextModel, group }) {
     label.remove();
     const newLabel = this.drawLabel(nextModel, group);
@@ -53,8 +108,9 @@ G6.registerNode('biz-node', {
       fontVariant,
     } = newLabel.attr();
     const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
-    newLabel.attr('text', Util.optimizeMultilineText(nextModel.label, font, this.getMaxTextLineWidth()));
-    return newLabel
+    newLabel.attr('text',
+      Util.optimizeMultilineText(nextModel.label, font, this.getMaxTextLineWidth()));
+    return newLabel;
   },
 
   getLabelSize(labelShape) {

@@ -1,10 +1,14 @@
 import { upperFirst } from '@utils';
-// import each from '@antv/util/lib/each';
+import each from '@antv/util/lib/each';
 
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');
+const BaseUtil = {
+  each,
+};
 
 const Util = {
+  ...BaseUtil,
   optimizeMultilineText(text, font, maxWidth = 320) {
     canvasContext.font = font;
 
@@ -85,7 +89,8 @@ const Util = {
         textBaseline,
       } = child.attr();
       if (typeof this[`get${upperFirst(child.get('className'))}Style`] === 'function') {
-        const customStyle = this[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
+        const customStyle = this[`get${upperFirst(child.get('className'))}Style`](
+          { model: item.getModel() });
         return {
           ...child.getDefaultAttrs(),
           ...customStyle,
