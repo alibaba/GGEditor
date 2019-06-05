@@ -1,3 +1,4 @@
+import { SHPAE_CLASSNAME_ANCHOR } from '@common/constants';
 import globalStype from '../common/globalStyle';
 
 const {
@@ -13,7 +14,7 @@ function handleAnchor(name, value, item) {
   // 拿到 group
   const group = item.getContainer();
   // 拿到所有的锚点
-  const anchors = group.get('children').filter(e => e.get('className') === 'anchor');
+  const anchors = group.get('children').filter(e => e.get('className') === SHPAE_CLASSNAME_ANCHOR);
 
   // 非拖拽状态
   if (!this.addingEdge) {
@@ -42,7 +43,7 @@ function handleAnchor(name, value, item) {
     // 结束拖拽时清除所有锚点
       item.getContainer()
         .get('children')
-        .filter(i => i.get('className') === 'anchor')
+        .filter(i => i.get('className') === SHPAE_CLASSNAME_ANCHOR)
         .forEach(a => a.remove());
       this.addingEdge = false;
     }
@@ -64,7 +65,7 @@ function drawAnchor(model, group) {
       endNode: { y: -height },
     };
     const shape = group.addShape('marker', {
-      className: 'anchor',
+      className: SHPAE_CLASSNAME_ANCHOR,
       attrs: {
         symbol: 'circle',
         ...anchorPointStyle,
@@ -75,7 +76,7 @@ function drawAnchor(model, group) {
     });
     shape.showHotspot = () => {
       hotspot = group.addShape('marker', {
-        className: 'anchor',
+        className: SHPAE_CLASSNAME_ANCHOR,
         attrs: {
           symbol: 'circle',
           ...anchorHotsoptStyle,

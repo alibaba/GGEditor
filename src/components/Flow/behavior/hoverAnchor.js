@@ -1,6 +1,7 @@
 import G6 from '@antv/g6';
+import { SHPAE_CLASSNAME_ANCHOR } from '@common/constants';
 
-G6.registerBehavior('hoverAnchor', {
+G6.registerBehavior('hover-anchor', {
   getEvents() {
     return {
       mouseenter: 'onEnterAnchor',
@@ -11,7 +12,7 @@ G6.registerBehavior('hoverAnchor', {
     const { target } = ev;
     const targetName = target.get('className');
     // 如果点击的不是锚点就结束
-    if (targetName === 'anchor') return true;
+    if (targetName === SHPAE_CLASSNAME_ANCHOR) return true;
     return false;
   },
   onEnterAnchor(e) {
