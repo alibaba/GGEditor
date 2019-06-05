@@ -50,6 +50,10 @@ commandManager.register({
 
       graph.removeChild(model.id);
     },
+
+    shortcuts: [
+      'Enter',
+    ],
   },
 
   extend: 'base',

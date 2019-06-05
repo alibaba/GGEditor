@@ -1,5 +1,6 @@
 import uuidv4 from 'uuid/v4';
 
+export isArray from 'lodash/isArray';
 export pick from 'lodash/pick';
 export upperFirst from 'lodash/upperFirst';
 

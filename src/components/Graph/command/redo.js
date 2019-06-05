@@ -21,5 +21,10 @@ commandManager.register({
 
       commandManager.commandIndex += 1;
     },
+
+    shortcuts: [
+      ['metaKey', 'shiftKey', 'z'],
+      ['ctrlKey', 'shiftKey', 'z'],
+    ],
   },
 });

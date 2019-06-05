@@ -17,6 +17,10 @@ commandManager.register({
 
       this.setSelectedNode(graph, model.id);
     },
+
+    shortcuts: [
+      'Tab',
+    ],
   },
 
   extend: 'topic',
