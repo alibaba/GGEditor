@@ -4,8 +4,8 @@ import {
   SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
   SHAPE_CLASSNAME_KEYSHAPE,
 } from '@common/constants';
-import Util from '../../Graph/shape/nodes/util';
-import '../../Graph/shape/nodes/bizNode';
+import Util from '../../../Graph/shape/nodes/util';
+import '../../../Graph/shape/nodes/bizNode';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
