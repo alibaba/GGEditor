@@ -77,6 +77,7 @@ class Flow extends React.Component {
           },
           'drag-add-edge',
           'edit-label',
+          'drag-panel-item-add-node',
         ],
       },
     });

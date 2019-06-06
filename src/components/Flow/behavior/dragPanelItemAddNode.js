@@ -7,12 +7,12 @@ G6.registerBehavior('drag-panel-item-add-node', {
       'canvas:mousemove': 'handleMouseMove',
     };
   },
-  /* handleMouseEnter(ev) {
+  handleMouseEnter(ev) {
     const { graph } = this;
     console.log(this);
 
-  }, */
-  handleMouseMove(/* ev */) {
-    // console.log(ev.x);
+  },
+  handleMouseMove(ev) {
+    // console.log(ev);
   },
 });
