@@ -45,8 +45,7 @@ G6.registerNode('mind-node', {
           ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
         },
       });
-      button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
-        (keyShape.attr('height') - height) / 2);
+      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
       return button;
     }
     const { path, width, height, offset } = collapseAttr;
@@ -57,8 +56,7 @@ G6.registerNode('mind-node', {
         ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
       },
     });
-    button.translate(model.x < 0 ? -width - offset : keyShape.attr('width') + offset,
-      (keyShape.attr('height') - height) / 2);
+    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
     return button;
   },
   // functions that can be overridden by advice
