@@ -67,7 +67,7 @@ function drawAnchor(model, group) {
       flowNode: { x: width * x, y: height * y },
       startNode: { y: height * y },
       endNode: { y: -height },
-      'biz-flow-node': { x: width * x, y: height * y },
+      'biz-flow-node': { x: width * x + keyShape.attr('x'), y: height * y + keyShape.attr('y') },
     };
     const shape = group.addShape('marker', {
       className: SHPAE_CLASSNAME_ANCHOR,

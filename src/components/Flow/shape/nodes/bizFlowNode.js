@@ -1,10 +1,10 @@
 import G6 from '@antv/g6';
-import { drawAnchor, handleAnchor } from '../anchor';
 import {
   SHAPE_CLASSNAME_LABEL,
   SHAPE_CLASSNAME_KEYSHAPE,
   SHPAE_CLASSNAME_ANCHOR,
 } from '@common/constants';
+import { drawAnchor, handleAnchor } from '../anchor';
 import '../../../Graph/shape/nodes/bizNode';
 
 G6.registerNode('biz-flow-node', {

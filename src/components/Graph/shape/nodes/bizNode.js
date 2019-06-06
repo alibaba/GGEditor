@@ -99,6 +99,17 @@ G6.registerNode('biz-node', {
     if (label) {
       this.adjustLabel({ nextKeyShapeSize, keyShape, label, prefix });
     }
+    this.resetCoordinate({ nextKeyShapeSize, keyShape, label, prefix });
+  },
+  resetCoordinate({ nextKeyShapeSize, keyShape, label, prefix }) {
+    const shapeArr = [label, prefix];
+    keyShape.attr('x', 0 - nextKeyShapeSize.width / 2);
+    keyShape.attr('y', 0 - nextKeyShapeSize.height / 2);
+    shapeArr.map((shape) => {
+      shape.attr('x', shape.attr('x') - nextKeyShapeSize.width / 2);
+      shape.attr('y', shape.attr('y') - nextKeyShapeSize.height / 2);
+      return shape;
+    });
   },
   adjustKeyShapeSize({ keyShape, label, prefix }) {
     const [textWidth, textHeight] = [label.getBBox().width, label.getBBox().height];
