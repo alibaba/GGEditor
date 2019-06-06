@@ -3,3 +3,4 @@ import './startNode';
 import './endNode';
 import './polyline';
 import './polyline-round';
+import './nodes/bizFlowNode';

@@ -1,4 +1,7 @@
-import { SHPAE_CLASSNAME_ANCHOR } from '@common/constants';
+import {
+  SHPAE_CLASSNAME_ANCHOR,
+  SHAPE_CLASSNAME_KEYSHAPE,
+} from '@common/constants';
 import globalStype from '../common/globalStyle';
 
 const {
@@ -54,7 +57,8 @@ function drawAnchor(model, group) {
   const anchorPoints = this.getAnchorPoints();
   // 为每个点添加标记
   return anchorPoints.map((p, index) => {
-    const { keyShape } = this;
+    // const { keyShape } = this;
+    const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE) || this.keyShape;
     const width = keyShape.attr('width') || keyShape.attr('r');
     const height = keyShape.attr('height') || keyShape.attr('r');
     const [x, y] = [p[0], p[1]];
@@ -63,6 +67,7 @@ function drawAnchor(model, group) {
       flowNode: { x: width * x, y: height * y },
       startNode: { y: height * y },
       endNode: { y: -height },
+      'biz-flow-node': { x: width * x, y: height * y },
     };
     const shape = group.addShape('marker', {
       className: SHPAE_CLASSNAME_ANCHOR,

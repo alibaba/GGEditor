@@ -1,5 +1,8 @@
 import G6 from '@antv/g6';
 import { drawAnchor, handleAnchor } from './anchor';
+import {
+  SHAPE_CLASSNAME_KEYSHAPE,
+} from '@common/constants';
 
 G6.registerNode('flowNode', {
   drawAnchor,
@@ -26,7 +29,7 @@ G6.registerNode('flowNode', {
       radius: 5,
     };
     return group.addShape('rect', {
-      className: 'keyShape',
+      className: SHAPE_CLASSNAME_KEYSHAPE,
       attrs: {
         x: 0,
         y: 0,
