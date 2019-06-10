@@ -1,3 +1,4 @@
+/*
 import G6 from '@antv/g6';
 
 G6.registerBehavior('drag-panel-item-add-node', {
@@ -16,3 +17,4 @@ G6.registerBehavior('drag-panel-item-add-node', {
     // console.log(ev);
   },
 });
+*/

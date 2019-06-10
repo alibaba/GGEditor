@@ -4,33 +4,34 @@ import withEditorContext from '@common/EditorContext/withEditorContext';
 class Item extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.itemOfPanel = React.createRef();
+    this.itemOnPanel = React.createRef();
     this.state = {
       shadowShape: null,
+      dragShape: null,
+      dragShapeID: 'temp_drag_node',
     };
 
     this.bindEvent();
   }
 
-  handleMouseDown = (ev) => {
-    // console.log(this.props);
+  bindEvent() {
 
-    /* executeCommand('add', {
-       type,
-       model: {
-         ...model,
-         shape,
-         size: size.split('*'),
-       },
-     }); */
+  }
+
+  handleMouseDown = () => {
     const shadowShape = this.createShadowShape();
+    document.body.appendChild(shadowShape);
     this.setState({
       shadowShape,
     });
   };
 
+  handleMouseUp = () => {
+    this.unloadDragShape();
+  };
+
   createShadowShape() {
-    const { type, size, model, executeCommand, shape, graph, src } = this.props;
+    const { src } = this.props;
 
     const Img = document.createElement('img');
     Img.src = src;
@@ -38,61 +39,115 @@ class Item extends React.PureComponent {
     const styleObj = `
       width: ${Img.width}px;
       height: ${Img.height}px;
-      border: dashed 3px #1890FF;
       position: absolute;
-      opacity: 0.9;
-      background-color: rgba(242,248,252,0.5);
-      top: ${this.itemOfPanel.current.getBoundingClientRect().top}px;
-      left: ${this.itemOfPanel.current.getBoundingClientRect().left}px;
-      z-index: 9999;  
-      background-color: '#ccc';
+      opacity: 0;
+      top: ${this.itemOnPanel.current.getBoundingClientRect().top}px;
+      left: ${this.itemOnPanel.current.getBoundingClientRect().left}px;
       cursor: pointer;
     `;
 
     shadowShape.setAttribute('style', styleObj);
     shadowShape.setAttribute('draggable', 'true');
-    document.body.appendChild(shadowShape);
-    shadowShape.addEventListener('dragstart', ev => this.handleDragstart(ev), false);
-    shadowShape.addEventListener('drag', ev => this.handleDrag(ev), false);
-    document.addEventListener('dragover', ev => ev.preventDefault(), false);
-    shadowShape.addEventListener('dragend', ev => this.handleDragend(ev), false);
+    shadowShape.addEventListener('drag', this.handleDrag, false);
+    document.addEventListener('dragover', this.handleDragover, false);
+    document.addEventListener('dragenter', this.handleDragenter, false);
+    shadowShape.addEventListener('dragend', this.handleDragend, false);
+    shadowShape.addEventListener('mouseup', this.handleMouseUp, false);
     return shadowShape;
   }
 
-  handleDragstart(ev) {
-    ev.target.style.opacity = '0';
+  handleDragover = (ev) => {
+    ev.preventDefault();
+  };
+
+  handleDragenter = (ev) => {
+    const { graph } = this.props;
+    const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
+
+    const canvas = graph.get('container').getElementsByTagName('canvas')[0];
+    // drag into canvas
+    if (ev.target.id === canvas.id) {
+      this.loadDragShape(transferredPos);
+    }
+  };
+
+  handleDrag = (ev) => {
+    const { graph } = this.props;
+    const { dragShape, dragShapeID } = this.state;
+    if (dragShape) {
+      const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
+      graph.update(dragShapeID, {
+        ...transferredPos,
+      });
+    }
+  };
+
+  loadDragShape({ x, y }) {
+    const { graph } = this.props;
+    const { dragShape, shadowShape, dragShapeID } = this.state;
+    if (!dragShape) {
+      const newDragShape = graph.add('node', {
+        shape: 'rect',
+        x,
+        y,
+        size: [shadowShape.offsetWidth, shadowShape.offsetHeight],
+        style: {
+          fill: '#F3F9FF',
+          fillOpacity: 0.5,
+          stroke: '#1890FF',
+          strokeOpacity: 0.9,
+          lineDash: [5, 5],
+        },
+        id: dragShapeID,
+      });
+      this.setState({
+        dragShape: newDragShape,
+      });
+    }
   }
 
-  handleDrag(ev) {
-    const { shadowShape } = this.state;
-    ev.target.style.opacity = '0.5';
-    const left = `${ev.clientX - shadowShape.offsetWidth / 2}px`;
-    const top = `${ev.clientY - shadowShape.offsetHeight / 2}px`;
-    ev.target.style.left = left;
-    ev.target.style.top = top;
+  unloadDragShape() {
+    const { graph } = this.props;
+    const { dragShape, shadowShape } = this.state;
+
+    if (dragShape) {
+      graph.remove(dragShape);
+    }
+    if (shadowShape) {
+      document.body.removeChild(shadowShape);
+    }
+    this.setState({
+      dragShape: null,
+      shadowShape: null,
+    });
+    document.removeEventListener('dragenter', this.handleDragenter);
+    document.removeEventListener('dragover', this.handleDragover);
   }
 
-  handleDragend(ev) {
-    const { shadowShape } = this.state;
-    document.body.removeChild(shadowShape);
-    document.body.appendChild(shadowShape);
-    ev.target.style.opacity = '1';
-  }
+  handleDragend = (ev) => {
+    const { graph, executeCommand, type, model, shape, size } = this.props;
 
-  bindEvent() {
-    /* const { onAfterAddPage } = this.props;
+    this.unloadDragShape();
+    graph.remove(this.state.dragShapeID);
 
-     onAfterAddPage(({ page }) => {
-       this.page = page;
-     }); */
-  }
+    const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
+    executeCommand('add', {
+      type,
+      model: {
+        ...model,
+        shape,
+        ...transferredPos,
+        size: size.split('*'),
+      },
+    });
+  };
 
   render() {
     const { src, shape, children } = this.props;
 
     return (
-      <div style={{ cursor: 'pointer' }} onMouseDown={this.handleMouseDown} ref={this.itemOfPanel}>
-        {src ? <img src={src} alt={shape} draggable={false}/> : children}
+      <div style={{ cursor: 'pointer' }} onMouseDown={this.handleMouseDown} ref={this.itemOnPanel}>
+        {src ? <img src={src} alt={shape} draggable={false} /> : children}
       </div>
     );
   }
