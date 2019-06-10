@@ -45,7 +45,7 @@ class Item extends React.PureComponent {
     shadowShape.addEventListener('drag', this.handleDrag, false);
     document.addEventListener('dragover', this.handleDragover, false);
     document.addEventListener('dragenter', this.handleDragenter, false);
-    shadowShape.addEventListener('dragend', this.handleDragend, false);
+    document.addEventListener('drop', this.handleDrop, false);
     shadowShape.addEventListener('mouseup', this.handleMouseUp, false);
     return shadowShape;
   }
@@ -116,24 +116,30 @@ class Item extends React.PureComponent {
     });
     document.removeEventListener('dragenter', this.handleDragenter);
     document.removeEventListener('dragover', this.handleDragover);
+    document.removeEventListener('drop', this.handleDrop);
   }
 
-  handleDragend = (ev) => {
+  handleDrop = (ev) => {
     const { graph, executeCommand, type, model, shape, size } = this.props;
+    const { dragShapeID } = this.state;
 
-    this.unloadDragShape();
-    graph.remove(this.state.dragShapeID);
-
+    const canvas = graph.get('container').getElementsByTagName('canvas')[0];
     const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
-    executeCommand('add', {
-      type,
-      model: {
-        ...model,
-        shape,
-        ...transferredPos,
-        size: size.split('*'),
-      },
-    });
+
+    // drag into canvas
+    if (ev.target.id === canvas.id) {
+      executeCommand('add', {
+        type,
+        model: {
+          ...model,
+          shape,
+          ...transferredPos,
+          size: size.split('*'),
+        },
+      });
+    }
+    this.unloadDragShape();
+    graph.remove(dragShapeID);
   };
 
   render() {
