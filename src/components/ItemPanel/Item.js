@@ -10,12 +10,6 @@ class Item extends React.PureComponent {
       dragShape: null,
       dragShapeID: 'temp_drag_node',
     };
-
-    this.bindEvent();
-  }
-
-  bindEvent() {
-
   }
 
   handleMouseDown = () => {
