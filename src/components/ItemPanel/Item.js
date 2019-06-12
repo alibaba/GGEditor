@@ -153,11 +153,4 @@ class Item extends React.PureComponent {
   }
 }
 
-export default withEditorContext(Item,
-  ({
-    graph,
-    graphState,
-  }) => ({
-    graph,
-    graphState,
-  }));
+export default withEditorContext(Item);
