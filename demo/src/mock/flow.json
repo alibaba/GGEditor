@@ -18,7 +18,7 @@
       "x": 50,
       "y": 100,
       "label": "flowNode",
-      "shape": "biz-node",
+      "shape": "biz-flow-node",
       "id": "test"
     },
     {
