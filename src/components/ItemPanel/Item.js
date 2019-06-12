@@ -157,11 +157,7 @@ export default withEditorContext(Item,
   ({
     graph,
     graphState,
-    canExecuteCommand,
-    executeCommand,
   }) => ({
     graph,
     graphState,
-    canExecuteCommand,
-    executeCommand,
   }));
