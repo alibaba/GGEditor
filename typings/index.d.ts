@@ -210,7 +210,7 @@ declare module 'gg-editor' {
   }
 
   export interface PropsApi {
-    propsApi: {
+    propsAPI: {
       executeCommand?(command: EditorCommand)
       read?(data: any)
       save?(): any
