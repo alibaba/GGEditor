@@ -21,6 +21,12 @@ G6.registerNode('flowNode', {
         // 绘制锚点
         return this.keyShape;
     },
+    afterDraw() {
+        // 调整图形
+        this.adjustKeyShape();
+        // 调整 label
+        this.adjustLabelShape();
+    },
     drawShape(model, group) {
         const { x, y } = { x: 0, y: 0 };
         const { radius } = nodeStyle;

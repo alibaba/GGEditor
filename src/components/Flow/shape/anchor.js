@@ -56,7 +56,7 @@ function drawAnchor(model, group) {
     const anchorPoints = this.getAnchorPoints();
     // 为每个点添加标记
     return anchorPoints.map((p, index) => {
-        const { keyShape } = this;
+        const keyShape = group.get('item').getKeyShape();
         const width = keyShape.attr('width') || keyShape.attr('r') * 2;
         const height = keyShape.attr('height') || keyShape.attr('r') * 2;
         const [x, y] = [p[0], p[1]];
