@@ -64,7 +64,7 @@ class Flow extends React.Component {
                     'dragAddEdge',
                     'hoverAnchor',
                     'hoverNode',
-                    'edit-label'
+                    'click-select'
                 ]
             }
         });

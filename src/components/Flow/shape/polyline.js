@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-
+import globalStyle from '../common/globalStyle';
+const { edgeStyle } = globalStyle;
 /**
  * @fileOverview auto polyline
  * @author huangtonger@aliyun.com
@@ -440,8 +441,7 @@ G6.registerEdge('polyline', {
         return group.addShape('path', {
             attrs: {
                 path,
-                endArrow: true,
-                stroke: 'black'
+                ...edgeStyle
             }
         });
     },

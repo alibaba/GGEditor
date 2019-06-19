@@ -21,10 +21,13 @@ function handleAnchor(name, value, item) {
         // // 离开锚点则清除所有锚点激活样式
         if (name === 'activeAnchor')
             value ? value.setActived && value.setActived() : anchors.forEach(a => a.clearActived());
-        // // 进入节点显示所有锚点
+        // // 进入节点状态和选中状态显示所有锚点
         // // 离开节点隐藏所有锚点
         if (name === 'active')
-            value ? this.drawAnchor(model, group) : anchors.forEach(a => a.remove());
+            value
+                ? this.drawAnchor(model, group)
+                : !item.hasState('selected') && anchors.forEach(a => a.remove());
+        if (name === 'selected' && !value) anchors.forEach(a => a.remove());
     } else {
         // 拖拽状态下激活锚点则激活 hotspost 样式
         if (name === 'activeAnchor')
@@ -54,14 +57,14 @@ function drawAnchor(model, group) {
     // 为每个点添加标记
     return anchorPoints.map((p, index) => {
         const { keyShape } = this;
-        const width = keyShape.attr('width') || keyShape.attr('r');
-        const height = keyShape.attr('height') || keyShape.attr('r');
+        const width = keyShape.attr('width') || keyShape.attr('r') * 2;
+        const height = keyShape.attr('height') || keyShape.attr('r') * 2;
         const [x, y] = [p[0], p[1]];
         let hotspot;
         const attrs = {
             flowNode: { x: width * x, y: height * y },
-            startNode: { y: height * y },
-            endNode: { y: -height }
+            startNode: { x: width * x - width / 2, y: height * y - height / 2 },
+            endNode: { x: width * x - width / 2, y: height * y - height / 2 }
         };
         const shape = group.addShape('marker', {
             className: 'anchor',

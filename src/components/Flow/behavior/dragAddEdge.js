@@ -23,6 +23,7 @@ G6.registerBehavior('dragAddEdge', {
         // 点亮其它所有节点
         graph.getNodes().forEach(n => {
             if (n.get('id') !== node.get('id')) graph.setItemState(n, 'addingEdge', true);
+            else graph.setItemState(n, 'addingSource', true);
         });
 
         const point = { x: ev.x, y: ev.y };
@@ -49,11 +50,30 @@ G6.registerBehavior('dragAddEdge', {
         }
     },
     onMouseup(ev) {
-        if (!this.shouldBegin(ev)) return;
         const graph = this.graph;
         const node = ev.item;
-        const model = node.getModel();
+
         // 隐藏所有节点的锚点
+        const hideAnchors = () => {
+            graph.getNodes().forEach(n => {
+                // 清楚所有节点状态
+                graph.clearItemStates(n);
+                graph.refreshItem(n);
+            });
+        };
+
+        if (!this.shouldBegin(ev)) {
+            // 拖拽连线时，未在锚点上放开则取消连线过程
+            if (this.edge && this.addingEdge) {
+                graph.remove(this.edge);
+                this.edge = null;
+                this.addingEdge = false;
+                hideAnchors();
+            }
+            return;
+        }
+
+        const model = node.getModel();
 
         if (this.addingEdge && this.edge) {
             graph.updateItem(this.edge, {
@@ -63,9 +83,6 @@ G6.registerBehavior('dragAddEdge', {
             this.edge = null;
             this.addingEdge = false;
         }
-        graph.getNodes().forEach(n => {
-            graph.refreshItem(n);
-            graph.setItemState(n, 'addingEdge', false);
-        });
+        hideAnchors();
     }
 });
