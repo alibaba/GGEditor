@@ -5,3 +5,4 @@ import './polyline';
 import './polyline-round';
 import './flowSmooth';
 
+import './nodes/bizFlowNode';

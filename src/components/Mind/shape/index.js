@@ -1,1 +1,1 @@
-import './nodes/mindNode';
+import './nodes/bizMindNode';

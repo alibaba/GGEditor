@@ -9,7 +9,7 @@ import {
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import Graph from '@components/Graph';
 
-import './shape';
+import './shape/nodes/bizMindNode';
 import './command';
 
 class Mind extends React.Component {

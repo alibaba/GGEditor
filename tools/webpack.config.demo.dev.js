@@ -10,7 +10,7 @@ const entry = {
 
 const alias = {
   'gg-editor': path.resolve(__dirname, '..', 'src'),
-  // '@antv/g6$': '@antv/g6/src',
+  '@antv/g6$': '@antv/g6/src',
 };
 
 const externals = {

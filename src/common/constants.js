@@ -5,7 +5,10 @@ export const NODE_DEFAULT_LABEL = '新建节点';
 export const NODE_MAX_TEXT_LINE_WIDTH = 100;
 
 export const SHAPE_CLASSNAME_LABEL = 'node-label';
+export const SHPAE_CLASSNAME_ANCHOR = 'ANCHOR';
 export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'EXPAND_COLLAPSE_BUTTON';
+export const SHAPE_CLASSNAME_KEYSHAPE = 'node-shape';
+export const SHAPE_CLASSNAME_PREFIX = 'node-prefix';
 
 export const ITEM_TYPE_NODE = 'node';
 export const ITEM_TYPE_EDGE = 'edge';
