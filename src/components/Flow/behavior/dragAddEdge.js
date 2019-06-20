@@ -32,7 +32,7 @@ G6.registerBehavior('dragAddEdge', {
         // 点击节点，触发增加边
         if (!this.addingEdge && !this.edge) {
             this.edge = graph.addItem('edge', {
-                shape: 'polyline-round',
+                shape: 'flowSmooth',
                 source: model.id,
                 target: point,
                 sourceAnchor: ev.target.get('index')
