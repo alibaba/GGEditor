@@ -1,27 +1,26 @@
 import React from 'react';
 import { Divider } from 'antd';
-import { Toolbar } from 'gg-editor';
-import ToolbarButton from './ToolbarButton';
+import Button from './Button';
 import styles from './index.less';
 
-const FlowToolbar = () => {
+const MindToolbar = () => {
   return (
-    <Toolbar className={styles.toolbar}>
-      <ToolbarButton command="undo" />
-      <ToolbarButton command="redo" />
+    <div className={styles.toolbar}>
+      <Button command="undo" />
+      <Button command="redo" />
       <Divider type="vertical" />
-      <ToolbarButton command="zoomIn" icon="zoom-in" text="Zoom In" />
-      <ToolbarButton command="zoomOut" icon="zoom-out" text="Zoom Out" />
-      <ToolbarButton command="autoZoom" icon="fit-map" text="Fit Map" />
-      <ToolbarButton command="resetZoom" icon="actual-size" text="Actual Size" />
+      {/* <Button command="zoomIn" icon="zoom-in" text="Zoom In" /> */}
+      {/* <Button command="zoomOut" icon="zoom-out" text="Zoom Out" /> */}
+      {/* <Button command="autoZoom" icon="fit-map" text="Fit Map" /> */}
+      {/* <Button command="resetZoom" icon="actual-size" text="Actual Size" /> */}
       <Divider type="vertical" />
-      <ToolbarButton command="append" text="Topic" />
-      <ToolbarButton command="appendChild" icon="append-child" text="Subtopic" />
+      <Button command="topic" icon="append" />
+      <Button command="subtopic" icon="append-child" />
       <Divider type="vertical" />
-      <ToolbarButton command="collapse" text="Fold" />
-      <ToolbarButton command="expand" text="Unfold" />
-    </Toolbar>
+      {/* <Button command="collapse" text="Fold" /> */}
+      {/* <Button command="expand" text="Unfold" /> */}
+    </div>
   );
 };
 
-export default FlowToolbar;
+export default MindToolbar;

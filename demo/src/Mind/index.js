@@ -1,11 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import GGEditor, { Mind } from 'gg-editor';
-import EditorMinimap from '../components/EditorMinimap';
-import { MindContextMenu } from '../components/EditorContextMenu';
 import { MindToolbar } from '../components/EditorToolbar';
 import { MindDetailPanel } from '../components/EditorDetailPanel';
-import data from '../mock/worldCup2018.json';
+import data from '../mock/mind.json';
 import styles from '../Flow/index.less';
 
 const MindPage = () => {
@@ -22,10 +20,8 @@ const MindPage = () => {
         </Col>
         <Col span={4} className={styles.editorSidebar}>
           <MindDetailPanel />
-          <EditorMinimap />
         </Col>
       </Row>
-      <MindContextMenu />
     </GGEditor>
   );
 };

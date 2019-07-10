@@ -1,34 +1,31 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
-import EditorMinimap from '../components/EditorMinimap';
-import { FlowContextMenu } from '../components/EditorContextMenu';
-import { FlowToolbar } from '../components/EditorToolbar';
-import { FlowItemPanel } from '../components/EditorItemPanel';
-import { FlowDetailPanel } from '../components/EditorDetailPanel';
+// import { FlowToolbar } from '../components/EditorToolbar';
+// import { FlowDetailPanel } from '../components/EditorDetailPanel';
+import data from '../mock/flow.json';
 import styles from './index.less';
+import FlowItemPanel from '../components/EditorItemPanel/FlowItemPanel';
 
 const FlowPage = () => {
   return (
     <GGEditor className={styles.editor}>
       <Row type="flex" className={styles.editorHd}>
         <Col span={24}>
-          <FlowToolbar />
+          {/* <FlowToolbar /> */}
         </Col>
       </Row>
       <Row type="flex" className={styles.editorBd}>
-        <Col span={4} className={styles.editorSidebar}>
+        <Col span={4} className={styles.editorContent}>
           <FlowItemPanel />
         </Col>
         <Col span={16} className={styles.editorContent}>
-          <Flow className={styles.flow} />
+          <Flow data={data} className={styles.flow} />
         </Col>
         <Col span={4} className={styles.editorSidebar}>
-          <FlowDetailPanel />
-          <EditorMinimap />
+          {/* <FlowDetailPanel /> */}
         </Col>
       </Row>
-      <FlowContextMenu />
     </GGEditor>
   );
 };

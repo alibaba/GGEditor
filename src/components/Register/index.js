@@ -1,7 +1,7 @@
 import React from 'react';
-import Editor from '@components/Base/Editor';
+import G6 from '@antv/g6';
 import { upperFirst } from '@utils';
-import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
+import commandManager from '@common/CommandManager';
 
 class Register extends React.Component {
   static create = function (type) {
@@ -11,37 +11,25 @@ class Register extends React.Component {
       }
     }
 
-    return withGGEditorContext(TypedRegister);
+    return TypedRegister;
   }
 
   constructor(props, type) {
     super(props);
 
-    this.type = type;
+    const { name, config, extend } = props;
 
-    this.bindEvent();
-  }
+    if (type === 'command') {
+      commandManager.register({
+        name,
+        config,
+        extend,
+      });
 
-  bindEvent() {
-    const { type } = this;
-    const { onBeforeAddPage } = this.props;
+      return;
+    }
 
-    onBeforeAddPage(({ className }) => {
-      let host = Editor[className];
-      let keys = ['name', 'config', 'extend'];
-
-      if (type === 'command') {
-        host = Editor;
-      }
-
-      if (type === 'behaviour') {
-        keys = ['name', 'behaviour', 'dependences'];
-      }
-
-      const args = keys.map(key => this.props[key]);
-
-      host[`register${upperFirst(type)}`](...args);
-    });
+    G6[`register${upperFirst(type)}`](name, config, extend);
   }
 
   render() {
@@ -51,7 +39,5 @@ class Register extends React.Component {
 
 export const RegisterNode = Register.create('node');
 export const RegisterEdge = Register.create('edge');
-export const RegisterGroup = Register.create('group');
-export const RegisterGuide = Register.create('guide');
 export const RegisterCommand = Register.create('command');
-export const RegisterBehaviour = Register.create('behaviour');
+export const RegisterBehavior = Register.create('behavior');

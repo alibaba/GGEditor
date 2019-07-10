@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
-import { Card, Form, Input, Select } from 'antd';
-import { withPropsAPI } from 'gg-editor';
+import React from 'react';
+import { Card, Form, Input } from 'antd';
+import { withEditorContext } from 'gg-editor';
 import upperFirst from 'lodash/upperFirst';
 
 const { Item } = Form;
-const { Option } = Select;
 
 const inlineFormItemLayout = {
   labelCol: {
@@ -16,19 +15,12 @@ const inlineFormItemLayout = {
 };
 
 class DetailForm extends React.Component {
-  get item() {
-    const { propsAPI } = this.props;
-
-    return propsAPI.getSelected()[0];
-  }
-
   handleSubmit = (e) => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
 
-    const { form, propsAPI } = this.props;
-    const { getSelected, executeCommand, update } = propsAPI;
+    const { form, executeCommand } = this.props;
 
     setTimeout(() => {
       form.validateFieldsAndScroll((err, values) => {
@@ -36,73 +28,24 @@ class DetailForm extends React.Component {
           return;
         }
 
-        const item = getSelected()[0];
+        const { id } = this.props.nodes[0].getModel();
 
-        if (!item) {
-          return;
-        }
-
-        executeCommand(() => {
-          update(item, {
+        executeCommand('update', {
+          id,
+          updateModel: {
             ...values,
-          });
+          },
         });
       });
     }, 0);
   };
 
-  renderEdgeShapeSelect = () => {
-    return (
-      <Select onChange={this.handleSubmit}>
-        <Option value="flow-smooth">Smooth</Option>
-        <Option value="flow-polyline">Polyline</Option>
-        <Option value="flow-polyline-round">Polyline Round</Option>
-      </Select>
-    );
-  };
-
   renderNodeDetail = () => {
     const { form } = this.props;
-    const { label } = this.item.getModel();
 
     return (
       <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label', {
-          initialValue: label,
-        })(<Input onBlur={this.handleSubmit} />)}
-      </Item>
-    );
-  };
-
-  renderEdgeDetail = () => {
-    const { form } = this.props;
-    const { label = '', shape = 'flow-smooth' } = this.item.getModel();
-
-    return (
-      <Fragment>
-        <Item label="Label" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('label', {
-            initialValue: label,
-          })(<Input onBlur={this.handleSubmit} />)}
-        </Item>
-        <Item label="Shape" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('shape', {
-            initialValue: shape,
-          })(this.renderEdgeShapeSelect())}
-        </Item>
-      </Fragment>
-    );
-  };
-
-  renderGroupDetail = () => {
-    const { form } = this.props;
-    const { label = '新建分组' } = this.item.getModel();
-
-    return (
-      <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label', {
-          initialValue: label,
-        })(<Input onBlur={this.handleSubmit} />)}
+        {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
       </Item>
     );
   };
@@ -110,20 +53,25 @@ class DetailForm extends React.Component {
   render() {
     const { type } = this.props;
 
-    if (!this.item) {
-      return null;
-    }
-
     return (
       <Card type="inner" size="small" title={upperFirst(type)} bordered={false}>
         <Form onSubmit={this.handleSubmit}>
-          {type === 'node' && this.renderNodeDetail()}
-          {type === 'edge' && this.renderEdgeDetail()}
-          {type === 'group' && this.renderGroupDetail()}
+          {this.renderNodeDetail()}
         </Form>
       </Card>
     );
   }
 }
 
-export default Form.create()(withPropsAPI(DetailForm));
+export default Form.create({
+  mapPropsToFields(props) {
+    const { nodes } = props;
+    const { label } = nodes[0].getModel();
+
+    return {
+      label: Form.createFormField({
+        value: label,
+      }),
+    };
+  },
+})(withEditorContext(DetailForm));

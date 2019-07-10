@@ -1,7 +1,7 @@
 const path = require('path');
 
 const rules = [{
-  test: /\.js$/,
+  test: /\.(j|t)sx?$/,
   exclude: [
     path.resolve(__dirname, 'node_modules'),
   ],
@@ -32,6 +32,10 @@ const rules = [{
   }],
 }];
 
+const resolve = {
+  extensions: ['.js', '.ts', '.tsx'],
+};
+
 const externals = {
   react: {
     root: 'React',
@@ -45,5 +49,6 @@ module.exports = {
   module: {
     rules,
   },
+  resolve,
   externals,
 };

@@ -8,6 +8,7 @@
         "corejs": "core-js@3",
       }
     ],
+    "@babel/preset-typescript",
     "@babel/preset-react"
   ],
   "plugins": [
@@ -18,6 +19,7 @@
         "loose": true
       }
     ],
+    "@babel/plugin-proposal-export-default-from",
     [
       "module-resolver",
       {

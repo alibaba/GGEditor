@@ -1,29 +1,26 @@
 import React from 'react';
 import { pick } from '@utils';
-import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
+import withEditorContext from '@common/EditorContext/withEditorContext';
 import Item from './Item';
 
-class ItemPanel extends React.Component {
-  page = null;
-
+class ItemPanel extends React.PureComponent {
   constructor(props) {
     super(props);
-
     this.bindEvent();
   }
 
   handleMouseUp = () => {
     this.page.cancelAdd();
-  }
+  };
 
   bindEvent() {
-    const { onAfterAddPage } = this.props;
+    /* const { onAfterAddPage } = this.props;
 
     onAfterAddPage(({ page }) => {
       this.page = page;
 
       document.addEventListener('mouseup', this.handleMouseUp);
-    });
+    }); */
   }
 
   componentWillUnmount() {
@@ -32,6 +29,7 @@ class ItemPanel extends React.Component {
 
   render() {
     const { children } = this.props;
+    // console.log(this.props)
 
     return (
       <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>
@@ -43,4 +41,7 @@ class ItemPanel extends React.Component {
 
 export { Item };
 
-export default withGGEditorContext(ItemPanel);
+export default withEditorContext(ItemPanel, ({ graph, graphState }) => ({
+  graph,
+  graphState,
+}));

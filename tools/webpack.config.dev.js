@@ -5,7 +5,7 @@ const baseConfig = require('./webpack.config.base');
 const mode = 'development';
 
 const entry = {
-  bundle: path.resolve(__dirname, '..', 'src/index.js'),
+  bundle: path.resolve(__dirname, '..', 'src/index.tsx'),
 };
 
 const devtool = 'cheap-module-eval-source-map';
