@@ -27,183 +27,185 @@ export enum LabelState {
   Show = 'Show',
 }
 
+export enum EditorEvent {
+  /** 调用命令之前触发 */
+  onBeforeExecuteCommand = 'onBeforeExecuteCommand',
+  /** 调用命令之后触发 */
+  onAfterExecuteCommand = 'onAfterExecuteCommand',
+  /** 改变标签状态之前触发 */
+  onBeforeLabelStateChange = 'onBeforeLabelStateChange',
+  /** 改变标签状态之后触发 */
+  onAfterLabelStateChange = 'onAfterLabelStateChange',
+}
+
 export enum GraphCommonEvent {
   /** 单击鼠标左键或者按下回车键时触发 */
-  click = 'onClick',
+  onClick = 'click',
   /** 双击鼠标左键时触发 */
-  dbclick = 'onDoubleClick',
+  onDoubleClick = 'dbclick',
   /** 鼠标移入元素范围内触发，该事件不冒泡，即鼠标移到其后代元素上时不会触发 */
-  mouseenter = 'onMouseEnter',
+  onMouseEnter = 'mouseenter',
   /** 鼠标在元素内部移到时不断触发，不能通过键盘触发 */
-  mousemove = 'onMouseMove',
+  onMouseMove = 'mousemove',
   /** 鼠标移出目标元素后触发 */
-  mouseout = 'onMouseOut',
+  onMouseOut = 'mouseout',
   /** 鼠标移入目标元素上方，鼠标移到其后代元素上时会触发 */
-  mouseover = 'onMouseOver',
+  onMouseOver = 'mouseover',
   /** 鼠标移出元素范围时触发，该事件不冒泡，即鼠标移到其后代元素时不会触发 */
-  mouseleave = 'onMouseLeave',
+  onMouseLeave = 'mouseleave',
   /** 鼠标按钮被按下（左键或者右键）时触发，不能通过键盘触发 */
-  mousedown = 'onMouseDown',
+  onMouseDown = 'mousedown',
   /** 鼠标按钮被释放弹起时触发，不能通过键盘触发 */
-  mouseup = 'onMouseUp',
+  onMouseUp = 'mouseup',
   /** 用户右击鼠标时触发并打开上下文菜单 */
-  contextmenu = 'onContextMenu',
+  onContextMenu = 'contextmenu',
   /** 当拖拽元素开始被拖拽的时候触发的事件，此事件作用在被拖曳元素上 */
-  dragstart = 'onDragStart',
+  onDragStart = 'dragstart',
   /** 当拖拽元素在拖动过程中时触发的事件，此事件作用于被拖拽元素上 */
-  drag = 'onDrag',
+  onDrag = 'drag',
   /** 当拖拽完成后触发的事件，此事件作用在被拖曳元素上 */
-  dragend = 'onDragEnd',
+  onDragEnd = 'dragend',
   /** 当拖曳元素进入目标元素的时候触发的事件，此事件作用在目标元素上 */
-  dragenter = 'onDragEnter',
+  onDragEnter = 'dragenter',
   /** 当拖曳元素离开目标元素的时候触发的事件，此事件作用在目标元素上 */
-  dragleave = 'onDragLeave',
+  onDragLeave = 'dragleave',
   /** 被拖拽的元素在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 */
-  drop = 'onDrop',
+  onDrop = 'drop',
   /** 按下键盘键触发该事件 */
-  keydown = 'onKeyDown',
+  onKeyDown = 'keydown',
   /** 释放键盘键触发该事件 */
-  keyup = 'onKeyUp',
+  onKeyUp = 'keyup',
   /** 当手指触摸屏幕时候触发，即使已经有一个手指放在屏幕上也会触发 */
-  touchstart = 'onTouchStart',
+  onTouchStart = 'touchstart',
   /** 当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用 preventDefault() 事件可以阻止滚动。 */
-  touchmove = 'onTouchMove',
+  onTouchMove = 'touchmove',
   /** 当手指从屏幕上离开的时候触发 */
-  touchend = 'onTouchEnd',
+  onTouchEnd = 'touchend',
 }
 
 export enum GraphNodeEvent {
   /** 鼠标左键单击节点时触发 */
-  'node:click' = 'onNodeClick',
+  onNodeClick = 'node:click',
   /** 鼠标双击左键节点时触发 */
-  'node:dbclick' = 'onNodeDoubleClick',
+  onNodeDoubleClick = 'node:dbclick',
   /** 鼠标移入节点时触发 */
-  'node:mouseenter' = 'onNodeMouseEnter',
+  onNodeMouseEnter = 'node:mouseenter',
   /** 鼠标在节点内部移到时不断触发，不能通过键盘触发 */
-  'node:mousemove' = 'onNodeMouseMove',
+  onNodeMouseMove = 'node:mousemove',
   /** 鼠标移出节点后触发 */
-  'node:mouseout' = 'onNodeMouseOut',
+  onNodeMouseOut = 'node:mouseout',
   /** 鼠标移入节点上方时触发 */
-  'node:mouseover' = 'onNodeMouseOver',
+  onNodeMouseOver = 'node:mouseover',
   /** 鼠标移出节点时触发 */
-  'node:mouseleave' = 'onNodeMouseLeave',
+  onNodeMouseLeave = 'node:mouseleave',
   /** 鼠标按钮在节点上按下（左键或者右键）时触发，不能通过键盘触发 */
-  'node:mousedown' = 'onNodeMouseDown',
+  onNodeMouseDown = 'node:mousedown',
   /** 节点上按下的鼠标按钮被释放弹起时触发，不能通过键盘触发 */
-  'node:mouseup' = 'onNodeMouseUp',
+  onNodeMouseUp = 'node:mouseup',
   /** 用户在节点上右击鼠标时触发并打开右键菜单 */
-  'node:contextmenu' = 'onNodeContextMenu',
+  onNodeContextMenu = 'node:contextmenu',
   /** 当节点开始被拖拽的时候触发的事件，此事件作用在被拖曳节点上 */
-  'node:dragstart' = 'onNodeDragStart',
+  onNodeDragStart = 'node:dragstart',
   /** 当节点在拖动过程中时触发的事件，此事件作用于被拖拽节点上 */
-  'node:drag' = 'onNodeDrag',
+  onNodeDrag = 'node:drag',
   /** 当拖拽完成后触发的事件，此事件作用在被拖曳节点上 */
-  'node:dragend' = 'onNodeDragEnd',
+  onNodeDragEnd = 'node:dragend',
   /** 当拖曳节点进入目标元素的时候触发的事件，此事件作用在目标元素上 */
-  'node:dragenter' = 'onNodeDragEnter',
+  onNodeDragEnter = 'node:dragenter',
   /** 当拖曳节点离开目标元素的时候触发的事件，此事件作用在目标元素上 */
-  'node:dragleave' = 'onNodeDragLeave',
+  onNodeDragLeave = 'node:dragleave',
   /** 被拖拽的节点在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 */
-  'node:drop' = 'onNodeDrop',
+  onNodeDrop = 'node:drop',
 }
 
 export enum GraphEdgeEvent {
   /** 鼠标左键单击边时触发 */
-  'edge:click' = 'onEdgeClick',
+  onEdgeClick = 'edge:click',
   /** 鼠标双击左键边时触发 */
-  'edge:dbclick' = 'onEdgeDoubleClick',
+  onEdgeDoubleClick = 'edge:dbclick',
   /** 鼠标移入边时触发 */
-  'edge:mouseenter' = 'onEdgeMouseEnter',
+  onEdgeMouseEnter = 'edge:mouseenter',
   /** 鼠标在边上移到时不断触发，不能通过键盘触发 */
-  'edge:mousemove' = 'onEdgeMouseMove',
+  onEdgeMouseMove = 'edge:mousemove',
   /** 鼠标移出边后触发 */
-  'edge:mouseout' = 'onEdgeMouseOut',
+  onEdgeMouseOut = 'edge:mouseout',
   /** 鼠标移入边上方时触发 */
-  'edge:mouseover' = 'onEdgeMouseOver',
+  onEdgeMouseOver = 'edge:mouseover',
   /** 鼠标移出边时触发 */
-  'edge:mouseleave' = 'onEdgeMouseLeave',
+  onEdgeMouseLeave = 'edge:mouseleave',
   /** 鼠标按钮在边上按下（左键或者右键）时触发，不能通过键盘触发 */
-  'edge:mousedown' = 'onEdgeMouseDown',
+  onEdgeMouseDown = 'edge:mousedown',
   /** 边上按下的鼠标按钮被释放弹起时触发，不能通过键盘触发 */
-  'edge:mouseup' = 'onEdgeMouseUp',
+  onEdgeMouseUp = 'edge:mouseup',
   /** 用户在边上右击鼠标时触发并打开右键菜单 */
-  'edge:contextmenu' = 'onEdgeContextMenu',
+  onEdgeContextMenu = 'edge:contextmenu',
 }
 
 export enum GraphCanvasEvent {
   /** 鼠标左键单击画布时触发 */
-  'canvas:click' = 'onCanvasClick',
+  onCanvasClick = 'canvas:click',
   /** 鼠标双击左键画布时触发 */
-  'canvas:dbclick' = 'onCanvasDoubleClick',
+  onCanvasDoubleClick = 'canvas:dbclick',
   /** 鼠标移入画布时触发 */
-  'canvas:mouseenter' = 'onCanvasMouseEnter',
+  onCanvasMouseEnter = 'canvas:mouseenter',
   /** 鼠标在画布内部移到时不断触发，不能通过键盘触发 */
-  'canvas:mousemove' = 'onCanvasMouseMove',
+  onCanvasMouseMove = 'canvas:mousemove',
   /** 鼠标移出画布后触发 */
-  'canvas:mouseout' = 'onCanvasMouseOut',
+  onCanvasMouseOut = 'canvas:mouseout',
   /** 鼠标移入画布上方时触发 */
-  'canvas:mouseover' = 'onCanvasMouseOver',
+  onCanvasMouseOver = 'canvas:mouseover',
   /** 鼠标移出画布时触发 */
-  'canvas:mouseleave' = 'onCanvasMouseLeave',
+  onCanvasMouseLeave = 'canvas:mouseleave',
   /** 鼠标按钮在画布上按下（左键或者右键）时触发，不能通过键盘触发 */
-  'canvas:mousedown' = 'onCanvasMouseDown',
+  onCanvasMouseDown = 'canvas:mousedown',
   /** 画布上按下的鼠标按钮被释放弹起时触发，不能通过键盘触发 */
-  'canvas:mouseup' = 'onCanvasMouseUp',
+  onCanvasMouseUp = 'canvas:mouseup',
   /** 用户在画布上右击鼠标时触发并打开右键菜单 */
-  'canvas:contextmenu' = 'onCanvasContextMenu',
+  onCanvasContextMenu = 'canvas:contextmenu',
   /** 当画布开始被拖拽的时候触发的事件，此事件作用在被拖曳画布上 */
-  'canvas:dragstart' = 'onCanvasDragStart',
+  onCanvasDragStart = 'canvas:dragstart',
   /** 当画布在拖动过程中时触发的事件，此事件作用于被拖拽画布上 */
-  'canvas:drag' = 'onCanvasDrag',
+  onCanvasDrag = 'canvas:drag',
   /** 当拖拽完成后触发的事件，此事件作用在被拖曳画布上 */
-  'canvas:dragend' = 'onCanvasDragEnd',
+  onCanvasDragEnd = 'canvas:dragend',
   /** 当拖曳画布进入目标元素的时候触发的事件，此事件作用在目标元素上 */
-  'canvas:dragenter' = 'onCanvasDragEnter',
+  onCanvasDragEnter = 'canvas:dragenter',
   /** 当拖曳画布离开目标元素的时候触发的事件，此事件作用在目标元素上 */
-  'canvas:dragleave' = 'onCanvasDragLeave',
+  onCanvasDragLeave = 'canvas:dragleave',
 }
 
 export enum GraphCustomEvent {
   /** 调用 add / addItem 方法之前触发 */
-  beforeadditem = 'onBeforeAddItem',
+  onBeforeAddItem = 'beforeadditem',
   /** 调用 add / addItem 方法之后触发 */
-  afteradditem = 'onAfterAddItem',
+  onAfterAddItem = 'afteradditem',
   /** 调用 remove / removeItem 方法之前触发 */
-  beforeremoveitem = 'onBeforeRemoveItem',
+  onBeforeRemoveItem = 'beforeremoveitem',
   /** 调用 remove / removeItem 方法之后触发 */
-  afterremoveitem = 'onAfterRemoveItem',
+  onAfterRemoveItem = 'afterremoveitem',
   /** 调用 update / updateItem 方法之前触发 */
-  beforeupdateitem = 'onBeforeUpdateItem',
+  onBeforeUpdateItem = 'beforeupdateitem',
   /** 调用 update / updateItem 方法之后触发 */
-  afterupdateitem = 'onAfterUpdateItem',
+  onAfterUpdateItem = 'afterupdateitem',
   /** 调用 showItem / hideItem 方法之前触发 */
-  beforeitemvisibilitychange = 'onBeforeItemVisibilityChange',
+  onBeforeItemVisibilityChange = 'beforeitemvisibilitychange',
   /** 调用 showItem / hideItem 方法之后触发 */
-  afteritemvisibilitychange = 'onAfterItemVisibilityChange',
+  onAfterItemVisibilityChange = 'afteritemvisibilitychange',
   /** 调用 setItemState 方法之前触发 */
-  beforeitemstatechange = 'onBeforeItemStateChange',
+  onBeforeItemStateChange = 'beforeitemstatechange',
   /** 调用 setItemState 方法之后触发 */
-  afteritemstatechange = 'onAfterItemStateChange',
+  onAfterItemStateChange = 'afteritemstatechange',
   /** 调用 refreshItem 方法之前触发 */
-  beforerefreshitem = 'onBeforeRefreshItem',
+  onBeforeRefreshItem = 'beforerefreshitem',
   /** 调用 refreshItem 方法之后触发 */
-  afterrefreshitem = 'onAfterRefreshItem',
+  onAfterRefreshItem = 'afterrefreshitem',
   /** 调用 clearItemStates 方法之前触发 */
-  beforeitemstatesclear = 'onBeforeItemStatesClear',
-  /** 调用clearItemStates 方法之后触发 */
-  afteritemstatesclear = 'onAfterItemStatesClear',
+  onBeforeItemStatesClear = 'beforeitemstatesclear',
+  /** 调用 clearItemStates 方法之后触发 */
+  onAfterItemStatesClear = 'afteritemstatesclear',
 }
 
 export const EDITOR_COMMAND_REDO = 'redo';
 export const EDITOR_COMMAND_UNDO = 'undo';
 export const EDITOR_COMMAND_TOPIC = 'topic';
 export const EDITOR_COMMAND_SUBTOPIC = 'subtopic';
-
-export const EDITOR_EVENTS_EDITOR_LABEL = 'EDITOR_LABEL';
-export const EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND = 'BEFORE_EXECUTE_COMMAND';
-export const EDITOR_EVENTS_AFTER_EXECUTE_COMMAND = 'AFTER_EXECUTE_COMMAND';
-
-export const EDITOR_EVENTS = {
-  [EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND]: 'onBeforeExecuteCommand',
-  [EDITOR_EVENTS_AFTER_EXECUTE_COMMAND]: 'onAfterExecuteCommand',
-};

@@ -1,6 +1,5 @@
 import {
-  EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND,
-  EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
+  EditorEvent
 } from '@common/constants';
 import BaseCommand from './Command';
 
@@ -45,14 +44,14 @@ class CommandManager {
 
     command.init(graph);
 
-    graph.emit(EDITOR_EVENTS_BEFORE_EXECUTE_COMMAND, {
+    graph.emit(EditorEvent.onBeforeExecuteCommand, {
       name: command.name,
       params: command.params,
     });
 
     command.execute(graph);
 
-    graph.emit(EDITOR_EVENTS_AFTER_EXECUTE_COMMAND, {
+    graph.emit(EditorEvent.onAfterExecuteCommand, {
       name: command.name,
       params: command.params,
     });

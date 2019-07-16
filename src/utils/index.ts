@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid/v4';
+import { EditorEvent } from '@common/constants';
 import { Graph, GraphNativeEvent, GraphEventHandle } from '@common/interface';
 
 export isArray from 'lodash/isArray';
@@ -9,7 +10,7 @@ export function uuid() {
   return uuidv4().replace(/-/g, '');
 }
 
-export function addListener(target: Graph, eventName: GraphNativeEvent, handler: GraphEventHandle | undefined) {
+export function addListener<T>(target: Graph, eventName: EditorEvent | GraphNativeEvent, handler: T | undefined) {
   if (typeof handler === 'function') {
     target.on(eventName, handler);
   }

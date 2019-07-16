@@ -7,8 +7,8 @@ import {
   EDITOR_COMMAND_UNDO,
   EDITOR_COMMAND_TOPIC,
   EDITOR_COMMAND_SUBTOPIC,
-  EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
   GraphState,
+  EditorEvent,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
@@ -23,6 +23,9 @@ import {
   GraphCustomEventProps,
   GraphNativeEvent,
   GraphReactEvent,
+  GraphEvent,
+  CommandEvent,
+  EventHandle,
 } from '@common/interface';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import EditableLabel from '@components/EditableLabel';
@@ -89,7 +92,7 @@ class Graph extends React.Component<GraphProps> {
     const { graph, props } = this;
 
     const events: {
-      [propName in GraphNativeEvent]: GraphReactEvent;
+      [propName in GraphReactEvent]: GraphNativeEvent;
     } = {
       ...GraphCommonEvent,
       ...GraphNodeEvent,
@@ -98,18 +101,14 @@ class Graph extends React.Component<GraphProps> {
       ...GraphCustomEvent,
     };
 
-    (Object.keys(events) as GraphNativeEvent[]).forEach((event) => {
-      addListener(graph, event, props[events[event]]);
+    (Object.keys(events) as GraphReactEvent[]).forEach((event) => {
+      addListener<EventHandle<GraphEvent>>(graph, events[event], props[event]);
     });
 
     // Add listener for the selected status of the graph
     const { setGraphState } = this.props;
 
-    addListener(graph, 'node:click', () => {
-      setGraphState(this.getGraphState());
-    });
-
-    addListener(graph, EDITOR_EVENTS_AFTER_EXECUTE_COMMAND, ({ name }) => {
+    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, ({ name }) => {
       if ([
         EDITOR_COMMAND_REDO,
         EDITOR_COMMAND_UNDO,
@@ -120,7 +119,11 @@ class Graph extends React.Component<GraphProps> {
       }
     });
 
-    addListener(graph, 'canvas:click', () => {
+    addListener<EventHandle<GraphEvent>>(graph, GraphNodeEvent.onNodeClick, () => {
+      setGraphState(this.getGraphState());
+    });
+
+    addListener<EventHandle<GraphEvent>>(graph, GraphCanvasEvent.onCanvasClick, () => {
       setGraphState(GraphState.CanvasSelected);
     });
   }

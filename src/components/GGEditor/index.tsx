@@ -1,24 +1,16 @@
 import React from 'react';
-import {
-  addListener,
-  isArray,
-  pick,
-} from '@utils';
-import {
-  GraphState,
-  LabelState,
-  EDITOR_EVENTS,
-  EDITOR_EVENTS_EDITOR_LABEL,
-} from '@common/constants';
+import { addListener, isArray, pick } from '@utils';
+import { GraphState, LabelState, EditorEvent } from '@common/constants';
+import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
-import { Graph } from '@common/interface';
 
-export interface GGEditorProps {
-
+interface GGEditorProps {
+  [EditorEvent.onBeforeExecuteCommand]?: EventHandle<CommandEvent>;
+  [EditorEvent.onAfterExecuteCommand]?: EventHandle<CommandEvent>;
 }
 
-export interface GGEditorState {
+interface GGEditorState {
   graph: Graph | null;
   graphState: GraphState;
   labelState: LabelState;
@@ -43,11 +35,9 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   bindEvent(graph) {
     const { props } = this;
 
-    Object.keys(EDITOR_EVENTS).forEach((event) => {
-      addListener(graph, event, props[EDITOR_EVENTS[event]]);
-    });
-
-    addListener(graph, EDITOR_EVENTS_EDITOR_LABEL, (labelState) => {
+    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onBeforeExecuteCommand, props[EditorEvent.onBeforeExecuteCommand]);
+    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, props[EditorEvent.onAfterExecuteCommand]);
+    addListener<EventHandle<LabelStateEvent>>(graph, EditorEvent.onBeforeLabelStateChange, ({ labelState }) => {
       if (labelState === this.state.labelState) {
         return;
       }
