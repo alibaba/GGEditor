@@ -3,12 +3,9 @@ import { pick, uuid, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
-  EDITOR_COMMAND_REDO,
-  EDITOR_COMMAND_UNDO,
-  EDITOR_COMMAND_TOPIC,
-  EDITOR_COMMAND_SUBTOPIC,
   GraphState,
   EditorEvent,
+  EditorCommand,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
@@ -110,10 +107,10 @@ class Graph extends React.Component<GraphProps> {
 
     addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, ({ name }) => {
       if ([
-        EDITOR_COMMAND_REDO,
-        EDITOR_COMMAND_UNDO,
-        EDITOR_COMMAND_TOPIC,
-        EDITOR_COMMAND_SUBTOPIC,
+        EditorCommand.Redo,
+        EditorCommand.Undo,
+        EditorCommand.Topic,
+        EditorCommand.Subtopic,
       ].includes(name)) {
         setGraphState(this.getGraphState());
       }

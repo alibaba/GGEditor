@@ -1,11 +1,12 @@
 import {
+  LabelState,
   EditorEvent,
+  EditorCommand,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
-  LabelState
 } from '@common/constants';
 
 export interface Graph {
@@ -17,7 +18,7 @@ export interface GraphEvent {
 }
 
 export interface CommandEvent {
-  name: string;
+  name: EditorCommand;
   params: object;
 }
 

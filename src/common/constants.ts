@@ -38,6 +38,13 @@ export enum EditorEvent {
   onAfterLabelStateChange = 'onAfterLabelStateChange',
 }
 
+export enum EditorCommand {
+  Redo = 'redo',
+  Undo = 'undo',
+  Topic = 'topic',
+  Subtopic = 'subtopic',
+}
+
 export enum GraphCommonEvent {
   /** 单击鼠标左键或者按下回车键时触发 */
   onClick = 'click',
@@ -204,8 +211,3 @@ export enum GraphCustomEvent {
   /** 调用 clearItemStates 方法之后触发 */
   onAfterItemStatesClear = 'afteritemstatesclear',
 }
-
-export const EDITOR_COMMAND_REDO = 'redo';
-export const EDITOR_COMMAND_UNDO = 'undo';
-export const EDITOR_COMMAND_TOPIC = 'topic';
-export const EDITOR_COMMAND_SUBTOPIC = 'subtopic';
