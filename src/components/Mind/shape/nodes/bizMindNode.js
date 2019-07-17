@@ -9,9 +9,10 @@ import '../../../Graph/shape/nodes/bizNode';
 
 G6.registerNode('mind-node', {
   draw(model, group) {
+    this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
-    this.drawPrefix(model, group);
     this.drawLabel(model, group);
+    this.drawAppendix(model, group);
     this.drawExpandOrCollapseButton(model, group);
     return keyShape;
   },
@@ -23,7 +24,7 @@ G6.registerNode('mind-node', {
     label.remove();
     label = this.drawLabel(nextModel, group);
     // adjust position
-    this.adjustPosition({ item, group });
+    this.adjustPosition({ model: nextModel, item, group });
     // repaint button
     if (button) {
       button.remove();

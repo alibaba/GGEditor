@@ -8,7 +8,7 @@ const canvasContext = canvas.getContext('2d');
 }; */
 
 const Util = {
-  optimizeMultilineText(text, font, maxWidth = 320) {
+  optimizeMultilineText(text, font, maxWidth = 94) {
     canvasContext.font = font;
 
     if (canvasContext.measureText(text) <= maxWidth) {
@@ -30,6 +30,11 @@ const Util = {
       multilineTextWidth += width;
     }
 
+    const multilineArr = multilineText.split('\n');
+
+    if (multilineArr.length > 1) {
+      return `${multilineArr[0]}\n${multilineArr[1].slice(0, -1)}...`;
+    }
     return multilineText;
   },
 
