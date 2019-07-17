@@ -11,10 +11,30 @@ import {
 
 export interface Graph {
   on: (eventName: EditorEvent | GraphNativeEvent, handler: Function) => void;
+  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void; 
 }
 
 export interface GraphEvent {
 
+}
+
+export interface Command {
+  /** 命令名称 */
+  name: string;
+  /** 命令参数 */
+  params: object;
+  /** 是否可以执行 */
+  canExecute: (graph: Graph) => boolean;
+  /** 是否可以撤销 */
+  canUndo: (graph: Graph) => boolean;
+  /** 初始命令 */
+  init: (graph: Graph) => void;
+  /** 执行命令 */
+  execute: (graph: Graph) => void;
+  /** 撤销命令 */
+  undo: (graph: Graph) => void;
+  /** 命令快捷键 */
+  shortcuts: string[] | string[][];
 }
 
 export interface CommandEvent {
