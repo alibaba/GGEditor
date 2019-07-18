@@ -31,6 +31,16 @@ export enum ItemState {
   Selected = 'selected',
 }
 
+export enum ItemType {
+  Node = 'node',
+  Edge = 'edge',
+}
+
+export enum ItemState {
+  Active = 'active',
+  Selected = 'selected',
+}
+
 export enum GraphState {
   NodeSelected = 'NodeSelected',
   MultiSelected = 'MultiSelected',
