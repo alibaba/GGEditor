@@ -169,11 +169,13 @@ G6.registerNode('biz-node', {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
     if (model.x < 0) {
-      appendix.translate(0, 0);
+      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width'));
+      appendix.attr('y', -keyShapeHeight / 2)
     }
 
     else {
-      appendix.translate(0, 0);
+      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width'));
+      appendix.attr('y', -keyShapeHeight / 2)
     }
   },
 
