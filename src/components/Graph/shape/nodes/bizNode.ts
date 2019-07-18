@@ -4,12 +4,12 @@ import {
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { NodeModel } from "@common/interface";
+import { FlowModel, MindModel } from "@common/interface";
 
 export interface BizNode {
-  draw: (model: NodeModel, group: any) => any;
+  draw: (model: MindModel | FlowModel, group: any) => any;
 
-  update: (nextModel: NodeModel, item: any) => void;
+  update: (nextModel: MindModel | FlowModel, item: any) => void;
 
 }
 
@@ -169,13 +169,11 @@ G6.registerNode('biz-node', {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
     if (model.x < 0) {
-      appendix.attr('x', -keyShapeWidth / 2);
-      appendix.attr('y', -keyShapeHeight / 2)
+      appendix.translate(0, 0);
     }
 
     else {
-      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width'));
-      appendix.attr('y', -keyShapeHeight / 2)
+      appendix.translate(0, 0);
     }
   },
 

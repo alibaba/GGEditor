@@ -14,7 +14,7 @@ export interface EventEmitter {
   /** 绑定事件 */
   on: (eventName: EditorEvent | GraphNativeEvent, handler: Function) => void;
   /** 触发事件 */
-  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void;
+  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void; 
 }
 
 /**
@@ -42,7 +42,7 @@ export interface Node extends Item {
  * @see https://www.yuque.com/antv/g6/edge-api
  */
 export interface Edge extends Item {
-
+  
 }
 
 export interface ItemModel {
@@ -57,10 +57,7 @@ export interface ItemModel {
 }
 
 export interface NodeModel extends ItemModel {
-  /** 元素坐标x */
-  x: number;
-  /** 元素坐标y */
-  y: number;
+
 }
 
 export interface EdgeModel extends ItemModel {
@@ -127,6 +124,27 @@ export interface CommandEvent {
 
 export interface LabelStateEvent {
   labelState: LabelState;
+}
+
+export interface MindModel {
+  label: string;
+  children: MindModel[];
+  side?: 'left' | 'right';
+}
+
+export interface FlowNode {
+  id: string;
+  x: number;
+  y: number;
+  color?: string;
+  shape?: 'circle' | 'rect' | 'path' | 'line' | 'polyline' | 'image' | 'text';
+  size?: number | number[];
+  style?: object;
+  anchorPoints?: number[][];
+}
+
+export interface FlowModel {
+  nodes: FlowNode[];
 }
 
 export type EventHandle<T> = (e: T) => void;

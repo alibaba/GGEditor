@@ -2,14 +2,14 @@ import { upperFirst } from '@utils';
 // import each from '@antv/util/lib/each';
 
 const canvas = document.createElement('canvas');
-const canvasContext = canvas.getContext('2d');
+const canvasContext = canvas.getContext('2d')!;
 
 /* const BaseUtil = {
   each,
 }; */
 
 interface ShapeUtil {
-  optimizeMultilineText: (text: string, font: object, maxwidth: number) => string;
+  optimizeMultilineText: (text: string, font: string, maxWidth: number) => string;
 
   getRectPath: (x: number, y: number, w: number, h: number, r?: number) => string | (string | number)[][];
 
@@ -22,7 +22,7 @@ const Util: ShapeUtil = {
   optimizeMultilineText(text, font, maxWidth = 94) {
     canvasContext.font = font;
 
-    if (canvasContext.measureText(text) <= maxWidth) {
+    if (canvasContext.measureText(text).width <= maxWidth) {
       return text;
     }
 
