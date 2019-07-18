@@ -3,7 +3,7 @@ import G6 from '@antv/g6';
 import { uuid } from '@utils';
 import {
   FLOW_CONTAINER_ID,
-  SHPAE_CLASSNAME_ANCHOR,
+  ShapeClassName,
   LabelState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
@@ -32,7 +32,7 @@ class Flow extends React.Component {
   };
 
   canDragNode = ({ target }) => {
-    return target && target.get('className') !== SHPAE_CLASSNAME_ANCHOR;
+    return target && target.get('className') !== ShapeClassName.Anchor;
   };
 
   parseData = ({ data }) => {

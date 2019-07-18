@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { SHPAE_CLASSNAME_ANCHOR } from '@common/constants';
+import { ShapeClassName } from '@common/constants';
 
 G6.registerBehavior('hover-anchor', {
   getEvents() {
@@ -12,7 +12,7 @@ G6.registerBehavior('hover-anchor', {
     const { target } = ev;
     const targetName = target.get('className');
     // 如果点击的不是锚点就结束
-    if (targetName === SHPAE_CLASSNAME_ANCHOR) return true;
+    if (targetName === ShapeClassName.Anchor) return true;
     return false;
   },
   onEnterAnchor(e) {

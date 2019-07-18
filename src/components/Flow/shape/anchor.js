@@ -1,7 +1,4 @@
-import {
-  SHPAE_CLASSNAME_ANCHOR,
-  SHAPE_CLASSNAME_KEYSHAPE,
-} from '@common/constants';
+import { ShapeClassName } from '@common/constants';
 import globalStype from '../common/globalStyle';
 
 const {
@@ -17,7 +14,7 @@ function handleAnchor(name, value, item) {
   // 拿到 group
   const group = item.getContainer();
   // 拿到所有的锚点
-  const anchors = group.get('children').filter(e => e.get('className') === SHPAE_CLASSNAME_ANCHOR);
+  const anchors = group.get('children').filter(e => e.get('className') === ShapeClassName.Anchor);
 
   // 非拖拽状态
   if (!this.addingEdge) {
@@ -47,7 +44,7 @@ function handleAnchor(name, value, item) {
       // 结束拖拽时清除所有锚点
       item.getContainer()
         .get('children')
-        .filter(i => i.get('className') === SHPAE_CLASSNAME_ANCHOR)
+        .filter(i => i.get('className') === ShapeClassName.Anchor)
         .forEach(a => a.remove());
       this.addingEdge = false;
     }
@@ -58,7 +55,7 @@ function drawAnchor(model, group) {
   const anchorPoints = this.getAnchorPoints();
   // 为每个点添加标记
   return anchorPoints.map((p, index) => {
-    const keyShape = group.get('item').getKeyShape() || group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE)
+    const keyShape = group.get('item').getKeyShape() || group.findByClassName(ShapeClassName.KeyShape)
     const width = keyShape.attr('width') || keyShape.attr('r') * 2;
     const height = keyShape.attr('height') || keyShape.attr('r') * 2;
     const [x, y] = [p[0], p[1]];
@@ -70,7 +67,7 @@ function drawAnchor(model, group) {
       'biz-flow-node': { x: width * x + keyShape.attr('x'), y: height * y + keyShape.attr('y') },
     };
     const shape = group.addShape('marker', {
-      className: SHPAE_CLASSNAME_ANCHOR,
+      className: ShapeClassName.Anchor,
       attrs: {
         symbol: 'circle',
         ...anchorPointStyle,
@@ -81,7 +78,7 @@ function drawAnchor(model, group) {
     });
     shape.showHotspot = () => {
       hotspot = group.addShape('marker', {
-        className: SHPAE_CLASSNAME_ANCHOR,
+        className: ShapeClassName.Anchor,
         attrs: {
           symbol: 'circle',
           ...anchorHotsoptStyle,

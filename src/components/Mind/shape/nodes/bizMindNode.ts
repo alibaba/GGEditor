@@ -1,9 +1,5 @@
 import G6 from '@antv/g6';
-import {
-  SHAPE_CLASSNAME_LABEL,
-  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
-  SHAPE_CLASSNAME_KEYSHAPE,
-} from '@common/constants';
+import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
 import { MindModel } from "@common/interface";
@@ -39,8 +35,8 @@ const options: BizMindNodeOptions = {
 
   update(nextModel, item) {
     const group = item.getContainer();
-    let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
-    let button = group.findByClassName(SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON);
+    let label = group.findByClassName(ShapeClassName.Label);
+    let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
@@ -56,16 +52,16 @@ const options: BizMindNodeOptions = {
   },
 
   drawExpandOrCollapseButton(model, group) {
-    const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
+    const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const expandAttr = this.getExpandButtonConfig();
     const collapseAttr = this.getCollapseButtonConfig();
     if (model.collapsed) {
       const { path, width, height, offset } = expandAttr;
       const button = group.addShape('path', {
-        className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+        className: ShapeClassName.CollapseExpandButton,
         attrs: {
           path,
-          ...this[`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`](),
+          ...this[`get${ ShapeClassName.CollapseExpandButton }defaultStyle`](),
         },
       });
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -73,10 +69,10 @@ const options: BizMindNodeOptions = {
     }
     const { path, width, height, offset } = collapseAttr;
     const button = group.addShape('path', {
-      className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+      className: ShapeClassName.CollapseExpandButton,
       attrs: {
         path,
-        ...this[`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`](),
+        ...this[`get${ ShapeClassName.CollapseExpandButton }defaultStyle`](),
       },
     });
     button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -111,7 +107,7 @@ const options: BizMindNodeOptions = {
     };
   },
 
-  [`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`]() {
+  [`get${ ShapeClassName.CollapseExpandButton }defaultStyle`]() {
     return {
       stroke: '#000',
       fill: '#fff',

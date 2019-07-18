@@ -1,10 +1,7 @@
 import G6 from '@antv/g6';
 import {
   NODE_MAX_TEXT_LINE_WIDTH,
-  SHAPE_CLASSNAME_LABEL,
-  SHAPE_CLASSNAME_KEYSHAPE,
-  SHAPE_CLASSNAME_WRAPPER,
-  SHAPE_CLASSNAME_APPENDIX,
+  ShapeClassName
 } from '@common/constants';
 import Util from './util';
 import { FlowModel, MindModel } from "@common/interface";
@@ -34,7 +31,7 @@ G6.registerNode('biz-node', {
   drawAppendix(model, group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
-        className: SHAPE_CLASSNAME_APPENDIX,
+        className: ShapeClassName.Appendix,
         attrs: {
           img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNLjUuNVY2QTUuNSA1LjUgMCAwIDAgNiAxMS41aDEzLjVWNkE1LjUgNS41IDAgMCAwIDE0IC41SC41eiIgc3Ryb2tlPSIjOTc5Nzk3IiBmaWxsPSIjRjRGNkY4Ii8+PGcgdHJhbnNmb3JtPSJyb3RhdGUoOTAgNi41IDEwLjUpIiBmaWxsPSIjQUFCNUM1Ij48Y2lyY2xlIGN4PSIxLjUiIGN5PSIxLjUiIHI9IjEuNSIvPjxjaXJjbGUgY3g9IjEuNSIgY3k9IjYuNSIgcj0iMS41Ii8+PGNpcmNsZSBjeD0iMS41IiBjeT0iMTEuNSIgcj0iMS41Ii8+PC9nPjwvZz48L3N2Zz4=',
           x: 0,
@@ -44,7 +41,7 @@ G6.registerNode('biz-node', {
       });
     } else {
       this.appendix = group.addShape('image', {
-        className: SHAPE_CLASSNAME_APPENDIX,
+        className: ShapeClassName.Appendix,
         attrs: {
           img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTkuNS41VjZhNS41IDUuNSAwIDAgMS01LjUgNS41SC41VjZBNS41IDUuNSAwIDAgMSA2IC41aDEzLjV6IiBzdHJva2U9IiM5Nzk3OTciIGZpbGw9IiNGNEY2RjgiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiIGZpbGw9IiNBQUI1QzUiPjxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ii8+PGNpcmNsZSBjeD0iMS41IiBjeT0iNi41IiByPSIxLjUiLz48Y2lyY2xlIGN4PSIxLjUiIGN5PSIxMS41IiByPSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
           x: 0,
@@ -57,9 +54,9 @@ G6.registerNode('biz-node', {
 
   drawKeyShape(model, group) {
     const keyShapeType = 'rect';
-    const keyShapeDefaultStyle = this[`get${SHAPE_CLASSNAME_KEYSHAPE}defaultStyle`]();
+    const keyShapeDefaultStyle = this[`get${ ShapeClassName.KeyShape }defaultStyle`]();
     this.keyShape = group.addShape(keyShapeType, {
-      className: SHAPE_CLASSNAME_KEYSHAPE,
+      className: ShapeClassName.KeyShape,
       attrs: {
         x: 0,
         y: 0,
@@ -73,7 +70,7 @@ G6.registerNode('biz-node', {
 
   drawWrapper(model, group) {
     this.wrapper = group.addShape('rect', {
-      className: SHAPE_CLASSNAME_WRAPPER,
+      className: ShapeClassName.Wrapper,
       attrs: {
         width: 20,
         height: 20,
@@ -87,10 +84,10 @@ G6.registerNode('biz-node', {
   },
 
   drawLabel(model, group) {
-    const labelDefaultStyle = this[`get${SHAPE_CLASSNAME_LABEL}defaultStyle`]();
+    const labelDefaultStyle = this[`get${ ShapeClassName.Label }defaultStyle`]();
     // draw label
     this.label = group.addShape('text', {
-      className: SHAPE_CLASSNAME_LABEL,
+      className: ShapeClassName.Label,
       attrs: {
         text: model.label,
         x: 0,
@@ -109,14 +106,14 @@ G6.registerNode('biz-node', {
       fontStyle,
       fontVariant,
     } = this.label.attr();
-    const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
+    const font = `${ fontStyle } ${ fontVariant } ${ fontWeight } ${ fontSize }px ${ fontFamily }`;
     this.label.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
     return this.label;
   },
 
   update(nextModel, item) {
     const group = item.getContainer();
-    let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
+    let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
@@ -132,10 +129,10 @@ G6.registerNode('biz-node', {
     if (!group) {
       group = item.getContainer();
     }
-    const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
-    const label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
-    const wrapper = group.findByClassName(SHAPE_CLASSNAME_WRAPPER);
-    const appendix = group.findByClassName(SHAPE_CLASSNAME_APPENDIX);
+    const keyShape = group.findByClassName(ShapeClassName.KeyShape);
+    const label = group.findByClassName(ShapeClassName.Label);
+    const wrapper = group.findByClassName(ShapeClassName.Wrapper);
+    const appendix = group.findByClassName(ShapeClassName.Appendix);
     const keyShapeSize = this.adjustKeyShape({ label, keyShape });
     if (wrapper) {
       this.adjustWrapper({ keyShapeSize, keyShape, label, wrapper, model });
@@ -212,36 +209,36 @@ G6.registerNode('biz-node', {
       statesArr.forEach((stateName) => {
         statesStyle = {
           ...statesStyle,
-          ...this[`get${className}${stateName}Style`] && this[`get${className}${stateName}Style`](),
+          ...this[`get${ className }${ stateName }Style`] && this[`get${ className }${ stateName }Style`](),
         };
       });
 
       shape.attr({
-        ...this[`get${className}defaultStyle`] && this[`get${className}defaultStyle`](),
+        ...this[`get${ className }defaultStyle`] && this[`get${ className }defaultStyle`](),
         ...statesStyle,
       });
     });
   },
 
-  [`get${SHAPE_CLASSNAME_KEYSHAPE}defaultStyle`]() {
+  [`get${ ShapeClassName.KeyShape }defaultStyle`]() {
     return {
       fill: '#fff',
       radius: 6,
     };
   },
 
-  [`get${SHAPE_CLASSNAME_KEYSHAPE}activeStyle`]() {
+  [`get${ ShapeClassName.KeyShape }activeStyle`]() {
     return {};
   },
 
-  [`get${SHAPE_CLASSNAME_KEYSHAPE}selectedStyle`]() {
+  [`get${ ShapeClassName.KeyShape }selectedStyle`]() {
     return {
       fill: '#f5f5f5',
       stroke: '#a5a5a5',
     };
   },
 
-  [`get${SHAPE_CLASSNAME_LABEL}defaultStyle`]() {
+  [`get${ ShapeClassName.Label }defaultStyle`]() {
     return {
       fill: '#000',
     };

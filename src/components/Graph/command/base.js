@@ -1,6 +1,6 @@
 import {
   ITEM_TYPE_NODE,
-  ITEM_STATE_SELECTED,
+  ItemState,
 } from '@common/constants';
 import commandManager from '@common/CommandManager';
 
@@ -9,7 +9,7 @@ commandManager.register({
 
   config: {
     getSelectedNodes(graph) {
-      return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+      return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
     },
 
     setSelectedNode(graph, id) {
@@ -20,12 +20,12 @@ commandManager.register({
       const selectedNodes = this.getSelectedNodes(graph);
 
       selectedNodes.forEach((node) => {
-        if (node.hasState(ITEM_STATE_SELECTED)) {
-          graph.setItemState(node, ITEM_STATE_SELECTED, false);
+        if (node.hasState(ItemState.Selected)) {
+          graph.setItemState(node, ItemState.Selected, false);
         }
       });
 
-      graph.setItemState(id, ITEM_STATE_SELECTED, true);
+      graph.setItemState(id, ItemState.Selected, true);
       graph.setAutoPaint(autoPaint);
       graph.paint();
     },

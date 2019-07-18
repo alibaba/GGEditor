@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import {
   ITEM_TYPE_NODE,
-  ITEM_STATE_SELECTED,
+  ItemState,
 } from '@common/constants';
 
 G6.registerBehavior('click-node', {
@@ -22,7 +22,7 @@ G6.registerBehavior('click-node', {
   },
 
   getSelectedNodes() {
-    return this.graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+    return this.graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
   },
 
   clearSelectedState(shouldUpdate = () => true) {
@@ -34,7 +34,7 @@ G6.registerBehavior('click-node', {
 
     selectedNodes.forEach((node) => {
       if (shouldUpdate(node)) {
-        graph.setItemState(node, ITEM_STATE_SELECTED, false);
+        graph.setItemState(node, ItemState.Selected, false);
       }
     });
 
@@ -45,17 +45,17 @@ G6.registerBehavior('click-node', {
   handleNodeClick({ item }) {
     const { graph } = this;
 
-    const isSelected = item.hasState(ITEM_STATE_SELECTED);
+    const isSelected = item.hasState(ItemState.Selected);
 
     if (this.multiple && this.keydown) {
-      graph.setItemState(item, ITEM_STATE_SELECTED, !isSelected);
+      graph.setItemState(item, ItemState.Selected, !isSelected);
     } else {
       this.clearSelectedState((node) => {
         return node !== item;
       });
 
       if (!isSelected) {
-        graph.setItemState(item, ITEM_STATE_SELECTED, true);
+        graph.setItemState(item, ItemState.Selected, true);
       }
     }
   },

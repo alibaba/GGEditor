@@ -3,7 +3,7 @@ import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
 import {
   MIND_CONTAINER_ID,
-  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+  ShapeClassName,
   LabelState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
@@ -32,7 +32,7 @@ class Mind extends React.Component {
   }
 
   canCollapseExpand = ({ target }) => {
-    return target && target.get('className') === SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
+    return target && target.get('className') === ShapeClassName.CollapseExpandButton;
   }
 
   parseData = ({ data }) => {
