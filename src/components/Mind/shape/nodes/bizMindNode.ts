@@ -6,16 +6,33 @@ import {
 } from '@common/constants';
 import Util from '../../../Graph/shape/nodes/util';
 import '../../../Graph/shape/nodes/bizNode';
+import { MindModel } from "@components/Mind/interface";
 
-G6.registerNode('mind-node', {
+export interface BizNodeOptions {
+  draw: (model: MindModel, group: any) => any;
+  update: (nextModel: MindModel, item: any) => void;
+  drawExpandOrCollapseButton: (model: any, group: any) => any;
+  getExpandButtonConfig: () => object;
+  getCollapseButtonConfig: () => object;
+
+  /** other customized function  */
+  [propName: string]: Function;
+}
+
+const options: BizNodeOptions = {
+  /**
+   * main draw method
+   * */
   draw(model, group) {
     this.drawWrapper(model, group);
+    console.log(group)
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
     this.drawExpandOrCollapseButton(model, group);
     return keyShape;
   },
+
   update(nextModel, item) {
     const group = item.getContainer();
     let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
@@ -33,6 +50,7 @@ G6.registerNode('mind-node', {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
   },
+
   drawExpandOrCollapseButton(model, group) {
     const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
     const expandAttr = this.getExpandButtonConfig();
@@ -43,7 +61,7 @@ G6.registerNode('mind-node', {
         className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
         attrs: {
           path,
-          ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
+          ...this[`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`](),
         },
       });
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -54,13 +72,17 @@ G6.registerNode('mind-node', {
       className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
       attrs: {
         path,
-        ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
+        ...this[`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`](),
       },
     });
     button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
     return button;
   },
-  // functions that can be overridden by advice
+
+  /**
+   * following methods can be overridden by advice
+   * */
+
   getExpandButtonConfig() {
     const width = 17;
     const height = 17;
@@ -72,6 +94,7 @@ G6.registerNode('mind-node', {
       offset,
     };
   },
+
   getCollapseButtonConfig() {
     const width = 17;
     const height = 17;
@@ -83,10 +106,14 @@ G6.registerNode('mind-node', {
       offset,
     };
   },
-  [`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`]() {
+
+  [`get${ SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON }defaultStyle`]() {
     return {
       stroke: '#000',
       fill: '#fff',
     };
   },
-}, 'biz-node');
+};
+
+
+G6.registerNode('mind-node', options, 'biz-node');
