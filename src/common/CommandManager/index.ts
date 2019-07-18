@@ -1,19 +1,11 @@
-import {
-  EditorEvent
-} from '@common/constants';
+import { EditorEvent } from '@common/constants';
 import { Graph, Command } from '@common/interface';
-import BaseCommand from './BaseCommand';
 
 class CommandManager {
-  /** 命令集合 */
   command: {
     [propName: string]: Command
   };
-
-  /** 执行堆栈 */
   commandQueue: Command[];
-
-  /** 堆栈索引 */
   commandIndex: number;
 
   constructor() {
@@ -22,39 +14,21 @@ class CommandManager {
     this.commandIndex = 0;
   }
 
-  /**
-   * 注册命令
-   */
-  register = ({ name, config = {}, extend = '' }: {
-    name: string;
-    config: object;
-    extend: string;
-  }) => {
+  /** 注册命令 */
+  register = (name: string, command: Command) => {
     this.command[name] = {
-      ...this.command[name] || this.command[extend] || BaseCommand,
-      ...config,
+      ...command,
       name,
     };
   }
 
-  /**
-   * 是否可以执行
-   */
-  canExecute = ({ name, graph }: {
-    name: string;
-    graph: Graph;
-  }) => {
+  /** 是否可以执行 */
+  canExecute = (graph: Graph, name: string) => {
     return this.command[name].canExecute(graph);
   }
 
-  /**
-   * 执行命令
-   */
-  execute = ({ name, graph, params }: {
-    name: string;
-    graph: Graph;
-    params: object;
-  }) => {
+  /** 执行命令 */
+  execute = (graph: Graph, name: string, params: object) => {
     const Command = this.command[name];
 
     if (!Command) {

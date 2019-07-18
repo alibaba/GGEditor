@@ -16,6 +16,16 @@ export const ITEM_TYPE_EDGE = 'edge';
 export const ITEM_STATE_ACTIVE = 'active';
 export const ITEM_STATE_SELECTED = 'selected';
 
+export enum ItemType {
+  Node = 'node',
+  Edge = 'edge',
+}
+
+export enum ItemState {
+  Active = 'active',
+  Selected = 'selected',
+}
+
 export enum GraphState {
   NodeSelected = 'NodeSelected',
   MultiSelected = 'MultiSelected',
