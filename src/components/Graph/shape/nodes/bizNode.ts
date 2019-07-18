@@ -39,7 +39,8 @@ G6.registerNode('biz-node', {
           width: 20,
         },
       });
-    } else {
+    }
+    else {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
         attrs: {
@@ -126,23 +127,29 @@ G6.registerNode('biz-node', {
   },
 
   adjustPosition({ model, item, group }) {
+
     if (!group) {
       group = item.getContainer();
     }
+
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
     const keyShapeSize = this.adjustKeyShape({ label, keyShape });
+
     if (wrapper) {
       this.adjustWrapper({ keyShapeSize, keyShape, label, wrapper, model });
     }
+
     if (label) {
       this.adjustLabel({ keyShapeSize, keyShape, label, wrapper });
     }
+
     if (appendix) {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
+
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
   },
 
@@ -158,11 +165,15 @@ G6.registerNode('biz-node', {
   },
 
   adjustAppendix({ keyShapeSize, appendix, model }) {
+
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
+
     if (model.x < 0) {
-      appendix.translate(-keyShapeWidth / 2, -keyShapeHeight / 2);
-    } else {
-      appendix.translate(keyShapeWidth / 2 - appendix.attr('width'), -keyShapeHeight / 2);
+      appendix.translate(0, 0);
+    }
+
+    else {
+      appendix.translate(0, 0);
     }
   },
 
@@ -192,7 +203,8 @@ G6.registerNode('biz-node', {
     wrapper.attr('y', -wrapper.attr('height') / 2);
     if (model.side === 'left') {
       wrapper.attr('x', -keyShapeWidth / 2 + 4);
-    } else {
+    }
+    else {
       wrapper.attr('x', -keyShapeWidth / 2 - 4);
     }
   },

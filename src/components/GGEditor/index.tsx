@@ -101,20 +101,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   canExecuteCommand = (name) => {
     const { graph } = this.state;
 
-    return commandManager.canExecute({
-      name,
-      graph,
-    });
+    return commandManager.canExecute(graph, name);
   }
 
   executeCommand = (name, params) => {
     const { graph } = this.state;
 
-    commandManager.execute({
-      name,
-      graph,
-      params,
-    });
+    commandManager.execute(graph, name, params);
   }
 
   render() {

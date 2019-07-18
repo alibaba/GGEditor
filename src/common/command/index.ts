@@ -1,6 +1,6 @@
 import { Command } from '@common/interface';
 
-const BaseCommand: Command = {
+const command: Command = {
   name: '',
 
   params: {},
@@ -22,4 +22,4 @@ const BaseCommand: Command = {
   shortcuts: [],
 };
 
-export default BaseCommand;
+export default command;
