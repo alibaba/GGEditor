@@ -2,15 +2,15 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { MindModel } from "@common/interface";
+import { NodeModel } from "@common/interface";
 import { BizNode } from "@components/Graph/shape/nodes/bizNode";
 
 export interface BizMindNodeOptions extends BizNode {
-  draw: (model: MindModel, group: any) => any;
+  draw: (model: NodeModel, group: any) => any;
 
-  update: (nextModel: MindModel, item: any) => void;
+  update: (nextModel: NodeModel, item: any) => void;
 
-  drawExpandOrCollapseButton: (model: any, group: any) => any;
+  drawExpandOrCollapseButton: (model: NodeModel, group: any) => any;
 
   getExpandButtonConfig: () => object;
 
