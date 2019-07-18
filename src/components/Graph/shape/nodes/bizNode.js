@@ -172,7 +172,6 @@ G6.registerNode('biz-node', {
     wrapper.attr('height', keyShapeHeight - 1);
     wrapper.attr('width', keyShapeWidth);
     wrapper.attr('y', -wrapper.attr('height') / 2);
-    console.log(model)
     if (model.side === 'left') {
       wrapper.attr('x', -keyShapeWidth / 2 + 4);
     } else {

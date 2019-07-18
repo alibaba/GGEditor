@@ -3,11 +3,22 @@ import { upperFirst } from '@utils';
 
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');
+
 /* const BaseUtil = {
   each,
 }; */
 
-const Util = {
+interface ShapeUtil {
+  optimizeMultilineText: (text: string, font: object, maxwidth: number) => string;
+
+  getRectPath: (x: number, y: number, w: number, h: number, r?: number) => string | (string | number)[][];
+
+  getCollapseButtonPath: (param: { width: number, height: number }) => string;
+
+  getExpandButtonPath: (param: { width: number, height: number }) => string;
+}
+
+const Util: ShapeUtil = {
   optimizeMultilineText(text, font, maxWidth = 94) {
     canvasContext.font = font;
 
@@ -33,7 +44,7 @@ const Util = {
     const multilineArr = multilineText.split('\n');
 
     if (multilineArr.length > 1) {
-      return `${multilineArr[0]}\n${multilineArr[1].slice(0, -1)}...`;
+      return `${ multilineArr[0] }\n${ multilineArr[1].slice(0, -1) }...`;
     }
     return multilineText;
   },
@@ -69,15 +80,15 @@ const Util = {
 
   getCollapseButtonPath({ width, height }) {
     const rect = this.getRectPath(0, 0, width, height, 2);
-    const hp = `M${width * 3 / 14},${height / 2} L${width * 11 / 14},${height / 2}`;
+    const hp = `M${ width * 3 / 14 },${ height / 2 } L${ width * 11 / 14 },${ height / 2 }`;
     const vp = '';
     return rect + hp + vp;
   },
 
   getExpandButtonPath({ width, height }) {
     const rect = this.getRectPath(0, 0, width, height, 2);
-    const hp = `M${width * 3 / 14},${height / 2} L${width * 11 / 14},${height / 2}`;
-    const vp = `M${width / 2},${height * 3 / 14} L${width / 2},${height * 11 / 14}`;
+    const hp = `M${ width * 3 / 14 },${ height / 2 } L${ width * 11 / 14 },${ height / 2 }`;
+    const vp = `M${ width / 2 },${ height * 3 / 14 } L${ width / 2 },${ height * 11 / 14 }`;
 
     return rect + hp + vp;
   },
@@ -92,8 +103,8 @@ const Util = {
         y,
         textBaseline,
       } = child.attr();
-      if (typeof this[`get${upperFirst(child.get('className'))}Style`] === 'function') {
-        const customStyle = this[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
+      if (typeof this[`get${ upperFirst(child.get('className')) }Style`] === 'function') {
+        const customStyle = this[`get${ upperFirst(child.get('className')) }Style`]({ model: item.getModel() });
         return {
           ...child.getDefaultAttrs(),
           ...customStyle,

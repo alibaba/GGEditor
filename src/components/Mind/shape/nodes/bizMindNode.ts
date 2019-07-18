@@ -4,15 +4,19 @@ import {
   SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
   SHAPE_CLASSNAME_KEYSHAPE,
 } from '@common/constants';
-import Util from '../../../Graph/shape/nodes/util';
-import '../../../Graph/shape/nodes/bizNode';
+import Util from '@components/Graph/shape/nodes/util';
+import '@components/Graph/shape/nodes/bizNode';
 import { MindModel } from "@components/Mind/interface";
 
 export interface BizNodeOptions {
   draw: (model: MindModel, group: any) => any;
+
   update: (nextModel: MindModel, item: any) => void;
+
   drawExpandOrCollapseButton: (model: any, group: any) => any;
+
   getExpandButtonConfig: () => object;
+
   getCollapseButtonConfig: () => object;
 
   /** other customized function  */
@@ -25,7 +29,6 @@ const options: BizNodeOptions = {
    * */
   draw(model, group) {
     this.drawWrapper(model, group);
-    console.log(group)
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
