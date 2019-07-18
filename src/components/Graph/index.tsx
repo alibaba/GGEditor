@@ -107,8 +107,8 @@ class Graph extends React.Component<GraphProps> {
 
     addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, ({ name }) => {
       if ([
-        EditorCommand.Redo,
         EditorCommand.Undo,
+        EditorCommand.Redo,
         EditorCommand.Topic,
         EditorCommand.Subtopic,
       ].includes(name)) {

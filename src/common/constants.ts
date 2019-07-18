@@ -40,9 +40,13 @@ export enum EditorEvent {
 }
 
 export enum EditorCommand {
-  Redo = 'redo',
+  /** 撤销 */
   Undo = 'undo',
+  /** 重做 */
+  Redo = 'redo',
+  /** 插入主题 */
   Topic = 'topic',
+  /** 插入子主题 */
   Subtopic = 'subtopic',
 }
 
