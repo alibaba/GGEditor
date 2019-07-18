@@ -7,12 +7,21 @@ import {
   SHAPE_CLASSNAME_APPENDIX,
 } from '@common/constants';
 import Util from './util';
+import { FlowModel, MindModel } from "@common/interface";
+
+export interface BizNode {
+  draw: (model: MindModel | FlowModel, group: any) => any;
+
+  update: (nextModel: MindModel | FlowModel, item: any) => void;
+
+}
 
 G6.registerNode('biz-node', {
   keyShape: null,
   label: null,
   wrapper: null,
   appendix: null,
+
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
@@ -21,6 +30,7 @@ G6.registerNode('biz-node', {
     this.adjustPosition({ model, group });
     return keyShape;
   },
+
   drawAppendix(model, group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
@@ -44,6 +54,7 @@ G6.registerNode('biz-node', {
       });
     }
   },
+
   drawKeyShape(model, group) {
     const keyShapeType = 'rect';
     const keyShapeDefaultStyle = this[`get${SHAPE_CLASSNAME_KEYSHAPE}defaultStyle`]();
@@ -59,6 +70,7 @@ G6.registerNode('biz-node', {
     });
     return this.keyShape;
   },
+
   drawWrapper(model, group) {
     this.wrapper = group.addShape('rect', {
       className: SHAPE_CLASSNAME_WRAPPER,
@@ -73,6 +85,7 @@ G6.registerNode('biz-node', {
     });
     return this.wrapper;
   },
+
   drawLabel(model, group) {
     const labelDefaultStyle = this[`get${SHAPE_CLASSNAME_LABEL}defaultStyle`]();
     // draw label
@@ -100,6 +113,7 @@ G6.registerNode('biz-node', {
     this.label.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
     return this.label;
   },
+
   update(nextModel, item) {
     const group = item.getContainer();
     let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
@@ -108,10 +122,12 @@ G6.registerNode('biz-node', {
     label = this.drawLabel(nextModel, group);
     this.adjustPosition({ item, group, model: nextModel });
   },
+
   setState(name, value, item) {
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
+
   adjustPosition({ model, item, group }) {
     if (!group) {
       group = item.getContainer();
@@ -132,6 +148,7 @@ G6.registerNode('biz-node', {
     }
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
   },
+
   adjustKeyShape({ label, keyShape }) {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
@@ -142,6 +159,7 @@ G6.registerNode('biz-node', {
       height: keyShape.attr('height'),
     };
   },
+
   adjustAppendix({ keyShapeSize, appendix, model }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     if (model.x < 0) {
@@ -150,6 +168,7 @@ G6.registerNode('biz-node', {
       appendix.translate(keyShapeWidth / 2 - appendix.attr('width'), -keyShapeHeight / 2);
     }
   },
+
   resetCoordinate({ keyShapeSize, keyShape, label }) {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);
@@ -160,12 +179,14 @@ G6.registerNode('biz-node', {
       return shape;
     });
   },
+
   adjustLabel({ keyShapeSize, label }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
     label.attr('x', (keyShapeWidth - labelWidth) / 2);
     label.attr('y', keyShapeHeight / 2);
   },
+
   adjustWrapper({ model, keyShapeSize, wrapper }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     // wrapper may be exposed if its height equals to keyShape's, so let it shrink a little
@@ -178,6 +199,7 @@ G6.registerNode('biz-node', {
       wrapper.attr('x', -keyShapeWidth / 2 - 4);
     }
   },
+
   setStateStyle(item) {
     const statesArr = item.getStates();
     const group = item.getContainer();
@@ -200,29 +222,35 @@ G6.registerNode('biz-node', {
       });
     });
   },
+
   [`get${SHAPE_CLASSNAME_KEYSHAPE}defaultStyle`]() {
     return {
       fill: '#fff',
       radius: 6,
     };
   },
+
   [`get${SHAPE_CLASSNAME_KEYSHAPE}activeStyle`]() {
     return {};
   },
+
   [`get${SHAPE_CLASSNAME_KEYSHAPE}selectedStyle`]() {
     return {
       fill: '#f5f5f5',
       stroke: '#a5a5a5',
     };
   },
+
   [`get${SHAPE_CLASSNAME_LABEL}defaultStyle`]() {
     return {
       fill: '#000',
     };
   },
+
   getMaxTextLineWidth() {
     return NODE_MAX_TEXT_LINE_WIDTH;
   },
+
   getAnchorPoints() {
     return [
       [0, 0.5],

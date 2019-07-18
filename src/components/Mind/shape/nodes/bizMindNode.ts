@@ -6,9 +6,10 @@ import {
 } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { MindModel } from "@components/Mind/interface";
+import { MindModel } from "@common/interface";
+import { BizNode } from "@components/Graph/shape/nodes/bizNode";
 
-export interface BizNodeOptions {
+export interface BizMindNodeOptions extends BizNode {
   draw: (model: MindModel, group: any) => any;
 
   update: (nextModel: MindModel, item: any) => void;
@@ -23,7 +24,7 @@ export interface BizNodeOptions {
   [propName: string]: Function;
 }
 
-const options: BizNodeOptions = {
+const options: BizMindNodeOptions = {
   /**
    * main draw method
    * */
