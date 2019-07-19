@@ -14,7 +14,7 @@ export interface EventEmitter {
   /** 绑定事件 */
   on: (eventName: EditorEvent | GraphNativeEvent, handler: Function) => void;
   /** 触发事件 */
-  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void; 
+  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void;
 }
 
 /**
@@ -27,6 +27,8 @@ export interface Item {
 
   // 状态
   hasState: (state: string) => boolean;
+
+  getContainer: () => object;
 }
 
 /**
@@ -42,7 +44,7 @@ export interface Node extends Item {
  * @see https://www.yuque.com/antv/g6/edge-api
  */
 export interface Edge extends Item {
-  
+
 }
 
 export interface ItemModel {
@@ -57,7 +59,10 @@ export interface ItemModel {
 }
 
 export interface NodeModel extends ItemModel {
-
+  /** 元素坐标x */
+  x: number;
+  /** 元素坐标y */
+  y: number;
 }
 
 export interface EdgeModel extends ItemModel {
@@ -126,27 +131,6 @@ export interface LabelStateEvent {
   labelState: LabelState;
 }
 
-export interface MindModel {
-  label: string;
-  children: MindModel[];
-  side?: 'left' | 'right';
-}
-
-export interface FlowNode {
-  id: string;
-  x: number;
-  y: number;
-  color?: string;
-  shape?: 'circle' | 'rect' | 'path' | 'line' | 'polyline' | 'image' | 'text';
-  size?: number | number[];
-  style?: object;
-  anchorPoints?: number[][];
-}
-
-export interface FlowModel {
-  nodes: FlowNode[];
-}
-
 export type EventHandle<T> = (e: T) => void;
 
 export type GraphCommonEventProps = Partial<Record<keyof typeof GraphCommonEvent, EventHandle<GraphEvent>>>;
@@ -156,15 +140,15 @@ export type GraphCanvasEventProps = Partial<Record<keyof typeof GraphCanvasEvent
 export type GraphCustomEventProps = Partial<Record<keyof typeof GraphCustomEvent, EventHandle<GraphEvent>>>;
 
 export type GraphNativeEvent =
-    GraphCommonEvent |
-    GraphNodeEvent |
-    GraphEdgeEvent |
-    GraphCanvasEvent |
-    GraphCustomEvent;
+  GraphCommonEvent |
+  GraphNodeEvent |
+  GraphEdgeEvent |
+  GraphCanvasEvent |
+  GraphCustomEvent;
 
 export type GraphReactEvent =
-    keyof typeof GraphCommonEvent |
-    keyof typeof GraphNodeEvent |
-    keyof typeof GraphEdgeEvent |
-    keyof typeof GraphCanvasEvent |
-    keyof typeof GraphCustomEvent;
+  keyof typeof GraphCommonEvent |
+  keyof typeof GraphNodeEvent |
+  keyof typeof GraphEdgeEvent |
+  keyof typeof GraphCanvasEvent |
+  keyof typeof GraphCustomEvent;

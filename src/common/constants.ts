@@ -7,11 +7,6 @@ export const NODE_MAX_TEXT_LINE_WIDTH = 94;
 export const ITEM_TYPE_NODE = 'node';
 export const ITEM_TYPE_EDGE = 'edge';
 
-export enum ItemState {
-  Active = 'active',
-  Selected = 'selected',
-}
-
 export enum ShapeClassName {
   Label = 'node-label',
   KeyShape = 'node-shape',
@@ -19,16 +14,6 @@ export enum ShapeClassName {
   Appendix = 'node-appendix',
   Anchor = 'Anchor',
   CollapseExpandButton = 'CollapseExpandButton',
-}
-
-export enum ItemType {
-  Node = 'node',
-  Edge = 'edge',
-}
-
-export enum ItemState {
-  Active = 'active',
-  Selected = 'selected',
 }
 
 export enum ItemType {

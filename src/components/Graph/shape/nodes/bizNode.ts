@@ -1,24 +1,42 @@
 import G6 from '@antv/g6';
 import {
+  ItemState,
   NODE_MAX_TEXT_LINE_WIDTH,
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { FlowModel, MindModel } from "@common/interface";
+import { Item, NodeModel } from "@common/interface";
 
 export interface BizNode {
-  draw: (model: MindModel | FlowModel, group: any) => any;
+  keyShape: any;
 
-  update: (nextModel: MindModel | FlowModel, item: any) => void;
+  label: any;
 
+  wrapper: any;
+
+  appendix: any;
+
+  // internal methods
+
+  draw: (model: NodeModel, group: any) => any;
+
+  update: (nextModel: NodeModel, item: Item) => void;
+
+  setState: (name: ItemState, value: boolean, item: Item) => void;
+
+  // custom methods
+  [propName: string]: Function;
 }
 
-G6.registerNode('biz-node', {
+const bizOption: BizNode = {
   keyShape: null,
   label: null,
   wrapper: null,
   appendix: null,
 
+  /**
+   * internal method
+   * */
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
@@ -28,7 +46,7 @@ G6.registerNode('biz-node', {
     return keyShape;
   },
 
-  drawAppendix(model, group) {
+  drawAppendix(model: NodeModel, group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
@@ -53,7 +71,7 @@ G6.registerNode('biz-node', {
     }
   },
 
-  drawKeyShape(model, group) {
+  drawKeyShape(model: NodeModel, group) {
     const keyShapeType = 'rect';
     const keyShapeDefaultStyle = this[`get${ ShapeClassName.KeyShape }defaultStyle`]();
     this.keyShape = group.addShape(keyShapeType, {
@@ -69,7 +87,7 @@ G6.registerNode('biz-node', {
     return this.keyShape;
   },
 
-  drawWrapper(model, group) {
+  drawWrapper(model: NodeModel, group) {
     this.wrapper = group.addShape('rect', {
       className: ShapeClassName.Wrapper,
       attrs: {
@@ -84,7 +102,7 @@ G6.registerNode('biz-node', {
     return this.wrapper;
   },
 
-  drawLabel(model, group) {
+  drawLabel(model: NodeModel, group) {
     const labelDefaultStyle = this[`get${ ShapeClassName.Label }defaultStyle`]();
     // draw label
     this.label = group.addShape('text', {
@@ -112,7 +130,10 @@ G6.registerNode('biz-node', {
     return this.label;
   },
 
-  update(nextModel, item) {
+  /**
+   * internal method
+   * */
+  update(nextModel: NodeModel, item) {
     const group = item.getContainer();
     let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
@@ -121,12 +142,16 @@ G6.registerNode('biz-node', {
     this.adjustPosition({ item, group, model: nextModel });
   },
 
+  /**
+   * internal method
+   * */
   setState(name, value, item) {
+    console.log(name, value, item)
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
 
-  adjustPosition({ model, item, group }) {
+  adjustPosition({ model, item, group }: { model: NodeModel, item: Item, group: any }) {
 
     if (!group) {
       group = item.getContainer();
@@ -198,14 +223,20 @@ G6.registerNode('biz-node', {
   },
 
   adjustWrapper({ model, keyShapeSize, wrapper }) {
+
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
+
     // wrapper may be exposed if its height equals to keyShape's, so let it shrink a little
     wrapper.attr('height', keyShapeHeight - 1);
+
     wrapper.attr('width', keyShapeWidth);
+
     wrapper.attr('y', -wrapper.attr('height') / 2);
-    if (model.side === 'left') {
+
+    if (model.x < 0) {
       wrapper.attr('x', -keyShapeWidth / 2 + 4);
     }
+
     else {
       wrapper.attr('x', -keyShapeWidth / 2 - 4);
     }
@@ -268,4 +299,6 @@ G6.registerNode('biz-node', {
       [1, 0.5],
     ];
   },
-});
+}
+
+G6.registerNode('biz-node', bizOption);

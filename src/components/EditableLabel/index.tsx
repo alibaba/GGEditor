@@ -130,7 +130,8 @@ class EditableLabel extends React.PureComponent {
         ...labelStyle,
         display: 'none',
       };
-    } else {
+    }
+    else {
       const selectedNode = this.getSelectedNode();
 
       const labelShape = selectedNode.getContainer().findByClassName(ShapeClassName.Label);
@@ -153,29 +154,30 @@ class EditableLabel extends React.PureComponent {
     }
 
     return (
-        <div
-            ref={ (el) => {
-              this.labelElement = el;
-            } }
-            style={ labelStyle }
-            contentEditable="true"
-            onBlur={ this.handleBlur }
-            onKeyDown={ this.handleKeyDown }
-        >
-          { label }
-        </div>
+      <div
+        ref={ (el) => {
+          this.labelElement = el;
+        } }
+        style={ labelStyle }
+        contentEditable="true"
+        onBlur={ this.handleBlur }
+        onKeyDown={ this.handleKeyDown }
+      >
+        { label }
+      </div>
     );
   }
 }
 
-export default withEditorContext(EditableLabel, ({
-                                                   graph,
-                                                   labelState,
-                                                   setLabelState,
-                                                   executeCommand,
-                                                 }) => ({
-  graph,
-  labelState,
-  setLabelState,
-  executeCommand,
-}));
+export default withEditorContext(EditableLabel,
+  ({
+     graph,
+     labelState,
+     setLabelState,
+     executeCommand,
+   }) => ({
+    graph,
+    labelState,
+    setLabelState,
+    executeCommand,
+  }));
