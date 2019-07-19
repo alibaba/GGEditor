@@ -2,19 +2,19 @@ export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const NODE_DEFAULT_LABEL = '新建节点';
-export const NODE_MAX_TEXT_LINE_WIDTH = 100;
-
-export const SHAPE_CLASSNAME_LABEL = 'node-label';
-export const SHPAE_CLASSNAME_ANCHOR = 'ANCHOR';
-export const SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON = 'EXPAND_COLLAPSE_BUTTON';
-export const SHAPE_CLASSNAME_KEYSHAPE = 'node-shape';
-export const SHAPE_CLASSNAME_PREFIX = 'node-prefix';
+export const NODE_MAX_TEXT_LINE_WIDTH = 94;
 
 export const ITEM_TYPE_NODE = 'node';
 export const ITEM_TYPE_EDGE = 'edge';
 
-export const ITEM_STATE_ACTIVE = 'active';
-export const ITEM_STATE_SELECTED = 'selected';
+export enum ShapeClassName {
+  Label = 'node-label',
+  KeyShape = 'node-shape',
+  Wrapper = 'node-wrapper',
+  Appendix = 'node-appendix',
+  Anchor = 'Anchor',
+  CollapseExpandButton = 'CollapseExpandButton',
+}
 
 export enum ItemType {
   Node = 'node',

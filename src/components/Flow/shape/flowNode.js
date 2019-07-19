@@ -1,9 +1,7 @@
 import G6 from '@antv/g6';
 import { drawAnchor, handleAnchor } from './anchor';
 import { drawActivedNode } from './activedNode';
-import {
-  SHAPE_CLASSNAME_KEYSHAPE
-} from '@common/constants';
+import { ShapeClassName } from '@common/constants';
 
 import globalStyle from '../common/globalStyle';
 const { nodeStyle, nodeLabelStyle } = globalStyle;
@@ -42,7 +40,7 @@ G6.registerNode('flowNode', {
     };
     // 绘制节点矩形框
     const keyShape = group.addShape('rect', {
-      className: SHAPE_CLASSNAME_KEYSHAPE,
+      className: ShapeClassName.KeyShape,
       attrs: { x, y, ...shapeStyle }
     });
 

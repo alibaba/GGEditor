@@ -4,7 +4,6 @@
   "children": [
     {
       "label": "123",
-      "side": "left",
       "children": [
         {
           "label": "克罗地亚",
@@ -64,30 +63,37 @@
     },
     {
       "label": "法国",
-      "side": "right",
+      "side": "left",
       "children": [
         {
           "label": "法国",
+          "side": "left",
           "children": [
             {
               "label": "法国",
+              "side": "left",
               "children": [
                 {
-                  "label": "法国"
+                  "label": "法国",
+                  "side": "left"
                 },
                 {
-                  "label": "阿根廷"
+                  "label": "阿根廷",
+                  "side": "left"
                 }
               ]
             },
             {
               "label": "乌拉圭",
+              "side": "left",
               "children": [
                 {
-                  "label": "乌拉圭"
+                  "label": "乌拉圭",
+                  "side": "left"
                 },
                 {
-                  "label": "葡萄牙"
+                  "label": "葡萄牙",
+                  "side": "left"
                 }
               ]
             }
@@ -95,26 +101,33 @@
         },
         {
           "label": "比利时",
+          "side": "left",
           "children": [
             {
               "label": "比利时",
+              "side": "left",
               "children": [
                 {
-                  "label": "比利时"
+                  "label": "比利时",
+                  "side": "left"
                 },
                 {
-                  "label": "日本"
+                  "label": "日本",
+                  "side": "left"
                 }
               ]
             },
             {
               "label": "巴西",
+              "side": "left",
               "children": [
                 {
-                  "label": "巴西"
+                  "label": "巴西",
+                  "side": "left"
                 },
                 {
-                  "label": "墨西哥"
+                  "label": "墨西哥",
+                  "side": "left"
                 }
               ]
             }

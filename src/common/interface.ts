@@ -14,7 +14,7 @@ export interface EventEmitter {
   /** 绑定事件 */
   on: (eventName: EditorEvent | GraphNativeEvent, handler: Function) => void;
   /** 触发事件 */
-  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void; 
+  emit: (eventName: EditorEvent | GraphNativeEvent, params: object) => void;
 }
 
 /**
@@ -27,6 +27,8 @@ export interface Item {
 
   // 状态
   hasState: (state: string) => boolean;
+
+  getContainer: () => object;
 }
 
 /**
@@ -42,7 +44,7 @@ export interface Node extends Item {
  * @see https://www.yuque.com/antv/g6/edge-api
  */
 export interface Edge extends Item {
-  
+
 }
 
 export interface ItemModel {
@@ -57,7 +59,10 @@ export interface ItemModel {
 }
 
 export interface NodeModel extends ItemModel {
-
+  /** 元素坐标x */
+  x: number;
+  /** 元素坐标y */
+  y: number;
 }
 
 export interface EdgeModel extends ItemModel {
@@ -80,7 +85,7 @@ export interface Graph extends EventEmitter {
   remove: (item: string | Item) => void;
   removeItem: (item: string | Item) => void;
   paint: () => void;
-  setAutoPaint:(auto: boolean) => void;
+  setAutoPaint: (auto: boolean) => void;
 
   // 状态
   setItemState: (item: string | Item, state: string, enabled: boolean) => void;
@@ -134,7 +139,7 @@ export type GraphEdgeEventProps = Partial<Record<keyof typeof GraphEdgeEvent, Ev
 export type GraphCanvasEventProps = Partial<Record<keyof typeof GraphCanvasEvent, EventHandle<GraphEvent>>>;
 export type GraphCustomEventProps = Partial<Record<keyof typeof GraphCustomEvent, EventHandle<GraphEvent>>>;
 
-export type GraphNativeEvent = 
+export type GraphNativeEvent =
   GraphCommonEvent |
   GraphNodeEvent |
   GraphEdgeEvent |

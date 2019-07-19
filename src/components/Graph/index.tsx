@@ -2,7 +2,7 @@ import React from 'react';
 import { pick, uuid, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
-  ITEM_STATE_SELECTED,
+  ItemState,
   GraphState,
   EditorEvent,
   EditorCommand,
@@ -42,7 +42,7 @@ class Graph extends React.Component<GraphProps> {
   }
 
   getGraphState = () => {
-    const selectedNodes = this.graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+    const selectedNodes = this.graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
 
     let graphState = '';
 

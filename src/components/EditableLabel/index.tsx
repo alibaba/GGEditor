@@ -2,9 +2,9 @@ import React from 'react';
 import G6 from '@antv/g6';
 import {
   NODE_MAX_TEXT_LINE_WIDTH,
-  SHAPE_CLASSNAME_LABEL,
+  ShapeClassName,
   ITEM_TYPE_NODE,
-  ITEM_STATE_SELECTED,
+  ItemState,
   LabelState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
@@ -63,7 +63,7 @@ class EditableLabel extends React.PureComponent {
   getSelectedNode = () => {
     const { graph } = this.props;
 
-    return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED)[0];
+    return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected)[0];
   }
 
   getLabelOffset = ({ labelShape, selectedNode }) => {
@@ -90,7 +90,7 @@ class EditableLabel extends React.PureComponent {
       width: 'auto',
       height: 'auto',
       'min-width': width,
-      'max-width': `${NODE_MAX_TEXT_LINE_WIDTH}px`,
+      'max-width': `${ NODE_MAX_TEXT_LINE_WIDTH }px`,
       'min-height': height,
     };
   }
@@ -109,7 +109,7 @@ class EditableLabel extends React.PureComponent {
     const zoom = graph.getZoom();
 
     return {
-      transform: `scale(${zoom})`,
+      transform: `scale(${ zoom })`,
       'transform-origin': 'left top',
     };
   }
@@ -130,10 +130,11 @@ class EditableLabel extends React.PureComponent {
         ...labelStyle,
         display: 'none',
       };
-    } else {
+    }
+    else {
       const selectedNode = this.getSelectedNode();
 
-      const labelShape = selectedNode.getContainer().findByClassName(SHAPE_CLASSNAME_LABEL);
+      const labelShape = selectedNode.getContainer().findByClassName(ShapeClassName.Label);
 
       label = selectedNode.getModel().label;
       labelStyle = {
@@ -168,14 +169,15 @@ class EditableLabel extends React.PureComponent {
   }
 }
 
-export default withEditorContext(EditableLabel, ({
-  graph,
-  labelState,
-  setLabelState,
-  executeCommand,
-}) => ({
-  graph,
-  labelState,
-  setLabelState,
-  executeCommand,
-}));
+export default withEditorContext(EditableLabel,
+  ({
+     graph,
+     labelState,
+     setLabelState,
+     executeCommand,
+   }) => ({
+    graph,
+    labelState,
+    setLabelState,
+    executeCommand,
+  }));

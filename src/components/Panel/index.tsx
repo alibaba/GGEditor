@@ -2,7 +2,7 @@ import React from 'react';
 import { pick } from '@utils';
 import {
   ITEM_TYPE_NODE,
-  ITEM_STATE_SELECTED,
+  ItemState,
   GraphState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
@@ -30,7 +30,7 @@ class Panel extends React.PureComponent {
   getSelectedNodes = () => {
     const { graph } = this.props;
 
-    return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
+    return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
   }
 
   render() {

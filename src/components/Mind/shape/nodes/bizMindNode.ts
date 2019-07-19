@@ -1,29 +1,43 @@
 import G6 from '@antv/g6';
-import {
-  SHAPE_CLASSNAME_LABEL,
-  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
-  SHAPE_CLASSNAME_KEYSHAPE,
-} from '@common/constants';
-import Util from '../../../Graph/shape/nodes/util';
-import '../../../Graph/shape/nodes/bizNode';
+import { ShapeClassName } from '@common/constants';
+import Util from '@components/Graph/shape/nodes/util';
+import '@components/Graph/shape/nodes/bizNode';
+import { BizNode } from "@components/Graph/shape/nodes/bizNode";
 
-G6.registerNode('mind-node', {
+export interface BizMindNodeOptions extends Omit<BizNode, 'keyShape' | 'wrapper' | ''> {
+
+  drawExpandOrCollapseButton: (model: any, group: any) => any;
+
+  getExpandButtonConfig: () => object;
+
+  getCollapseButtonConfig: () => object;
+
+  /** other customized function  */
+  [propName: string]: Function;
+}
+
+const options: BizMindNodeOptions = {
+  /**
+   * main draw method
+   * */
   draw(model, group) {
+    this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
-    this.drawPrefix(model, group);
     this.drawLabel(model, group);
+    this.drawAppendix(model, group);
     this.drawExpandOrCollapseButton(model, group);
     return keyShape;
   },
+
   update(nextModel, item) {
     const group = item.getContainer();
-    let label = group.findByClassName(SHAPE_CLASSNAME_LABEL);
-    let button = group.findByClassName(SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON);
+    let label = group.findByClassName(ShapeClassName.Label);
+    let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
     // adjust position
-    this.adjustPosition({ item, group });
+    this.adjustPosition({ model: nextModel, item, group });
     // repaint button
     if (button) {
       button.remove();
@@ -32,17 +46,18 @@ G6.registerNode('mind-node', {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
   },
+
   drawExpandOrCollapseButton(model, group) {
-    const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE);
+    const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const expandAttr = this.getExpandButtonConfig();
     const collapseAttr = this.getCollapseButtonConfig();
     if (model.collapsed) {
       const { path, width, height, offset } = expandAttr;
       const button = group.addShape('path', {
-        className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+        className: ShapeClassName.CollapseExpandButton,
         attrs: {
           path,
-          ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
+          ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
         },
       });
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -50,16 +65,20 @@ G6.registerNode('mind-node', {
     }
     const { path, width, height, offset } = collapseAttr;
     const button = group.addShape('path', {
-      className: SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
+      className: ShapeClassName.CollapseExpandButton,
       attrs: {
         path,
-        ...this[`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`](),
+        ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
       },
     });
     button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
     return button;
   },
-  // functions that can be overridden by advice
+
+  /**
+   * following methods can be overridden by advice
+   * */
+
   getExpandButtonConfig() {
     const width = 17;
     const height = 17;
@@ -71,6 +90,7 @@ G6.registerNode('mind-node', {
       offset,
     };
   },
+
   getCollapseButtonConfig() {
     const width = 17;
     const height = 17;
@@ -82,10 +102,14 @@ G6.registerNode('mind-node', {
       offset,
     };
   },
-  [`get${SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON}defaultStyle`]() {
+
+  [`get${ShapeClassName.CollapseExpandButton}defaultStyle`]() {
     return {
       stroke: '#000',
       fill: '#fff',
     };
   },
-}, 'biz-node');
+};
+
+
+G6.registerNode('mind-node', options, 'biz-node');
