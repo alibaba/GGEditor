@@ -7,7 +7,7 @@ import {
   GraphNodeEvent,
   GraphEdgeEvent,
   GraphCanvasEvent,
-  GraphCustomEvent,
+  GraphCustomEvent, ItemState,
 } from '@common/constants';
 
 export interface EventEmitter {
@@ -28,7 +28,7 @@ export interface Item {
   // 状态
   hasState: (state: string) => boolean;
 
-  getContainer: () => object;
+  getContainer: () => Group;
 }
 
 /**
@@ -70,6 +70,47 @@ export interface EdgeModel extends ItemModel {
   source: string;
   /** 终止节点 ID */
   target: string;
+}
+
+/**
+ * G6 节点注册option（生命周期）
+ * @see https://www.yuque.com/antv/g6/shape-crycle#e4J91
+ * */
+export interface NodeRegisterOption {
+  draw: (model: NodeModel, group: Group) => any;
+  update: (nextModel: NodeModel, item: Item) => void;
+  setState: (name: ItemState, value: boolean, item: Item) => void;
+}
+
+/**
+ * G6 Shape
+ * */
+export interface Shape {
+  getBBox: () => BBox;
+  attr: (name: string, value?: string) => void;
+  remove: () => void;
+  translate: (x: number, y: number) => void;
+}
+
+/**
+ * G Group
+ * */
+export interface Group {
+  addShape: (type: string, cfg: object) => Shape;
+  findByClassName: (className: string) => Shape;
+  getBBox: () => BBox;
+}
+
+/**
+ * G6 包围盒
+ * */
+export interface BBox {
+  height: number;
+  minX: number;
+  minY: number;
+  width: number;
+  maxX: number;
+  maxY: number;
 }
 
 /**

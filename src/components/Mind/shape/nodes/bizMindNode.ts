@@ -3,10 +3,11 @@ import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
 import { BizNode } from "@components/Graph/shape/nodes/bizNode";
+import { Group, NodeModel, NodeRegisterOption } from "@common/interface";
 
-export interface BizMindNodeOptions extends Omit<BizNode, 'keyShape' | 'wrapper' | ''> {
+export interface BizMindNodeOptions extends NodeRegisterOption {
 
-  drawExpandOrCollapseButton: (model: any, group: any) => any;
+  drawExpandOrCollapseButton: (model: NodeModel, group: Group) => any;
 
   getExpandButtonConfig: () => object;
 
@@ -23,6 +24,7 @@ const options: BizMindNodeOptions = {
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
+    console.log(group)
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
     this.drawExpandOrCollapseButton(model, group);

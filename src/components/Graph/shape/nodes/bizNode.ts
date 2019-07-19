@@ -5,9 +5,9 @@ import {
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { Item, NodeModel } from "@common/interface";
+import { Item, NodeModel, NodeRegisterOption } from "@common/interface";
 
-export interface BizNode {
+export interface BizNode extends NodeRegisterOption{
   keyShape: any;
 
   label: any;
@@ -15,14 +15,6 @@ export interface BizNode {
   wrapper: any;
 
   appendix: any;
-
-  // internal methods
-
-  draw: (model: NodeModel, group: any) => any;
-
-  update: (nextModel: NodeModel, item: Item) => void;
-
-  setState: (name: ItemState, value: boolean, item: Item) => void;
 
   // custom methods
   [propName: string]: Function;
