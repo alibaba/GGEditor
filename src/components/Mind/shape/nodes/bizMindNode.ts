@@ -4,7 +4,7 @@ import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
 import { BizNode } from "@components/Graph/shape/nodes/bizNode";
 
-export interface BizMindNodeOptions extends Omit<BizNode, 'keyShape'|'wrapper'|''> {
+export interface BizMindNodeOptions extends Omit<BizNode, 'keyShape' | 'wrapper' | ''> {
 
   drawExpandOrCollapseButton: (model: any, group: any) => any;
 
@@ -57,7 +57,7 @@ const options: BizMindNodeOptions = {
         className: ShapeClassName.CollapseExpandButton,
         attrs: {
           path,
-          ...this[`get${ ShapeClassName.CollapseExpandButton }defaultStyle`](),
+          ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
         },
       });
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -68,7 +68,7 @@ const options: BizMindNodeOptions = {
       className: ShapeClassName.CollapseExpandButton,
       attrs: {
         path,
-        ...this[`get${ ShapeClassName.CollapseExpandButton }defaultStyle`](),
+        ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
       },
     });
     button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
@@ -103,7 +103,7 @@ const options: BizMindNodeOptions = {
     };
   },
 
-  [`get${ ShapeClassName.CollapseExpandButton }defaultStyle`]() {
+  [`get${ShapeClassName.CollapseExpandButton}defaultStyle`]() {
     return {
       stroke: '#000',
       fill: '#fff',

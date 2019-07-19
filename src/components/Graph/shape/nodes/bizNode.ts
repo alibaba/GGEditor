@@ -103,7 +103,7 @@ const bizOption: BizNode = {
   },
 
   drawLabel(model: NodeModel, group) {
-    const labelDefaultStyle = this[`get${ ShapeClassName.Label }defaultStyle`]();
+    const labelDefaultStyle = this[`get${ShapeClassName.Label}defaultStyle`]();
     // draw label
     this.label = group.addShape('text', {
       className: ShapeClassName.Label,
@@ -125,7 +125,7 @@ const bizOption: BizNode = {
       fontStyle,
       fontVariant,
     } = this.label.attr();
-    const font = `${ fontStyle } ${ fontVariant } ${ fontWeight } ${ fontSize }px ${ fontFamily }`;
+    const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
     this.label.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
     return this.label;
   },
@@ -254,36 +254,36 @@ const bizOption: BizNode = {
       statesArr.forEach((stateName) => {
         statesStyle = {
           ...statesStyle,
-          ...this[`get${ className }${ stateName }Style`] && this[`get${ className }${ stateName }Style`](),
+          ...this[`get${className}${stateName}Style`] && this[`get${className}${stateName}Style`](),
         };
       });
 
       shape.attr({
-        ...this[`get${ className }defaultStyle`] && this[`get${ className }defaultStyle`](),
+        ...this[`get${className}defaultStyle`] && this[`get${className}defaultStyle`](),
         ...statesStyle,
       });
     });
   },
 
-  [`get${ ShapeClassName.KeyShape }defaultStyle`]() {
+  [`get${ShapeClassName.KeyShape}defaultStyle`]() {
     return {
       fill: '#fff',
       radius: 6,
     };
   },
 
-  [`get${ ShapeClassName.KeyShape }activeStyle`]() {
+  [`get${ShapeClassName.KeyShape}activeStyle`]() {
     return {};
   },
 
-  [`get${ ShapeClassName.KeyShape }selectedStyle`]() {
+  [`get${ShapeClassName.KeyShape}selectedStyle`]() {
     return {
       fill: '#f5f5f5',
       stroke: '#a5a5a5',
     };
   },
 
-  [`get${ ShapeClassName.Label }defaultStyle`]() {
+  [`get${ShapeClassName.Label}defaultStyle`]() {
     return {
       fill: '#000',
     };

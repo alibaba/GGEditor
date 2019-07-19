@@ -155,15 +155,15 @@ class EditableLabel extends React.PureComponent {
 
     return (
       <div
-        ref={ (el) => {
+        ref={(el) => {
           this.labelElement = el;
-        } }
-        style={ labelStyle }
+        }}
+        style={labelStyle}
         contentEditable="true"
-        onBlur={ this.handleBlur }
-        onKeyDown={ this.handleKeyDown }
+        onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
       >
-        { label }
+        {label}
       </div>
     );
   }

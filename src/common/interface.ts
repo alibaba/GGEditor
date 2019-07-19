@@ -85,7 +85,7 @@ export interface Graph extends EventEmitter {
   remove: (item: string | Item) => void;
   removeItem: (item: string | Item) => void;
   paint: () => void;
-  setAutoPaint:(auto: boolean) => void;
+  setAutoPaint: (auto: boolean) => void;
 
   // 状态
   setItemState: (item: string | Item, state: string, enabled: boolean) => void;
