@@ -2,12 +2,18 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { BizNode } from "@components/Graph/shape/nodes/bizNode";
 import { Group, NodeModel, NodeRegisterOption } from "@common/interface";
+import { bizOption } from "@components/Graph/shape/nodes/bizNode";
 
-export interface BizMindNodeOptions extends NodeRegisterOption {
+export interface MindNodeModel extends NodeModel {
+  isRoot?: boolean;
+  collapsed?:boolean;
+  children: MindNodeModel[];
+}
 
-  drawExpandOrCollapseButton: (model: NodeModel, group: Group) => any;
+export interface BizMindNodeOptions extends NodeRegisterOption<MindNodeModel> {
+
+  drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
 
   getExpandButtonConfig: () => object;
 
@@ -18,13 +24,13 @@ export interface BizMindNodeOptions extends NodeRegisterOption {
 }
 
 const options: BizMindNodeOptions = {
+  ...bizOption,
   /**
    * main draw method
    * */
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
-    console.log(group)
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
     this.drawExpandOrCollapseButton(model, group);
@@ -39,7 +45,7 @@ const options: BizMindNodeOptions = {
     label.remove();
     label = this.drawLabel(nextModel, group);
     // adjust position
-    this.adjustPosition({ model: nextModel, item, group });
+    this.adjustPosition({ model: nextModel, group });
     // repaint button
     if (button) {
       button.remove();
@@ -54,7 +60,7 @@ const options: BizMindNodeOptions = {
     const expandAttr = this.getExpandButtonConfig();
     const collapseAttr = this.getCollapseButtonConfig();
     if (model.collapsed) {
-      const { path, width, height, offset } = expandAttr;
+      const { path, width, height, offset } = expandAttr as any;
       const button = group.addShape('path', {
         className: ShapeClassName.CollapseExpandButton,
         attrs: {
@@ -65,7 +71,7 @@ const options: BizMindNodeOptions = {
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
       return button;
     }
-    const { path, width, height, offset } = collapseAttr;
+    const { path, width, height, offset } = collapseAttr as any;
     const button = group.addShape('path', {
       className: ShapeClassName.CollapseExpandButton,
       attrs: {

@@ -1,26 +1,22 @@
 import G6 from '@antv/g6';
 import {
-  ItemState,
   NODE_MAX_TEXT_LINE_WIDTH,
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { Item, NodeModel, NodeRegisterOption } from "@common/interface";
+import { Group, Item, NodeModel, NodeRegisterOption, Shape } from "@common/interface";
 
-export interface BizNode extends NodeRegisterOption{
-  keyShape: any;
+export interface BizNode extends NodeRegisterOption<NodeModel> {
+  keyShape: Shape | null;
 
-  label: any;
+  label: Shape | null;
 
-  wrapper: any;
+  wrapper: Shape | null;
 
-  appendix: any;
-
-  // custom methods
-  [propName: string]: Function;
+  appendix: Shape | null;
 }
 
-const bizOption: BizNode = {
+export const bizOption: BizNode = {
   keyShape: null,
   label: null,
   wrapper: null,
@@ -38,7 +34,7 @@ const bizOption: BizNode = {
     return keyShape;
   },
 
-  drawAppendix(model: NodeModel, group) {
+  drawAppendix(model: NodeModel, group:Group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
@@ -63,9 +59,9 @@ const bizOption: BizNode = {
     }
   },
 
-  drawKeyShape(model: NodeModel, group) {
+  drawKeyShape(model: NodeModel, group:Group) {
     const keyShapeType = 'rect';
-    const keyShapeDefaultStyle = this[`get${ ShapeClassName.KeyShape }defaultStyle`]();
+    const keyShapeDefaultStyle = this[`get${ShapeClassName.KeyShape}defaultStyle`]();
     this.keyShape = group.addShape(keyShapeType, {
       className: ShapeClassName.KeyShape,
       attrs: {
@@ -79,7 +75,7 @@ const bizOption: BizNode = {
     return this.keyShape;
   },
 
-  drawWrapper(model: NodeModel, group) {
+  drawWrapper(model: NodeModel, group: Group) {
     this.wrapper = group.addShape('rect', {
       className: ShapeClassName.Wrapper,
       attrs: {
@@ -94,7 +90,7 @@ const bizOption: BizNode = {
     return this.wrapper;
   },
 
-  drawLabel(model: NodeModel, group) {
+  drawLabel(model: NodeModel, group: Group) {
     const labelDefaultStyle = this[`get${ShapeClassName.Label}defaultStyle`]();
     // draw label
     this.label = group.addShape('text', {
@@ -131,23 +127,19 @@ const bizOption: BizNode = {
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
-    this.adjustPosition({ item, group, model: nextModel });
+    this.adjustPosition({ group, model: nextModel });
   },
 
   /**
    * internal method
    * */
   setState(name, value, item) {
-    console.log(name, value, item)
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
 
-  adjustPosition({ model, item, group }: { model: NodeModel, item: Item, group: any }) {
 
-    if (!group) {
-      group = item.getContainer();
-    }
+  adjustPosition({ model, group }: { model: NodeModel, group: Group }) {
 
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const label = group.findByClassName(ShapeClassName.Label);
@@ -170,7 +162,8 @@ const bizOption: BizNode = {
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
   },
 
-  adjustKeyShape({ label, keyShape }) {
+
+  adjustKeyShape({ label, keyShape }: { label: Shape, keyShape: Shape }) {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
       keyShape.attr('height', 54);
@@ -181,7 +174,7 @@ const bizOption: BizNode = {
     };
   },
 
-  adjustAppendix({ keyShapeSize, appendix, model }) {
+  adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any, appendix: Shape, model: NodeModel }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
@@ -196,7 +189,7 @@ const bizOption: BizNode = {
     }
   },
 
-  resetCoordinate({ keyShapeSize, keyShape, label }) {
+  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any, keyShape: Shape, label: Shape }) {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);
     keyShape.attr('y', 0 - keyShapeSize.height / 2);
@@ -207,14 +200,14 @@ const bizOption: BizNode = {
     });
   },
 
-  adjustLabel({ keyShapeSize, label }) {
+  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any, label: Shape }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
     label.attr('x', (keyShapeWidth - labelWidth) / 2);
     label.attr('y', keyShapeHeight / 2);
   },
 
-  adjustWrapper({ model, keyShapeSize, wrapper }) {
+  adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel, keyShapeSize: any, wrapper: Shape }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
@@ -234,12 +227,12 @@ const bizOption: BizNode = {
     }
   },
 
-  setStateStyle(item) {
+  setStateStyle(item: Item) {
     const statesArr = item.getStates();
     const group = item.getContainer();
     const allChildren = group.get('children');
 
-    allChildren.forEach((shape) => {
+    allChildren.forEach((shape: Shape) => {
       const className = shape.get('className');
 
       let statesStyle = {};
@@ -291,6 +284,6 @@ const bizOption: BizNode = {
       [1, 0.5],
     ];
   },
-}
+};
 
 G6.registerNode('biz-node', bizOption);

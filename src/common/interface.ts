@@ -28,7 +28,11 @@ export interface Item {
   // 状态
   hasState: (state: string) => boolean;
 
-  getContainer: () => Group;
+  getContainer(): Group;
+
+  getStates(): ItemState[];
+
+  getBBox(): BBox;
 }
 
 /**
@@ -76,29 +80,43 @@ export interface EdgeModel extends ItemModel {
  * G6 节点注册option（生命周期）
  * @see https://www.yuque.com/antv/g6/shape-crycle#e4J91
  * */
-export interface NodeRegisterOption {
-  draw: (model: NodeModel, group: Group) => any;
-  update: (nextModel: NodeModel, item: Item) => void;
-  setState: (name: ItemState, value: boolean, item: Item) => void;
+export interface NodeRegisterOption<T> {
+  draw(model: T, group: Group): Shape;
+
+  update(nextModel: T, item: Item): void;
+
+  setState(name: ItemState, value: boolean, item: Item): void;
+
+  // custom methods
+  [propName: string]: any;
 }
 
 /**
  * G6 Shape
  * */
 export interface Shape {
-  getBBox: () => BBox;
-  attr: (name: string, value?: string) => void;
-  remove: () => void;
-  translate: (x: number, y: number) => void;
+  getBBox(): BBox;
+
+  attr(name?: string, value?: string | number): void | any;
+
+  remove(): void;
+
+  translate(x: number, y: number): void;
+
+  get(name: string): any;
 }
 
 /**
  * G Group
  * */
 export interface Group {
-  addShape: (type: string, cfg: object) => Shape;
-  findByClassName: (className: string) => Shape;
-  getBBox: () => BBox;
+  addShape(type: string, cfg: object): Shape;
+
+  findByClassName(className: string): Shape;
+
+  getBBox(): BBox;
+
+  get(name: string): any;
 }
 
 /**
