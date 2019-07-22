@@ -28,7 +28,7 @@ const options: BizMindNodeOptions = {
   /**
    * main draw method
    * */
-  draw(model, group) {
+  /*draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
@@ -83,9 +83,9 @@ const options: BizMindNodeOptions = {
     return button;
   },
 
-  /**
+  /!**
    * following methods can be overridden by advice
-   * */
+   * *!/
 
   getExpandButtonConfig() {
     const width = 17;
@@ -116,7 +116,7 @@ const options: BizMindNodeOptions = {
       stroke: '#000',
       fill: '#fff',
     };
-  },
+  },*/
 };
 
 
