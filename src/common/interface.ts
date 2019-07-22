@@ -77,8 +77,8 @@ export interface EdgeModel extends ItemModel {
   source: Node;
   /** 终止节点 */
   target: Node;
-  startPoint: EdgePoint,
-  endPoint: EdgePoint,
+  startPoint: EdgePoint;
+  endPoint: EdgePoint;
 }
 
 /**

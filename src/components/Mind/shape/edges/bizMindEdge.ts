@@ -32,25 +32,16 @@ const options: EdgeRegisterOption = {
       return this.drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
     }
 
-    if(endX < 0 && endY < startY) {
+    if (endX < 0 && endY < startY) {
       return this.drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
     }
 
+    if (endX > 0 && endY > startY) {
+      return this.drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
+    }
+
     else {
-      const offset = (endX - (startX + sourceWidth)) / 2;
-      const radius = offset / 3;
-      return group.addShape('path', {
-        attrs: {
-          path: [
-            ['M', startX + sourceWidth, startY + sourceHeight / 2],
-            ['L', startX + sourceWidth + offset, startY + sourceHeight / 2],
-            ['L', endX - offset, endY + targetHeight / 2],
-            ['L', endX, endY + targetHeight / 2],
-          ],
-          lineWidth: 2,
-          stroke: '#d8d8d8'
-        }
-      })
+      return this.drawRightTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
     }
   },
 
@@ -73,11 +64,11 @@ const options: EdgeRegisterOption = {
     })
   },
 
-  drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth){
+  drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth) {
     const offset = (startX - (endX + targetWidth)) / 2;
     const radius = offset / 3;
     return group.addShape('path', {
-      attrs:{
+      attrs: {
         path: [
           ['M', startX, startY + targetHeight / 2],
           ['L', startX - offset + radius, startY + sourceHeight / 2],
@@ -85,6 +76,44 @@ const options: EdgeRegisterOption = {
           ['L', endX + targetWidth + offset, endY + targetHeight / 2 + radius],
           ['A', radius, radius, 0, 0, 0, endX + targetWidth + offset - radius, endY + targetHeight / 2],
           ['L', endX + targetWidth / 2, endY + targetHeight / 2]
+        ],
+        lineWidth: 2,
+        stroke: '#d8d8d8'
+      }
+    })
+  },
+
+  drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth) {
+    const offset = (endX - (startX + sourceWidth)) / 2;
+    const radius = offset / 3;
+    return group.addShape('path', {
+      attrs: {
+        path: [
+          ['M', startX + sourceWidth, startY + sourceHeight / 2],
+          ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
+          ['A', radius, radius, 0, 0, 1, startX + sourceWidth + offset, startY + sourceHeight / 2 + radius],
+          ['L', endX - offset, endY + targetHeight / 2 - radius],
+          ['A', radius, radius, 0, 0, 0, endX - offset + radius, endY + targetHeight / 2],
+          ['L', endX, endY + targetHeight / 2],
+        ],
+        lineWidth: 2,
+        stroke: '#d8d8d8'
+      }
+    })
+  },
+
+  drawRightTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth){
+    const offset = (endX - (startX + sourceWidth)) / 2;
+    const radius = offset / 3;
+    return group.addShape('path', {
+      attrs: {
+        path: [
+          ['M', startX + sourceWidth, startY + sourceHeight / 2],
+          ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
+          ['A', radius, radius, 0, 0, 0, startX + sourceWidth + offset, startY + sourceHeight / 2 - radius],
+          ['L', endX - offset, endY + targetHeight / 2 + radius],
+          ['A', radius, radius, 0, 0, 1, endX - offset + radius, endY + targetHeight / 2],
+          ['L', endX, endY + targetHeight / 2],
         ],
         lineWidth: 2,
         stroke: '#d8d8d8'

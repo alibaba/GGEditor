@@ -7,7 +7,7 @@ import { bizOption } from "@components/Graph/shape/nodes/bizNode";
 
 export interface MindNodeModel extends NodeModel {
   isRoot?: boolean;
-  collapsed?:boolean;
+  collapsed?: boolean;
   children: MindNodeModel[];
 }
 

@@ -5,8 +5,8 @@ import commandManager from '@common/CommandManager';
 import { baseCommand, BaseCommand } from '@components/Graph/command/base';
 
 interface AddCommandParams {
-  type: ItemType,
-  model: ItemModel,
+  type: ItemType;
+  model: ItemModel;
 }
 
 const addCommand: BaseCommand<AddCommandParams> = {

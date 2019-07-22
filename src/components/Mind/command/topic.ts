@@ -5,8 +5,8 @@ import commandManager from '@common/CommandManager';
 import { baseCommand, BaseCommand } from '@components/Graph/command/base';
 
 interface TopicCommandParams {
-  id: string,
-  model: ItemModel,
+  id: string;
+  model: ItemModel;
 }
 
 export const topicCommand: BaseCommand<TopicCommandParams> = {

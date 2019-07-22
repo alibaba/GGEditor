@@ -141,7 +141,7 @@ export const bizOption: BizNode = {
   },
 
 
-  adjustPosition({ model, group }: { model: NodeModel, group: Group }) {
+  adjustPosition({ model, group }: { model: NodeModel; group: Group }) {
 
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const label = group.findByClassName(ShapeClassName.Label);
@@ -165,7 +165,7 @@ export const bizOption: BizNode = {
   },
 
 
-  adjustKeyShape({ label, keyShape }: { label: Shape, keyShape: Shape }) {
+  adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
       keyShape.attr('height', 54);
@@ -176,7 +176,7 @@ export const bizOption: BizNode = {
     };
   },
 
-  adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any, appendix: Shape, model: NodeModel }) {
+  adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any; appendix: Shape; model: NodeModel }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
@@ -191,7 +191,7 @@ export const bizOption: BizNode = {
     }
   },
 
-  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any, keyShape: Shape, label: Shape }) {
+  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any; keyShape: Shape; label: Shape }) {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);
     keyShape.attr('y', 0 - keyShapeSize.height / 2);
@@ -202,14 +202,14 @@ export const bizOption: BizNode = {
     });
   },
 
-  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any, label: Shape }) {
+  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any; label: Shape }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
     label.attr('x', (keyShapeWidth - labelWidth) / 2);
     label.attr('y', keyShapeHeight / 2);
   },
 
-  adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel, keyShapeSize: any, wrapper: Shape }) {
+  adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
