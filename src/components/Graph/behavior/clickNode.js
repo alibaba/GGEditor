@@ -3,6 +3,7 @@ import {
   ITEM_TYPE_NODE,
   ItemState,
 } from '@common/constants';
+import { ITEM_TYPE_EDGE } from '../../../common/constants';
 
 G6.registerBehavior('click-node', {
   getDefaultCfg() {
@@ -45,6 +46,13 @@ G6.registerBehavior('click-node', {
   handleNodeClick({ item }) {
     const { graph } = this;
 
+    // highlight parent edges
+    const edges = this.findParentEdges(item);
+
+    if (edges.length > 0) {
+      edges.forEach(edge => graph.setItemState(edge, ItemState.Active, true));
+    }
+
     const isSelected = item.hasState(ItemState.Selected);
 
     if (this.multiple && this.keydown) {
@@ -58,6 +66,18 @@ G6.registerBehavior('click-node', {
         graph.setItemState(item, ItemState.Selected, true);
       }
     }
+  },
+
+  findParentEdges(item, edges = []) {
+    const parentNode = item.get('parent');
+
+    if (!parentNode) {
+      return edges;
+    }
+
+    edges.push(item.getEdges().find(edge => edge.getModel().source === parentNode.getModel().id));
+
+    return this.findParentEdges(item.get('parent'), edges);
   },
 
   handleCanvasClick() {

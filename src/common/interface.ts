@@ -113,9 +113,9 @@ export interface NodeRegisterOption<T> {
 export interface EdgeRegisterOption {
   draw(model: EdgeModel, group: Group): Shape;
 
-  update(nextModel: EdgeModel, node: Node): void;
+  update(nextModel: EdgeModel, edge: Edge): void;
 
-  setState(name: ItemState, value: boolean, node: Node): void;
+  setState(name: ItemState, value: boolean, edge: Edge): void;
 
   // custom methods
   [propName: string]: any;
@@ -127,7 +127,7 @@ export interface EdgeRegisterOption {
 export interface Shape {
   getBBox(): BBox;
 
-  attr(name?: string, value?: string | number): void | any;
+  attr(name?: string, value?: string | number, param?: object): void | any;
 
   remove(): void;
 

@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-import { EdgeRegisterOption } from "@common/interface";
+import { Edge, EdgeRegisterOption, Shape } from "@common/interface";
+import { ItemState } from "@common/constants";
 
 const commonStyle = {
   lineWidth: 2,
@@ -9,7 +10,7 @@ const commonStyle = {
   },
 };
 
-/** wrapper and keyShape's offset */
+/** wrapper and keyShape's offset, determining end point of an edge */
 const wrapperOffset = 4;
 
 const options: EdgeRegisterOption = {
@@ -136,6 +137,14 @@ const options: EdgeRegisterOption = {
         ],
         ...commonStyle,
       },
+    });
+  },
+
+  setState(name: ItemState, value: boolean, edge: Edge): void {
+    console.log(edge.getStates())
+    const shape: Shape = edge.getContainer().get('children')[0];
+    shape.attr({
+      stroke: '#5AAAFF',
     });
   },
 };
