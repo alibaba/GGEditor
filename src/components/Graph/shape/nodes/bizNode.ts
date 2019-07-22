@@ -258,13 +258,14 @@ export const bizOption: BizNode = {
   },
 
   [`get${ShapeClassName.KeyShape}activeStyle`]() {
-    return {};
+    return {
+      fill: '#f5f5f5',
+    };
   },
 
   [`get${ShapeClassName.KeyShape}selectedStyle`]() {
     return {
       fill: '#f5f5f5',
-      stroke: '#a5a5a5',
     };
   },
 
