@@ -21,9 +21,9 @@ export interface EventEmitter {
  * G6 绘图元素
  * @see https://www.yuque.com/antv/g6/item
  */
-export interface Item {
+export interface Item<T> {
   // 通用
-  getModel: () => NodeModel | EdgeModel;
+  getModel: () => T;
 
   // 状态
   hasState: (state: string) => boolean;
@@ -39,7 +39,7 @@ export interface Item {
  * G6 节点元素
  * @see https://www.yuque.com/antv/g6/node-api
  */
-export interface Node extends Item {
+export interface Node extends Item<NodeModel> {
 
 }
 
@@ -47,7 +47,7 @@ export interface Node extends Item {
  * G6 边线元素
  * @see https://www.yuque.com/antv/g6/edge-api
  */
-export interface Edge extends Item {
+export interface Edge extends Item<EdgeModel> {
 
 }
 

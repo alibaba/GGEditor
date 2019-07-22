@@ -4,14 +4,20 @@ import { EdgeRegisterOption } from "@common/interface";
 const commonStyle = {
   lineWidth: 2,
   stroke: '#d8d8d8',
+  endArrow: {
+    path: 'M 0.5 0, A 3 3 0 0 1 -6.5 0, A 3 3 0 0 1 0.5 0',
+  },
 };
+
+/** wrapper and keyShape's offset */
+const wrapperOffset = 4;
 
 const options: EdgeRegisterOption = {
   draw(model, group) {
     const startNode = model.source;
     const endNode = model.target;
     /**
-     * (x,y) is on the left-top point of a node
+     * (x,y) is on the left-top point of a keyShape
      * */
     const { x: startX, y: startY } = model.startPoint;
     const { x: endX, y: endY } = model.endPoint;
@@ -20,12 +26,24 @@ const options: EdgeRegisterOption = {
     const targetHeight = endNode.getBBox().height;
     const targetWidth = endNode.getBBox().width;
 
-    if (endY === startY) {
+    if (endY === startY && endNode.getModel().x < 0) {
       return group.addShape('path', {
         attrs: {
           path: [
             ['M', startX, startY + sourceHeight / 2],
-            ['L', endX, endY + targetHeight / 2],
+            ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
+          ],
+          ...commonStyle,
+        },
+      });
+    }
+
+    if (endY === startY && endNode.getModel().x > 0) {
+      return group.addShape('path', {
+        attrs: {
+          path: [
+            ['M', startX + sourceWidth, startY + sourceHeight / 2],
+            ['L', endX - wrapperOffset, endY + targetHeight / 2],
           ],
           ...commonStyle,
         },
@@ -60,7 +78,7 @@ const options: EdgeRegisterOption = {
           ['A', radius, radius, 0, 0, 0, startX - offset, startY + sourceHeight / 2 + radius],
           ['L', endX + targetWidth + offset, endY + targetHeight / 2 - radius],
           ['A', radius, radius, 0, 0, 1, endX + targetWidth + offset - radius, endY + targetHeight / 2],
-          ['L', endX + targetWidth / 2, endY + targetHeight / 2],
+          ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },
@@ -78,7 +96,7 @@ const options: EdgeRegisterOption = {
           ['A', radius, radius, 0, 0, 1, startX - offset, startY + sourceHeight / 2 - radius],
           ['L', endX + targetWidth + offset, endY + targetHeight / 2 + radius],
           ['A', radius, radius, 0, 0, 0, endX + targetWidth + offset - radius, endY + targetHeight / 2],
-          ['L', endX + targetWidth / 2, endY + targetHeight / 2],
+          ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },
@@ -96,7 +114,7 @@ const options: EdgeRegisterOption = {
           ['A', radius, radius, 0, 0, 1, startX + sourceWidth + offset, startY + sourceHeight / 2 + radius],
           ['L', endX - offset, endY + targetHeight / 2 - radius],
           ['A', radius, radius, 0, 0, 0, endX - offset + radius, endY + targetHeight / 2],
-          ['L', endX, endY + targetHeight / 2],
+          ['L', endX - wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },
@@ -114,7 +132,7 @@ const options: EdgeRegisterOption = {
           ['A', radius, radius, 0, 0, 0, startX + sourceWidth + offset, startY + sourceHeight / 2 - radius],
           ['L', endX - offset, endY + targetHeight / 2 + radius],
           ['A', radius, radius, 0, 0, 1, endX - offset + radius, endY + targetHeight / 2],
-          ['L', endX, endY + targetHeight / 2],
+          ['L', endX - wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },

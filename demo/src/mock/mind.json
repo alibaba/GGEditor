@@ -1,5 +1,6 @@
 {
   "label": "法国",
+  "isRoot": true,
 
   "children": [
     {
