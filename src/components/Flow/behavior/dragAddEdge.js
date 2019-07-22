@@ -36,7 +36,7 @@ G6.registerBehavior('drag-add-edge', {
         shape: 'flowSmooth',
         source: model.id,
         target: point,
-        sourceAnchor: ev.target.get('index')
+        sourceAnchor: ev.target.get('bizMindEdge.ts')
       });
       this.addingEdge = true;
     }
@@ -78,7 +78,7 @@ G6.registerBehavior('drag-add-edge', {
 
     if (this.addingEdge && this.edge) {
       graph.updateItem(this.edge, {
-        targetAnchor: ev.target.get('index'),
+        targetAnchor: ev.target.get('bizMindEdge.ts'),
         target: model.id
       });
       this.edge = null;

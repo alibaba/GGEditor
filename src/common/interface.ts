@@ -70,10 +70,25 @@ export interface NodeModel extends ItemModel {
 }
 
 export interface EdgeModel extends ItemModel {
-  /** 起始节点 ID */
-  source: string;
-  /** 终止节点 ID */
-  target: string;
+  id: string;
+  /** 注册名称 */
+  shape: string;
+  /** 起始节点 */
+  source: Node;
+  /** 终止节点 */
+  target: Node;
+  startPoint: EdgePoint,
+  endPoint: EdgePoint,
+}
+
+/**
+ * G6 边线端点对象
+ * */
+export interface EdgePoint {
+  x: number;
+  y: number;
+  index: number;
+  anchorIndex: number;
 }
 
 /**
@@ -86,6 +101,21 @@ export interface NodeRegisterOption<T> {
   update(nextModel: T, item: Item): void;
 
   setState(name: ItemState, value: boolean, item: Item): void;
+
+  // custom methods
+  [propName: string]: any;
+}
+
+/**
+ * G6 边线注册option（生命周期）
+ * @see https://www.yuque.com/antv/g6/api-global#6HjtK
+ * */
+export interface EdgeRegisterOption {
+  draw(model: EdgeModel, group: Group): Shape;
+
+  update(nextModel: EdgeModel, node: Node): void;
+
+  setState(name: ItemState, value: boolean, node: Node): void;
 
   // custom methods
   [propName: string]: any;

@@ -10,6 +10,7 @@ import withEditorContext from '@common/EditorContext/withEditorContext';
 import Graph from '@components/Graph';
 
 import './shape/nodes/bizMindNode';
+import './shape/edges/bizMindEdge';
 import './command';
 
 class Mind extends React.Component {
@@ -87,7 +88,7 @@ class Mind extends React.Component {
         shape: 'mind-node',
       },
       defaultEdge: {
-        shape: 'cubic-horizontal',
+        shape: 'mind-edge',
       },
     });
 
