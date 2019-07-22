@@ -1,5 +1,6 @@
 import React from 'react';
-import { pick, uuid, addListener } from '@utils';
+import pick from 'lodash/pick';
+import { uuid, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ItemState,

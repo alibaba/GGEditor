@@ -3,7 +3,7 @@ import { Graph, Command } from '@common/interface';
 
 class CommandManager {
   command: {
-    [propName: string]: Command
+    [propName: string]: Command;
   };
   commandQueue: Command[];
   commandIndex: number;

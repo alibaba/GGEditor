@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick } from '@utils';
+import pick from 'lodash/pick';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import Item from './Item';
 

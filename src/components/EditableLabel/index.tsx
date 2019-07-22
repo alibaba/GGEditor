@@ -171,11 +171,11 @@ class EditableLabel extends React.PureComponent {
 
 export default withEditorContext(EditableLabel,
   ({
-     graph,
-     labelState,
-     setLabelState,
-     executeCommand,
-   }) => ({
+    graph,
+    labelState,
+    setLabelState,
+    executeCommand,
+  }) => ({
     graph,
     labelState,
     setLabelState,

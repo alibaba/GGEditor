@@ -1,8 +1,8 @@
-import { upperFirst } from '@utils';
+import upperFirst from 'lodash/upperFirst'
 // import each from '@antv/util/lib/each';
 
 const canvas = document.createElement('canvas');
-const canvasContext = canvas.getContext('2d')!;
+const canvasContext = canvas.getContext('2d');
 
 /* const BaseUtil = {
   each,
@@ -13,9 +13,9 @@ interface ShapeUtil {
 
   getRectPath: (x: number, y: number, w: number, h: number, r?: number) => string | (string | number)[][];
 
-  getCollapseButtonPath: (param: { width: number, height: number }) => string;
+  getCollapseButtonPath: (param: { width: number; height: number }) => string;
 
-  getExpandButtonPath: (param: { width: number, height: number }) => string;
+  getExpandButtonPath: (param: { width: number; height: number }) => string;
 }
 
 const Util: ShapeUtil = {

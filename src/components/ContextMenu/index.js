@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick } from '@utils';
+import pick from 'lodash/pick';
 import Editor from '@components/Base/Editor';
 import { CONTEXT_MENU_CONTAINER } from '@common/constants';
 import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';

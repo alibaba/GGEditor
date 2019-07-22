@@ -151,7 +151,7 @@ const bizOption: BizNode = {
     // this.adjustPosition({ item });
   },
 
-  adjustPosition({ model, item, group }: { model: NodeModel, item: Item, group: any }) {
+  adjustPosition({ model, item, group }: { model: NodeModel; item: Item; group: any }) {
 
     if (!group) {
       group = item.getContainer();

@@ -4,8 +4,8 @@ import { BaseCommand } from '@components/Graph/command/base';
 import { topicCommand } from '@components/Mind/command/topic';
 
 interface SubtopicCommandParams {
-  id: string,
-  model: ItemModel,
+  id: string;
+  model: ItemModel;
 }
 
 const subtopicCommand: BaseCommand<SubtopicCommandParams> = {

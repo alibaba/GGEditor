@@ -1,6 +1,6 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { pick } from '@utils';
+import pick from 'lodash/pick';
 import { MINIMAP_CONTAINER } from '@common/constants';
 import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 

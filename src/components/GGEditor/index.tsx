@@ -1,5 +1,7 @@
 import React from 'react';
-import { addListener, isArray, pick } from '@utils';
+import isArray from 'lodash/isArray';
+import pick from 'lodash/pick';
+import { addListener } from '@utils';
 import { GraphState, LabelState, EditorEvent } from '@common/constants';
 import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
 import commandManager from '@common/CommandManager';

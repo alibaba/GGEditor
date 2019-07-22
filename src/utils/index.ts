@@ -2,10 +2,6 @@ import uuidv4 from 'uuid/v4';
 import { EditorEvent } from '@common/constants';
 import { Graph, GraphNativeEvent, GraphEventHandle } from '@common/interface';
 
-export isArray from 'lodash/isArray';
-export pick from 'lodash/pick';
-export upperFirst from 'lodash/upperFirst';
-
 export function uuid() {
   return uuidv4().replace(/-/g, '');
 }
