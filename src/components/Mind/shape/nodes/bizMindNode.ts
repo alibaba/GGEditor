@@ -15,10 +15,6 @@ export interface BizMindNodeOptions extends NodeRegisterOption<MindNodeModel> {
 
   drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
 
-  getExpandButtonConfig: () => object;
-
-  getCollapseButtonConfig: () => object;
-
   /** other customized function  */
   [propName: string]: Function;
 }
@@ -28,7 +24,7 @@ const options: BizMindNodeOptions = {
   /**
    * main draw method
    * */
-  /*draw(model, group) {
+  draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
@@ -57,66 +53,68 @@ const options: BizMindNodeOptions = {
 
   drawExpandOrCollapseButton(model, group) {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-    const expandAttr = this.getExpandButtonConfig();
-    const collapseAttr = this.getCollapseButtonConfig();
+    // button width
+    const width = 17;
+    const offset = this.getOffset(model, group, width);
+
     if (model.collapsed) {
-      const { path, width, height, offset } = expandAttr as any;
       const button = group.addShape('path', {
         className: ShapeClassName.CollapseExpandButton,
         attrs: {
-          path,
+          path: Util.getExpandButtonPath({ width, height: width }),
           ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
         },
       });
-      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
+      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
       return button;
     }
-    const { path, width, height, offset } = collapseAttr as any;
+
     const button = group.addShape('path', {
       className: ShapeClassName.CollapseExpandButton,
       attrs: {
-        path,
+        path: Util.getCollapseButtonPath({ width, height: width }),
         ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
       },
     });
-    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
+    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
     return button;
   },
 
-  /!**
+  getOffset(model: MindNodeModel, group: Group, width: number) {
+    /**
+     * button need to place in the middle of parent & child node
+     * 1. children nodes have identical x position
+     * 2. all nodes have identical width
+     * 3. model.x model.y refer to the center point of a node
+     * */
+    if (!model.children || model.children.length < 0) {
+      return;
+    }
+
+    const childModel = model.children[0];
+    const nodeWidth = group.getBBox().width;
+
+    // left side
+    if (model.x < 0) {
+      return (model.x - childModel.x - nodeWidth) / 2 - width / 2;
+    }
+
+    // right side
+    else {
+      return (childModel.x - model.x - nodeWidth) / 2 - width / 2;
+    }
+  },
+
+  /**
    * following methods can be overridden by advice
-   * *!/
-
-  getExpandButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getExpandButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
-
-  getCollapseButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getCollapseButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
+   * */
 
   [`get${ShapeClassName.CollapseExpandButton}defaultStyle`]() {
     return {
       stroke: '#000',
       fill: '#fff',
     };
-  },*/
+  },
 };
 
 
