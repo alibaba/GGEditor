@@ -144,15 +144,20 @@ const options: EdgeRegisterOption = {
     const shape: Shape = edge.getContainer().get('children')[0];
 
     if (name === ItemState.Selected && value) {
+      edge.toFront();
+
       shape.attr({
         stroke: '#5AAAFF',
+        shadowColor: '#5AAAFF',
+        shadowBlur: 5,
       });
     }
 
-    else{
+    else {
       shape.attr({
-        stroke: '#d8d8d8'
-      })
+        stroke: '#d8d8d8',
+        shadowBlur: 0,
+      });
     }
 
   },

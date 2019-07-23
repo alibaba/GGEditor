@@ -65,6 +65,7 @@ const options: BizMindNodeOptions = {
         attrs: {
           path: Util.getExpandButtonPath({ width, height: width }),
           ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
+          cursor:'pointer',
         },
       });
       button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
@@ -76,6 +77,7 @@ const options: BizMindNodeOptions = {
       attrs: {
         path: Util.getCollapseButtonPath({ width, height: width }),
         ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
+        cursor:'pointer',
       },
     });
     button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);

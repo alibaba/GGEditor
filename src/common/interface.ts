@@ -48,7 +48,8 @@ export interface Node extends Item<NodeModel> {
  * @see https://www.yuque.com/antv/g6/edge-api
  */
 export interface Edge extends Item<EdgeModel> {
-
+  /** 如有重叠，将边线最前可视 */
+  toFront(): void;
 }
 
 export interface ItemModel {
@@ -127,7 +128,9 @@ export interface EdgeRegisterOption {
 export interface Shape {
   getBBox(): BBox;
 
-  attr(name?: string, value?: string | number, param?: object): void | any;
+  attr(name?: string, value?: string | number): void | any;
+
+  attr(param?: object): void;
 
   remove(): void;
 
