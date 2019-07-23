@@ -27,7 +27,7 @@ const options: EdgeRegisterOption = {
     const targetHeight = endNode.getBBox().height;
     const targetWidth = endNode.getBBox().width;
 
-    if (endY === startY && endNode.getModel().x < 0) {
+    if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x < 0) {
       return group.addShape('path', {
         attrs: {
           path: [
@@ -39,7 +39,7 @@ const options: EdgeRegisterOption = {
       });
     }
 
-    if (endY === startY && endNode.getModel().x > 0) {
+    if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x > 0) {
       return group.addShape('path', {
         attrs: {
           path: [
