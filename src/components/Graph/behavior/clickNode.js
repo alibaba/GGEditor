@@ -50,7 +50,7 @@ G6.registerBehavior('click-node', {
     const edges = this.findParentEdges(item);
 
     if (edges.length > 0) {
-      edges.forEach(edge => graph.setItemState(edge, ItemState.Active, true));
+      edges.forEach(edge => graph.setItemState(edge, ItemState.Selected, true));
     }
 
     const isSelected = item.hasState(ItemState.Selected);

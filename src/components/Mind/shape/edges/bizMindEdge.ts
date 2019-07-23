@@ -51,15 +51,15 @@ const options: EdgeRegisterOption = {
       });
     }
 
-    if (endX < 0 && endY > startY) {
+    if (endNode.getModel().x < 0 && endNode.getModel().y > startNode.getModel().y) {
       return this.drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
     }
 
-    if (endX < 0 && endY < startY) {
+    if (endNode.getModel().x < 0 && endNode.getModel().y < startNode.getModel().y) {
       return this.drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
     }
 
-    if (endX > 0 && endY > startY) {
+    if (endNode.getModel().x > 0 && endNode.getModel().y > startNode.getModel().y) {
       return this.drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
     }
 
@@ -141,7 +141,7 @@ const options: EdgeRegisterOption = {
   },
 
   setState(name: ItemState, value: boolean, edge: Edge): void {
-    console.log(edge.getStates())
+    console.log(edge.getStates());
     const shape: Shape = edge.getContainer().get('children')[0];
     shape.attr({
       stroke: '#5AAAFF',
