@@ -141,12 +141,22 @@ const options: EdgeRegisterOption = {
   },
 
   setState(name: ItemState, value: boolean, edge: Edge): void {
-    console.log(edge.getStates());
     const shape: Shape = edge.getContainer().get('children')[0];
-    shape.attr({
-      stroke: '#5AAAFF',
-    });
+
+    if (name === ItemState.Selected && value) {
+      shape.attr({
+        stroke: '#5AAAFF',
+      });
+    }
+
+    else{
+      shape.attr({
+        stroke: '#d8d8d8'
+      })
+    }
+
   },
+
 };
 
 G6.registerEdge('mind-edge', options);

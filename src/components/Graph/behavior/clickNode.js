@@ -26,6 +26,20 @@ G6.registerBehavior('click-node', {
     return this.graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
   },
 
+  getSelectedEdges() {
+    return this.graph.findAllByState(ITEM_TYPE_EDGE, ItemState.Selected);
+  },
+
+  clearEdgeHighlight() {
+    const { graph } = this;
+
+    const selectedEdges = this.getSelectedEdges();
+
+    selectedEdges.forEach((edge) => {
+      graph.setItemState(edge, ItemState.Selected, false);
+    });
+  },
+
   clearSelectedState(shouldUpdate = () => true) {
     const { graph } = this;
 
@@ -47,11 +61,7 @@ G6.registerBehavior('click-node', {
     const { graph } = this;
 
     // highlight parent edges
-    const edges = this.findParentEdges(item);
-
-    if (edges.length > 0) {
-      edges.forEach(edge => graph.setItemState(edge, ItemState.Selected, true));
-    }
+    this.highlightParentEdges(item);
 
     const isSelected = item.hasState(ItemState.Selected);
 
@@ -65,6 +75,18 @@ G6.registerBehavior('click-node', {
       if (!isSelected) {
         graph.setItemState(item, ItemState.Selected, true);
       }
+    }
+  },
+
+  highlightParentEdges(item) {
+    const { graph } = this;
+
+    this.clearEdgeHighlight();
+
+    const edges = this.findParentEdges(item);
+
+    if (edges.length > 0) {
+      edges.forEach(edge => graph.setItemState(edge, ItemState.Selected, true));
     }
   },
 
@@ -82,6 +104,7 @@ G6.registerBehavior('click-node', {
 
   handleCanvasClick() {
     this.clearSelectedState();
+    this.clearEdgeHighlight();
   },
 
   handleKeyDown(e) {
