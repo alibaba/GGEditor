@@ -52,7 +52,7 @@
   },
   "homepage": "https://github.com/gaoli/GGEditor#readme",
   "peerDependencies": {
-    "react": "^16.3.0"
+    "react": "^16.8.0"
   },
   "dependencies": {
     "@antv/g6": "^3.0.4",
@@ -84,6 +84,7 @@
     "css-loader": "^2.1.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.0.1",
+    "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.1",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",

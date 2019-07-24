@@ -1,7 +1,7 @@
 import { uuid } from '@utils';
 import { ItemType } from '@common/constants';
 import { ItemModel } from '@common/interface';
-import commandManager from '@common/CommandManager';
+import commandManager from '@common/commandManager';
 import { baseCommand, BaseCommand } from '@components/Graph/command/base';
 
 interface AddCommandParams {

@@ -1,7 +1,7 @@
 import { ItemType, ItemState } from '@common/constants';
 import { Item, Graph, Command } from '@common/interface';
 import command from '@common/command';
-import commandManager from '@common/CommandManager';
+import commandManager from '@common/commandManager';
 
 export interface BaseCommand<T = object> extends Command<T> {
   /** 获取选中节点 */

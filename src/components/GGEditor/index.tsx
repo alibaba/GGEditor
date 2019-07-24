@@ -4,18 +4,17 @@ import pick from 'lodash/pick';
 import { addListener } from '@utils';
 import { GraphState, LabelState, EditorEvent } from '@common/constants';
 import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
-import commandManager from '@common/CommandManager';
-import EditorContext from '@common/EditorContext';
+import commandManager from '@common/commandManager';
+import EditorContext from '@common/context/EditorContext';
+import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
 
 interface GGEditorProps {
   [EditorEvent.onBeforeExecuteCommand]?: EventHandle<CommandEvent>;
   [EditorEvent.onAfterExecuteCommand]?: EventHandle<CommandEvent>;
 }
 
-interface GGEditorState {
-  graph: Graph | null;
-  graphState: GraphState;
-  labelState: LabelState;
+interface GGEditorState extends EditorPrivateContextProps {
+
 }
 
 class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
@@ -114,12 +113,18 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
   render() {
     const { children } = this.props;
+    const { graph, executeCommand }= this.state;
 
     return (
-      <EditorContext.Provider value={this.state}>
-        <div {...pick(this.props, ['className', 'style'])}>
-          {children}
-        </div>
+      <EditorContext.Provider value={{
+        graph,
+        executeCommand,
+      }}>
+        <EditorPrivateContext.Provider value={this.state}>
+          <div {...pick(this.props, ['className', 'style'])}>
+            {children}
+          </div>
+        </EditorPrivateContext.Provider>
       </EditorContext.Provider>
     );
   }

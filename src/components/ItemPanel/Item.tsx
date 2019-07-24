@@ -1,7 +1,15 @@
 import React from 'react';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-class Item extends React.PureComponent {
+interface ItemProps extends EditorPrivateContextProps {
+
+}
+
+interface ItemState {
+
+}
+
+class Item extends React.PureComponent<ItemProps, ItemState> {
   constructor(props) {
     super(props);
     this.itemOnPanel = React.createRef();
@@ -153,4 +161,4 @@ class Item extends React.PureComponent {
   }
 }
 
-export default withEditorContext(Item);
+export default withEditorPrivateContext<ItemProps>(Item);

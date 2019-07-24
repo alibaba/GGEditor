@@ -66,7 +66,7 @@ class DetailForm extends React.Component {
 export default Form.create({
   mapPropsToFields(props) {
     const { nodes } = props;
-    const { label } = nodes[0].getModel();
+    const { label } = nodes.length ? nodes[0].getModel() : {};
 
     return {
       label: Form.createFormField({

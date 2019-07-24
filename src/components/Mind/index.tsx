@@ -6,13 +6,21 @@ import {
   ShapeClassName,
   LabelState,
 } from '@common/constants';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
 import './shape/nodes/bizMindNode';
 import './command';
 
-class Mind extends React.Component {
+interface MindProps extends EditorPrivateContextProps {
+
+}
+
+interface MindState {
+
+}
+
+class Mind extends React.Component<MindProps, MindState> {
   constructor(props) {
     super(props);
 
@@ -108,6 +116,4 @@ class Mind extends React.Component {
   }
 }
 
-export default withEditorContext(Mind, ({ labelState }) => ({
-  labelState,
-}));
+export default withEditorPrivateContext<MindProps>(Mind);

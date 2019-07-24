@@ -1,5 +1,5 @@
 import command from '@common/command';
-import commandManager from '@common/CommandManager';
+import commandManager from '@common/commandManager';
 
 commandManager.register('redo', {
   ...command,

@@ -1,5 +1,5 @@
 import { ItemModel } from '@common/interface';
-import commandManager from '@common/CommandManager';
+import commandManager from '@common/commandManager';
 import { BaseCommand } from '@components/Graph/command/base';
 import { topicCommand } from '@components/Mind/command/topic';
 

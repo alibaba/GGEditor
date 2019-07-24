@@ -25,15 +25,15 @@ import {
   CommandEvent,
   EventHandle,
 } from '@common/interface';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import EditableLabel from '@components/EditableLabel';
 
 import './command';
 import './behavior';
 
 
-interface GraphProps extends GraphCommonEventProps, GraphNodeEventProps, GraphEdgeEventProps, GraphCanvasEventProps, GraphCustomEventProps {
-
+interface GraphProps extends EditorPrivateContextProps, GraphCommonEventProps, GraphNodeEventProps, GraphEdgeEventProps, GraphCanvasEventProps, GraphCustomEventProps {
+  a: string;
 }
 
 class Graph extends React.Component<GraphProps> {
@@ -138,7 +138,4 @@ class Graph extends React.Component<GraphProps> {
   }
 }
 
-export default withEditorContext(Graph, ({ setGraph, setGraphState }) => ({
-  setGraph,
-  setGraphState,
-}));
+export default withEditorPrivateContext<GraphProps>(Graph);

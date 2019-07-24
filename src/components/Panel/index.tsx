@@ -5,9 +5,17 @@ import {
   ItemState,
   GraphState,
 } from '@common/constants';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-class Panel extends React.PureComponent {
+interface PanelProps extends EditorPrivateContextProps {
+
+}
+
+interface PanelState {
+
+}
+
+class Panel extends React.PureComponent<PanelProps, PanelState> {
   static create = function (type) {
     class TypedPanel extends Panel {
       constructor(props) {
@@ -15,10 +23,7 @@ class Panel extends React.PureComponent {
       }
     }
 
-    return withEditorContext(TypedPanel, ({ graph, graphState }) => ({
-      graph,
-      graphState,
-    }));
+    return withEditorPrivateContext<PanelProps>(TypedPanel);
   }
 
   constructor(props, type) {

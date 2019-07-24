@@ -1,7 +1,15 @@
 import React from 'react';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-class Command extends React.PureComponent {
+interface CommandProps extends EditorPrivateContextProps {
+
+}
+
+interface CommandState {
+
+}
+
+class Command extends React.PureComponent<CommandProps, CommandState> {
   state = {
     disabled: false,
   }
@@ -27,14 +35,4 @@ class Command extends React.PureComponent {
   }
 }
 
-export default withEditorContext(Command, ({
-  graph,
-  graphState,
-  canExecuteCommand,
-  executeCommand,
-}) => ({
-  graph,
-  graphState,
-  canExecuteCommand,
-  executeCommand,
-}));
+export default withEditorPrivateContext<CommandProps>(Command);
