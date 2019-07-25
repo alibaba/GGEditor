@@ -1,9 +1,16 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import withEditorContext from '@common/EditorContext/withEditorContext';
 import Item from './Item';
 
-class ItemPanel extends React.PureComponent {
+interface ItemPanelProps {
+
+}
+
+interface ItemPanelState {
+
+}
+
+class ItemPanel extends React.PureComponent<ItemPanelProps, ItemPanelState> {
   constructor(props) {
     super(props);
     this.bindEvent();
@@ -41,7 +48,4 @@ class ItemPanel extends React.PureComponent {
 
 export { Item };
 
-export default withEditorContext(ItemPanel, ({ graph, graphState }) => ({
-  graph,
-  graphState,
-}));
+export default ItemPanel;

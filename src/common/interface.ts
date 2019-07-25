@@ -1,5 +1,6 @@
 import {
   ItemType,
+  GraphState,
   LabelState,
   EditorEvent,
   EditorCommand,

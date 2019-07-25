@@ -14,7 +14,7 @@ import {
   RegisterCommand,
   RegisterBehavior,
 } from '@components/Register';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { withEditorContext } from '@common/context/EditorContext';
 
 export {
   Flow,

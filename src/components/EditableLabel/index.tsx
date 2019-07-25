@@ -7,9 +7,17 @@ import {
   ItemState,
   LabelState,
 } from '@common/constants';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-class EditableLabel extends React.PureComponent {
+interface EditableLabelProps extends EditorPrivateContextProps {
+
+}
+
+interface EditableLabelState {
+
+}
+
+class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabelState> {
   componentDidUpdate() {
     const { labelState } = this.props;
 
@@ -169,15 +177,4 @@ class EditableLabel extends React.PureComponent {
   }
 }
 
-export default withEditorContext(EditableLabel,
-  ({
-    graph,
-    labelState,
-    setLabelState,
-    executeCommand,
-  }) => ({
-    graph,
-    labelState,
-    setLabelState,
-    executeCommand,
-  }));
+export default withEditorPrivateContext<EditableLabelProps>(EditableLabel);

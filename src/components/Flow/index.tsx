@@ -6,13 +6,21 @@ import {
   ShapeClassName,
   LabelState,
 } from '@common/constants';
-import withEditorContext from '@common/EditorContext/withEditorContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
 import './shape';
 import './behavior';
 
-class Flow extends React.Component {
+interface FlowProps extends EditorPrivateContextProps {
+
+}
+
+interface FlowState {
+
+}
+
+class Flow extends React.Component<FlowProps, FlowState> {
   constructor(props) {
     super(props);
 
@@ -98,6 +106,4 @@ class Flow extends React.Component {
   }
 }
 
-export default withEditorContext(Flow, ({ labelState }) => ({
-  labelState,
-}));
+export default withEditorPrivateContext<FlowProps>(Flow)
