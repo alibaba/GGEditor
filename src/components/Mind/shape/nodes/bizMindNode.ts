@@ -2,7 +2,7 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { Group, NodeModel, NodeRegisterOption } from "@common/interface";
+import { Group, NodeModel, NodeLifeCycle } from "@common/interface";
 import { bizOption } from "@components/Graph/shape/nodes/bizNode";
 
 export interface MindNodeModel extends NodeModel {
@@ -11,7 +11,7 @@ export interface MindNodeModel extends NodeModel {
   children: MindNodeModel[];
 }
 
-export interface BizMindNodeOptions extends NodeRegisterOption<MindNodeModel> {
+export interface BizMindNodeOptions extends NodeLifeCycle<MindNodeModel> {
 
   drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
 

@@ -1,5 +1,6 @@
 import {
   ItemType,
+  ItemState,
   GraphState,
   LabelState,
   EditorEvent,
@@ -8,7 +9,7 @@ import {
   GraphNodeEvent,
   GraphEdgeEvent,
   GraphCanvasEvent,
-  GraphCustomEvent, ItemState,
+  GraphCustomEvent,
 } from '@common/constants';
 
 export interface EventEmitter {
@@ -97,7 +98,7 @@ export interface EdgePoint {
  * G6 节点注册option（生命周期）
  * @see https://www.yuque.com/antv/g6/shape-crycle#e4J91
  * */
-export interface NodeRegisterOption<T> {
+export interface NodeLifeCycle<T> {
   draw(model: T, group: Group): Shape;
 
   update(nextModel: T, item: Item): void;
@@ -112,7 +113,7 @@ export interface NodeRegisterOption<T> {
  * G6 边线注册option（生命周期）
  * @see https://www.yuque.com/antv/g6/api-global#6HjtK
  * */
-export interface EdgeRegisterOption {
+export interface EdgeLifeCycle {
   draw(model: EdgeModel, group: Group): Shape;
 
   update(nextModel: EdgeModel, edge: Edge): void;

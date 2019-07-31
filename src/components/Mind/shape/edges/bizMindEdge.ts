@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { Edge, EdgeRegisterOption, Shape } from "@common/interface";
+import { Edge, EdgeLifeCycle, Shape } from "@common/interface";
 import { ItemState } from "@common/constants";
 
 const commonStyle = {
@@ -13,7 +13,7 @@ const commonStyle = {
 /** wrapper and keyShape's offset, determining end point of an edge */
 const wrapperOffset = 4;
 
-const options: EdgeRegisterOption = {
+const options: EdgeLifeCycle = {
   draw(model, group) {
     const startNode = model.source;
     const endNode = model.target;
@@ -164,4 +164,4 @@ const options: EdgeRegisterOption = {
 
 };
 
-G6.registerEdge('mind-edge', options);
+G6.registerEdge('biz-mind-edge', options);

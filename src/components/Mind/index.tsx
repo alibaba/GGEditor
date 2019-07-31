@@ -96,7 +96,7 @@ class Mind extends React.Component<MindProps, MindState> {
         shape: 'mind-node',
       },
       defaultEdge: {
-        shape: 'mind-edge',
+        shape: 'biz-mind-edge',
       },
     });
 

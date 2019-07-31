@@ -4,9 +4,9 @@ import {
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { Group, Item, NodeModel, NodeRegisterOption, Shape } from "@common/interface";
+import { Group, Item, NodeModel, NodeLifeCycle, Shape } from "@common/interface";
 
-export interface BizNode extends NodeRegisterOption<NodeModel> {
+export interface BizNode extends NodeLifeCycle<NodeModel> {
   keyShape: Shape | null;
 
   label: Shape | null;
