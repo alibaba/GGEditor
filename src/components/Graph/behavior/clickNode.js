@@ -1,6 +1,7 @@
 import G6 from '@antv/g6';
 import {
   ITEM_TYPE_NODE,
+  ITEM_TYPE_EDGE,
   ItemState,
 } from '@common/constants';
 import { ITEM_TYPE_EDGE } from '../../../common/constants';
