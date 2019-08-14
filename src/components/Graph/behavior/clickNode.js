@@ -3,6 +3,7 @@ import {
   ITEM_TYPE_NODE,
   ItemState,
 } from '@common/constants';
+import { ITEM_TYPE_EDGE } from '../../../common/constants';
 
 G6.registerBehavior('click-node', {
   getDefaultCfg() {
@@ -25,6 +26,20 @@ G6.registerBehavior('click-node', {
     return this.graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
   },
 
+  getSelectedEdges() {
+    return this.graph.findAllByState(ITEM_TYPE_EDGE, ItemState.Selected);
+  },
+
+  clearEdgeHighlight() {
+    const { graph } = this;
+
+    const selectedEdges = this.getSelectedEdges();
+
+    selectedEdges.forEach((edge) => {
+      graph.setItemState(edge, ItemState.Selected, false);
+    });
+  },
+
   clearSelectedState(shouldUpdate = () => true) {
     const { graph } = this;
 
@@ -45,6 +60,9 @@ G6.registerBehavior('click-node', {
   handleNodeClick({ item }) {
     const { graph } = this;
 
+    // highlight parent edges
+    this.highlightParentEdges(item);
+
     const isSelected = item.hasState(ItemState.Selected);
 
     if (this.multiple && this.keydown) {
@@ -60,8 +78,33 @@ G6.registerBehavior('click-node', {
     }
   },
 
+  highlightParentEdges(item) {
+    const { graph } = this;
+
+    this.clearEdgeHighlight();
+
+    const edges = this.findParentEdges(item);
+
+    if (edges.length > 0) {
+      edges.forEach(edge => graph.setItemState(edge, ItemState.Selected, true));
+    }
+  },
+
+  findParentEdges(item, edges = []) {
+    const parentNode = item.get('parent');
+
+    if (!parentNode) {
+      return edges;
+    }
+
+    edges.push(item.getEdges().find(edge => edge.getModel().source === parentNode.getModel().id));
+
+    return this.findParentEdges(item.get('parent'), edges);
+  },
+
   handleCanvasClick() {
     this.clearSelectedState();
+    this.clearEdgeHighlight();
   },
 
   handleKeyDown(e) {

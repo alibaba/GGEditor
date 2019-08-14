@@ -1,5 +1,6 @@
 import {
   ItemType,
+  ItemState,
   GraphState,
   LabelState,
   EditorEvent,
@@ -22,21 +23,25 @@ export interface EventEmitter {
  * G6 绘图元素
  * @see https://www.yuque.com/antv/g6/item
  */
-export interface Item {
+export interface Item<T> {
   // 通用
-  getModel: () => NodeModel | EdgeModel;
+  getModel: () => T;
 
   // 状态
   hasState: (state: string) => boolean;
 
-  getContainer: () => object;
+  getContainer(): Group;
+
+  getStates(): ItemState[];
+
+  getBBox(): BBox;
 }
 
 /**
  * G6 节点元素
  * @see https://www.yuque.com/antv/g6/node-api
  */
-export interface Node extends Item {
+export interface Node extends Item<NodeModel> {
 
 }
 
@@ -44,8 +49,9 @@ export interface Node extends Item {
  * G6 边线元素
  * @see https://www.yuque.com/antv/g6/edge-api
  */
-export interface Edge extends Item {
-
+export interface Edge extends Item<EdgeModel> {
+  /** 如有重叠，将边线最前可视 */
+  toFront(): void;
 }
 
 export interface ItemModel {
@@ -67,10 +73,97 @@ export interface NodeModel extends ItemModel {
 }
 
 export interface EdgeModel extends ItemModel {
-  /** 起始节点 ID */
-  source: string;
-  /** 终止节点 ID */
-  target: string;
+  id: string;
+  /** 注册名称 */
+  shape: string;
+  /** 起始节点 */
+  source: Node;
+  /** 终止节点 */
+  target: Node;
+  startPoint: EdgePoint;
+  endPoint: EdgePoint;
+}
+
+/**
+ * G6 边线端点对象
+ * */
+export interface EdgePoint {
+  x: number;
+  y: number;
+  index: number;
+  anchorIndex: number;
+}
+
+/**
+ * G6 节点注册option（生命周期）
+ * @see https://www.yuque.com/antv/g6/shape-crycle#e4J91
+ * */
+export interface NodeLifeCycle<T> {
+  draw(model: T, group: Group): Shape;
+
+  update(nextModel: T, item: Item): void;
+
+  setState(name: ItemState, value: boolean, item: Item): void;
+
+  // custom methods
+  [propName: string]: any;
+}
+
+/**
+ * G6 边线注册option（生命周期）
+ * @see https://www.yuque.com/antv/g6/api-global#6HjtK
+ * */
+export interface EdgeLifeCycle {
+  draw(model: EdgeModel, group: Group): Shape;
+
+  update(nextModel: EdgeModel, edge: Edge): void;
+
+  setState(name: ItemState, value: boolean, edge: Edge): void;
+
+  // custom methods
+  [propName: string]: any;
+}
+
+/**
+ * G6 Shape
+ * */
+export interface Shape {
+  getBBox(): BBox;
+
+  attr(name?: string, value?: string | number): void | any;
+
+  attr(param?: object): void;
+
+  remove(): void;
+
+  translate(x: number, y: number): void;
+
+  get(name: string): any;
+}
+
+/**
+ * G Group
+ * */
+export interface Group {
+  addShape(type: string, cfg: object): Shape;
+
+  findByClassName(className: string): Shape;
+
+  getBBox(): BBox;
+
+  get(name: string): any;
+}
+
+/**
+ * G6 包围盒
+ * */
+export interface BBox {
+  height: number;
+  minX: number;
+  minY: number;
+  width: number;
+  maxX: number;
+  maxY: number;
 }
 
 /**

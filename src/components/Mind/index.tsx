@@ -10,6 +10,7 @@ import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/con
 import Graph from '@components/Graph';
 
 import './shape/nodes/bizMindNode';
+import './shape/edges/bizMindEdge';
 import './command';
 
 interface MindProps extends EditorPrivateContextProps {
@@ -95,7 +96,7 @@ class Mind extends React.Component<MindProps, MindState> {
         shape: 'mind-node',
       },
       defaultEdge: {
-        shape: 'cubic-horizontal',
+        shape: 'biz-mind-edge',
       },
     });
 

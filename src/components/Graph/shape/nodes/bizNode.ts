@@ -1,34 +1,22 @@
 import G6 from '@antv/g6';
 import {
-  ItemState,
   NODE_MAX_TEXT_LINE_WIDTH,
   ShapeClassName
 } from '@common/constants';
 import Util from './util';
-import { Item, NodeModel } from "@common/interface";
+import { Group, Item, NodeModel, NodeLifeCycle, Shape } from "@common/interface";
 
-export interface BizNode {
-  keyShape: any;
+export interface BizNode extends NodeLifeCycle<NodeModel> {
+  keyShape: Shape | null;
 
-  label: any;
+  label: Shape | null;
 
-  wrapper: any;
+  wrapper: Shape | null;
 
-  appendix: any;
-
-  // internal methods
-
-  draw: (model: NodeModel, group: any) => any;
-
-  update: (nextModel: NodeModel, item: Item) => void;
-
-  setState: (name: ItemState, value: boolean, item: Item) => void;
-
-  // custom methods
-  [propName: string]: Function;
+  appendix: Shape | null;
 }
 
-const bizOption: BizNode = {
+export const bizOption: BizNode = {
   keyShape: null,
   label: null,
   wrapper: null,
@@ -46,12 +34,12 @@ const bizOption: BizNode = {
     return keyShape;
   },
 
-  drawAppendix(model: NodeModel, group) {
+  drawAppendix(model: NodeModel, group: Group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
         attrs: {
-          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNLjUuNVY2QTUuNSA1LjUgMCAwIDAgNiAxMS41aDEzLjVWNkE1LjUgNS41IDAgMCAwIDE0IC41SC41eiIgc3Ryb2tlPSIjOTc5Nzk3IiBmaWxsPSIjRjRGNkY4Ii8+PGcgdHJhbnNmb3JtPSJyb3RhdGUoOTAgNi41IDEwLjUpIiBmaWxsPSIjQUFCNUM1Ij48Y2lyY2xlIGN4PSIxLjUiIGN5PSIxLjUiIHI9IjEuNSIvPjxjaXJjbGUgY3g9IjEuNSIgY3k9IjYuNSIgcj0iMS41Ii8+PGNpcmNsZSBjeD0iMS41IiBjeT0iMTEuNSIgcj0iMS41Ii8+PC9nPjwvZz48L3N2Zz4=',
+          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
           x: 0,
           y: 0,
           width: 20,
@@ -62,7 +50,7 @@ const bizOption: BizNode = {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
         attrs: {
-          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTkuNS41VjZhNS41IDUuNSAwIDAgMS01LjUgNS41SC41VjZBNS41IDUuNSAwIDAgMSA2IC41aDEzLjV6IiBzdHJva2U9IiM5Nzk3OTciIGZpbGw9IiNGNEY2RjgiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiIGZpbGw9IiNBQUI1QzUiPjxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ii8+PGNpcmNsZSBjeD0iMS41IiBjeT0iNi41IiByPSIxLjUiLz48Y2lyY2xlIGN4PSIxLjUiIGN5PSIxMS41IiByPSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
+          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0yMCAwSDZhNiA2IDAgMCAwLTYgNnY2aDE0YTYgNiAwIDAgMCA2LTZWMHoiLz48ZyBmaWxsPSIjQUFCNUM1IiB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iMS41IiBjeD0iMS41Ii8+PGNpcmNsZSByPSIxLjUiIGN5PSI2LjUiIGN4PSIxLjUiLz48Y2lyY2xlIHI9IjEuNSIgY3k9IjExLjUiIGN4PSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
           x: 0,
           y: 0,
           width: 20,
@@ -71,9 +59,9 @@ const bizOption: BizNode = {
     }
   },
 
-  drawKeyShape(model: NodeModel, group) {
+  drawKeyShape(model: NodeModel, group: Group) {
     const keyShapeType = 'rect';
-    const keyShapeDefaultStyle = this[`get${ ShapeClassName.KeyShape }defaultStyle`]();
+    const keyShapeDefaultStyle = this[`get${ShapeClassName.KeyShape}defaultStyle`]();
     this.keyShape = group.addShape(keyShapeType, {
       className: ShapeClassName.KeyShape,
       attrs: {
@@ -81,13 +69,14 @@ const bizOption: BizNode = {
         y: 0,
         width: 114,
         height: 36,
+        stroke: '#6580EB',
         ...keyShapeDefaultStyle,
       },
     });
     return this.keyShape;
   },
 
-  drawWrapper(model: NodeModel, group) {
+  drawWrapper(model: NodeModel, group: Group) {
     this.wrapper = group.addShape('rect', {
       className: ShapeClassName.Wrapper,
       attrs: {
@@ -97,12 +86,13 @@ const bizOption: BizNode = {
         y: 0,
         fill: '#6580EB',
         radius: [8, 6, 6, 8],
+        ...this[`get${ShapeClassName.Wrapper}defaultStyle`](),
       },
     });
     return this.wrapper;
   },
 
-  drawLabel(model: NodeModel, group) {
+  drawLabel(model: NodeModel, group: Group) {
     const labelDefaultStyle = this[`get${ShapeClassName.Label}defaultStyle`]();
     // draw label
     this.label = group.addShape('text', {
@@ -139,23 +129,19 @@ const bizOption: BizNode = {
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
-    this.adjustPosition({ item, group, model: nextModel });
+    this.adjustPosition({ group, model: nextModel });
   },
 
   /**
    * internal method
    * */
   setState(name, value, item) {
-    console.log(name, value, item)
     this.setStateStyle(item);
     // this.adjustPosition({ item });
   },
 
-  adjustPosition({ model, item, group }: { model: NodeModel; item: Item; group: any }) {
 
-    if (!group) {
-      group = item.getContainer();
-    }
+  adjustPosition({ model, group }: { model: NodeModel; group: Group }) {
 
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const label = group.findByClassName(ShapeClassName.Label);
@@ -178,7 +164,8 @@ const bizOption: BizNode = {
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
   },
 
-  adjustKeyShape({ label, keyShape }) {
+
+  adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
       keyShape.attr('height', 54);
@@ -189,22 +176,22 @@ const bizOption: BizNode = {
     };
   },
 
-  adjustAppendix({ keyShapeSize, appendix, model }) {
+  adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any; appendix: Shape; model: NodeModel }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
     if (model.x < 0) {
-      appendix.attr('x', -keyShapeWidth / 2);
-      appendix.attr('y', -keyShapeHeight / 2)
+      appendix.attr('x', -keyShapeWidth / 2 + 1);
+      appendix.attr('y', -keyShapeHeight / 2 + 1)
     }
 
     else {
-      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width'));
-      appendix.attr('y', -keyShapeHeight / 2)
+      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 1);
+      appendix.attr('y', -keyShapeHeight / 2 + 1)
     }
   },
 
-  resetCoordinate({ keyShapeSize, keyShape, label }) {
+  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any; keyShape: Shape; label: Shape }) {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);
     keyShape.attr('y', 0 - keyShapeSize.height / 2);
@@ -215,19 +202,19 @@ const bizOption: BizNode = {
     });
   },
 
-  adjustLabel({ keyShapeSize, label }) {
+  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any; label: Shape }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
     label.attr('x', (keyShapeWidth - labelWidth) / 2);
     label.attr('y', keyShapeHeight / 2);
   },
 
-  adjustWrapper({ model, keyShapeSize, wrapper }) {
+  adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
 
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
-    // wrapper may be exposed if its height equals to keyShape's, so let it shrink a little
-    wrapper.attr('height', keyShapeHeight - 1);
+    // keyShape has stroke with 1 width, so make wrapper's height plus 1
+    wrapper.attr('height', keyShapeHeight + 1);
 
     wrapper.attr('width', keyShapeWidth);
 
@@ -242,12 +229,12 @@ const bizOption: BizNode = {
     }
   },
 
-  setStateStyle(item) {
+  setStateStyle(item: Item) {
     const statesArr = item.getStates();
     const group = item.getContainer();
     const allChildren = group.get('children');
 
-    allChildren.forEach((shape) => {
+    allChildren.forEach((shape: Shape) => {
       const className = shape.get('className');
 
       let statesStyle = {};
@@ -273,14 +260,28 @@ const bizOption: BizNode = {
   },
 
   [`get${ShapeClassName.KeyShape}activeStyle`]() {
-    return {};
+    return {
+      fill: '#f1f1f1',
+    };
   },
 
   [`get${ShapeClassName.KeyShape}selectedStyle`]() {
     return {
-      fill: '#f5f5f5',
-      stroke: '#a5a5a5',
+      fill: '#f1f1f1',
     };
+  },
+
+  [`get${ShapeClassName.Wrapper}defaultStyle`]() {
+    return {}
+  },
+
+  [`get${ShapeClassName.Wrapper}selectedStyle`]() {
+    return {
+      shadowOffsetX: 0,
+      shadowOffsetY: 4,
+      shadowBlur: 10,
+      shadowColor: '#ccc',
+    }
   },
 
   [`get${ShapeClassName.Label}defaultStyle`]() {
@@ -295,10 +296,10 @@ const bizOption: BizNode = {
 
   getAnchorPoints() {
     return [
-      [0, 0.5],
-      [1, 0.5],
+      [0, 0],
+      [0,0],
     ];
   },
-}
+};
 
 G6.registerNode('biz-node', bizOption);

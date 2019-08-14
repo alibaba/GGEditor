@@ -2,21 +2,25 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { BizNode } from "@components/Graph/shape/nodes/bizNode";
+import { Group, NodeModel, NodeLifeCycle } from "@common/interface";
+import { bizOption } from "@components/Graph/shape/nodes/bizNode";
 
-export interface BizMindNodeOptions extends Omit<BizNode, 'keyShape' | 'wrapper' | ''> {
+export interface MindNodeModel extends NodeModel {
+  isRoot?: boolean;
+  collapsed?: boolean;
+  children: MindNodeModel[];
+}
 
-  drawExpandOrCollapseButton: (model: any, group: any) => any;
+export interface BizMindNodeOptions extends NodeLifeCycle<MindNodeModel> {
 
-  getExpandButtonConfig: () => object;
-
-  getCollapseButtonConfig: () => object;
+  drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
 
   /** other customized function  */
   [propName: string]: Function;
 }
 
 const options: BizMindNodeOptions = {
+  ...bizOption,
   /**
    * main draw method
    * */
@@ -25,7 +29,9 @@ const options: BizMindNodeOptions = {
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
-    this.drawExpandOrCollapseButton(model, group);
+    if (!model.isRoot) {
+      this.drawExpandOrCollapseButton(model, group);
+    }
     return keyShape;
   },
 
@@ -37,7 +43,7 @@ const options: BizMindNodeOptions = {
     label.remove();
     label = this.drawLabel(nextModel, group);
     // adjust position
-    this.adjustPosition({ model: nextModel, item, group });
+    this.adjustPosition({ model: nextModel, group });
     // repaint button
     if (button) {
       button.remove();
@@ -49,59 +55,63 @@ const options: BizMindNodeOptions = {
 
   drawExpandOrCollapseButton(model, group) {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-    const expandAttr = this.getExpandButtonConfig();
-    const collapseAttr = this.getCollapseButtonConfig();
+    // button width
+    const width = 17;
+    const offset = this.getOffset(model, group, width);
+
     if (model.collapsed) {
-      const { path, width, height, offset } = expandAttr;
       const button = group.addShape('path', {
         className: ShapeClassName.CollapseExpandButton,
         attrs: {
-          path,
+          path: Util.getExpandButtonPath({ width, height: width }),
           ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
+          cursor:'pointer',
         },
       });
-      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
+      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
       return button;
     }
-    const { path, width, height, offset } = collapseAttr;
+
     const button = group.addShape('path', {
       className: ShapeClassName.CollapseExpandButton,
       attrs: {
-        path,
+        path: Util.getCollapseButtonPath({ width, height: width }),
         ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
+        cursor:'pointer',
       },
     });
-    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -height / 2);
+    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
     return button;
+  },
+
+  getOffset(model: MindNodeModel, group: Group, width: number) {
+    /**
+     * button need to place in the middle of parent & child node
+     * 1. children nodes have identical x position
+     * 2. all nodes have identical width
+     * 3. model.x model.y refer to the center point of a node
+     * */
+    if (!model.children || model.children.length < 0) {
+      return;
+    }
+
+    const childModel = model.children[0];
+    const nodeWidth = group.getBBox().width;
+
+    // left side
+    if (model.x < 0) {
+      return (model.x - childModel.x - nodeWidth) / 2 - width / 2;
+    }
+
+    // right side
+    else {
+      return (childModel.x - model.x - nodeWidth) / 2 - width / 2;
+    }
   },
 
   /**
    * following methods can be overridden by advice
    * */
-
-  getExpandButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getExpandButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
-
-  getCollapseButtonConfig() {
-    const width = 17;
-    const height = 17;
-    const offset = 3;
-    return {
-      path: Util.getCollapseButtonPath({ width, height }),
-      width,
-      height,
-      offset,
-    };
-  },
 
   [`get${ShapeClassName.CollapseExpandButton}defaultStyle`]() {
     return {
