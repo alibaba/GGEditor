@@ -1,10 +1,7 @@
 import G6 from '@antv/g6';
-import {
-  NODE_MAX_TEXT_LINE_WIDTH,
-  ShapeClassName
-} from '@common/constants';
+import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
-import { Group, Item, NodeModel, CustomNode, Shape } from "@common/interface";
+import { Group, Item, NodeModel, CustomNode, Shape } from '@common/interface';
 
 export interface BizNode extends CustomNode {
   keyShape: Shape | null;
@@ -39,18 +36,19 @@ export const bizOption: BizNode = {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
         attrs: {
-          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
+          img:
+            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
           x: 0,
           y: 0,
           width: 20,
         },
       });
-    }
-    else {
+    } else {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
         attrs: {
-          img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0yMCAwSDZhNiA2IDAgMCAwLTYgNnY2aDE0YTYgNiAwIDAgMCA2LTZWMHoiLz48ZyBmaWxsPSIjQUFCNUM1IiB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iMS41IiBjeD0iMS41Ii8+PGNpcmNsZSByPSIxLjUiIGN5PSI2LjUiIGN4PSIxLjUiLz48Y2lyY2xlIHI9IjEuNSIgY3k9IjExLjUiIGN4PSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
+          img:
+            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0yMCAwSDZhNiA2IDAgMCAwLTYgNnY2aDE0YTYgNiAwIDAgMCA2LTZWMHoiLz48ZyBmaWxsPSIjQUFCNUM1IiB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iMS41IiBjeD0iMS41Ii8+PGNpcmNsZSByPSIxLjUiIGN5PSI2LjUiIGN4PSIxLjUiLz48Y2lyY2xlIHI9IjEuNSIgY3k9IjExLjUiIGN4PSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
           x: 0,
           y: 0,
           width: 20,
@@ -107,14 +105,7 @@ export const bizOption: BizNode = {
       },
     });
     // change text content according to text line width
-    const {
-      text,
-      fontWeight,
-      fontFamily,
-      fontSize,
-      fontStyle,
-      fontVariant,
-    } = this.label.attr();
+    const { text, fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = this.label.attr();
     const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
     this.label.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
     return this.label;
@@ -140,9 +131,7 @@ export const bizOption: BizNode = {
     // this.adjustPosition({ item });
   },
 
-
   adjustPosition({ model, group }: { model: NodeModel; group: Group }) {
-
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
@@ -164,7 +153,6 @@ export const bizOption: BizNode = {
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
   },
 
-
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
@@ -177,17 +165,14 @@ export const bizOption: BizNode = {
   },
 
   adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any; appendix: Shape; model: NodeModel }) {
-
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
     if (model.x < 0) {
       appendix.attr('x', -keyShapeWidth / 2 + 1);
-      appendix.attr('y', -keyShapeHeight / 2 + 1)
-    }
-
-    else {
+      appendix.attr('y', -keyShapeHeight / 2 + 1);
+    } else {
       appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 1);
-      appendix.attr('y', -keyShapeHeight / 2 + 1)
+      appendix.attr('y', -keyShapeHeight / 2 + 1);
     }
   },
 
@@ -195,7 +180,7 @@ export const bizOption: BizNode = {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);
     keyShape.attr('y', 0 - keyShapeSize.height / 2);
-    shapeArr.map((shape) => {
+    shapeArr.map(shape => {
       shape.attr('x', shape.attr('x') - keyShapeSize.width / 2);
       shape.attr('y', shape.attr('y') - keyShapeSize.height / 2);
       return shape;
@@ -210,7 +195,6 @@ export const bizOption: BizNode = {
   },
 
   adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
-
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
 
     // keyShape has stroke with 1 width, so make wrapper's height plus 1
@@ -222,9 +206,7 @@ export const bizOption: BizNode = {
 
     if (model.x < 0) {
       wrapper.attr('x', -keyShapeWidth / 2 + 4);
-    }
-
-    else {
+    } else {
       wrapper.attr('x', -keyShapeWidth / 2 - 4);
     }
   },
@@ -238,15 +220,15 @@ export const bizOption: BizNode = {
       const className = shape.get('className');
 
       let statesStyle = {};
-      statesArr.forEach((stateName) => {
+      statesArr.forEach(stateName => {
         statesStyle = {
           ...statesStyle,
-          ...this[`get${className}${stateName}Style`] && this[`get${className}${stateName}Style`](),
+          ...(this[`get${className}${stateName}Style`] && this[`get${className}${stateName}Style`]()),
         };
       });
 
       shape.attr({
-        ...this[`get${className}defaultStyle`] && this[`get${className}defaultStyle`](),
+        ...(this[`get${className}defaultStyle`] && this[`get${className}defaultStyle`]()),
         ...statesStyle,
       });
     });
@@ -272,7 +254,7 @@ export const bizOption: BizNode = {
   },
 
   [`get${ShapeClassName.Wrapper}defaultStyle`]() {
-    return {}
+    return {};
   },
 
   [`get${ShapeClassName.Wrapper}selectedStyle`]() {
@@ -281,7 +263,7 @@ export const bizOption: BizNode = {
       shadowOffsetY: 4,
       shadowBlur: 10,
       shadowColor: '#ccc',
-    }
+    };
   },
 
   [`get${ShapeClassName.Label}defaultStyle`]() {
@@ -295,10 +277,7 @@ export const bizOption: BizNode = {
   },
 
   getAnchorPoints() {
-    return [
-      [0, 0],
-      [0,0],
-    ];
+    return [[0, 0], [0, 0]];
   },
 };
 

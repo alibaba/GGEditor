@@ -12,7 +12,7 @@ export interface BaseCommand<T = object> extends Command<T> {
 
 export const baseCommand: BaseCommand = {
   ...command,
-  
+
   getSelectedNodes(graph: Graph) {
     return graph.findAllByState(ItemType.Node, ItemState.Selected);
   },
@@ -24,7 +24,7 @@ export const baseCommand: BaseCommand = {
 
     const selectedNodes = this.getSelectedNodes(graph);
 
-    selectedNodes.forEach((node) => {
+    selectedNodes.forEach(node => {
       if (node.hasState(ItemState.Selected)) {
         graph.setItemState(node, ItemState.Selected, false);
       }
@@ -34,6 +34,6 @@ export const baseCommand: BaseCommand = {
     graph.setAutoPaint(autoPaint);
     graph.paint();
   },
-}
+};
 
 commandManager.register('base', baseCommand);

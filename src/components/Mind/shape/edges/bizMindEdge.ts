@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { Edge, CustomEdge, Shape } from "@common/interface";
-import { ItemState } from "@common/constants";
+import { Edge, CustomEdge, Shape } from '@common/interface';
+import { ItemState } from '@common/constants';
 
 const commonStyle = {
   lineWidth: 2,
@@ -61,9 +61,7 @@ const options: CustomEdge = {
 
     if (endNode.getModel().x > 0 && endNode.getModel().y > startNode.getModel().y) {
       return this.drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
-    }
-
-    else {
+    } else {
       return this.drawRightTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
     }
   },
@@ -151,17 +149,13 @@ const options: CustomEdge = {
         shadowColor: '#5AAAFF',
         shadowBlur: 5,
       });
-    }
-
-    else {
+    } else {
       shape.attr({
         stroke: '#d8d8d8',
         shadowBlur: 0,
       });
     }
-
   },
-
 };
 
 G6.registerEdge('biz-mind-edge', options);

@@ -31,10 +31,13 @@ import EditableLabel from '@components/EditableLabel';
 import './command';
 import './behavior';
 
-
-interface GraphProps extends EditorPrivateContextProps, GraphCommonEventProps, GraphNodeEventProps, GraphEdgeEventProps, GraphCanvasEventProps, GraphCustomEventProps {
-  a: string;
-}
+interface GraphProps
+  extends EditorPrivateContextProps,
+    GraphCommonEventProps,
+    GraphNodeEventProps,
+    GraphEdgeEventProps,
+    GraphCanvasEventProps,
+    GraphCustomEventProps {}
 
 class Graph extends React.Component<GraphProps> {
   componentDidMount() {
@@ -62,7 +65,7 @@ class Graph extends React.Component<GraphProps> {
     }
 
     return graphState;
-  }
+  };
 
   initGraph() {
     const { containerId, parseData, initGraph, setGraph } = this.props;
@@ -99,7 +102,7 @@ class Graph extends React.Component<GraphProps> {
       ...GraphCustomEvent,
     };
 
-    (Object.keys(events) as GraphReactEvent[]).forEach((event) => {
+    (Object.keys(events) as GraphReactEvent[]).forEach(event => {
       addListener<EventHandle<GraphEvent>>(graph, events[event], props[event]);
     });
 
@@ -107,12 +110,7 @@ class Graph extends React.Component<GraphProps> {
     const { setGraphState } = this.props;
 
     addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, ({ name }) => {
-      if ([
-        EditorCommand.Undo,
-        EditorCommand.Redo,
-        EditorCommand.Topic,
-        EditorCommand.Subtopic,
-      ].includes(name)) {
+      if ([EditorCommand.Undo, EditorCommand.Redo, EditorCommand.Topic, EditorCommand.Subtopic].includes(name)) {
         setGraphState(this.getGraphState());
       }
     });

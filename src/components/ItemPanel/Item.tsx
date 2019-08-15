@@ -1,13 +1,9 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface ItemProps extends EditorPrivateContextProps {
+interface ItemProps extends EditorPrivateContextProps {}
 
-}
-
-interface ItemState {
-
-}
+interface ItemState {}
 
 class Item extends React.PureComponent<ItemProps, ItemState> {
   constructor(props) {
@@ -58,11 +54,11 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     return shadowShape;
   }
 
-  handleDragover = (ev) => {
+  handleDragover = ev => {
     ev.preventDefault();
   };
 
-  handleDragenter = (ev) => {
+  handleDragenter = ev => {
     const { graph } = this.props;
     const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
 
@@ -73,7 +69,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     }
   };
 
-  handleDrag = (ev) => {
+  handleDrag = ev => {
     const { graph } = this.props;
     const { dragShape, dragShapeID } = this.state;
     if (dragShape) {
@@ -127,7 +123,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     document.removeEventListener('drop', this.handleDrop);
   }
 
-  handleDrop = (ev) => {
+  handleDrop = ev => {
     const { graph, executeCommand, type, model, shape, size } = this.props;
     const { dragShapeID } = this.state;
 

@@ -15,26 +15,28 @@ export interface EditorPrivateContextProps {
 
 const EditorPrivateContext = React.createContext({} as EditorPrivateContextProps);
 
-export const withEditorPrivateContext = function <P extends EditorPrivateContextProps>(
-  WrappedComponent: React.ComponentClass<P>
+export const withEditorPrivateContext = function<P extends EditorPrivateContextProps>(
+  WrappedComponent: React.ComponentClass<P>,
 ) {
   type WrappedComponentInstance = InstanceType<typeof WrappedComponent>;
   type WrappedComponentProps = Omit<P, keyof EditorPrivateContextProps>;
   type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
     forwardRef: React.Ref<WrappedComponentInstance>;
   };
-  
-  const InjectEditorContext: React.FC<WrappedComponentPropsWithForwardRef> = (props) => {
+
+  const InjectEditorContext: React.FC<WrappedComponentPropsWithForwardRef> = props => {
     const { forwardRef, ...rest } = props;
 
     return (
       <EditorPrivateContext.Consumer>
-        {context => <WrappedComponent ref={forwardRef} {...rest as any} {...context} />}
+        {context => <WrappedComponent ref={forwardRef} {...(rest as any)} {...context} />}
       </EditorPrivateContext.Consumer>
     );
-  }
+  };
 
-  return React.forwardRef<WrappedComponentInstance, WrappedComponentProps>((props, ref) => <InjectEditorContext forwardRef={ref} {...props} />);
-}
+  return React.forwardRef<WrappedComponentInstance, WrappedComponentProps>((props, ref) => (
+    <InjectEditorContext forwardRef={ref} {...props} />
+  ));
+};
 
 export default EditorPrivateContext;

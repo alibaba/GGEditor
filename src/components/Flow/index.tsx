@@ -1,24 +1,16 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { uuid } from '@utils';
-import {
-  FLOW_CONTAINER_ID,
-  ShapeClassName,
-  LabelState,
-} from '@common/constants';
+import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
 import './shape';
 import './behavior';
 
-interface FlowProps extends EditorPrivateContextProps {
+interface FlowProps extends EditorPrivateContextProps {}
 
-}
-
-interface FlowState {
-
-}
+interface FlowState {}
 
 class Flow extends React.Component<FlowProps, FlowState> {
   constructor(props) {
@@ -46,7 +38,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
   parseData = ({ data }) => {
     const { nodes, edges } = data;
 
-    [...nodes, ...edges].forEach((item) => {
+    [...nodes, ...edges].forEach(item => {
       const { id } = item;
 
       if (id) {
@@ -95,15 +87,8 @@ class Flow extends React.Component<FlowProps, FlowState> {
   render() {
     const { containerId, parseData, initGraph } = this;
 
-    return (
-      <Graph
-        containerId={containerId}
-        parseData={parseData}
-        initGraph={initGraph}
-        {...this.props}
-      />
-    );
+    return <Graph containerId={containerId} parseData={parseData} initGraph={initGraph} {...this.props} />;
   }
 }
 
-export default withEditorPrivateContext<FlowProps>(Flow)
+export default withEditorPrivateContext<FlowProps>(Flow);

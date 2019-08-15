@@ -1,11 +1,7 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
-import {
-  MIND_CONTAINER_ID,
-  ShapeClassName,
-  LabelState,
-} from '@common/constants';
+import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
@@ -13,13 +9,9 @@ import './shape/nodes/bizMindNode';
 import './shape/edges/bizMindEdge';
 import './command';
 
-interface MindProps extends EditorPrivateContextProps {
+interface MindProps extends EditorPrivateContextProps {}
 
-}
-
-interface MindState {
-
-}
+interface MindState {}
 
 class Mind extends React.Component<MindProps, MindState> {
   constructor(props) {
@@ -32,20 +24,20 @@ class Mind extends React.Component<MindProps, MindState> {
     const { labelState } = this.props;
 
     return labelState === LabelState.Hide;
-  }
+  };
 
   canZoomCanvas = () => {
     const { labelState } = this.props;
 
     return labelState === LabelState.Hide;
-  }
+  };
 
   canCollapseExpand = ({ target }) => {
     return target && target.get('className') === ShapeClassName.CollapseExpandButton;
-  }
+  };
 
   parseData = ({ data }) => {
-    recursiveTraversal(data, (item) => {
+    recursiveTraversal(data, item => {
       const { id } = item;
 
       if (id) {
@@ -54,7 +46,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
       item.id = uuid();
     });
-  }
+  };
 
   initGraph = ({ width, height }) => {
     const { containerId } = this;
@@ -101,19 +93,12 @@ class Mind extends React.Component<MindProps, MindState> {
     });
 
     return this.graph;
-  }
+  };
 
   render() {
     const { containerId, parseData, initGraph } = this;
 
-    return (
-      <Graph
-        containerId={containerId}
-        parseData={parseData}
-        initGraph={initGraph}
-        {...this.props}
-      />
-    );
+    return <Graph containerId={containerId} parseData={parseData} initGraph={initGraph} {...this.props} />;
   }
 }
 

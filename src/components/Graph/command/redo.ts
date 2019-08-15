@@ -22,8 +22,5 @@ commandManager.register('redo', {
     commandManager.commandIndex += 1;
   },
 
-  shortcuts: [
-    ['metaKey', 'shiftKey', 'z'],
-    ['ctrlKey', 'shiftKey', 'z'],
-  ],
+  shortcuts: [['metaKey', 'shiftKey', 'z'], ['ctrlKey', 'shiftKey', 'z']],
 });
