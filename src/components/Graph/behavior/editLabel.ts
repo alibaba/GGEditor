@@ -1,8 +1,5 @@
 import G6 from '@antv/g6';
-import {
-  LabelState,
-  EditorEvent,
-} from '@common/constants';
+import { LabelState, EditorEvent } from '@common/constants';
 
 G6.registerBehavior('edit-label', {
   getEvents() {

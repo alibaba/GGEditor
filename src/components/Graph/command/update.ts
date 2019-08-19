@@ -43,6 +43,6 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
 
     graph.updateItem(id, originModel);
   },
-}
+};
 
 commandManager.register('update', updateCommand);

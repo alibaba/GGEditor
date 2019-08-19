@@ -3,17 +3,8 @@ import Flow from '@components/Flow';
 import Mind from '@components/Mind';
 import ItemPanel, { Item } from '@components/ItemPanel';
 import Command from '@components/Command';
-import {
-  NodePanel,
-  MultiPanel,
-  CanvasPanel,
-} from '@components/Panel';
-import {
-  RegisterNode,
-  RegisterEdge,
-  RegisterCommand,
-  RegisterBehavior,
-} from '@components/Register';
+import { NodePanel, MultiPanel, CanvasPanel } from '@components/Panel';
+import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@components/Register';
 import { withEditorContext } from '@common/context/EditorContext';
 
 export {

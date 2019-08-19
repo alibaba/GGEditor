@@ -2,13 +2,9 @@ import React from 'react';
 import pick from 'lodash/pick';
 import Item from './Item';
 
-interface ItemPanelProps {
+interface ItemPanelProps {}
 
-}
-
-interface ItemPanelState {
-
-}
+interface ItemPanelState {}
 
 class ItemPanel extends React.PureComponent<ItemPanelProps, ItemPanelState> {
   constructor(props) {

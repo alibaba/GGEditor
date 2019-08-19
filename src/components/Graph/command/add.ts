@@ -11,7 +11,7 @@ interface AddCommandParams {
 
 const addCommand: BaseCommand<AddCommandParams> = {
   ...baseCommand,
-  
+
   params: {
     type: ItemType.Node,
     model: {
@@ -42,6 +42,6 @@ const addCommand: BaseCommand<AddCommandParams> = {
 
     graph.remove(model.id);
   },
-}
+};
 
 commandManager.register('add', addCommand);

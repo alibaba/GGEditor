@@ -225,9 +225,7 @@ export interface Graph extends EventEmitter {
   set(key: string, val: any): void;
 }
 
-export interface GraphEvent {
-
-}
+export interface GraphEvent {}
 
 export interface Command<T = object> {
   /** 命令名称 */
@@ -265,16 +263,11 @@ export type GraphEdgeEventProps = Partial<Record<keyof typeof GraphEdgeEvent, Ev
 export type GraphCanvasEventProps = Partial<Record<keyof typeof GraphCanvasEvent, EventHandle<GraphEvent>>>;
 export type GraphCustomEventProps = Partial<Record<keyof typeof GraphCustomEvent, EventHandle<GraphEvent>>>;
 
-export type GraphNativeEvent =
-  GraphCommonEvent |
-  GraphNodeEvent |
-  GraphEdgeEvent |
-  GraphCanvasEvent |
-  GraphCustomEvent;
+export type GraphNativeEvent = GraphCommonEvent | GraphNodeEvent | GraphEdgeEvent | GraphCanvasEvent | GraphCustomEvent;
 
 export type GraphReactEvent =
-  keyof typeof GraphCommonEvent |
-  keyof typeof GraphNodeEvent |
-  keyof typeof GraphEdgeEvent |
-  keyof typeof GraphCanvasEvent |
-  keyof typeof GraphCustomEvent;
+  | keyof typeof GraphCommonEvent
+  | keyof typeof GraphNodeEvent
+  | keyof typeof GraphEdgeEvent
+  | keyof typeof GraphCanvasEvent
+  | keyof typeof GraphCustomEvent;

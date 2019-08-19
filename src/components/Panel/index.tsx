@@ -1,22 +1,14 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import {
-  ITEM_TYPE_NODE,
-  ItemState,
-  GraphState,
-} from '@common/constants';
+import { ITEM_TYPE_NODE, ItemState, GraphState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface PanelProps extends EditorPrivateContextProps {
+interface PanelProps extends EditorPrivateContextProps {}
 
-}
-
-interface PanelState {
-
-}
+interface PanelState {}
 
 class Panel extends React.PureComponent<PanelProps, PanelState> {
-  static create = function (type) {
+  static create = function(type) {
     class TypedPanel extends Panel {
       constructor(props) {
         super(props, type);
@@ -24,7 +16,7 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
     }
 
     return withEditorPrivateContext<PanelProps>(TypedPanel);
-  }
+  };
 
   constructor(props, type) {
     super(props);
@@ -36,7 +28,7 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
     const { graph } = this.props;
 
     return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
-  }
+  };
 
   render() {
     const { graph, graphState, children } = this.props;
@@ -51,11 +43,11 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
 
     return (
       <div {...pick(this.props, ['style', 'className'])}>
-        {
-          React.Children.toArray(children).map(child => React.cloneElement(child, {
+        {React.Children.toArray(children).map(child =>
+          React.cloneElement(child, {
             nodes: this.getSelectedNodes(),
-          }))
-        }
+          }),
+        )}
       </div>
     );
   }

@@ -2,8 +2,8 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
-import { Group, NodeModel, CustomNode } from "@common/interface";
-import { bizOption } from "@components/Graph/shape/nodes/bizNode";
+import { Group, NodeModel, CustomNode } from '@common/interface';
+import { bizOption } from '@components/Graph/shape/nodes/bizNode';
 
 export interface MindNodeModel extends NodeModel {
   isRoot?: boolean;
@@ -61,10 +61,13 @@ const options: BizMindNodeOptions = {
         attrs: {
           path: Util.getExpandButtonPath({ width, height: width }),
           ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
-          cursor:'pointer',
+          cursor: 'pointer',
         },
       });
-      button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
+      button.translate(
+        model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
+        -width / 2,
+      );
       return button;
     }
 
@@ -73,10 +76,13 @@ const options: BizMindNodeOptions = {
       attrs: {
         path: Util.getCollapseButtonPath({ width, height: width }),
         ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
-        cursor:'pointer',
+        cursor: 'pointer',
       },
     });
-    button.translate(model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset, -width / 2);
+    button.translate(
+      model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
+      -width / 2,
+    );
     return button;
   },
 
@@ -116,6 +122,5 @@ const options: BizMindNodeOptions = {
     };
   },
 };
-
 
 G6.registerNode('mind-node', options, 'biz-node');

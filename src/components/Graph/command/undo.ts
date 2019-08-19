@@ -22,8 +22,5 @@ commandManager.register('undo', {
     commandManager.commandIndex -= 1;
   },
 
-  shortcuts: [
-    ['metaKey', 'z'],
-    ['ctrlKey', 'z'],
-  ],
+  shortcuts: [['metaKey', 'z'], ['ctrlKey', 'z']],
 });

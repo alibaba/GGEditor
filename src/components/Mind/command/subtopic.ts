@@ -25,9 +25,7 @@ const subtopicCommand: BaseCommand<SubtopicCommandParams> = {
     this.setSelectedNode(graph, model.id);
   },
 
-  shortcuts: [
-    'Tab',
-  ],
-}
+  shortcuts: ['Tab'],
+};
 
 commandManager.register('subtopic', subtopicCommand);

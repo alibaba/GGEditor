@@ -1,4 +1,4 @@
-import upperFirst from 'lodash/upperFirst'
+import upperFirst from 'lodash/upperFirst';
 // import each from '@antv/util/lib/each';
 
 const canvas = document.createElement('canvas');
@@ -44,7 +44,7 @@ const Util: ShapeUtil = {
     const multilineArr = multilineText.split('\n');
 
     if (multilineArr.length > 1) {
-      return `${ multilineArr[0] }\n${ multilineArr[1].slice(0, -1) }...`;
+      return `${multilineArr[0]}\n${multilineArr[1].slice(0, -1)}...`;
     }
     return multilineText;
   },
@@ -52,7 +52,7 @@ const Util: ShapeUtil = {
   getRectPath(x, y, w, h, r) {
     if (r) {
       return [
-        ['M', +x + (+r), y],
+        ['M', +x + +r, y],
         ['l', w - r * 2, 0],
         ['a', r, r, 0, 0, 1, r, r],
         ['l', 0, h - r * 2],
@@ -65,13 +65,7 @@ const Util: ShapeUtil = {
       ];
     }
 
-    const res = [
-      ['M', x, y],
-      ['l', w, 0],
-      ['l', 0, h],
-      ['l', -w, 0],
-      ['z'],
-    ];
+    const res = [['M', x, y], ['l', w, 0], ['l', 0, h], ['l', -w, 0], ['z']];
 
     res.toString = toString;
 
@@ -80,31 +74,25 @@ const Util: ShapeUtil = {
 
   getCollapseButtonPath({ width, height }) {
     const rect = this.getRectPath(0, 0, width, height, 2);
-    const hp = `M${ width * 3 / 14 },${ height / 2 } L${ width * 11 / 14 },${ height / 2 }`;
+    const hp = `M${(width * 3) / 14},${height / 2} L${(width * 11) / 14},${height / 2}`;
     const vp = '';
     return rect + hp + vp;
   },
 
   getExpandButtonPath({ width, height }) {
     const rect = this.getRectPath(0, 0, width, height, 2);
-    const hp = `M${ width * 3 / 14 },${ height / 2 } L${ width * 11 / 14 },${ height / 2 }`;
-    const vp = `M${ width / 2 },${ height * 3 / 14 } L${ width / 2 },${ height * 11 / 14 }`;
+    const hp = `M${(width * 3) / 14},${height / 2} L${(width * 11) / 14},${height / 2}`;
+    const vp = `M${width / 2},${(height * 3) / 14} L${width / 2},${(height * 11) / 14}`;
 
     return rect + hp + vp;
   },
 
   // called by baseNode.js
   itemStates({ item, group }) {
-    const getCustomInitialStyle = (child) => {
-      const {
-        width,
-        height,
-        x,
-        y,
-        textBaseline,
-      } = child.attr();
-      if (typeof this[`get${ upperFirst(child.get('className')) }Style`] === 'function') {
-        const customStyle = this[`get${ upperFirst(child.get('className')) }Style`]({ model: item.getModel() });
+    const getCustomInitialStyle = child => {
+      const { width, height, x, y, textBaseline } = child.attr();
+      if (typeof this[`get${upperFirst(child.get('className'))}Style`] === 'function') {
+        const customStyle = this[`get${upperFirst(child.get('className'))}Style`]({ model: item.getModel() });
         return {
           ...child.getDefaultAttrs(),
           ...customStyle,
@@ -121,9 +109,9 @@ const Util: ShapeUtil = {
       };
     };
 
-    const dynamicBase = (type) => {
+    const dynamicBase = type => {
       const newStyleObj = this.getCustomStatesStyle()[type];
-      Object.keys(newStyleObj).forEach((className) => {
+      Object.keys(newStyleObj).forEach(className => {
         const currentChild = group.findByClassName(className);
         if (currentChild) {
           currentChild.attr({
@@ -152,7 +140,7 @@ const Util: ShapeUtil = {
       // get children of group
       const groupChildren = group.get('children');
 
-      groupChildren.map((child) => {
+      groupChildren.map(child => {
         return child.attr({
           ...getCustomInitialStyle(child),
         });

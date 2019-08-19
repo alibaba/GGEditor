@@ -20,12 +20,12 @@ class CommandManager {
       ...command,
       name,
     };
-  }
+  };
 
   /** 是否可以执行 */
   canExecute = (graph: Graph, name: string) => {
     return this.command[name].canExecute(graph);
-  }
+  };
 
   /** 执行命令 */
   execute = (graph: Graph, name: string, params: object) => {
@@ -68,14 +68,10 @@ class CommandManager {
 
     const { commandQueue, commandIndex } = this;
 
-    commandQueue.splice(
-      commandIndex,
-      commandQueue.length - commandIndex,
-      command,
-    );
+    commandQueue.splice(commandIndex, commandQueue.length - commandIndex, command);
 
     this.commandIndex += 1;
-  }
+  };
 }
 
 export default new CommandManager();

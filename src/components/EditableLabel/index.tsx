@@ -1,21 +1,11 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import {
-  NODE_MAX_TEXT_LINE_WIDTH,
-  ShapeClassName,
-  ITEM_TYPE_NODE,
-  ItemState,
-  LabelState,
-} from '@common/constants';
+import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName, ITEM_TYPE_NODE, ItemState, LabelState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface EditableLabelProps extends EditorPrivateContextProps {
+interface EditableLabelProps extends EditorPrivateContextProps {}
 
-}
-
-interface EditableLabelState {
-
-}
+interface EditableLabelState {}
 
 class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabelState> {
   componentDidUpdate() {
@@ -36,14 +26,14 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     if (labelState === LabelState.Show) {
       this.executeUpdate();
     }
-  }
+  };
 
   handleKeyDown = ({ key }) => {
     if (key === 'Enter' || key === 'Escape') {
       this.executeUpdate();
       this.props.setLabelState(LabelState.Hide);
     }
-  }
+  };
 
   executeUpdate = () => {
     const { executeCommand } = this.props;
@@ -52,7 +42,6 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
 
     const { label } = model;
     const { textContent } = this.labelElement;
-
 
     if (textContent === label) {
       return;
@@ -66,22 +55,25 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
         label: textContent,
       },
     });
-  }
+  };
 
   getSelectedNode = () => {
     const { graph } = this.props;
 
     return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected)[0];
-  }
+  };
 
   getLabelOffset = ({ labelShape, selectedNode }) => {
     const { graph } = this.props;
 
     const { x: relativeX, y: relativeY } = labelShape.getBBox();
-    const { x: absoluteX, y: absoluteY } = G6.Util.applyMatrix({
-      x: relativeX,
-      y: relativeY,
-    }, selectedNode.getContainer().getMatrix());
+    const { x: absoluteX, y: absoluteY } = G6.Util.applyMatrix(
+      {
+        x: relativeX,
+        y: relativeY,
+      },
+      selectedNode.getContainer().getMatrix(),
+    );
 
     const { x: left, y: top } = graph.getCanvasByPoint(absoluteX, absoluteY);
 
@@ -89,7 +81,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
       top,
       left,
     };
-  }
+  };
 
   getLabelSize = ({ labelShape }) => {
     const { width, height } = labelShape.getBBox();
@@ -98,10 +90,10 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
       width: 'auto',
       height: 'auto',
       'min-width': width,
-      'max-width': `${ NODE_MAX_TEXT_LINE_WIDTH }px`,
+      'max-width': `${NODE_MAX_TEXT_LINE_WIDTH}px`,
       'min-height': height,
     };
-  }
+  };
 
   getLabelFont = ({ labelShape }) => {
     const font = labelShape.attr('font');
@@ -109,7 +101,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     return {
       font,
     };
-  }
+  };
 
   getLabelZoom = () => {
     const { graph } = this.props;
@@ -117,10 +109,10 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     const zoom = graph.getZoom();
 
     return {
-      transform: `scale(${ zoom })`,
+      transform: `scale(${zoom})`,
       'transform-origin': 'left top',
     };
-  }
+  };
 
   render() {
     const { labelState } = this.props;
@@ -138,8 +130,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
         ...labelStyle,
         display: 'none',
       };
-    }
-    else {
+    } else {
       const selectedNode = this.getSelectedNode();
 
       const labelShape = selectedNode.getContainer().findByClassName(ShapeClassName.Label);
@@ -163,7 +154,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
 
     return (
       <div
-        ref={(el) => {
+        ref={el => {
           this.labelElement = el;
         }}
         style={labelStyle}

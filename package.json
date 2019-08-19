@@ -31,11 +31,12 @@
     "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js",
     "lint": "eslint --cache --ext .ts,.tsx ./src",
     "lint:fix": "npm run lint -- --fix",
+    "pretty-quick": "pretty-quick",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "pretty-quick --staged"
     }
   },
   "repository": {
@@ -84,12 +85,16 @@
     "css-loader": "^2.1.0",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.1",
-    "less": "^3.9.0",
+    "less": "~3.9.0",
     "less-loader": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.5.0",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
     "typescript": "^3.5.3",

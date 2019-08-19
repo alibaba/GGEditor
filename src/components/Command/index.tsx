@@ -1,24 +1,20 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface CommandProps extends EditorPrivateContextProps {
+interface CommandProps extends EditorPrivateContextProps {}
 
-}
-
-interface CommandState {
-
-}
+interface CommandState {}
 
 class Command extends React.PureComponent<CommandProps, CommandState> {
   state = {
     disabled: false,
-  }
+  };
 
   handleClick = () => {
     const { name, executeCommand } = this.props;
 
     executeCommand(name);
-  }
+  };
 
   render() {
     const { name, graph, canExecuteCommand, children } = this.props;
