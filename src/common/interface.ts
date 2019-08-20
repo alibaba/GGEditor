@@ -95,6 +95,33 @@ export interface EdgeModel extends ItemModel {
 }
 
 /**
+ * G6 图表载体
+ * @see https://www.yuque.com/antv/g6/graph
+ */
+export interface Graph extends EventEmitter {
+  // 更新
+  add(type: ItemType, model: NodeModel | EdgeModel): void;
+  addItem(type: ItemType, model: NodeModel | EdgeModel): void;
+  update(item: string | Item, model: object): void;
+  updateItem(item: string | Item, model: object): void;
+  remove(item: string | Item): void;
+  removeItem(item: string | Item): void;
+  paint(): void;
+  setAutoPaint(auto: boolean): void;
+
+  // 状态
+  setItemState(item: string | Item, state: string, enabled: boolean): void;
+
+  // 查找
+  findById(id: string): Item;
+  findAllByState(type: ItemType, state: string): Item[];
+
+  // 其它
+  get(key: string): any;
+  set(key: string, val: any): void;
+}
+
+/**
  * G6 绘图元素
  * @see https://www.yuque.com/antv/g6/item
  */
@@ -103,7 +130,7 @@ export interface Item {
   getBBox(): BBox;
   getContainer(): Group;
   getKeyShape(): Shape;
-  getModel<T>(): T;
+  getModel<T = ItemModel>(): T;
   getType(): ItemType;
   enableCapture(enable: boolean): void;
   clearCache(): void;
@@ -128,6 +155,11 @@ export interface Item {
 export interface Node extends Item {
   // 通用
   getModel<T = NodeModel>(): T;
+
+  // 特有
+  getEdges(): Edge[];
+  getInEdges(): Edge[];
+  getOutEdges(): Edge[];
 }
 
 /**
@@ -199,30 +231,15 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
 }
 
 /**
- * G6 图表载体
- * @see https://www.yuque.com/antv/g6/graph
+ * G6 自定义行为
+ * @see https://www.yuque.com/antv/g6/behavior-api
  */
-export interface Graph extends EventEmitter {
-  // 更新
-  add(type: ItemType, model: NodeModel | EdgeModel): void;
-  addItem(type: ItemType, model: NodeModel | EdgeModel): void;
-  update(item: string | Item, model: object): void;
-  updateItem(item: string | Item, model: object): void;
-  remove(item: string | Item): void;
-  removeItem(item: string | Item): void;
-  paint(): void;
-  setAutoPaint(auto: boolean): void;
-
-  // 状态
-  setItemState(item: string | Item, state: string, enabled: boolean): void;
-
-  // 查找
-  findById(id: string): Item;
-  findAllByState(type: ItemType, state: string): Item[];
-
-  // 其它
-  get(key: string): any;
-  set(key: string, val: any): void;
+export interface CustomBehavior {
+  graph: Graph;
+  getEvents(): {
+    [propName in GraphNativeEvent]: string;
+  };
+  getDefaultCfg?(): object;
 }
 
 export interface GraphEvent {}

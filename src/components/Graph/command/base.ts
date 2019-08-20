@@ -1,21 +1,28 @@
 import { ItemType, ItemState } from '@common/constants';
-import { Item, Graph, Command } from '@common/interface';
+import { Node, Edge, Graph, Command } from '@common/interface';
 import command from '@common/command';
 import commandManager from '@common/commandManager';
+import { isMind, getSelectedNodes, getSelectedEdges } from '@utils';
 
 export interface BaseCommand<T = object> extends Command<T> {
+  /** 判断是否脑图 */
+  isMind(graph: Graph): boolean;
   /** 获取选中节点 */
-  getSelectedNodes: (graph: Graph) => Item[];
+  getSelectedNodes(graph: Graph): Node[];
+  /** 获取选中连线 */
+  getSelectedEdges(graph: Graph): Edge[];
   /** 设置选中节点 */
-  setSelectedNode: (graph: Graph, id: string) => void;
+  setSelectedNode(graph: Graph, id: string): void;
 }
 
 export const baseCommand: BaseCommand = {
   ...command,
 
-  getSelectedNodes(graph: Graph) {
-    return graph.findAllByState(ItemType.Node, ItemState.Selected);
-  },
+  isMind,
+
+  getSelectedNodes,
+
+  getSelectedEdges,
 
   setSelectedNode(graph: Graph, id: string) {
     const autoPaint = graph.get('autoPaint');

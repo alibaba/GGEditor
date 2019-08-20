@@ -7,6 +7,7 @@ import Graph from '@components/Graph';
 
 import './shape';
 import './behavior';
+import './command';
 
 interface FlowProps extends EditorPrivateContextProps {}
 
@@ -68,8 +69,8 @@ class Flow extends React.Component<FlowProps, FlowState> {
             type: 'zoom-canvas',
             shouldUpdate: this.canZoomCanvas,
           },
-          'click-node',
-          'hover-node',
+          'click-item',
+          'hover-item',
           'hover-anchor',
           {
             type: 'drag-node',
