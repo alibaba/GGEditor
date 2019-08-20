@@ -37,6 +37,11 @@ export enum LabelState {
   Show = 'Show',
 }
 
+export enum ContextMenuState {
+  Hide = 'Hide',
+  Show = 'Show',
+}
+
 export enum EditorEvent {
   /** 调用命令之前触发 */
   onBeforeExecuteCommand = 'onBeforeExecuteCommand',
