@@ -11,29 +11,25 @@
       "x": 100,
       "y": 800,
       "label": "endNode",
-      "shape": "endNode",
-      "id": "endNode"
+      "shape": "endNode"
     },
     {
       "x": 50,
       "y": 100,
       "label": "flowNode",
-      "shape": "biz-flow-node",
-      "id": "test"
+      "shape": "biz-flow-node"
     },
     {
       "x": 500,
       "y": 200,
       "label": "flowNode",
-      "shape": "flowNode",
-      "id": "test2"
+      "shape": "flowNode"
     },
     {
       "x": 600,
       "y": 400,
       "label": "flowNode",
-      "shape": "flowNode",
-      "id": "test3"
+      "shape": "flowNode"
     }
   ],
   "edges": []

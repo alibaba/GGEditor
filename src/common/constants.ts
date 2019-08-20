@@ -63,7 +63,7 @@ export enum GraphCommonEvent {
   /** 单击鼠标左键或者按下回车键时触发 */
   onClick = 'click',
   /** 双击鼠标左键时触发 */
-  onDoubleClick = 'dbclick',
+  onDoubleClick = 'dblclick',
   /** 鼠标移入元素范围内触发，该事件不冒泡，即鼠标移到其后代元素上时不会触发 */
   onMouseEnter = 'mouseenter',
   /** 鼠标在元素内部移到时不断触发，不能通过键盘触发 */
@@ -108,7 +108,7 @@ export enum GraphNodeEvent {
   /** 鼠标左键单击节点时触发 */
   onNodeClick = 'node:click',
   /** 鼠标双击左键节点时触发 */
-  onNodeDoubleClick = 'node:dbclick',
+  onNodeDoubleClick = 'node:dblclick',
   /** 鼠标移入节点时触发 */
   onNodeMouseEnter = 'node:mouseenter',
   /** 鼠标在节点内部移到时不断触发，不能通过键盘触发 */
@@ -143,7 +143,7 @@ export enum GraphEdgeEvent {
   /** 鼠标左键单击边时触发 */
   onEdgeClick = 'edge:click',
   /** 鼠标双击左键边时触发 */
-  onEdgeDoubleClick = 'edge:dbclick',
+  onEdgeDoubleClick = 'edge:dblclick',
   /** 鼠标移入边时触发 */
   onEdgeMouseEnter = 'edge:mouseenter',
   /** 鼠标在边上移到时不断触发，不能通过键盘触发 */
@@ -166,7 +166,7 @@ export enum GraphCanvasEvent {
   /** 鼠标左键单击画布时触发 */
   onCanvasClick = 'canvas:click',
   /** 鼠标双击左键画布时触发 */
-  onCanvasDoubleClick = 'canvas:dbclick',
+  onCanvasDoubleClick = 'canvas:dblclick',
   /** 鼠标移入画布时触发 */
   onCanvasMouseEnter = 'canvas:mouseenter',
   /** 鼠标在画布内部移到时不断触发，不能通过键盘触发 */
