@@ -272,6 +272,10 @@ export interface LabelStateEvent {
   labelState: LabelState;
 }
 
+export interface ContextMenuState {
+  contextMenuState: ContextMenuState;
+}
+
 export type EventHandle<T> = (e: T) => void;
 
 export type GraphCommonEventProps = Partial<Record<keyof typeof GraphCommonEvent, EventHandle<GraphEvent>>>;

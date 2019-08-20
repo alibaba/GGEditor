@@ -6,23 +6,7 @@ import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorCon
 import Menu from './Menu';
 
 class ContextMenu extends React.Component {
-  contextMenu = null;
-
-  get containerId() {
-    const { editor } = this.props;
-
-    return `${CONTEXT_MENU_CONTAINER}_${editor.id}`;
-  }
-
-  componentDidMount() {
-    const { editor } = this.props;
-
-    this.contextMenu = new Editor.Contextmenu({
-      container: this.containerId,
-    });
-
-    editor.add(this.contextMenu);
-  }
+  componentDidMount(): void {}
 
   render() {
     const { children } = this.props;

@@ -2,8 +2,8 @@ import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import { addListener } from '@utils';
-import { GraphState, LabelState, EditorEvent } from '@common/constants';
-import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
+import { ContextMenuState, EditorEvent, GraphNodeEvent, GraphState, LabelState } from '@common/constants';
+import { CommandEvent, EventHandle, LabelStateEvent } from '@common/interface';
 import commandManager from '@common/commandManager';
 import EditorContext from '@common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
@@ -23,11 +23,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graph: null,
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
+      contextMenuState: ContextMenuState.Hide,
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
+      setContextMenuState: this.setContextMenuState,
     };
   }
 
@@ -50,6 +52,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       }
 
       this.setLabelState(labelState);
+    });
+    addListener<EventHandle<ContextMenuState>>(graph, GraphNodeEvent.onNodeContextMenu, ({ contextMenuState }) => {
+      if (contextMenuState === this.state.contextMenuState) {
+        return;
+      }
+
+      this.setContextMenuState(contextMenuState);
     });
   }
 
@@ -102,6 +111,12 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   setLabelState = labelState => {
     this.setState({
       labelState,
+    });
+  };
+
+  setContextMenuState = contextMenuState => {
+    this.setState({
+      contextMenuState,
     });
   };
 

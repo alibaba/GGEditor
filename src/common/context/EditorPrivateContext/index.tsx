@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraphState, LabelState } from '@common/constants';
+import { ContextMenuState, GraphState, LabelState } from '@common/constants';
 import { Graph } from '@common/interface';
 
 export interface EditorPrivateContextProps {
@@ -11,6 +11,8 @@ export interface EditorPrivateContextProps {
   setLabelState: (labelState: LabelState) => void;
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
+  contextMenuState: ContextMenuState;
+  setContextMenuState: (contextMenuState: ContextMenuState) => void;
 }
 
 const EditorPrivateContext = React.createContext({} as EditorPrivateContextProps);
