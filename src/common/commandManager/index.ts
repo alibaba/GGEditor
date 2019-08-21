@@ -29,7 +29,7 @@ class CommandManager {
   };
 
   /** 执行命令 */
-  execute = (graph: Graph, name: string, params: object) => {
+  execute = (graph: Graph, name: string, params?: object) => {
     const Command = this.command[name];
 
     if (!Command) {

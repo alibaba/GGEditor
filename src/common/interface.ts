@@ -96,6 +96,7 @@ export interface EdgeModel extends ItemModel {
 
 export interface MindNodeModel extends NodeModel {
   children?: MindNodeModel[];
+  collapsed?: boolean;
 }
 
 /**
@@ -129,11 +130,13 @@ export interface Graph extends EventEmitter {
  * G6 树图载体
  * @see https://www.yuque.com/antv/g6/treegraph
  */
-export interface TreeGraph {
+export interface TreeGraph extends Graph {
   // 实例方法
   addChild(model: MindNodeModel, parent: Node | string): void;
   removeChild(id: string): void;
   updateChild(model: MindNodeModel, parent?: string): void;
+  findDataById(id: string, parent?: object): MindNodeModel;
+  refreshLayout(): TreeGraph;
 }
 
 /**

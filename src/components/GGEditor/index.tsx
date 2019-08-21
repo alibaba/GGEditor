@@ -2,7 +2,7 @@ import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import { addListener } from '@utils';
-import { GraphState, LabelState, EditorEvent } from '@common/constants';
+import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '@common/constants';
 import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
 import commandManager from '@common/commandManager';
 import EditorContext from '@common/context/EditorContext';
@@ -16,7 +16,7 @@ interface GGEditorProps {
 interface GGEditorState extends EditorPrivateContextProps {}
 
 class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
-  constructor(props) {
+  constructor(props: GGEditorProps) {
     super(props);
 
     this.state = {
@@ -31,7 +31,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     };
   }
 
-  bindEvent(graph) {
+  bindEvent(graph: Graph) {
     const { props } = this;
 
     addListener<EventHandle<CommandEvent>>(
@@ -53,12 +53,12 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   }
 
-  bindShortcut(graph) {
-    graph.on('keydown', e => {
+  bindShortcut(graph: Graph) {
+    graph.on(GraphCommonEvent.onKeyDown, (e: KeyboardEvent) => {
       Object.values(commandManager.command).some(command => {
         const { name, shortcuts } = command;
 
-        const flag = shortcuts.some(shortcut => {
+        const flag = shortcuts.some((shortcut: string | string[]) => {
           const { key } = e;
 
           if (!isArray(shortcut)) {
@@ -70,13 +70,15 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
               return item === key;
             }
 
-            return e[item];
+            return (e as any)[item];
           });
         });
 
         if (flag) {
-          this.executeCommand(name);
-          return true;
+          if (this.canExecuteCommand(name)) {
+            this.executeCommand(name);
+            return true;
+          }
         }
 
         return false;
@@ -84,7 +86,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   }
 
-  setGraph = graph => {
+  setGraph = (graph: Graph) => {
     this.setState({
       graph,
     });
@@ -93,28 +95,34 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.bindShortcut(graph);
   };
 
-  setGraphState = graphState => {
+  setGraphState = (graphState: GraphState) => {
     this.setState({
       graphState,
     });
   };
 
-  setLabelState = labelState => {
+  setLabelState = (labelState: LabelState) => {
     this.setState({
       labelState,
     });
   };
 
-  canExecuteCommand = name => {
+  canExecuteCommand = (name: string) => {
     const { graph } = this.state;
 
-    return commandManager.canExecute(graph, name);
+    if (graph) {
+      return commandManager.canExecute(graph, name);
+    }
+
+    return false;
   };
 
-  executeCommand = (name, params) => {
+  executeCommand = (name: string, params?: object) => {
     const { graph } = this.state;
 
-    commandManager.execute(graph, name, params);
+    if (graph) {
+      commandManager.execute(graph, name, params);
+    }
   };
 
   render() {

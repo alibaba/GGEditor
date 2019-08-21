@@ -1,8 +1,8 @@
+import { isMind, executeBatch } from '@utils';
 import { ItemType } from '@common/constants';
 import { TreeGraph, NodeModel, EdgeModel, MindNodeModel } from '@common/interface';
 import commandManager from '@common/commandManager';
 import { baseCommand, BaseCommand } from '@components/Graph/command/base';
-import { isMind, executeBatch } from '@utils';
 
 interface RemoveCommandParams {
   flow: {
@@ -87,7 +87,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
         return;
       }
 
-      ((graph as unknown) as TreeGraph).removeChild(model.id);
+      (graph as TreeGraph).removeChild(model.id);
     } else {
       const { nodes, edges } = this.params.flow;
 
@@ -107,7 +107,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
         return;
       }
 
-      ((graph as unknown) as TreeGraph).addChild(model, parent);
+      (graph as TreeGraph).addChild(model, parent);
     } else {
       const { nodes, edges } = this.params.flow;
 
