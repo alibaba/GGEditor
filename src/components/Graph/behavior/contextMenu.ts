@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ContextMenuState, GraphNodeEvent } from '@common/constants';
+import { ContextMenuState, EditorEvent } from '@common/constants';
 import { CustomBehavior } from '@common/interface';
 
 interface ContextMenuBehavior extends CustomBehavior {
@@ -27,16 +27,16 @@ const contextMenuBehavior = {
   showContextMenu() {
     const { graph } = this;
 
-    graph.emit(GraphNodeEvent.onNodeContextMenu, {
-      ContextMenuState: ContextMenuState.Show,
+    graph.emit(EditorEvent.onContextMenuStateChange, {
+      contextMenuState: ContextMenuState.Show,
     });
   },
 
   hideContextMenu() {
     const { graph } = this;
 
-    graph.emit(GraphNodeEvent.onNodeContextMenu, {
-      ContextMenuState: ContextMenuState.Hide,
+    graph.emit(EditorEvent.onContextMenuStateChange, {
+      contextMenuState: ContextMenuState.Hide,
     });
   },
 

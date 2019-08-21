@@ -11,6 +11,7 @@ import {
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
+  ContextMenuState,
 } from '@common/constants';
 
 /**
@@ -272,7 +273,7 @@ export interface LabelStateEvent {
   labelState: LabelState;
 }
 
-export interface ContextMenuState {
+export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
 }
 

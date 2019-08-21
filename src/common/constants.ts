@@ -51,6 +51,8 @@ export enum EditorEvent {
   onBeforeLabelStateChange = 'onBeforeLabelStateChange',
   /** 改变标签状态之后触发 */
   onAfterLabelStateChange = 'onAfterLabelStateChange',
+  /** 改变右键菜单状态触发 */
+  onContextMenuStateChange = 'onContextMenuStateChange',
 }
 
 export enum EditorCommand {
