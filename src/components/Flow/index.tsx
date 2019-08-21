@@ -7,7 +7,6 @@ import Graph from '@components/Graph';
 
 import './shape';
 import './behavior';
-import './command';
 
 interface FlowProps extends EditorPrivateContextProps {}
 

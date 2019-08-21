@@ -67,6 +67,10 @@ class Mind extends React.Component<MindProps, MindState> {
             type: 'zoom-canvas',
             shouldUpdate: this.canZoomCanvas,
           },
+          {
+            type: 'click-item',
+            multiple: false,
+          },
           'click-item',
           'hover-item',
           'edit-label',

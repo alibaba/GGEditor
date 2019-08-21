@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash/cloneDeep';
 import { EditorEvent } from '@common/constants';
 import { Graph, Command } from '@common/interface';
 
@@ -36,6 +37,8 @@ class CommandManager {
     }
 
     const command = Object.create(Command);
+
+    command.params = cloneDeep(Command.params);
 
     if (params) {
       command.params = {

@@ -94,6 +94,10 @@ export interface EdgeModel extends ItemModel {
   endPoint: { x: number; y: number };
 }
 
+export interface MindNodeModel extends NodeModel {
+  children?: MindNodeModel[];
+}
+
 /**
  * G6 图表载体
  * @see https://www.yuque.com/antv/g6/graph
@@ -114,11 +118,22 @@ export interface Graph extends EventEmitter {
 
   // 查找
   findById(id: string): Item;
-  findAllByState(type: ItemType, state: string): Item[];
+  findAllByState<T = Item>(type: ItemType, state: string): T[];
 
   // 其它
   get(key: string): any;
   set(key: string, val: any): void;
+}
+
+/**
+ * G6 树图载体
+ * @see https://www.yuque.com/antv/g6/treegraph
+ */
+export interface TreeGraph {
+  // 实例方法
+  addChild(model: MindNodeModel, parent: Node | string): void;
+  removeChild(id: string): void;
+  updateChild(model: MindNodeModel, parent?: string): void;
 }
 
 /**
@@ -146,6 +161,9 @@ export interface Item {
   clearStates(states: string | string[]): void;
   getStates(): string[];
   hasState(state: string): boolean;
+
+  // 其它
+  get(key: string): any;
 }
 
 /**
@@ -244,11 +262,11 @@ export interface CustomBehavior {
 
 export interface GraphEvent {}
 
-export interface Command<T = object> {
+export interface Command<P = object> {
   /** 命令名称 */
   name: string;
   /** 命令参数 */
-  params: T;
+  params: P;
   /** 是否可以执行 */
   canExecute(graph: Graph): boolean;
   /** 是否可以撤销 */
