@@ -1,18 +1,32 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import Editor from '@components/Base/Editor';
-import { CONTEXT_MENU_CONTAINER } from '@common/constants';
-import withGGEditorContext from '@common/context/GGEditorContext/withGGEditorContext';
 import Menu from './Menu';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
+import { ContextMenuState } from '@common/constants';
 
-class ContextMenu extends React.Component {
+interface ContextMenuProps extends EditorPrivateContextProps {}
+
+class ContextMenu extends React.Component<ContextMenuProps> {
   componentDidMount(): void {}
+
+  getContextMenuStyle = () => {
+    const { contextMenuState } = this.props;
+
+    return {
+      position: 'absolute',
+      top: '10',
+      minWidth: '50px',
+      minHeight: '10px',
+      backgroundColor: '#000',
+      display: contextMenuState === ContextMenuState.Show ? 'block' : 'none',
+    };
+  };
 
   render() {
     const { children } = this.props;
 
     return (
-      <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>
+      <div {...pick(this.props, ['style', 'className'])} style={this.getContextMenuStyle()}>
         {children}
       </div>
     );
@@ -25,4 +39,4 @@ export const GroupMenu = Menu.create('group');
 export const MultiMenu = Menu.create('multi');
 export const CanvasMenu = Menu.create('canvas');
 
-export default withGGEditorContext(ContextMenu);
+export default withEditorPrivateContext<ContextMenuProps>(ContextMenu);
