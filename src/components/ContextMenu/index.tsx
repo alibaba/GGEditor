@@ -14,10 +14,8 @@ class ContextMenu extends React.Component<ContextMenuProps> {
 
     return {
       position: 'absolute',
-      top: '10',
       minWidth: '50px',
       minHeight: '10px',
-      backgroundColor: '#000',
       display: contextMenuState === ContextMenuState.Show ? 'block' : 'none',
     };
   };

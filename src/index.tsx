@@ -17,6 +17,7 @@ export {
   ItemPanel,
   NodePanel,
   MultiPanel,
+  CanvasMenu,
   ContextMenu,
   CanvasPanel,
   RegisterNode,
