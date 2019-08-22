@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
+import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@utils';
 import { ItemState } from '@common/constants';
 import { Item, CustomBehavior } from '@common/interface';
-import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@utils';
 
 interface ClickItemBehavior extends CustomBehavior {
   /** 是否支持多选 */
