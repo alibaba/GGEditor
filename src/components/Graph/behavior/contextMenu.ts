@@ -12,15 +12,15 @@ interface ContextMenuBehavior extends CustomBehavior {
   /** 处理节点右击 */
   handleNodeContextMenu(e: ContextMenuEvent): void;
 
-  /** 处理画布点击 */
-  handleCanvasClick(): void;
+  /** 处理画布鼠标落下 */
+  handleCanvasMousedown(): void;
 }
 
 const contextMenuBehavior = {
   getEvents() {
     return {
       'node:contextmenu': 'handleNodeContextMenu',
-      'canvas:click': 'handleCanvasClick',
+      'canvas:mousedown': 'handleCanvasMousedown',
     };
   },
 
@@ -45,7 +45,7 @@ const contextMenuBehavior = {
     this.showContextMenu(e);
   },
 
-  handleCanvasClick() {
+  handleCanvasMousedown() {
     this.hideContextMenu();
   },
 } as ContextMenuBehavior;
