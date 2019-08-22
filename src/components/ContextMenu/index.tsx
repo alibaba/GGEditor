@@ -10,12 +10,14 @@ class ContextMenu extends React.Component<ContextMenuProps> {
   componentDidMount(): void {}
 
   getContextMenuStyle = () => {
-    const { contextMenuState } = this.props;
+    const { contextMenuState, contextMenuX, contextMenuY } = this.props;
 
     return {
       position: 'absolute',
       minWidth: '50px',
       minHeight: '10px',
+      left: `${contextMenuX}px`,
+      top: `${contextMenuY}px`,
       display: contextMenuState === ContextMenuState.Show ? 'block' : 'none',
     };
   };
