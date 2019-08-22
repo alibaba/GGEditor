@@ -269,11 +269,31 @@ export interface CommandEvent {
   params: object;
 }
 
+/**
+ * 被封装过的鼠标触发的事件对象
+ * */
+export interface GMouseEvent {
+  bubbles: boolean;
+  cancelable: boolean;
+  canvasX: number;
+  canvasY: number;
+  clientX: number;
+  clientY: number;
+  /** 原生鼠标事件 */
+  event: MouseEvent;
+  item: Item;
+  target: Shape;
+  timeStamp: number;
+  type: string;
+  x: number;
+  y: number;
+}
+
 export interface LabelStateEvent {
   labelState: LabelState;
 }
 
-export interface ContextMenuEvent {
+export interface ContextMenuEvent extends GMouseEvent {
   contextMenuState: ContextMenuState;
 }
 

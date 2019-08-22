@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { ContextMenuState, EditorEvent } from '@common/constants';
-import { CustomBehavior } from '@common/interface';
+import { ContextMenuEvent, CustomBehavior } from '@common/interface';
 
 interface ContextMenuBehavior extends CustomBehavior {
   /** 显示右键菜单 */
@@ -10,7 +10,7 @@ interface ContextMenuBehavior extends CustomBehavior {
   hideContextMenu(): void;
 
   /** 处理节点右击 */
-  handleNodeContextMenu(): void;
+  handleNodeContextMenu(e: ContextMenuEvent): void;
 
   /** 处理画布点击 */
   handleCanvasClick(): void;
@@ -40,7 +40,7 @@ const contextMenuBehavior = {
     });
   },
 
-  handleNodeContextMenu() {
+  handleNodeContextMenu(e) {
     this.showContextMenu();
   },
 
