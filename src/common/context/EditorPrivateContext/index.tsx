@@ -12,6 +12,8 @@ export interface EditorPrivateContextProps {
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
   contextMenuState: ContextMenuState;
+  contextMenuX: number;
+  contextMenuY: number;
   setContextMenuState: (contextMenuState: ContextMenuState) => void;
 }
 

@@ -30,6 +30,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
       setContextMenuState: this.setContextMenuState,
+      contextMenuX: 0,
+      contextMenuY: 0,
     };
   }
 
@@ -53,13 +55,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
       this.setLabelState(labelState);
     });
-    addListener<EventHandle<ContextMenuEvent>>(graph, EditorEvent.onContextMenuStateChange, ({ contextMenuState }) => {
-      if (contextMenuState === this.state.contextMenuState) {
-        return;
-      }
-
-      this.setContextMenuState(contextMenuState);
-    });
+    addListener<EventHandle<ContextMenuEvent>>(
+      graph,
+      EditorEvent.onContextMenuStateChange,
+      ({ contextMenuState, clientX, clientY }) => {
+        this.setContextMenuState({ contextMenuState, clientX, clientY });
+      },
+    );
   }
 
   bindShortcut(graph) {
@@ -114,9 +116,11 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   };
 
-  setContextMenuState = contextMenuState => {
+  setContextMenuState = ({ contextMenuState, clientX, clientY }) => {
     this.setState({
       contextMenuState,
+      contextMenuY: clientY,
+      contextMenuX: clientX,
     });
   };
 

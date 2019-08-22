@@ -4,7 +4,7 @@ import { ContextMenuEvent, CustomBehavior } from '@common/interface';
 
 interface ContextMenuBehavior extends CustomBehavior {
   /** 显示右键菜单 */
-  showContextMenu(): void;
+  showContextMenu(e: ContextMenuEvent): void;
 
   /** 隐藏右键菜单 */
   hideContextMenu(): void;
@@ -24,11 +24,12 @@ const contextMenuBehavior = {
     };
   },
 
-  showContextMenu() {
+  showContextMenu(e) {
     const { graph } = this;
 
     graph.emit(EditorEvent.onContextMenuStateChange, {
       contextMenuState: ContextMenuState.Show,
+      ...e,
     });
   },
 
@@ -41,7 +42,7 @@ const contextMenuBehavior = {
   },
 
   handleNodeContextMenu(e) {
-    this.showContextMenu();
+    this.showContextMenu(e);
   },
 
   handleCanvasClick() {
