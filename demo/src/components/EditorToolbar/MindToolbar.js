@@ -17,8 +17,8 @@ const MindToolbar = () => {
       <Button command="topic" icon="append" />
       <Button command="subtopic" icon="append-child" />
       <Divider type="vertical" />
-      {/* <Button command="collapse" text="Fold" /> */}
-      {/* <Button command="expand" text="Unfold" /> */}
+      <Button command="fold" icon="collapse" text="Fold" />
+      <Button command="unfold" icon="expand" text="Unfold" />
     </div>
   );
 };
