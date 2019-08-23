@@ -2,7 +2,7 @@ import G6 from '@antv/g6';
 import { simplifyPolyline, getPolylinePoints, getPathWithBorderRadiusByPolyline } from './polyline';
 
 G6.registerEdge(
-  'polyline-round',
+  'polylineRound',
   {
     offset: 10,
     borderRadius: 9,

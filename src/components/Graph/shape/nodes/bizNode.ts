@@ -166,7 +166,7 @@ export const bizOption: BizNode = {
 
   adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any; appendix: Shape; model: NodeModel }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-
+    if (!model) return;
     if (model.x < 0) {
       appendix.attr('x', -keyShapeWidth / 2 + 1);
       appendix.attr('y', -keyShapeHeight / 2 + 1);
@@ -196,14 +196,13 @@ export const bizOption: BizNode = {
 
   adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-
+    if (!model) return;
     // keyShape has stroke with 1 width, so make wrapper's height plus 1
     wrapper.attr('height', keyShapeHeight + 1);
 
     wrapper.attr('width', keyShapeWidth);
 
     wrapper.attr('y', -wrapper.attr('height') / 2);
-
     if (model.x < 0) {
       wrapper.attr('x', -keyShapeWidth / 2 + 4);
     } else {

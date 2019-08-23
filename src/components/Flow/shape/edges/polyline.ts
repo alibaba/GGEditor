@@ -1,10 +1,13 @@
-import G6 from '@antv/g6';
-import globalStyle from '../common/globalStyle';
-const { edgeStyle } = globalStyle;
 /**
  * @fileOverview auto polyline
  * @author huangtonger@aliyun.com
  */
+import G6 from '@antv/g6';
+import drawArrow from './arrow';
+import drawLabel from './label';
+import drawActivedEdges from './activedEdge';
+import globalStyle from '../../common/globalStyle';
+const { edgeStyle } = globalStyle;
 
 function isHorizontalPort(port, bbox) {
   const dx = Math.abs(port.x - bbox.centerX);
@@ -25,7 +28,7 @@ function pointsToPolygon(points) {
  * BBox Utils
  * BBox:
  * { centerX, centerY, height, maxX, maxY, minX, minY, width }
- * */
+ **/
 
 function mergeBBox(b1, b2) {
   const minX = Math.min(b1.minX, b2.minX);
@@ -46,8 +49,8 @@ function mergeBBox(b1, b2) {
 
 function isBBoxesOverlapping(b1, b2) {
   return (
-    Math.abs(b1.centerX - b2.centerX) * 2 < b1.width + b2.width
-    && Math.abs(b1.centerY - b2.centerY) * 2 < b1.height + b2.height
+    Math.abs(b1.centerX - b2.centerX) * 2 < b1.width + b2.width &&
+    Math.abs(b1.centerY - b2.centerY) * 2 < b1.height + b2.height
   );
 }
 
@@ -68,7 +71,7 @@ function getBBoxFromPoint(point) {
 function getBBoxFromPoints(points = []) {
   const xs = [];
   const ys = [];
-  points.forEach((p) => {
+  points.forEach(p => {
     xs.push(p.x);
     ys.push(p.y);
   });
@@ -167,10 +170,10 @@ function isSegmentCrossingBBox(p1, p2, bbox) {
   if (bbox.height === 0 && bbox.width === 0) return false;
   const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
   return (
-    isSegmentsIntersected(p1, p2, pa, pb)
-    || isSegmentsIntersected(p1, p2, pa, pd)
-    || isSegmentsIntersected(p1, p2, pb, pc)
-    || isSegmentsIntersected(p1, p2, pc, pd)
+    isSegmentsIntersected(p1, p2, pa, pb) ||
+    isSegmentsIntersected(p1, p2, pa, pd) ||
+    isSegmentsIntersected(p1, p2, pb, pc) ||
+    isSegmentsIntersected(p1, p2, pc, pd)
   );
 }
 
@@ -180,12 +183,7 @@ function filterHVPoints(points) {
     const point = points[index];
     const next = points[index + 1];
     const last = points[index - 1];
-    if (
-      next
-      && last
-      && ((next.x === point.x && last.x === point.x)
-        || (next.y === point.y && last.y === point.y))
-    ) {
+    if (next && last && ((next.x === point.x && last.x === point.x) || (next.y === point.y && last.y === point.y))) {
       continue;
     }
     rst.push(point);
@@ -197,7 +195,7 @@ function filterHVPoints(points) {
  * Polyline Utils
  * Polyline:
  * [ p1, p2, p3, ..., pn ]
- * */
+ **/
 
 function simplifyPolyline(points) {
   points = filterConnectPoints(points);
@@ -213,7 +211,7 @@ function filterConnectPoints(points) {
   // pre-process: remove duplicated points
   const result = [];
   const pointsMap = {};
-  points.forEach((p) => {
+  points.forEach(p => {
     const id = (p.id = `${p.x}-${p.y}`);
     pointsMap[id] = p;
   });
@@ -231,7 +229,7 @@ function distance(p1, p2) {
 function _costByPoints(p, points) {
   const offset = -2;
   let result = 0;
-  points.forEach((point) => {
+  points.forEach(point => {
     if (point) {
       if (p.x === point.x) result += offset;
       if (p.y === point.y) result += offset;
@@ -252,13 +250,10 @@ function removeFrom(arr, item) {
 
 function getNeighborPoints(points, point, bbox1, bbox2) {
   const neighbors = [];
-  points.forEach((p) => {
+  points.forEach(p => {
     if (p !== point) {
       if (p.x === point.x || p.y === point.y) {
-        if (
-          !isSegmentCrossingBBox(p, point, bbox1)
-          && !isSegmentCrossingBBox(p, point, bbox2)
-        ) {
+        if (!isSegmentCrossingBBox(p, point, bbox1) && !isSegmentCrossingBBox(p, point, bbox2)) {
           neighbors.push(p);
         }
       }
@@ -287,14 +282,14 @@ function pathFinder(points, start, goal, sBBox, tBBox, os, ot) {
   fScore[start.id] = heuristicCostEstimate(start, goal, start);
 
   const pointById = {};
-  points.forEach((p) => {
+  points.forEach(p => {
     pointById[p.id] = p;
   });
 
   while (openSet.length) {
     let current;
     let lowestFScore = Infinity;
-    openSet.forEach((p) => {
+    openSet.forEach(p => {
       if (fScore[p.id] < lowestFScore) {
         lowestFScore = fScore[p.id];
         current = p;
@@ -311,7 +306,7 @@ function pathFinder(points, start, goal, sBBox, tBBox, os, ot) {
     removeFrom(openSet, current);
     closedSet.push(current);
 
-    getNeighborPoints(points, current, sBBox, tBBox).forEach((neighbor) => {
+    getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
       if (closedSet.indexOf(neighbor) !== -1) return;
 
       if (openSet.indexOf(neighbor) === -1) {
@@ -359,17 +354,17 @@ function getPolylinePoints(start, end, sNode, tNode, offset) {
     getPointsFromBBox(tMixBBox), // .filter(p => !isPointIntersectBBox(p, sxBBox))
   );
   const centerPoint = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
-  [lineBBox, sMixBBox, tMixBBox].forEach((bbox) => {
+  [lineBBox, sMixBBox, tMixBBox].forEach(bbox => {
     connectPoints = connectPoints.concat(
       getBBoxCrossPointsByPoint(bbox, centerPoint).filter(
         p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox),
       ),
     );
   });
-  [{ x: sPoint.x, y: tPoint.y }, { x: tPoint.x, y: sPoint.y }].forEach((p) => {
+  [{ x: sPoint.x, y: tPoint.y }, { x: tPoint.x, y: sPoint.y }].forEach(p => {
     if (
-      isPointOutsideBBox(p, sxBBox)
-      && isPointOutsideBBox(p, txBBox) // &&
+      isPointOutsideBBox(p, sxBBox) &&
+      isPointOutsideBBox(p, txBBox) // &&
       // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
     ) {
       connectPoints.push(p);
@@ -435,14 +430,16 @@ function getPathWithBorderRadiusByPolyline(points, borderRadius) {
 
 G6.registerEdge('polyline', {
   offset: 10,
-  draw(cfg, group) {
-    const path = this.getPath(cfg);
-    return group.addShape('path', {
-      attrs: {
-        path,
-        ...edgeStyle
-      }
+  draw(item, group) {
+    const path = this.getPath(item);
+    const keyShape = group.addShape('path', {
+      attrs: { path, ...edgeStyle },
     });
+    // 画箭头
+    keyShape.endArrow = drawArrow(item, group, keyShape, path);
+    // 画 Label
+    drawLabel(item, group, keyShape);
+    return keyShape;
   },
   getPath(item) {
     const points = [item.startPoint, item.endPoint];
@@ -451,16 +448,14 @@ G6.registerEdge('polyline', {
     return this.getPathByPoints(points, source, target);
   },
   getPathByPoints(points, source, target) {
-    const polylinePoints = getPolylinePoints(
-      points[0],
-      points[points.length - 1],
-      source,
-      target,
-      this.offset
-    );
+    const polylinePoints = getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset);
     // FIXME default
     return pointsToPolygon(polylinePoints);
-  }
+  },
+  setState(name, value, item) {
+    // 线条激活状态
+    drawActivedEdges.call(this, name, value, item);
+  },
 });
 
 export { simplifyPolyline, getPolylinePoints, getPathWithBorderRadiusByPolyline };

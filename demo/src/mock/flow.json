@@ -17,23 +17,9 @@
     {
       "x": 50,
       "y": 100,
-      "label": "flowNode",
+      "label": "test",
       "shape": "biz-flow-node",
       "id": "test"
-    },
-    {
-      "x": 500,
-      "y": 200,
-      "label": "flowNode",
-      "shape": "flowNode",
-      "id": "test2"
-    },
-    {
-      "x": 600,
-      "y": 400,
-      "label": "flowNode",
-      "shape": "flowNode",
-      "id": "test3"
     }
   ],
   "edges": []
