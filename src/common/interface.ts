@@ -98,6 +98,51 @@ export interface EdgeModel extends ItemModel {
   endPoint: { x: number; y: number };
 }
 
+export interface MindNodeModel extends NodeModel {
+  children?: MindNodeModel[];
+  collapsed?: boolean;
+}
+
+/**
+ * G6 图表载体
+ * @see https://www.yuque.com/antv/g6/graph
+ */
+export interface Graph extends EventEmitter {
+  // 更新
+  add(type: ItemType, model: NodeModel | EdgeModel): void;
+  addItem(type: ItemType, model: NodeModel | EdgeModel): void;
+  update(item: string | Item, model: object): void;
+  updateItem(item: string | Item, model: object): void;
+  remove(item: string | Item): void;
+  removeItem(item: string | Item): void;
+  paint(): void;
+  setAutoPaint(auto: boolean): void;
+
+  // 状态
+  setItemState(item: string | Item, state: string, enabled: boolean): void;
+
+  // 查找
+  findById(id: string): Item;
+  findAllByState<T = Item>(type: ItemType, state: string): T[];
+
+  // 其它
+  get(key: string): any;
+  set(key: string, val: any): void;
+}
+
+/**
+ * G6 树图载体
+ * @see https://www.yuque.com/antv/g6/treegraph
+ */
+export interface TreeGraph extends Graph {
+  // 实例方法
+  addChild(model: MindNodeModel, parent: Node | string): void;
+  removeChild(id: string): void;
+  updateChild(model: MindNodeModel, parent?: string): void;
+  findDataById(id: string, parent?: object): MindNodeModel;
+  refreshLayout(): TreeGraph;
+}
+
 /**
  * G6 绘图元素
  * @see https://www.yuque.com/antv/g6/item
@@ -107,7 +152,7 @@ export interface Item {
   getBBox(): BBox;
   getContainer(): Group;
   getKeyShape(): Shape;
-  getModel<T>(): T;
+  getModel<T = ItemModel>(): T;
   getType(): ItemType;
   getEdges(): Shape[];
   enableCapture(enable: boolean): void;
@@ -124,6 +169,9 @@ export interface Item {
   clearStates(states: string | string[]): void;
   getStates(): string[];
   hasState(state: string): boolean;
+
+  // 其它
+  get(key: string): any;
 }
 
 /**
@@ -133,6 +181,11 @@ export interface Item {
 export interface Node extends Item {
   // 通用
   getModel<T = NodeModel>(): T;
+
+  // 特有
+  getEdges(): Edge[];
+  getInEdges(): Edge[];
+  getOutEdges(): Edge[];
 }
 
 /**
@@ -204,30 +257,15 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
 }
 
 /**
- * G6 图表载体
- * @see https://www.yuque.com/antv/g6/graph
+ * G6 自定义行为
+ * @see https://www.yuque.com/antv/g6/behavior-api
  */
-export interface Graph extends EventEmitter {
-  // 更新
-  add(type: ItemType, model: NodeModel | EdgeModel): void;
-  addItem(type: ItemType, model: NodeModel | EdgeModel): void;
-  update(item: string | Item, model: object): void;
-  updateItem(item: string | Item, model: object): void;
-  remove(item: string | Item): void;
-  removeItem(item: string | Item): void;
-  paint(): void;
-  setAutoPaint(auto: boolean): void;
-
-  // 状态
-  setItemState(item: string | Item, state: string, enabled: boolean): void;
-
-  // 查找
-  findById(id: string): Item;
-  findAllByState(type: ItemType, state: string): Item[];
-
-  // 其它
-  get(key: string): any;
-  set(key: string, val: any): void;
+export interface CustomBehavior {
+  graph: Graph;
+  getEvents(): {
+    [propName in GraphNativeEvent]: string;
+  };
+  getDefaultCfg?(): object;
 }
 
 export interface GraphEvent {
@@ -251,11 +289,11 @@ export interface GraphEvent {
   which?: number;
 }
 
-export interface Command<T = object> {
+export interface Command<P = object> {
   /** 命令名称 */
   name: string;
   /** 命令参数 */
-  params: T;
+  params: P;
   /** 是否可以执行 */
   canExecute(graph: Graph): boolean;
   /** 是否可以撤销 */

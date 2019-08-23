@@ -11,8 +11,7 @@
       "x": 100,
       "y": 800,
       "label": "endNode",
-      "shape": "endNode",
-      "id": "endNode"
+      "shape": "endNode"
     },
     {
       "x": 50,
