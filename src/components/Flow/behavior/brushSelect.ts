@@ -23,19 +23,29 @@ G6.registerBehavior('brush-select', {
   },
   getEvents() {
     return {
+      keyup: 'onKeyUp',
+      keydown: 'onKeyDown',
       mousedown: 'onMouseDown',
       mousemove: 'onMouseMove',
       mouseup: 'onMouseUp',
       'canvas:click': 'clearStates',
     };
   },
+  onKeyUp(e) {
+    const SPACE = 32;
+    if (e.keyCode === SPACE) this.keyFlag = false;
+  },
+  onKeyDown(e) {
+    const SPACE = 32;
+    if (e.keyCode === SPACE) this.keyFlag = true;
+  },
   onMouseDown(e: GraphEvent) {
+    if (this.keyFlag) return;
     // 按在node上面拖动时候不应该是框选
     const { item } = e;
     if (item) {
       return;
     }
-
     if (this.selectedNodes && this.selectedNodes.length !== 0) {
       this.clearStates();
     }
