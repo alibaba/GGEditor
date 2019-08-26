@@ -2,9 +2,13 @@
  * @fileOverview smooth edges
  * @author leungwensen@gmail.com
  * @reference https://lark.alipay.com/antv/blog/an-approach-to-draw-smooth-cubic-bezier-curves-in-graphs
- * */
+ **/
+
+import drawArrow from './arrow';
+import drawLabel from './label';
+import globalStyle from '../../common/globalStyle';
+import drawActivedEdges from './activedEdge';
 import G6 from '@antv/g6';
-import globalStyle from '../common/globalStyle';
 
 const { edgeStyle } = globalStyle;
 
@@ -85,14 +89,9 @@ function _getStraightOffsetPoint(start, end) {
 }
 
 function getCubicControlPoints(from, to, source, target) {
-  // algorithm: https://lark.alipay.com/antv/blog/an-approach-to-draw-smooth-cubic-bezier-curves-in-graphs
   return [
-    source && source.getBBox()
-      ? _getOffsetPoint(source, from, to, target)
-      : _getStraightOffsetPoint(from, to),
-    target && target.getBBox()
-      ? _getOffsetPoint(target, to, from, source)
-      : _getStraightOffsetPoint(to, from),
+    source && source.getBBox() ? _getOffsetPoint(source, from, to, target) : _getStraightOffsetPoint(from, to),
+    target && target.getBBox() ? _getOffsetPoint(target, to, from, source) : _getStraightOffsetPoint(to, from),
   ];
 }
 
@@ -102,7 +101,7 @@ function getCubicControlPoints(from, to, source, target) {
  * @param {Node}     source source node
  * @param {Node}     target target node
  * @return {array}   path   path segments
- * */
+ **/
 function getCubicBezierCurve(points, source, target) {
   const start = points[0];
   const end = points[points.length - 1];
@@ -117,23 +116,26 @@ function getCubicBezierCurve(points, source, target) {
   path.push(sub);
   return path;
 }
-
-G6.registerEdge(
-  'flowSmooth',
-  {
-    draw(cfg, group) {
-      const path = this.getPath(cfg);
-      return group.addShape('path', {
-        attrs: { path, ...edgeStyle },
-      });
-    },
-    getPath(item) {
-      const points = [item.startPoint, item.endPoint];
-      const source = item.sourceNode;
-      const target = item.targetNode;
-      return getCubicBezierCurve(points, source, target);
-    },
+G6.registerEdge('flowSmooth', {
+  draw(item, group) {
+    const path = this.getPath(item);
+    // 绘制线条
+    const keyShape = group.addShape('path', {
+      attrs: { path, ...edgeStyle },
+    });
+    // 绘上箭头
+    keyShape.endArrow = drawArrow(item, group, keyShape, path);
+    drawLabel(item, group, keyShape);
+    return keyShape;
   },
-);
-
-
+  getPath(item) {
+    const points = [item.startPoint, item.endPoint];
+    const source = item.sourceNode;
+    const target = item.targetNode;
+    return getCubicBezierCurve(points, source, target);
+  },
+  setState(name, value, item) {
+    // 线条激活状态
+    drawActivedEdges.call(this, name, value, item);
+  },
+});

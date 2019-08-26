@@ -39,11 +39,15 @@ export interface Shape {
   get(name: string): any;
   set(name: string, value: any): any;
   getBBox(): BBox;
+  getKeyShape(): Shape;
+  getModel(): any;
   show(): void;
   hide(): void;
   remove(): void;
   destroy(): void;
   translate(x: number, y: number): void;
+  updatePosition(p: { x: number; y: number }): void;
+  hasState(state: string): boolean;
 }
 
 /**
@@ -150,6 +154,7 @@ export interface Item {
   getKeyShape(): Shape;
   getModel<T = ItemModel>(): T;
   getType(): ItemType;
+  getEdges(): Shape[];
   enableCapture(enable: boolean): void;
   clearCache(): void;
 
@@ -263,7 +268,26 @@ export interface CustomBehavior {
   getDefaultCfg?(): object;
 }
 
-export interface GraphEvent {}
+export interface GraphEvent {
+  x: number;
+  y: number;
+  canvasX: number;
+  canvasY: number;
+  clientX: number;
+  clientY: number;
+  event: MouseEvent;
+  target: Shape;
+  type: string;
+  CurrentTarget: object;
+  item: Shape;
+  removed: boolean;
+  timeStamp: number;
+  bubbles: boolean;
+  defaultPrevented: boolean;
+  cancelable: boolean;
+  keyCode?: number;
+  which?: number;
+}
 
 export interface Command<P = object> {
   /** 命令名称 */
