@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ShapeClassName } from '@common/constants';
+import { GraphEvent } from '@common/interface';
 
 G6.registerBehavior('hover-anchor', {
   getEvents() {
@@ -8,21 +8,21 @@ G6.registerBehavior('hover-anchor', {
       mouseleave: 'onLeaveAnchor',
     };
   },
-  shouldBegin(ev) {
+  shouldBegin(ev: GraphEvent) {
     const { target } = ev;
     const targetName = target.get('className');
     // 如果点击的不是锚点就结束
-    if (targetName === ShapeClassName.Anchor) return true;
+    if (targetName === 'anchor') return true;
     return false;
   },
-  onEnterAnchor(e) {
+  onEnterAnchor(e: GraphEvent) {
     if (!this.shouldBegin(e)) return;
     const graph = this.graph;
     const node = e.item;
     const { target } = e;
     graph.setItemState(node, 'activeAnchor', target);
   },
-  onLeaveAnchor(e) {
+  onLeaveAnchor(e: GraphEvent) {
     if (!this.shouldBegin(e)) return;
     const graph = this.graph;
     const node = e.item;
