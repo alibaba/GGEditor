@@ -28,6 +28,15 @@ export default {
     strokeOpacity: 0.92,
     lineWidth: 1,
     lineAppendWidth: 8,
+    lineDash: [0, 0],
+  },
+  // 线条拖拽样式
+  edgeDragStyle: {
+    stroke: '#ff9800',
+    strokeOpacity: 0.92,
+    lineWidth: 1,
+    lineAppendWidth: 8,
+    lineDash: [5, 5],
   },
   // 鼠标悬浮边
   edgeActivedStyle: {
