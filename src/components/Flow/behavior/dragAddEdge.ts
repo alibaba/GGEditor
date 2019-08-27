@@ -59,7 +59,7 @@ G6.registerBehavior('drag-add-edge', {
   onMousemove(ev: GraphEvent) {
     if (this.addingEdge && this.edge) {
       const point = { x: ev.x, y: ev.y };
-      this.graph.setItemState(this.edge, 'drag', true);
+      !this.edge.hasState('drag') && this.graph.setItemState(this.edge, 'drag', true);
       if (this.isAnchor(ev) && this.notThis(ev)) {
         const node = ev.item;
         const model = node.getModel();
@@ -67,9 +67,9 @@ G6.registerBehavior('drag-add-edge', {
           targetAnchor: ev.target.get('index'),
           target: model.id,
         });
-        this.graph.setItemState(this.edge, 'onAnchor', true);
+        !this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', true);
       } else {
-        this.graph.setItemState(this.edge, 'onAnchor', false);
+        this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', false);
         this.graph.updateItem(this.edge, {
           target: point,
         });
