@@ -7,6 +7,7 @@ import Graph from '@components/Graph';
 
 import './shape';
 import './behavior';
+import { GraphEvent } from '@common/interface';
 
 interface FlowProps extends EditorPrivateContextProps {}
 
@@ -19,9 +20,8 @@ class Flow extends React.Component<FlowProps, FlowState> {
     this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
   }
 
-  canDragCanvas = () => {
+  canDragCanvas = (e: GraphEvent) => {
     const { labelState } = this.props;
-
     return labelState === LabelState.Hide;
   };
 
@@ -51,19 +51,12 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   initGraph = ({ width, height }) => {
     const { containerId } = this;
-
     this.graph = new G6.Graph({
       container: containerId,
       width,
       height,
       modes: {
         default: [
-          {
-            type: 'drag-canvas',
-            shouldBegin: this.canDragCanvas,
-            shouldUpdate: this.canDragCanvas,
-            shouldEnd: this.canDragCanvas,
-          },
           {
             type: 'zoom-canvas',
             shouldUpdate: this.canZoomCanvas,
@@ -75,6 +68,13 @@ class Flow extends React.Component<FlowProps, FlowState> {
           'drag-node',
           'hover-anchor',
           'hover-node',
+          'brush-select',
+          {
+            type: 'drag-canvas',
+            shouldBegin: this.canDragCanvas,
+            shouldUpdate: this.canDragCanvas,
+            shouldEnd: this.canDragCanvas,
+          },
         ],
       },
     });

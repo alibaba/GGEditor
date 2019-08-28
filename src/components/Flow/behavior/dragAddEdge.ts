@@ -11,6 +11,18 @@ G6.registerBehavior('drag-add-edge', {
       mouseup: 'onMouseup',
     };
   },
+  isAnchor(ev: GraphEvent) {
+    const { target } = ev;
+    const targetName = target.get('className');
+    if (targetName == 'anchor') return true;
+    else return false;
+  },
+  notThis(ev: GraphEvent) {
+    const node = ev.item;
+    const model = node.getModel();
+    if (this.edge.getSource().get('id') === model.id) return false;
+    return true;
+  },
   shouldBegin(ev: GraphEvent) {
     const { target } = ev;
     const targetName = target.get('className');
@@ -45,10 +57,23 @@ G6.registerBehavior('drag-add-edge', {
     }
   },
   onMousemove(ev: GraphEvent) {
-    const point = { x: ev.x, y: ev.y };
     if (this.addingEdge && this.edge) {
-      // 增加边的过程中，移动时边跟着移动
-      this.graph.updateItem(this.edge, { target: point });
+      const point = { x: ev.x, y: ev.y };
+      !this.edge.hasState('drag') && this.graph.setItemState(this.edge, 'drag', true);
+      if (this.isAnchor(ev) && this.notThis(ev)) {
+        const node = ev.item;
+        const model = node.getModel();
+        this.graph.updateItem(this.edge, {
+          targetAnchor: ev.target.get('index'),
+          target: model.id,
+        });
+        !this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', true);
+      } else {
+        this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', false);
+        this.graph.updateItem(this.edge, {
+          target: point,
+        });
+      }
     }
   },
   onMouseup(ev: GraphEvent) {
@@ -76,18 +101,19 @@ G6.registerBehavior('drag-add-edge', {
       if (this.edge && this.addingEdge) removEdge();
       return;
     }
-
     const model = node.getModel();
     if (this.addingEdge && this.edge) {
       // 禁止自己连自己
-      if (this.edge.getSource().get('id') === model.id) {
+      if (!this.notThis(ev)) {
         removEdge();
         return;
       }
+      this.graph.setItemState(this.edge, 'drag', false);
       graph.updateItem(this.edge, {
         targetAnchor: ev.target.get('index'),
         target: model.id,
       });
+      graph.emit('cus_edge:add', this.edge);
       this.edge = null;
       this.addingEdge = false;
       hideAnchors();
