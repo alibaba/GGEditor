@@ -21,7 +21,9 @@ declare module '@antv/g6' {
     | 'canvas:click'
     | 'edge:mouseenter'
     | 'edge:mouseleave'
-    | 'node:drag';
+    | 'node:drag'
+    | 'keyup'
+    | 'keydown';
 
   type Item = Shape;
 

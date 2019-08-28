@@ -112,6 +112,7 @@ function drawAnchor(model, group) {
           ...anchorHotsoptStyle,
           ...(attrs[keyShape.baseType] || attrs['flowNode']),
         },
+        index,
         zIndex: zIndex.anchorHotsopt,
       });
 
