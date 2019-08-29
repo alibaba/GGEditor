@@ -2,6 +2,7 @@ import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import { addListener } from '@utils';
+import Global from '@common/Global';
 import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '@common/constants';
 import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
 import commandManager from '@common/commandManager';
@@ -16,6 +17,10 @@ interface GGEditorProps {
 interface GGEditorState extends EditorPrivateContextProps {}
 
 class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
+  static setTrackable(trackable: boolean) {
+    Global.setTrackable(trackable);
+  }
+
   constructor(props: GGEditorProps) {
     super(props);
 

@@ -7,6 +7,12 @@ export function uuid() {
   return uuidv4().replace(/-/g, '');
 }
 
+/** 拼接查询字符 */
+export const toQueryString = (obj: object) =>
+  Object.keys(obj)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+    .join('&');
+
 /** 添加事件监听 */
 export function addListener<T>(target: Graph, eventName: EditorEvent | GraphNativeEvent, handler: T | undefined) {
   if (typeof handler === 'function') {

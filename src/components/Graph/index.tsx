@@ -1,7 +1,10 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { addListener, getSelectedNodes, getSelectedEdges } from '@utils';
+import { addListener, getSelectedNodes, getSelectedEdges, isMind } from '@utils';
+import { track } from '@helpers';
+import Global from '@common/Global';
 import {
+  GraphType,
   GraphState,
   EditorEvent,
   GraphCommonEvent,
@@ -89,12 +92,12 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     const { containerId, parseData, initGraph, setGraph } = this.props;
     const { clientWidth = 0, clientHeight = 0 } = document.getElementById(containerId) || {};
 
-    // Parse data
+    // 解析数据
     const data = { ...this.props.data };
 
     parseData(data);
 
-    // Init Graph
+    // 初始画布
     this.graph = initGraph(clientWidth, clientHeight);
 
     this.graph.data(data);
@@ -102,6 +105,13 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     this.graph.fitView();
 
     setGraph(this.graph);
+
+    // 发送埋点
+    if (Global.getTrackable()) {
+      const graphType = isMind(this.graph) ? GraphType.Mind : GraphType.Flow;
+
+      track(graphType);
+    }
   }
 
   bindEvent() {

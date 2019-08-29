@@ -23,6 +23,11 @@ export enum ItemState {
   Selected = 'selected',
 }
 
+export enum GraphType {
+  Flow = 'Flow',
+  Mind = 'Mind',
+}
+
 export enum GraphState {
   NodeSelected = 'NodeSelected',
   EdgeSelected = 'EdgeSelected',
