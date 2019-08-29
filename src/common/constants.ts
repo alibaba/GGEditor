@@ -4,9 +4,6 @@ export const MIND_CONTAINER_ID = 'J_MindContainer';
 export const NODE_DEFAULT_LABEL = '新建节点';
 export const NODE_MAX_TEXT_LINE_WIDTH = 94;
 
-export const ITEM_TYPE_NODE = 'node';
-export const ITEM_TYPE_EDGE = 'edge';
-
 export enum ShapeClassName {
   Label = 'node-label',
   KeyShape = 'node-shape',
@@ -26,8 +23,14 @@ export enum ItemState {
   Selected = 'selected',
 }
 
+export enum GraphType {
+  Flow = 'Flow',
+  Mind = 'Mind',
+}
+
 export enum GraphState {
   NodeSelected = 'NodeSelected',
+  EdgeSelected = 'EdgeSelected',
   MultiSelected = 'MultiSelected',
   CanvasSelected = 'CanvasSelected',
 }
@@ -46,6 +49,8 @@ export enum EditorEvent {
   onBeforeLabelStateChange = 'onBeforeLabelStateChange',
   /** 改变标签状态之后触发 */
   onAfterLabelStateChange = 'onAfterLabelStateChange',
+  /** 改变右键菜单状态触发 */
+  onContextMenuStateChange = 'onContextMenuStateChange',
 }
 
 export enum EditorCommand {
@@ -53,10 +58,20 @@ export enum EditorCommand {
   Undo = 'undo',
   /** 重做 */
   Redo = 'redo',
+  /** 添加 */
+  Add = 'add',
+  /** 更新 */
+  Update = 'update',
+  /** 删除 */
+  Remove = 'remove',
   /** 插入主题 */
   Topic = 'topic',
   /** 插入子主题 */
   Subtopic = 'subtopic',
+  /** 收起 */
+  Fold = 'fold',
+  /** 展开 */
+  Unfold = 'unfold',
 }
 
 export enum GraphCommonEvent {

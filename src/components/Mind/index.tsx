@@ -5,8 +5,7 @@ import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
-import './shape/nodes/bizMindNode';
-import './shape/edges/bizMindEdge';
+import './shape';
 import './command';
 
 interface MindProps extends EditorPrivateContextProps {}
@@ -14,7 +13,9 @@ interface MindProps extends EditorPrivateContextProps {}
 interface MindState {}
 
 class Mind extends React.Component<MindProps, MindState> {
-  constructor(props) {
+  containerId: string;
+
+  constructor(props: MindProps) {
     super(props);
 
     this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
@@ -36,7 +37,7 @@ class Mind extends React.Component<MindProps, MindState> {
     return target && target.get('className') === ShapeClassName.CollapseExpandButton;
   };
 
-  parseData = ({ data }) => {
+  parseData = data => {
     recursiveTraversal(data, item => {
       const { id } = item;
 
@@ -48,7 +49,7 @@ class Mind extends React.Component<MindProps, MindState> {
     });
   };
 
-  initGraph = ({ width, height }) => {
+  initGraph = (width: number, height: number) => {
     const { containerId } = this;
 
     this.graph = new G6.TreeGraph({
@@ -74,6 +75,7 @@ class Mind extends React.Component<MindProps, MindState> {
           'click-item',
           'hover-item',
           'edit-label',
+          'context-menu',
           {
             type: 'collapse-expand',
             shouldBegin: this.canCollapseExpand,

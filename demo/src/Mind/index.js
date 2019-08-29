@@ -5,6 +5,7 @@ import { MindToolbar } from '../components/EditorToolbar';
 import { MindDetailPanel } from '../components/EditorDetailPanel';
 import data from '../mock/mind.json';
 import styles from '../Flow/index.less';
+import { MindContextMenu } from '../components/EditorContextMenu';
 
 const MindPage = () => {
   return (
@@ -22,6 +23,7 @@ const MindPage = () => {
           <MindDetailPanel />
         </Col>
       </Row>
+      <MindContextMenu />
     </GGEditor>
   );
 };
