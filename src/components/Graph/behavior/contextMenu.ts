@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { ContextMenuState, EditorEvent } from '@common/constants';
-import { ContextMenuEvent, CustomBehavior } from '@common/interface';
+import { EditorEvent } from '@common/constants';
+import { ContextMenuState, ContextMenuEvent, CustomBehavior } from '@common/interface';
 
 interface ContextMenuBehavior extends CustomBehavior {
   /** 显示右键菜单 */

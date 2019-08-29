@@ -5,7 +5,7 @@ import Command from '@components/Command';
 import ItemPanel, { Item } from '@components/ItemPanel';
 import { NodePanel, EdgePanel, MultiPanel, CanvasPanel } from '@components/DetailPanel';
 import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@components/Register';
-import ContextMenu, { NodeMenu, CanvasMenu, MultiMenu, GroupMenu, EdgeMenu } from '@components/ContextMenu';
+import ContextMenu, { NodeMenu } from '@components/ContextMenu';
 import { withEditorContext } from '@common/context/EditorContext';
 
 export {
@@ -13,12 +13,11 @@ export {
   Mind,
   Command,
   Item,
-  NodeMenu,
   ItemPanel,
   NodePanel,
   EdgePanel,
   MultiPanel,
-  CanvasMenu,
+  NodeMenu,
   ContextMenu,
   CanvasPanel,
   RegisterNode,

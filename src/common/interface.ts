@@ -329,6 +329,12 @@ export interface LabelStateEvent {
   labelState: LabelState;
 }
 
+export interface ContextMenuState {
+  visible: boolean;
+  clientX: number;
+  clientY: number;
+}
+
 export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
 }

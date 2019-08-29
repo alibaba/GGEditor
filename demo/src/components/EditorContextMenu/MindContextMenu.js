@@ -10,10 +10,6 @@ const MindContextMenu = () => {
         <MenuItem command="topic" text="Topic" />
         <MenuItem command="subtopic" icon="append-child" text="Subtopic" />
       </NodeMenu>
-      <CanvasMenu>
-        <MenuItem command="undo" />
-        <MenuItem command="redo" />
-      </CanvasMenu>
     </ContextMenu>
   );
 };

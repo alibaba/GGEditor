@@ -40,12 +40,6 @@ export enum LabelState {
   Show = 'Show',
 }
 
-export interface ContextMenuState {
-  visible: boolean;
-  clientX: number;
-  clientY: number;
-}
-
 export enum EditorEvent {
   /** 调用命令之前触发 */
   onBeforeExecuteCommand = 'onBeforeExecuteCommand',

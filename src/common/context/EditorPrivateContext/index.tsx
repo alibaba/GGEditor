@@ -1,6 +1,6 @@
 import React from 'react';
-import { ContextMenuState, GraphState, LabelState } from '@common/constants';
-import { Graph } from '@common/interface';
+import { GraphState, LabelState } from '@common/constants';
+import { ContextMenuEvent, ContextMenuState, Graph } from '@common/interface';
 
 export interface EditorPrivateContextProps {
   graph: Graph | null;
@@ -12,9 +12,7 @@ export interface EditorPrivateContextProps {
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
   contextMenuState: ContextMenuState;
-  contextMenuX: number;
-  contextMenuY: number;
-  setContextMenuState: (contextMenuState: ContextMenuState) => void;
+  setContextMenuState: (contextMenuEvent: ContextMenuEvent) => void;
 }
 
 const EditorPrivateContext = React.createContext({} as EditorPrivateContextProps);
