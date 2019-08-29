@@ -11,6 +11,7 @@ import {
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
+  ContextMenuState,
 } from '@common/constants';
 
 /**
@@ -326,6 +327,16 @@ export interface CommandEvent {
 
 export interface LabelStateEvent {
   labelState: LabelState;
+}
+
+export interface ContextMenuState {
+  visible: boolean;
+  clientX: number;
+  clientY: number;
+}
+
+export interface ContextMenuEvent {
+  contextMenuState: ContextMenuState;
 }
 
 export type EventHandle<T> = (e: T) => void;

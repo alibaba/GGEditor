@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import { addListener } from '@utils';
 import Global from '@common/Global';
 import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '@common/constants';
-import { Graph, CommandEvent, LabelStateEvent, EventHandle } from '@common/interface';
+import { Graph, CommandEvent, LabelStateEvent, EventHandle, ContextMenuEvent } from '@common/interface';
 import commandManager from '@common/commandManager';
 import EditorContext from '@common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
@@ -28,11 +28,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graph: null,
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
+      contextMenuState: { visible: false, clientX: 0, clientY: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
+      setContextMenuState: this.setContextMenuState,
     };
   }
 
@@ -56,6 +58,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
       this.setLabelState(labelState);
     });
+    addListener<EventHandle<ContextMenuEvent>>(
+      graph,
+      EditorEvent.onContextMenuStateChange,
+      (param: ContextMenuEvent) => {
+        this.setContextMenuState(param);
+      },
+    );
   }
 
   bindShortcut(graph: Graph) {
@@ -109,6 +118,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   setLabelState = (labelState: LabelState) => {
     this.setState({
       labelState,
+    });
+  };
+
+  setContextMenuState = (param: ContextMenuEvent) => {
+    const { contextMenuState } = param;
+    this.setState({
+      contextMenuState,
     });
   };
 
