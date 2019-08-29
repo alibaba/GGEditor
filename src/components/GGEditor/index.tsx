@@ -23,15 +23,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graph: null,
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
-      contextMenuState: ContextMenuState.Hide,
+      contextMenuState: { visible: false, clientX: 0, clientY: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
       setContextMenuState: this.setContextMenuState,
-      contextMenuX: 0,
-      contextMenuY: 0,
     };
   }
 
@@ -58,8 +56,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     addListener<EventHandle<ContextMenuEvent>>(
       graph,
       EditorEvent.onContextMenuStateChange,
-      ({ contextMenuState, clientX, clientY }) => {
-        this.setContextMenuState({ contextMenuState, clientX, clientY });
+      (param: ContextMenuEvent) => {
+        this.setContextMenuState(param);
       },
     );
   }
@@ -118,11 +116,10 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   };
 
-  setContextMenuState = ({ contextMenuState, clientX, clientY }) => {
+  setContextMenuState = (param: ContextMenuEvent) => {
+    const { contextMenuState } = param;
     this.setState({
       contextMenuState,
-      contextMenuY: clientY,
-      contextMenuX: clientX,
     });
   };
 

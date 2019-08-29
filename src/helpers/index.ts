@@ -1,11 +1,12 @@
 import Global from '@common/Global';
 import { toQueryString } from '@utils';
+import { GraphType } from '@common/constants';
 
 const BASE_URL = 'http://gm.mmstat.com/fsp.1.1';
 
-const track = (options) => {
-  const trackable = Global.get('trackable');
-  const version = Global.get('version');
+export function track(graphType: GraphType) {
+  const version = Global.getVersion();
+  const trackable = Global.getTrackable();
 
   if (!trackable) {
     return;
@@ -21,14 +22,8 @@ const track = (options) => {
     hash: location.hash,
     ua: navigator.userAgent,
     rel: version,
-    ...options,
+    c1: graphType,
   });
 
   image.src = `${BASE_URL}?${params}`;
-};
-
-export default (options) => {
-  setTimeout(() => {
-    track(options);
-  }, 1000);
-};
+}

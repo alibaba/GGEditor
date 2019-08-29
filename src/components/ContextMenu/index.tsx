@@ -2,7 +2,6 @@ import React from 'react';
 import pick from 'lodash/pick';
 import Menu from './Menu';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import { ContextMenuState } from '@common/constants';
 
 interface ContextMenuProps extends EditorPrivateContextProps {}
 
@@ -10,15 +9,15 @@ class ContextMenu extends React.Component<ContextMenuProps> {
   componentDidMount(): void {}
 
   getContextMenuStyle = () => {
-    const { contextMenuState, contextMenuX, contextMenuY } = this.props;
+    const { contextMenuState } = this.props;
 
     return {
       position: 'absolute',
       minWidth: '50px',
       minHeight: '10px',
-      left: `${contextMenuX}px`,
-      top: `${contextMenuY}px`,
-      display: contextMenuState === ContextMenuState.Show ? 'block' : 'none',
+      left: `${contextMenuState.clientX}px`,
+      top: `${contextMenuState.clientY}px`,
+      display: contextMenuState.visible ? 'block' : 'none',
     };
   };
 

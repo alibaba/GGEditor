@@ -109,6 +109,14 @@ export interface MindNodeModel extends NodeModel {
  * @see https://www.yuque.com/antv/g6/graph
  */
 export interface Graph extends EventEmitter {
+  // 加载
+  data(data: object): void;
+
+  // 渲染
+  render(): void;
+  read(data: object): void;
+  changeData(data: object): void;
+
   // 更新
   add(type: ItemType, model: NodeModel | EdgeModel): void;
   addItem(type: ItemType, model: NodeModel | EdgeModel): void;
@@ -118,6 +126,9 @@ export interface Graph extends EventEmitter {
   removeItem(item: string | Item): void;
   paint(): void;
   setAutoPaint(auto: boolean): void;
+
+  // 交互
+  fitView(padding?: number | number[]): void;
 
   // 状态
   setItemState(item: string | Item, state: string, enabled: boolean): void;
@@ -314,31 +325,11 @@ export interface CommandEvent {
   params: object;
 }
 
-/**
- * 被封装过的鼠标触发的事件对象
- * */
-export interface GMouseEvent {
-  bubbles: boolean;
-  cancelable: boolean;
-  canvasX: number;
-  canvasY: number;
-  clientX: number;
-  clientY: number;
-  /** 原生鼠标事件 */
-  event: MouseEvent;
-  item: Item;
-  target: Shape;
-  timeStamp: number;
-  type: string;
-  x: number;
-  y: number;
-}
-
 export interface LabelStateEvent {
   labelState: LabelState;
 }
 
-export interface ContextMenuEvent extends GMouseEvent {
+export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
 }
 

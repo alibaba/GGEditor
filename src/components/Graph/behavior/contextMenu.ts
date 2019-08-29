@@ -28,8 +28,11 @@ const contextMenuBehavior = {
     const { graph } = this;
 
     graph.emit(EditorEvent.onContextMenuStateChange, {
-      contextMenuState: ContextMenuState.Show,
-      ...e,
+      contextMenuState: {
+        visible: true,
+        clientX: e.clientX,
+        clientY: e.clientY,
+      },
     });
   },
 
@@ -37,7 +40,11 @@ const contextMenuBehavior = {
     const { graph } = this;
 
     graph.emit(EditorEvent.onContextMenuStateChange, {
-      contextMenuState: ContextMenuState.Hide,
+      contextMenuState: {
+        visible: false,
+        clientX: 0,
+        clientY: 0,
+      },
     });
   },
 

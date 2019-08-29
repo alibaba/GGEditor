@@ -1,6 +1,7 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName, ITEM_TYPE_NODE, ItemState, LabelState } from '@common/constants';
+import { getSelectedNodes } from '@utils';
+import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName, LabelState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
 interface EditableLabelProps extends EditorPrivateContextProps {}
@@ -60,7 +61,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
   getSelectedNode = () => {
     const { graph } = this.props;
 
-    return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected)[0];
+    return getSelectedNodes(graph)[0];
   };
 
   getLabelOffset = ({ labelShape, selectedNode }) => {

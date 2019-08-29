@@ -14,14 +14,17 @@ interface FlowProps extends EditorPrivateContextProps {}
 interface FlowState {}
 
 class Flow extends React.Component<FlowProps, FlowState> {
-  constructor(props) {
+  containerId: string;
+
+  constructor(props: FlowProps) {
     super(props);
 
     this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
   }
 
-  canDragCanvas = (e: GraphEvent) => {
+  canDragCanvas = () => {
     const { labelState } = this.props;
+
     return labelState === LabelState.Hide;
   };
 
@@ -31,11 +34,11 @@ class Flow extends React.Component<FlowProps, FlowState> {
     return labelState === LabelState.Hide;
   };
 
-  canDragNode = ({ target }) => {
+  canDragNode = ({ target }: GraphEvent) => {
     return target && target.get('className') !== ShapeClassName.Anchor;
   };
 
-  parseData = ({ data }) => {
+  parseData = data => {
     const { nodes, edges } = data;
 
     [...nodes, ...edges].forEach(item => {
@@ -49,7 +52,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
     });
   };
 
-  initGraph = ({ width, height }) => {
+  initGraph = (width: number, height: number) => {
     const { containerId } = this;
     this.graph = new G6.Graph({
       container: containerId,

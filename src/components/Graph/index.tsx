@@ -1,12 +1,12 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { uuid, addListener } from '@utils';
+import { addListener, getSelectedNodes, getSelectedEdges, isMind } from '@utils';
+import { track } from '@helpers';
+import Global from '@common/Global';
 import {
-  ITEM_TYPE_NODE,
-  ItemState,
+  GraphType,
   GraphState,
   EditorEvent,
-  EditorCommand,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
@@ -14,6 +14,7 @@ import {
   GraphCustomEvent,
 } from '@common/constants';
 import {
+  Graph,
   GraphCommonEventProps,
   GraphNodeEventProps,
   GraphEdgeEventProps,
@@ -31,37 +32,57 @@ import EditableLabel from '@components/EditableLabel';
 import './command';
 import './behavior';
 
-interface GraphProps
+interface EditorGraphProps
   extends EditorPrivateContextProps,
     GraphCommonEventProps,
     GraphNodeEventProps,
     GraphEdgeEventProps,
     GraphCanvasEventProps,
-    GraphCustomEventProps {}
+    GraphCustomEventProps {
+  containerId: string;
+  data: any;
+  parseData(data: object): void;
+  initGraph(width: number, height: number): Graph;
+}
 
-class Graph extends React.Component<GraphProps> {
+interface EditorGraphState {}
+
+class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
+  graph: Graph | null;
+
+  constructor(props: EditorGraphProps) {
+    super(props);
+
+    this.graph = null;
+  }
+
   componentDidMount() {
     this.initGraph();
     this.bindEvent();
   }
 
   getGraphState = () => {
-    const selectedNodes = this.graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
+    const { graph } = this;
 
-    let graphState = '';
+    let graphState: GraphState = GraphState.CanvasSelected;
 
-    switch (selectedNodes.length) {
-      case 0:
-        graphState = GraphState.CanvasSelected;
-        break;
+    if (!graph) {
+      return graphState;
+    }
 
-      case 1:
-        graphState = `${GraphState.NodeSelected}_${uuid()}`;
-        break;
+    const selectedNodes = getSelectedNodes(graph);
+    const selectedEdges = getSelectedEdges(graph);
 
-      default:
-        graphState = `${GraphState.MultiSelected}_${uuid()}`;
-        break;
+    if (selectedNodes.length === 1 && !selectedEdges.length) {
+      graphState = GraphState.NodeSelected;
+    }
+
+    if (selectedEdges.length === 1 && !selectedNodes.length) {
+      graphState = GraphState.EdgeSelected;
+    }
+
+    if (selectedEdges.length && selectedEdges.length) {
+      graphState = GraphState.MultiSelected;
     }
 
     return graphState;
@@ -69,28 +90,36 @@ class Graph extends React.Component<GraphProps> {
 
   initGraph() {
     const { containerId, parseData, initGraph, setGraph } = this.props;
-    const { clientWidth, clientHeight } = document.getElementById(containerId);
+    const { clientWidth = 0, clientHeight = 0 } = document.getElementById(containerId) || {};
 
-    // Parse data
+    // 解析数据
     const data = { ...this.props.data };
 
-    parseData({ data });
+    parseData(data);
 
-    // Init Graph
-    this.graph = initGraph({
-      width: clientWidth,
-      height: clientHeight,
-    });
+    // 初始画布
+    this.graph = initGraph(clientWidth, clientHeight);
 
     this.graph.data(data);
     this.graph.render();
     this.graph.fitView();
 
     setGraph(this.graph);
+
+    // 发送埋点
+    if (Global.getTrackable()) {
+      const graphType = isMind(this.graph) ? GraphType.Mind : GraphType.Flow;
+
+      track(graphType);
+    }
   }
 
   bindEvent() {
     const { graph, props } = this;
+
+    if (!graph) {
+      return;
+    }
 
     const events: {
       [propName in GraphReactEvent]: GraphNativeEvent;
@@ -109,13 +138,15 @@ class Graph extends React.Component<GraphProps> {
     // Add listener for the selected status of the graph
     const { setGraphState } = this.props;
 
-    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, ({ name }) => {
-      if ([EditorCommand.Undo, EditorCommand.Redo, EditorCommand.Topic, EditorCommand.Subtopic].includes(name)) {
-        setGraphState(this.getGraphState());
-      }
+    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, () => {
+      setGraphState(this.getGraphState());
     });
 
     addListener<EventHandle<GraphEvent>>(graph, GraphNodeEvent.onNodeClick, () => {
+      setGraphState(this.getGraphState());
+    });
+
+    addListener<EventHandle<GraphEvent>>(graph, GraphEdgeEvent.onEdgeClick, () => {
       setGraphState(this.getGraphState());
     });
 
@@ -136,4 +167,4 @@ class Graph extends React.Component<GraphProps> {
   }
 }
 
-export default withEditorPrivateContext<GraphProps>(Graph);
+export default withEditorPrivateContext<EditorGraphProps>(EditorGraph);

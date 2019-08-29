@@ -3,18 +3,25 @@ import G6 from '@antv/g6';
 import upperFirst from 'lodash/upperFirst';
 import commandManager from '@common/commandManager';
 
-class Register extends React.Component {
-  static create = function (type) {
+interface RegisterProps {
+  name: string;
+  config: object;
+  extend?: string;
+}
+interface RegisterState {}
+
+class Register extends React.Component<RegisterProps, RegisterState> {
+  static create = function(type: string) {
     class TypedRegister extends Register {
-      constructor(props) {
+      constructor(props: RegisterProps) {
         super(props, type);
       }
     }
 
     return TypedRegister;
-  }
+  };
 
-  constructor(props, type) {
+  constructor(props: RegisterProps, type: string) {
     super(props);
 
     const { name, config, extend } = props;
@@ -23,7 +30,6 @@ class Register extends React.Component {
       commandManager.register({
         name,
         config,
-        extend,
       });
 
       return;
