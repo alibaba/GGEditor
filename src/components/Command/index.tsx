@@ -1,11 +1,13 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface CommandProps extends EditorPrivateContextProps {}
+interface CommandProps extends EditorPrivateContextProps {
+  name: string;
+}
 
 interface CommandState {}
 
-class Command extends React.PureComponent<CommandProps, CommandState> {
+class Command extends React.Component<CommandProps, CommandState> {
   state = {
     disabled: false,
   };

@@ -1,16 +1,17 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { ITEM_TYPE_NODE, ItemState, GraphState } from '@common/constants';
+import { getSelectedNodes, getSelectedEdges } from '@utils';
+import { GraphState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
 interface PanelProps extends EditorPrivateContextProps {}
 
 interface PanelState {}
 
-class Panel extends React.PureComponent<PanelProps, PanelState> {
-  static create = function(type) {
+class Panel extends React.Component<PanelProps, PanelState> {
+  static create = function(type: GraphState) {
     class TypedPanel extends Panel {
-      constructor(props) {
+      constructor(props: PanelProps) {
         super(props, type);
       }
     }
@@ -18,17 +19,13 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
     return withEditorPrivateContext<PanelProps>(TypedPanel);
   };
 
-  constructor(props, type) {
+  type: GraphState;
+
+  constructor(props: PanelProps, type: GraphState) {
     super(props);
 
     this.type = type;
   }
-
-  getSelectedNodes = () => {
-    const { graph } = this.props;
-
-    return graph.findAllByState(ITEM_TYPE_NODE, ItemState.Selected);
-  };
 
   render() {
     const { graph, graphState, children } = this.props;
@@ -37,7 +34,7 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
       return null;
     }
 
-    if (!graphState.startsWith(this.type)) {
+    if (graphState !== this.type) {
       return null;
     }
 
@@ -45,7 +42,8 @@ class Panel extends React.PureComponent<PanelProps, PanelState> {
       <div {...pick(this.props, ['style', 'className'])}>
         {React.Children.toArray(children).map(child =>
           React.cloneElement(child, {
-            nodes: this.getSelectedNodes(),
+            nodes: getSelectedNodes(graph),
+            edges: getSelectedEdges(graph),
           }),
         )}
       </div>

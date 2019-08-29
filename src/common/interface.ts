@@ -108,6 +108,14 @@ export interface MindNodeModel extends NodeModel {
  * @see https://www.yuque.com/antv/g6/graph
  */
 export interface Graph extends EventEmitter {
+  // 加载
+  data(data: object): void;
+
+  // 渲染
+  render(): void;
+  read(data: object): void;
+  changeData(data: object): void;
+
   // 更新
   add(type: ItemType, model: NodeModel | EdgeModel): void;
   addItem(type: ItemType, model: NodeModel | EdgeModel): void;
@@ -117,6 +125,9 @@ export interface Graph extends EventEmitter {
   removeItem(item: string | Item): void;
   paint(): void;
   setAutoPaint(auto: boolean): void;
+
+  // 交互
+  fitView(padding?: number | number[]): void;
 
   // 状态
   setItemState(item: string | Item, state: string, enabled: boolean): void;
