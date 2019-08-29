@@ -5,8 +5,7 @@ import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '@components/Graph';
 
-import './shape/nodes/bizMindNode';
-import './shape/edges/bizMindEdge';
+import './shape';
 import './command';
 
 interface MindProps extends EditorPrivateContextProps {}

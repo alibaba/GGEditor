@@ -4,19 +4,19 @@ import { getSelectedNodes, getSelectedEdges } from '@utils';
 import { GraphState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface PanelProps extends EditorPrivateContextProps {}
+interface DetailPanelProps extends EditorPrivateContextProps {}
 
-interface PanelState {}
+interface DetailPanelState {}
 
-class Panel extends React.Component<PanelProps, PanelState> {
+class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
   static create = function(type: GraphState) {
-    class TypedPanel extends Panel {
-      constructor(props: PanelProps) {
+    class TypedPanel extends DetailPanel {
+      constructor(props: DetailPanelProps) {
         super(props, type);
       }
     }
 
-    return withEditorPrivateContext<PanelProps>(TypedPanel);
+    return withEditorPrivateContext<DetailPanelProps>(TypedPanel);
   };
 
   type: GraphState;
@@ -51,6 +51,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
   }
 }
 
-export const NodePanel = Panel.create(GraphState.NodeSelected);
-export const MultiPanel = Panel.create(GraphState.MultiSelected);
-export const CanvasPanel = Panel.create(GraphState.CanvasSelected);
+export const NodePanel = DetailPanel.create(GraphState.NodeSelected);
+export const EdgePanel = DetailPanel.create(GraphState.EdgeSelected);
+export const MultiPanel = DetailPanel.create(GraphState.MultiSelected);
+export const CanvasPanel = DetailPanel.create(GraphState.CanvasSelected);
