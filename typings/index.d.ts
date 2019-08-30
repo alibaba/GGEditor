@@ -119,7 +119,7 @@ declare module 'gg-editor' {
     domX?: number
     domY?: number
     /** DOM 原生事件 */
-    domeEvent?: any
+    domEvent?: any
     /** drag 拖动图项 */
     currentIem?: any
     /** drag 拖动图形 */
