@@ -36,7 +36,6 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
 
   execute(graph) {
     const { id, updateModel } = this.params;
-    debugger;
     graph.updateItem(id, updateModel);
   },
 

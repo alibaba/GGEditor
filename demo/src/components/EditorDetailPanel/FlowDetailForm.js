@@ -15,7 +15,6 @@ export default withEditorContext(props => {
   const handleChange = (key, value) => {
     model[key] = value;
     setState({ ...model });
-    console.log(model);
     executeCommand('update', { id, updateModel: { ...model } });
   };
   return (
