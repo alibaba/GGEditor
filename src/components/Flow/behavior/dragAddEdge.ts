@@ -1,5 +1,7 @@
 import G6 from '@antv/g6';
 import { GraphEvent, Shape } from '@common/interface';
+import * as uuidv4 from 'uuid/v4';
+
 G6.registerBehavior('drag-add-edge', {
   getDefaultCfg() {
     return { edgeType: 'flowSmooth' };
@@ -47,6 +49,7 @@ G6.registerBehavior('drag-add-edge', {
     // 点击节点，触发增加边
     if (!this.addingEdge && !this.edge) {
       const item = {
+        id: uuidv4(),
         shape: edgeType,
         source: model.id,
         target: point,
