@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
-// import { FlowToolbar } from '../components/EditorToolbar';
+import { FlowToolbar } from '../components/EditorToolbar';
 // import { FlowDetailPanel } from '../components/EditorDetailPanel';
 import data from '../mock/flow.json';
 import styles from './index.less';
@@ -12,7 +12,7 @@ const FlowPage = () => {
     <GGEditor className={styles.editor}>
       <Row type="flex" className={styles.editorHd}>
         <Col span={24}>
-          {/* <FlowToolbar /> */}
+          <FlowToolbar />
         </Col>
       </Row>
       <Row type="flex" className={styles.editorBd}>
