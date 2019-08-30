@@ -29,7 +29,6 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
 
   render() {
     const { graph, graphState, children } = this.props;
-
     if (!graph) {
       return null;
     }

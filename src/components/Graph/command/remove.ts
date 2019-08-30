@@ -127,7 +127,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
     }
   },
 
-  shortcuts: ['Delete', 'Backspace'],
+  shortcuts: ['Delete'],
 };
 
 commandManager.register('remove', removeCommand);

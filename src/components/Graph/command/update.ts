@@ -19,8 +19,10 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
 
   canExecute(graph) {
     const selectedNodes = this.getSelectedNodes(graph);
-
-    return selectedNodes.length && selectedNodes.length === 1 ? true : false;
+    const selectedEdges = this.getSelectedEdges(graph);
+    return (selectedNodes.length || selectedEdges.length) && (selectedNodes.length === 1 || selectedEdges.length === 1)
+      ? true
+      : false;
   },
 
   init(graph) {
@@ -34,7 +36,7 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
 
   execute(graph) {
     const { id, updateModel } = this.params;
-
+    debugger;
     graph.updateItem(id, updateModel);
   },
 
