@@ -9,8 +9,9 @@
     "tree",
     "mind"
   ],
-  "main": "src/index.tsx",
-  "module": "src/index.tsx",
+  "main": "cjs/index.js",
+  "module": "es/index.js",
+  "types": "src/index.tsx",
   "files": [
     "src",
     "es",
@@ -24,8 +25,8 @@
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
     "watch": "webpack --config ./tools/webpack.config.dev.js --watch",
     "build": "node ./scripts/build.js",
-    "build:es": "rimraf ./es && babel ./src -d ./es",
-    "build:cjs": "rimraf ./cjs && babel ./src -d ./cjs --plugins @babel/plugin-transform-modules-commonjs",
+    "build:es": "rimraf ./es && babel ./src --out-dir ./es --extensions .ts,.tsx",
+    "build:cjs": "rimraf ./cjs && babel ./src --out-dir ./cjs --plugins @babel/plugin-transform-modules-commonjs --extensions .ts,.tsx",
     "build:umd": "rimraf ./dist && webpack --config ./tools/webpack.config.prod.js",
     "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js",
     "lint": "eslint --cache --ext .ts,.tsx ./src",
@@ -56,7 +57,7 @@
   },
   "dependencies": {
     "@antv/g6": "^3.0.4",
-    "core-js": "^3.0.0",
+    "core-js": "2.6.9",
     "lodash": "^4.17.10"
   },
   "devDependencies": {
@@ -71,6 +72,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime": "^7.2.0",
+    "@babel/runtime-corejs2": "^7.5.5",
     "@types/lodash": "^4.14.136",
     "@types/react": "^16.8.21",
     "@types/react-dom": "^16.8.4",
