@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { GraphEvent, Item, Shape } from '@common/interface';
+import { GraphEvent, Item, Shape } from '../../../common/interface';
 const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;

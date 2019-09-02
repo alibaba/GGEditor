@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { ItemState } from '@common/constants';
-import { Item, CustomBehavior } from '@common/interface';
+import { ItemState } from '../../../common/constants';
+import { Item, CustomBehavior } from '../../../common/interface';
 
 interface HoverItemBehavior extends CustomBehavior {
   /** 处理鼠标进入 */

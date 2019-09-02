@@ -1,8 +1,8 @@
-import { uuid } from '@utils';
-import { ItemType } from '@common/constants';
-import { ItemModel } from '@common/interface';
-import commandManager from '@common/commandManager';
-import { baseCommand, BaseCommand } from '@components/Graph/command/base';
+import { uuid } from '../../../utils';
+import { ItemType } from '../../../common/constants';
+import { ItemModel } from '../../../common/interface';
+import commandManager from '../../../common/commandManager';
+import { baseCommand, BaseCommand } from './base';
 
 interface AddCommandParams {
   type: ItemType;

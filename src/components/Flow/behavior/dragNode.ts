@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import globalStyle from '../common/globalStyle';
-import { GraphEvent, Shape } from '@common/interface';
+import { GraphEvent, Shape } from '../../../common/interface';
 const { delegateStyle } = globalStyle;
 const { body } = document;
 

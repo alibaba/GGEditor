@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { LabelState, EditorEvent } from '@common/constants';
-import { CustomBehavior } from '@common/interface';
+import { LabelState, EditorEvent } from '../../../common/constants';
+import { CustomBehavior } from '../../../common/interface';
 
 interface EditLabelBehavior extends CustomBehavior {
   /** 显示标签编辑 */

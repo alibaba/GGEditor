@@ -1,8 +1,8 @@
-import { isMind, getSelectedNodes, getSelectedEdges } from '@utils';
-import { ItemState } from '@common/constants';
-import { Node, Edge, Graph, Command } from '@common/interface';
-import command from '@common/command';
-import commandManager from '@common/commandManager';
+import { isMind, getSelectedNodes, getSelectedEdges } from '../../../utils';
+import { ItemState } from '../../../common/constants';
+import { Node, Edge, Graph, Command } from '../../../common/interface';
+import command from '../../../common/command';
+import commandManager from '../../../common/commandManager';
 
 export interface BaseCommand<P = object> extends Command<P> {
   /** 判断是否脑图 */

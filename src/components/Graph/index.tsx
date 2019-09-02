@@ -1,8 +1,8 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { addListener, getSelectedNodes, getSelectedEdges, isMind } from '@utils';
-import { track } from '@helpers';
-import Global from '@common/Global';
+import { addListener, getSelectedNodes, getSelectedEdges, isMind } from '../../utils';
+import { track } from '../../helpers';
+import Global from '../../common/Global';
 import {
   GraphType,
   GraphState,
@@ -12,7 +12,7 @@ import {
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
-} from '@common/constants';
+} from '../../common/constants';
 import {
   Graph,
   GraphCommonEventProps,
@@ -25,9 +25,9 @@ import {
   GraphEvent,
   CommandEvent,
   EventHandle,
-} from '@common/interface';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import EditableLabel from '@components/EditableLabel';
+} from '../../common/interface';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import EditableLabel from '../../components/EditableLabel';
 
 import './command';
 import './behavior';

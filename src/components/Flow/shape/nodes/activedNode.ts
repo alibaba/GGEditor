@@ -1,5 +1,4 @@
 import globalStyle from '../../common/globalStyle';
-import { Shape } from '@common/interface';
 const { nodeStyle, nodeActivedStyle, nodeSelectedStyle, startNodeStyle } = globalStyle;
 
 // 选中时改变边框颜色

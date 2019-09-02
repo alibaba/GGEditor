@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 
 interface ItemProps extends EditorPrivateContextProps {}
 

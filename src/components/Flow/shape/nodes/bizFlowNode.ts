@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ShapeClassName } from '@common/constants';
+import { ShapeClassName } from '../../../../common/constants';
 import { handleAnchor } from './anchor';
 import '../../../Graph/shape/nodes/bizNode';
 

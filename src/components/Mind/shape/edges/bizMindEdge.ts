@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { Edge, CustomEdge, Shape } from '@common/interface';
-import { ItemState } from '@common/constants';
+import { Edge, CustomEdge, Shape } from '../../../../common/interface';
+import { ItemState } from '../../../../common/constants';
 
 const commonStyle = {
   lineWidth: 2,

@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { GraphEvent } from '@common/interface';
+import { GraphEvent } from '../../../common/interface';
 
 G6.registerBehavior('hover-anchor', {
   getEvents() {

@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
-import { EditorEvent, ItemType, ItemState } from '@common/constants';
-import { Item, Node, Edge, Graph, GraphNativeEvent } from '@common/interface';
+import { EditorEvent, ItemType, ItemState } from '../common/constants';
+import { Item, Node, Edge, Graph, GraphNativeEvent } from '../common/interface';
 
 /** 生成唯一标识 */
 export function uuid() {

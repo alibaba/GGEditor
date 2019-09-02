@@ -1,8 +1,8 @@
-import { uuid } from '@utils';
-import { NODE_DEFAULT_LABEL } from '@common/constants';
-import { ItemModel } from '@common/interface';
-import commandManager from '@common/commandManager';
-import { baseCommand, BaseCommand } from '@components/Graph/command/base';
+import { uuid } from '../../../utils';
+import { NODE_DEFAULT_LABEL } from '../../../common/constants';
+import { ItemModel } from '../../../common/interface';
+import commandManager from '../../../common/commandManager';
+import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
 interface TopicCommandParams {
   id: string;

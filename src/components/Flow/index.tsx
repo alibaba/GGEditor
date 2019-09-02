@@ -1,13 +1,13 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { uuid } from '@utils';
-import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import Graph from '@components/Graph';
+import { uuid } from '../../utils';
+import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import Graph from '../Graph';
 
 import './shape';
 import './behavior';
-import { GraphEvent } from '@common/interface';
+import { GraphEvent } from '../../common/interface';
 
 interface FlowProps extends EditorPrivateContextProps {}
 

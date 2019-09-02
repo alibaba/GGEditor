@@ -1,7 +1,7 @@
-import { TreeGraph, MindNodeModel } from '@common/interface';
-import commandManager from '@common/commandManager';
-import { BaseCommand } from '@components/Graph/command/base';
-import { foldCommand } from '@components/Mind/command/fold';
+import { TreeGraph, MindNodeModel } from '../../../common/interface';
+import commandManager from '../../../common/commandManager';
+import { BaseCommand } from '../../Graph/command/base';
+import { foldCommand } from './fold';
 
 interface UnfoldCommandParams {
   id: string;

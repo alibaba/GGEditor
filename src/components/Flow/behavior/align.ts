@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import globalStyle from '../common/globalStyle';
-import { Item, GraphEvent } from '@common/interface';
+import { Item, GraphEvent } from '../../../common/interface';
 
 const { alignLine } = globalStyle;
 
@@ -32,11 +32,21 @@ function pointLineDistance(line: number[], point: number[]) {
   return dot(a, u);
 }
 
-type Point = { x: number; y: number };
+interface Point {
+  x: number;
+  y: number;
+}
 type PointLine = [number, number, number, number];
-type Lines = { [index: string]: PointLine };
-type Line = { line: any; dis: number };
-type HVLine = { [index: string]: Line[] };
+interface Lines {
+  [index: string]: PointLine;
+}
+interface Line {
+  line: any;
+  dis: number;
+}
+interface HVLine {
+  [index: string]: Line[];
+}
 
 G6.registerBehavior('align', {
   getEvents() {

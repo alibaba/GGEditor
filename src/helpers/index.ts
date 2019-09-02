@@ -1,6 +1,6 @@
-import Global from '@common/Global';
-import { toQueryString } from '@utils';
-import { GraphType } from '@common/constants';
+import Global from '../common/Global';
+import { toQueryString } from '../utils';
+import { GraphType } from '../common/constants';
 
 const BASE_URL = 'http://gm.mmstat.com/fsp.1.1';
 

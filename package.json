@@ -9,9 +9,8 @@
     "tree",
     "mind"
   ],
-  "main": "cjs/index.js",
-  "module": "es/index.js",
-  "types": "typings/index.d.ts",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
   "files": [
     "src",
     "es",
@@ -79,7 +78,6 @@
     "@typescript-eslint/eslint-plugin": "^1.12.0",
     "@typescript-eslint/parser": "^1.12.0",
     "babel-loader": "^8.0.4",
-    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.0",

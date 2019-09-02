@@ -1,6 +1,5 @@
 import G6 from '@antv/g6';
-import GGEditor from '@components/GGEditor';
-import { GraphEvent } from '@common/interface';
+import { GraphEvent } from '../../../common/interface';
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;

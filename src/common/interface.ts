@@ -11,8 +11,7 @@ import {
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
-  ContextMenuState,
-} from '@common/constants';
+} from '../common/constants';
 
 /**
  * G BBOX

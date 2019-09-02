@@ -1,8 +1,8 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { getSelectedNodes, getSelectedEdges } from '@utils';
-import { GraphState } from '@common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
+import { getSelectedNodes, getSelectedEdges } from '../../utils';
+import { GraphState } from '../../common/constants';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 
 interface DetailPanelProps extends EditorPrivateContextProps {}
 

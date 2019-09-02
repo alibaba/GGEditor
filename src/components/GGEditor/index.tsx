@@ -1,13 +1,13 @@
 import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
-import { addListener } from '@utils';
-import Global from '@common/Global';
-import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '@common/constants';
-import { Graph, CommandEvent, LabelStateEvent, EventHandle, ContextMenuEvent } from '@common/interface';
-import commandManager from '@common/commandManager';
-import EditorContext from '@common/context/EditorContext';
-import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
+import { addListener } from '../../utils';
+import Global from '../../common/Global';
+import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '../../common/constants';
+import { Graph, CommandEvent, LabelStateEvent, EventHandle, ContextMenuEvent } from '../../common/interface';
+import commandManager from '../../common/commandManager';
+import EditorContext from '../../common/context/EditorContext';
+import EditorPrivateContext, { EditorPrivateContextProps } from '../../common/context/EditorPrivateContext';
 
 interface GGEditorProps {
   [EditorEvent.onBeforeExecuteCommand]?: EventHandle<CommandEvent>;
