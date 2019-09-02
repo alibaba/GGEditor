@@ -2,13 +2,26 @@ import React from 'react';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '../../utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
+import {
+  GraphCommonEventProps,
+  GraphNodeEventProps,
+  GraphEdgeEventProps,
+  GraphCanvasEventProps,
+  GraphCustomEventProps,
+} from '../../common/interface';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import Graph from '../Graph';
 
 import './shape';
 import './command';
 
-interface MindProps extends EditorPrivateContextProps {}
+interface MindProps
+  extends EditorPrivateContextProps,
+    GraphCommonEventProps,
+    GraphNodeEventProps,
+    GraphEdgeEventProps,
+    GraphCanvasEventProps,
+    GraphCustomEventProps {}
 
 interface MindState {}
 

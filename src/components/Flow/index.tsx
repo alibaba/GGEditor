@@ -2,6 +2,13 @@ import React from 'react';
 import G6 from '@antv/g6';
 import { uuid } from '../../utils';
 import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
+import {
+  GraphCommonEventProps,
+  GraphNodeEventProps,
+  GraphEdgeEventProps,
+  GraphCanvasEventProps,
+  GraphCustomEventProps,
+} from '../../common/interface';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import Graph from '../Graph';
 
@@ -9,7 +16,13 @@ import './shape';
 import './behavior';
 import { GraphEvent } from '../../common/interface';
 
-interface FlowProps extends EditorPrivateContextProps {}
+interface FlowProps
+  extends EditorPrivateContextProps,
+    GraphCommonEventProps,
+    GraphNodeEventProps,
+    GraphEdgeEventProps,
+    GraphCanvasEventProps,
+    GraphCustomEventProps {}
 
 interface FlowState {}
 
