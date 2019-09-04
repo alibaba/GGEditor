@@ -34,11 +34,10 @@ const recallEdgeBehavior = {
   clearSelectedState(shouldUpdate = () => true) {
     const { graph } = this;
 
-    const selectedNodes = getSelectedNodes(graph);
     const selectedEdges = getSelectedEdges(graph);
 
     executeBatch(graph, () => {
-      [...selectedNodes, ...selectedEdges].forEach(item => {
+      [...selectedEdges].forEach(item => {
         if (shouldUpdate(item)) {
           graph.setItemState(item, ItemState.Selected, false);
         }
