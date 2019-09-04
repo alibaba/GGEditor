@@ -165,7 +165,7 @@ export interface Item {
   getKeyShape(): Shape;
   getModel<T = ItemModel>(): T;
   getType(): ItemType;
-  getEdges(): Shape[];
+  getEdges(): Edge[];
   enableCapture(enable: boolean): void;
   clearCache(): void;
 
@@ -274,7 +274,7 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
 export interface CustomBehavior {
   graph: Graph;
   getEvents(): {
-    [propName in GraphNativeEvent]: string;
+    [propName in GraphNativeEvent]?: string;
   };
   getDefaultCfg?(): object;
 }

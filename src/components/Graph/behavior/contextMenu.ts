@@ -1,16 +1,16 @@
 import G6 from '@antv/g6';
 import { EditorEvent } from '../../../common/constants';
-import { ContextMenuEvent, CustomBehavior } from '../../../common/interface';
+import { CustomBehavior, GraphEvent } from '../../../common/interface';
 
 interface ContextMenuBehavior extends CustomBehavior {
   /** 显示右键菜单 */
-  showContextMenu(e: ContextMenuEvent): void;
+  showContextMenu(e: GraphEvent): void;
 
   /** 隐藏右键菜单 */
   hideContextMenu(): void;
 
   /** 处理节点右击 */
-  handleNodeContextMenu(e: ContextMenuEvent): void;
+  handleNodeContextMenu(e: GraphEvent): void;
 
   /** 处理画布鼠标落下 */
   handleCanvasMousedown(): void;

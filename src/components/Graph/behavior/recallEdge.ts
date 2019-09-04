@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
-import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '../../../utils';
-import { ItemState } from '../../../common/constants';
-import { Item, CustomBehavior, Edge, Shape } from '../../../common/interface';
+import { getSelectedEdges, executeBatch } from '../../../utils';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent } from '../../../common/constants';
+import { Item, CustomBehavior, Edge, Graph } from '../../../common/interface';
 
 interface RecallEdgeBehavior extends CustomBehavior {
   /** 清空选中状态 */
@@ -13,9 +13,6 @@ interface RecallEdgeBehavior extends CustomBehavior {
   /** 处理画布点击 */
   handleCanvasClick(): void;
 
-  /** 处理按键抬起 */
-  handleKeyUp(e: KeyboardEvent): void;
-
   /** 高亮 */
   highlightParentEdges(item: Item): void;
 
@@ -26,12 +23,12 @@ interface RecallEdgeBehavior extends CustomBehavior {
 const recallEdgeBehavior = {
   getEvents() {
     return {
-      'node:click': 'handleNodeClick',
-      'canvas:click': 'handleCanvasClick',
+      [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
+      [`${GraphCanvasEvent.onCanvasClick}`]: 'handleCanvasClick',
     };
   },
 
-  clearSelectedState(shouldUpdate = () => true) {
+  clearSelectedState(shouldUpdate: Function = () => true) {
     const { graph } = this;
 
     const selectedEdges = getSelectedEdges(graph);
