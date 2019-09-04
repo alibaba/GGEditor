@@ -89,6 +89,7 @@ class Mind extends React.Component<MindProps, MindState> {
           'hover-item',
           'edit-label',
           'context-menu',
+          'recall-edge',
           {
             type: 'collapse-expand',
             shouldBegin: this.canCollapseExpand,
