@@ -99,6 +99,7 @@ export interface EdgeModel extends ItemModel {
 }
 
 export interface MindNodeModel extends NodeModel {
+  isRoot?: boolean;
   children?: MindNodeModel[];
   collapsed?: boolean;
 }
