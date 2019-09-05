@@ -85,7 +85,6 @@ class Mind extends React.Component<MindProps, MindState> {
             type: 'click-item',
             multiple: false,
           },
-          'click-item',
           'hover-item',
           'edit-label',
           'context-menu',
