@@ -27,7 +27,7 @@ declare module '@antv/g6' {
 
   type Item = Shape;
 
-  type NodeInfo = {
+  interface NodeInfo {
     [key: string]: any;
     label?: string;
     shape: string;
@@ -35,8 +35,8 @@ declare module '@antv/g6' {
     y?: number;
     id?: string;
     type?: string;
-  };
-  type EdgeInfo = {
+  }
+  interface EdgeInfo {
     [key: string]: any;
     id?: string;
     type?: string;
@@ -58,7 +58,7 @@ declare module '@antv/g6' {
       x: number;
       y: number;
     };
-  };
+  }
 
   type Model = NodeInfo | EdgeInfo;
 
@@ -152,7 +152,7 @@ declare module '@antv/g6' {
     update?(cfg: CFG, node: Group): void;
     afterUpdate?(cfg: CFG, node: Item): void;
     setState?(name: string, value: boolean, node: Item): void;
-    getAnchorPoints?(): Array<Array<number>>;
+    getAnchorPoints?(): number[][];
   }
   type GEvent = { [T in EventName]?: string };
 
@@ -167,7 +167,7 @@ declare module '@antv/g6' {
   export function registerBehavior(behaviorName: string, behavior: Behavior): void;
 
   interface GraphArgs {
-    plugins?: Object[];
+    plugins?: Record<string, any>[];
     container: string;
     width: number;
     height: number;
@@ -201,4 +201,6 @@ declare module '@antv/g6' {
     emit(name: string, payload: any): void;
     on(name: string, f: Function): void;
   }
+
+  export class TreeGraph extends Graph {}
 }

@@ -1,3 +1,4 @@
+import G6 from '@antv/g6';
 import uuidv4 from 'uuid/v4';
 import { EditorEvent, ItemType, ItemState } from '../common/constants';
 import { Item, Node, Edge, Graph, GraphNativeEvent } from '../common/interface';
@@ -22,7 +23,7 @@ export function addListener<T>(target: Graph, eventName: EditorEvent | GraphNati
 
 /** 判断是否脑图 */
 export function isMind(graph: Graph) {
-  return graph.constructor.name === 'TreeGraph';
+  return graph.constructor === G6.TreeGraph;
 }
 
 /** 判断是否节点 */
