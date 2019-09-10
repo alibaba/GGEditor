@@ -85,6 +85,8 @@ export interface NodeModel extends ItemModel {
   x: number;
   /** 元素 Y 坐标 */
   y: number;
+  /** 节点尺寸 */
+  size: [number, number];
 }
 
 export interface EdgeModel extends ItemModel {
@@ -118,7 +120,7 @@ export interface Graph extends EventEmitter {
   changeData(data: object): void;
 
   // 更新
-  add(type: ItemType, model: NodeModel | EdgeModel): void;
+  add<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
   addItem(type: ItemType, model: NodeModel | EdgeModel): void;
   update(item: string | Item, model: object): void;
   updateItem(item: string | Item, model: object): void;
@@ -136,6 +138,9 @@ export interface Graph extends EventEmitter {
   // 查找
   findById(id: string): Item;
   findAllByState<T = Item>(type: ItemType, state: string): T[];
+
+  // 坐标转换
+  getPointByClient(clientX: number, clientY: number): { x: number; y: number };
 
   // 其它
   get(key: string): any;
