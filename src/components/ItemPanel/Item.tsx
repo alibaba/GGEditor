@@ -1,5 +1,6 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import pick from 'lodash/pick';
 
 interface ItemProps extends EditorPrivateContextProps {}
 
@@ -42,6 +43,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
       top: ${this.itemOnPanel.current.getBoundingClientRect().top}px;
       left: ${this.itemOnPanel.current.getBoundingClientRect().left}px;
       cursor: pointer;
+      z-index:99999;
     `;
 
     shadowShape.setAttribute('style', styleObj);
@@ -150,7 +152,12 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     const { src, shape, children } = this.props;
 
     return (
-      <div style={{ cursor: 'pointer' }} onMouseDown={this.handleMouseDown} ref={this.itemOnPanel}>
+      <div
+        style={{ cursor: 'pointer' }}
+        onMouseDown={this.handleMouseDown}
+        ref={this.itemOnPanel}
+        {...pick(this.props, ['style', 'className'])}
+      >
         {src ? <img src={src} alt={shape} draggable={false} /> : children}
       </div>
     );
