@@ -141,7 +141,7 @@ const options: CustomEdge = {
   setState(name: ItemState, value: boolean, edge: Edge): void {
     const shape: Shape = edge.getContainer().get('children')[0];
 
-    if (name === ItemState.Selected && value) {
+    if (name === ItemState.HighLight && value) {
       edge.toFront();
 
       shape.attr({

@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
-import { EditorEvent, ItemType, ItemState } from '../common/constants';
-import { Item, Node, Edge, Graph, GraphNativeEvent } from '../common/interface';
+import { EditorEvent, ItemState, ItemType } from '../common/constants';
+import { Edge, Graph, GraphNativeEvent, Item, Node } from '../common/interface';
 
 /** 生成唯一标识 */
 export function uuid() {
@@ -43,6 +43,11 @@ export function getSelectedNodes(graph: Graph) {
 /** 获取选中边线 */
 export function getSelectedEdges(graph: Graph) {
   return graph.findAllByState<Edge>(ItemType.Edge, ItemState.Selected);
+}
+
+/** 获取高亮边线 */
+export function getHighlightEdges(graph: Graph) {
+  return graph.findAllByState<Edge>(ItemType.Edge, ItemState.HighLight);
 }
 
 /** 执行批量处理 */
