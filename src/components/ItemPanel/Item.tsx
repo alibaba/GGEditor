@@ -1,15 +1,25 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import pick from 'lodash/pick';
+import { Shape } from 'src/common/interface';
 
-interface ItemProps extends EditorPrivateContextProps {}
+interface ItemProps extends EditorPrivateContextProps {
+  /** 预览图资源 */
+  src: string;
+}
 
-interface ItemState {}
+interface ItemState {
+  /** 隐藏的用于拖拽的DOM节点 */
+  shadowShape: null | Element;
+  /** 在画布上的节点拖拽过程中的代理图形 */
+  dragShape: null | Shape;
+  /** 画布上代理图形的id（常量） */
+  dragShapeID: 'temp_drag_node';
+}
 
 class Item extends React.PureComponent<ItemProps, ItemState> {
   constructor(props) {
     super(props);
-    this.itemOnPanel = React.createRef();
     this.state = {
       shadowShape: null,
       dragShape: null,
@@ -17,8 +27,8 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     };
   }
 
-  handleMouseDown = () => {
-    const shadowShape = this.createShadowShape();
+  handleMouseDown = (ev: MouseEvent) => {
+    const shadowShape = this.createShadowShape(ev);
     document.body.appendChild(shadowShape);
     this.setState({
       shadowShape,
@@ -29,7 +39,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     this.unloadDragShape();
   };
 
-  createShadowShape() {
+  createShadowShape(ev: MouseEvent) {
     const { src } = this.props;
 
     const Img = document.createElement('img');
@@ -38,10 +48,10 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     const styleObj = `
       width: ${Img.width}px;
       height: ${Img.height}px;
-      position: absolute;
+      position: fixed;
       opacity: 0;
-      top: ${this.itemOnPanel.current.getBoundingClientRect().top}px;
-      left: ${this.itemOnPanel.current.getBoundingClientRect().left}px;
+      top: ${ev.clientY - Img.height / 2}px;
+      left: ${ev.clientX - Img.width / 2}px;
       cursor: pointer;
       z-index:99999;
     `;
@@ -86,7 +96,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     const { graph } = this.props;
     const { dragShape, shadowShape, dragShapeID } = this.state;
     if (!dragShape) {
-      const newDragShape = graph.add('node', {
+      const newDragShape: Shape = graph.add('node', {
         shape: 'rect',
         x,
         y,
@@ -155,7 +165,6 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
       <div
         style={{ cursor: 'pointer' }}
         onMouseDown={this.handleMouseDown}
-        ref={this.itemOnPanel}
         {...pick(this.props, ['style', 'className'])}
       >
         {src ? <img src={src} alt={shape} draggable={false} /> : children}
