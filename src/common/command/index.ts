@@ -9,6 +9,10 @@ const command: Command = {
     return true;
   },
 
+  shouldExecute() {
+    return true;
+  },
+
   canUndo() {
     return true;
   },

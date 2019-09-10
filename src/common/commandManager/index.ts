@@ -16,20 +16,15 @@ class CommandManager {
   }
 
   /** 注册命令 */
-  register = (name: string, command: Command) => {
+  register(name: string, command: Command) {
     this.command[name] = {
       ...command,
       name,
     };
-  };
-
-  /** 是否可以执行 */
-  canExecute = (graph: Graph, name: string) => {
-    return this.command[name].canExecute(graph);
-  };
+  }
 
   /** 执行命令 */
-  execute = (graph: Graph, name: string, params?: object) => {
+  execute(graph: Graph, name: string, params?: object) {
     const Command = this.command[name];
 
     if (!Command) {
@@ -48,6 +43,10 @@ class CommandManager {
     }
 
     if (!command.canExecute(graph)) {
+      return;
+    }
+
+    if (!command.shouldExecute(graph)) {
       return;
     }
 
@@ -74,7 +73,17 @@ class CommandManager {
     commandQueue.splice(commandIndex, commandQueue.length - commandIndex, command);
 
     this.commandIndex += 1;
-  };
+  }
+
+  /** 判断是否可以执行 */
+  canExecute(graph: Graph, name: string) {
+    return this.command[name].canExecute(graph);
+  }
+
+  /** 注入是否应该执行 */
+  injectShouldExecute(name: string, shouldExecute: (graph: Graph) => boolean) {
+    this.command[name].shouldExecute = shouldExecute;
+  }
 }
 
 export default new CommandManager();

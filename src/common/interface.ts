@@ -99,6 +99,7 @@ export interface EdgeModel extends ItemModel {
 }
 
 export interface MindNodeModel extends NodeModel {
+  isRoot?: boolean;
   children?: MindNodeModel[];
   collapsed?: boolean;
 }
@@ -307,6 +308,8 @@ export interface Command<P = object> {
   params: P;
   /** 是否可以执行 */
   canExecute(graph: Graph): boolean;
+  /** 是否应该执行 */
+  shouldExecute(graph: Graph): boolean;
   /** 是否可以撤销 */
   canUndo(graph: Graph): boolean;
   /** 初始命令 */
