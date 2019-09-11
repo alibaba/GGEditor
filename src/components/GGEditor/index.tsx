@@ -69,8 +69,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
   bindShortcut(graph: Graph) {
     graph.on(GraphCommonEvent.onKeyDown, (e: KeyboardEvent) => {
-      e.preventDefault();
-
       Object.values(commandManager.command).some(command => {
         const { name, shortcuts } = command;
 
@@ -92,7 +90,11 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
         if (flag) {
           if (this.canExecuteCommand(name)) {
+            // 阻止默认事件
+            e.preventDefault();
+            //　执行相应命令
             this.executeCommand(name);
+
             return true;
           }
         }
