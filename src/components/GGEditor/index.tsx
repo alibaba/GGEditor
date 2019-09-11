@@ -68,7 +68,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   }
 
   bindShortcut(graph: Graph) {
-    graph.on(GraphCommonEvent.onKeyDown, (e: KeyboardEvent) => {
+    graph.on(GraphCommonEvent.onKeyDown, (e: any) => {
+      const { nodeName } = e.target || {};
+
+      if (!(nodeName === 'INPUT') && !(nodeName === 'DIV' && e.target.contentEditable === 'true')) {
+        e.preventDefault();
+      }
+
       Object.values(commandManager.command).some(command => {
         const { name, shortcuts } = command;
 
@@ -84,17 +90,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
               return item === key;
             }
 
-            return (e as any)[item];
+            return e[item];
           });
         });
 
         if (flag) {
           if (this.canExecuteCommand(name)) {
-            // 阻止默认事件
-            e.preventDefault();
-            //　执行相应命令
             this.executeCommand(name);
-
             return true;
           }
         }
