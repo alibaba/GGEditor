@@ -69,7 +69,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
   bindShortcut(graph: Graph) {
     graph.on(GraphCommonEvent.onKeyDown, (e: KeyboardEvent) => {
-      e.preventDefault();
+      // e.preventDefault();
 
       Object.values(commandManager.command).some(command => {
         const { name, shortcuts } = command;
