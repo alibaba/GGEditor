@@ -59,7 +59,7 @@ export const topicCommand: BaseCommand<TopicCommandParams> = {
     graph.removeChild(model.id);
   },
 
-  shortcuts: ['Enter'],
+  shortcuts: [['ctrlKey', 'Enter']],
 };
 
 commandManager.register('topic', topicCommand);
