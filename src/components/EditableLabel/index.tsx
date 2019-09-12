@@ -29,9 +29,15 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     }
   };
 
-  handleKeyDown = ({ key }) => {
+  handleKeyDown = (e: KeyboardEvent) => {
+    const { key } = e;
+
     if (key === 'Enter' || key === 'Escape') {
+      // 阻止事件冒泡
+      e.stopPropagation();
+      // 执行模型更新
       this.executeUpdate();
+      // 隐藏编辑标签
       this.props.setLabelState(LabelState.Hide);
     }
   };
