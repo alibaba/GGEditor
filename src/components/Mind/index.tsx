@@ -90,7 +90,6 @@ class Mind extends React.Component<MindProps, MindState> {
           'edit-label',
           'context-menu',
           'recall-edge',
-          'brush-select',
           {
             type: 'collapse-expand',
             shouldBegin: this.canCollapseExpand,
