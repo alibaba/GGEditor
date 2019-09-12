@@ -1,8 +1,8 @@
-import G6 from '@antv/g6';
 import { ItemState } from '../../../common/constants';
-import { Item, CustomBehavior } from '../../../common/interface';
+import { Item, Behavior } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-interface HoverItemBehavior extends CustomBehavior {
+interface HoverItemBehavior extends Behavior {
   /** 处理鼠标进入 */
   handleItemMouseenter({ item }: { item: Item }): void;
   /** 处理鼠标移出 */
@@ -32,4 +32,4 @@ const hoverItemBehavior = {
   },
 } as HoverItemBehavior;
 
-G6.registerBehavior('hover-item', hoverItemBehavior);
+behaviorManager.registerBehavior('hover-item', hoverItemBehavior);

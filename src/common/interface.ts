@@ -277,12 +277,15 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
  * G6 自定义行为
  * @see https://www.yuque.com/antv/g6/behavior-api
  */
-export interface CustomBehavior {
+export interface Behavior {
   graph: Graph;
   getEvents(): {
-    [propName in GraphNativeEvent]?: string;
+    [propName in GraphNativeEvent]: string;
   };
   getDefaultCfg?(): object;
+  shouldBegin?(): boolean;
+  shouldUpdate?(): boolean;
+  shouldEnd?(): boolean;
 }
 
 export interface GraphEvent {

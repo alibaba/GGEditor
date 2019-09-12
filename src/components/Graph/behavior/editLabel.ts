@@ -1,8 +1,8 @@
-import G6 from '@antv/g6';
 import { LabelState, EditorEvent } from '../../../common/constants';
-import { CustomBehavior } from '../../../common/interface';
+import { Behavior } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-interface EditLabelBehavior extends CustomBehavior {
+interface EditLabelBehavior extends Behavior {
   /** 显示标签编辑 */
   showLabel(): void;
   /** 隐藏标签编辑 */
@@ -53,4 +53,4 @@ const editLabelBehavior = {
   },
 } as EditLabelBehavior;
 
-G6.registerBehavior('edit-label', editLabelBehavior);
+behaviorManager.registerBehavior('edit-label', editLabelBehavior);

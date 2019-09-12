@@ -32,7 +32,6 @@ class ItemPanel extends React.PureComponent<ItemPanelProps, ItemPanelState> {
 
   render() {
     const { children } = this.props;
-    // console.log(this.props)
 
     return (
       <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>

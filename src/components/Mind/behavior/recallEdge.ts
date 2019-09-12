@@ -1,9 +1,9 @@
-import G6 from '@antv/g6';
-import { getSelectedEdges, executeBatch, getHighlightEdges } from '../../../utils';
+import { getHighlightEdges, executeBatch } from '../../../utils';
 import { ItemState, GraphNodeEvent, GraphCanvasEvent } from '../../../common/constants';
-import { Item, CustomBehavior, Edge, Graph } from '../../../common/interface';
+import { Item, Edge, Behavior } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-interface RecallEdgeBehavior extends CustomBehavior {
+interface RecallEdgeBehavior extends Behavior {
   /** 清空高亮状态 */
   clearHighlightState(shouldUpdate?: (item: Item) => boolean): void;
 
@@ -91,4 +91,4 @@ const recallEdgeBehavior = {
   },
 } as RecallEdgeBehavior;
 
-G6.registerBehavior('recall-edge', recallEdgeBehavior);
+behaviorManager.registerMindBehavior('recall-edge', recallEdgeBehavior);

@@ -1,8 +1,8 @@
-import G6 from '@antv/g6';
 import { EditorEvent } from '../../../common/constants';
-import { CustomBehavior, GraphEvent } from '../../../common/interface';
+import { Behavior, GraphEvent } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-interface ContextMenuBehavior extends CustomBehavior {
+interface ContextMenuBehavior extends Behavior {
   /** 显示右键菜单 */
   showContextMenu(e: GraphEvent): void;
 
@@ -57,4 +57,4 @@ const contextMenuBehavior = {
   },
 } as ContextMenuBehavior;
 
-G6.registerBehavior('context-menu', contextMenuBehavior);
+behaviorManager.registerBehavior('context-menu', contextMenuBehavior);

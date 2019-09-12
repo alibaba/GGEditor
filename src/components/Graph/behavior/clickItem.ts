@@ -1,9 +1,9 @@
-import G6 from '@antv/g6';
 import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '../../../utils';
 import { ItemState } from '../../../common/constants';
-import { Item, CustomBehavior } from '../../../common/interface';
+import { Item, Behavior } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-interface ClickItemBehavior extends CustomBehavior {
+interface ClickItemBehavior extends Behavior {
   /** 是否支持多选 */
   multiple: boolean;
   /** 是否按下多选 */
@@ -90,4 +90,4 @@ const clickItemBehavior = {
   },
 } as ClickItemBehavior;
 
-G6.registerBehavior('click-item', clickItemBehavior);
+behaviorManager.registerBehavior('click-item', clickItemBehavior);
