@@ -14,7 +14,7 @@ import Graph from '../Graph';
 
 import './shape';
 import './command';
-import './behaviors';
+import './behavior';
 
 interface MindProps
   extends EditorPrivateContextProps,
