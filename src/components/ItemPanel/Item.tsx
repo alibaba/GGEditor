@@ -1,15 +1,40 @@
 import React from 'react';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import pick from 'lodash/pick';
+import { Shape, Node } from '../../common/interface';
+import { ItemType } from '../../common/constants';
 
-interface ItemProps extends EditorPrivateContextProps {}
+interface ItemProps extends EditorPrivateContextProps {
+  /** 预览图资源 */
+  src: string;
 
-interface ItemState {}
+  /** 类型（边线或节点） */
+  type: 'node' | 'edge';
+
+  /** 形状 */
+  shape: string;
+
+  /** 节点model */
+  model: object;
+
+  /** 尺寸 */
+  size: string;
+}
+
+interface ItemState {
+  /** 隐藏的用于拖拽的DOM节点 */
+  shadowShape: null | HTMLElement;
+
+  /** 在画布上的节点拖拽过程中的代理图形 */
+  dragShape: null | Node;
+
+  /** 画布上代理图形的id（常量） */
+  dragShapeID: 'temp_drag_node';
+}
 
 class Item extends React.PureComponent<ItemProps, ItemState> {
-  constructor(props) {
+  constructor(props: ItemProps) {
     super(props);
-    this.itemOnPanel = React.createRef();
     this.state = {
       shadowShape: null,
       dragShape: null,
@@ -17,8 +42,8 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     };
   }
 
-  handleMouseDown = () => {
-    const shadowShape = this.createShadowShape();
+  handleMouseDown = (ev: MouseEvent) => {
+    const shadowShape = this.createShadowShape(ev);
     document.body.appendChild(shadowShape);
     this.setState({
       shadowShape,
@@ -29,7 +54,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     this.unloadDragShape();
   };
 
-  createShadowShape() {
+  createShadowShape(ev: MouseEvent) {
     const { src } = this.props;
 
     const Img = document.createElement('img');
@@ -38,10 +63,10 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     const styleObj = `
       width: ${Img.width}px;
       height: ${Img.height}px;
-      position: absolute;
+      position: fixed;
       opacity: 0;
-      top: ${this.itemOnPanel.current.getBoundingClientRect().top}px;
-      left: ${this.itemOnPanel.current.getBoundingClientRect().left}px;
+      top: ${ev.clientY - Img.height / 2}px;
+      left: ${ev.clientX - Img.width / 2}px;
       cursor: pointer;
       z-index:99999;
     `;
@@ -56,23 +81,33 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     return shadowShape;
   }
 
-  handleDragover = ev => {
+  handleDragover = (ev: DragEvent) => {
     ev.preventDefault();
   };
 
-  handleDragenter = ev => {
+  handleDragenter = (ev: DragEvent) => {
     const { graph } = this.props;
+
+    if (!graph) {
+      return;
+    }
+
     const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
 
     const canvas = graph.get('container').getElementsByTagName('canvas')[0];
     // drag into canvas
-    if (ev.target.id === canvas.id) {
+    if (ev.target && ev.target.id === canvas.id) {
       this.loadDragShape(transferredPos);
     }
   };
 
-  handleDrag = ev => {
+  handleDrag = (ev: DragEvent) => {
     const { graph } = this.props;
+
+    if (!graph) {
+      return;
+    }
+
     const { dragShape, dragShapeID } = this.state;
     if (dragShape) {
       const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
@@ -82,11 +117,16 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     }
   };
 
-  loadDragShape({ x, y }) {
-    const { graph } = this.props;
+  loadDragShape({ x, y }: { x: number; y: number }) {
+    const { graph, shape } = this.props;
     const { dragShape, shadowShape, dragShapeID } = this.state;
+
+    if (!graph || !shadowShape) {
+      return;
+    }
+
     if (!dragShape) {
-      const newDragShape = graph.add('node', {
+      const newDragShape = graph.add(ItemType.Node, {
         shape: 'rect',
         x,
         y,
@@ -108,10 +148,14 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
 
   unloadDragShape() {
     const { graph } = this.props;
-    const { dragShape, shadowShape } = this.state;
+    const { dragShape, shadowShape, dragShapeID } = this.state;
+
+    if (!graph) {
+      return;
+    }
 
     if (dragShape) {
-      graph.remove(dragShape);
+      graph.remove(dragShapeID);
     }
     if (shadowShape) {
       document.body.removeChild(shadowShape);
@@ -125,15 +169,19 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     document.removeEventListener('drop', this.handleDrop);
   }
 
-  handleDrop = ev => {
+  handleDrop = (ev: DragEvent) => {
     const { graph, executeCommand, type, model, shape, size } = this.props;
     const { dragShapeID } = this.state;
+
+    if (!graph) {
+      return;
+    }
 
     const canvas = graph.get('container').getElementsByTagName('canvas')[0];
     const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
 
     // drag into canvas
-    if (ev.target.id === canvas.id) {
+    if (ev.target && ev.target.id === canvas.id) {
       executeCommand('add', {
         type,
         model: {
@@ -155,7 +203,6 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
       <div
         style={{ cursor: 'pointer' }}
         onMouseDown={this.handleMouseDown}
-        ref={this.itemOnPanel}
         {...pick(this.props, ['style', 'className'])}
       >
         {src ? <img src={src} alt={shape} draggable={false} /> : children}

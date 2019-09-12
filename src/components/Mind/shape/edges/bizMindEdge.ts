@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { Edge, CustomEdge, Shape } from '../../../../common/interface';
+import { CustomEdge, Edge, Shape } from '../../../../common/interface';
 import { ItemState } from '../../../../common/constants';
 
 const commonStyle = {
@@ -140,8 +140,9 @@ const options: CustomEdge = {
 
   setState(name: ItemState, value: boolean, edge: Edge): void {
     const shape: Shape = edge.getContainer().get('children')[0];
+    const states = edge.getStates();
 
-    if (name === ItemState.Selected && value) {
+    if (states.includes(ItemState.HighLight)) {
       edge.toFront();
 
       shape.attr({

@@ -1,11 +1,11 @@
 import G6 from '@antv/g6';
-import { getSelectedEdges, executeBatch } from '../../../utils';
+import { getSelectedEdges, executeBatch, getHighlightEdges } from '../../../utils';
 import { ItemState, GraphNodeEvent, GraphCanvasEvent } from '../../../common/constants';
 import { Item, CustomBehavior, Edge, Graph } from '../../../common/interface';
 
 interface RecallEdgeBehavior extends CustomBehavior {
-  /** 清空选中状态 */
-  clearSelectedState(shouldUpdate?: (item: Item) => boolean): void;
+  /** 清空高亮状态 */
+  clearHighlightState(shouldUpdate?: (item: Item) => boolean): void;
 
   /** 处理点击事件 */
   handleNodeClick({ item }: { item: Item }): void;
@@ -28,15 +28,15 @@ const recallEdgeBehavior = {
     };
   },
 
-  clearSelectedState(shouldUpdate: Function = () => true) {
+  clearHighlightState(shouldUpdate: Function = () => true) {
     const { graph } = this;
 
-    const selectedEdges = getSelectedEdges(graph);
+    const selectedEdges = getHighlightEdges(graph);
 
     executeBatch(graph, () => {
       [...selectedEdges].forEach(item => {
         if (shouldUpdate(item)) {
-          graph.setItemState(item, ItemState.Selected, false);
+          graph.setItemState(item, ItemState.HighLight, false);
         }
       });
     });
@@ -47,7 +47,7 @@ const recallEdgeBehavior = {
 
     const isSelected = item.hasState(ItemState.Selected);
 
-    this.clearSelectedState(selectedItem => {
+    this.clearHighlightState(selectedItem => {
       return selectedItem !== item;
     });
 
@@ -61,12 +61,12 @@ const recallEdgeBehavior = {
   highlightParentEdges(item) {
     const { graph } = this;
 
-    this.clearSelectedState();
+    this.clearHighlightState();
 
     const edges = this.findParentEdges(item);
 
     if (edges.length > 0) {
-      edges.forEach(edge => graph.setItemState(edge, ItemState.Selected, true));
+      edges.forEach(edge => graph.setItemState(edge, ItemState.HighLight, true));
     }
   },
 
@@ -87,7 +87,7 @@ const recallEdgeBehavior = {
   },
 
   handleCanvasClick() {
-    this.clearSelectedState();
+    this.clearHighlightState();
   },
 } as RecallEdgeBehavior;
 
