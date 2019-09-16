@@ -1,6 +1,8 @@
 import G6 from '@antv/g6';
 import { GGEditorEvent } from 'gg-editor';
-G6.registerBehavior('active-edge', {
+import behaviorManager from '../../../common/behaviorManager';
+
+behaviorManager.registerFlowBehavior('active-edge', {
   getEvents() {
     return {
       'edge:mouseenter': 'setAllItemStates',

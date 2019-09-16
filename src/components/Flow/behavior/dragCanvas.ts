@@ -1,9 +1,11 @@
 import G6 from '@antv/g6';
 import { GraphEvent } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
-G6.registerBehavior('drag-canvas', {
+
+behaviorManager.registerFlowBehavior('drag-canvas', {
   getDefaultCfg() {
     return {
       direction: 'both',
