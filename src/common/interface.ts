@@ -82,11 +82,11 @@ export interface ItemModel {
 
 export interface NodeModel extends ItemModel {
   /** 元素 X 坐标 */
-  x: number;
+  x?: number;
   /** 元素 Y 坐标 */
-  y: number;
+  y?: number;
   /** 节点尺寸 */
-  size: [number, number];
+  size?: [number, number];
 }
 
 export interface EdgeModel extends ItemModel {
@@ -136,7 +136,7 @@ export interface Graph extends EventEmitter {
   setItemState(item: string | Item, state: string, enabled: boolean): void;
 
   // 查找
-  findById(id: string): Item;
+  findById<T = Item>(id: string): T;
   findAllByState<T = Item>(type: ItemType, state: string): T[];
 
   // 坐标转换
@@ -309,23 +309,23 @@ export interface GraphEvent {
   which?: number;
 }
 
-export interface Command<P = object> {
+export interface Command<P = object, G = Graph> {
   /** 命令名称 */
   name: string;
   /** 命令参数 */
   params: P;
   /** 是否可以执行 */
-  canExecute(graph: Graph): boolean;
+  canExecute(graph: G): boolean;
   /** 是否应该执行 */
-  shouldExecute(graph: Graph): boolean;
+  shouldExecute(graph: G): boolean;
   /** 是否可以撤销 */
-  canUndo(graph: Graph): boolean;
+  canUndo(graph: G): boolean;
   /** 初始命令 */
-  init(graph: Graph): void;
+  init(graph: G): void;
   /** 执行命令 */
-  execute(graph: Graph): void;
+  execute(graph: G): void;
   /** 撤销命令 */
-  undo(graph: Graph): void;
+  undo(graph: G): void;
   /** 命令快捷键 */
   shortcuts: string[] | string[][];
 }

@@ -1,15 +1,15 @@
 import { uuid } from '../../../utils';
-import { NODE_DEFAULT_LABEL } from '../../../common/constants';
-import { ItemModel } from '../../../common/interface';
+import { NODE_DEFAULT_LABEL, EditorEvent, LabelState } from '../../../common/constants';
+import { TreeGraph, MindNodeModel } from '../../../common/interface';
 import commandManager from '../../../common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
 interface TopicCommandParams {
   id: string;
-  model: ItemModel;
+  model: MindNodeModel;
 }
 
-export const topicCommand: BaseCommand<TopicCommandParams> = {
+export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
   ...baseCommand,
 
   params: {
@@ -46,9 +46,16 @@ export const topicCommand: BaseCommand<TopicCommandParams> = {
 
     const parent = graph.findById(id).get('parent');
 
+    // 添加节点
     graph.addChild(model, parent);
 
+    // 选中节点
     this.setSelectedNode(graph, model.id);
+
+    // 编辑节点
+    graph.emit(EditorEvent.onBeforeLabelStateChange, {
+      labelState: LabelState.Show,
+    });
   },
 
   undo(graph) {

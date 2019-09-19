@@ -4,15 +4,15 @@ import { Node, Edge, Graph, Command } from '../../../common/interface';
 import command from '../../../common/command';
 import commandManager from '../../../common/commandManager';
 
-export interface BaseCommand<P = object> extends Command<P> {
+export interface BaseCommand<P = object, G = Graph> extends Command<P, G> {
   /** 判断是否脑图 */
-  isMind(graph: Graph): boolean;
+  isMind(graph: G): boolean;
   /** 获取选中节点 */
-  getSelectedNodes(graph: Graph): Node[];
+  getSelectedNodes(graph: G): Node[];
   /** 获取选中连线 */
-  getSelectedEdges(graph: Graph): Edge[];
+  getSelectedEdges(graph: G): Edge[];
   /** 设置选中节点 */
-  setSelectedNode(graph: Graph, id: string): void;
+  setSelectedNode(graph: G, id: string): void;
 }
 
 export const baseCommand: BaseCommand = {
