@@ -53,7 +53,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
     this.setSelectedNode(graph, model.id);
 
     // 编辑节点
-    graph.emit(EditorEvent.onBeforeLabelStateChange, {
+    graph.emit(EditorEvent.onLabelStateChange, {
       labelState: LabelState.Show,
     });
   },

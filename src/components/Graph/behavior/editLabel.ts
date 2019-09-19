@@ -1,4 +1,4 @@
-import { LabelState, EditorEvent } from '../../../common/constants';
+import { LabelState, EditorEvent, GraphState } from '../../../common/constants';
 import { Behavior } from '../../../common/interface';
 import behaviorManager from '../../../common/behaviorManager';
 
@@ -27,7 +27,7 @@ const editLabelBehavior = {
   showLabel() {
     const { graph } = this;
 
-    graph.emit(EditorEvent.onBeforeLabelStateChange, {
+    graph.emit(EditorEvent.onLabelStateChange, {
       labelState: LabelState.Show,
     });
   },
@@ -35,7 +35,7 @@ const editLabelBehavior = {
   hideLabel() {
     const { graph } = this;
 
-    graph.emit(EditorEvent.onBeforeLabelStateChange, {
+    graph.emit(EditorEvent.onLabelStateChange, {
       labelState: LabelState.Hide,
     });
   },
@@ -49,7 +49,12 @@ const editLabelBehavior = {
   },
 
   handleCanvasClick() {
-    this.hideLabel();
+    const { graph } = this;
+
+    graph.emit(EditorEvent.onLabelStateChange, {
+      graphState: GraphState.CanvasSelected,
+      labelState: LabelState.Hide,
+    });
   },
 } as EditLabelBehavior;
 

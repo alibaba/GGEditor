@@ -335,7 +335,12 @@ export interface CommandEvent {
   params: object;
 }
 
+export interface GraphStateEvent {
+  graphState: GraphState;
+}
+
 export interface LabelStateEvent {
+  graphState: GraphState;
   labelState: LabelState;
 }
 

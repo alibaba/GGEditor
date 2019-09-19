@@ -46,10 +46,10 @@ export enum EditorEvent {
   onBeforeExecuteCommand = 'onBeforeExecuteCommand',
   /** 调用命令之后触发 */
   onAfterExecuteCommand = 'onAfterExecuteCommand',
-  /** 改变标签状态之前触发 */
-  onBeforeLabelStateChange = 'onBeforeLabelStateChange',
-  /** 改变标签状态之后触发 */
-  onAfterLabelStateChange = 'onAfterLabelStateChange',
+  /** 改变画面状态触发 */
+  onGraphStateChange = 'onGraphStateChange',
+  /** 改变标签状态触发 */
+  onLabelStateChange = 'onLabelStateChange',
   /** 改变右键菜单状态触发 */
   onContextMenuStateChange = 'onContextMenuStateChange',
 }

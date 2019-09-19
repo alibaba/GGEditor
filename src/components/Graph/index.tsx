@@ -72,6 +72,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
 
     const selectedNodes = getSelectedNodes(graph);
     const selectedEdges = getSelectedEdges(graph);
+
     if (selectedNodes.length === 1 && !selectedEdges.length) {
       graphState = GraphState.NodeSelected;
     }
@@ -83,6 +84,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     if (selectedNodes.length && selectedEdges.length) {
       graphState = GraphState.MultiSelected;
     }
+
     return graphState;
   };
 

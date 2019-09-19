@@ -4,7 +4,14 @@ import pick from 'lodash/pick';
 import { addListener } from '../../utils';
 import Global from '../../common/Global';
 import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '../../common/constants';
-import { Graph, CommandEvent, LabelStateEvent, EventHandle, ContextMenuEvent } from '../../common/interface';
+import {
+  Graph,
+  CommandEvent,
+  GraphStateEvent,
+  LabelStateEvent,
+  EventHandle,
+  ContextMenuEvent,
+} from '../../common/interface';
 import commandManager from '../../common/commandManager';
 import EditorContext from '../../common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '../../common/context/EditorPrivateContext';
@@ -46,18 +53,38 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       EditorEvent.onBeforeExecuteCommand,
       props[EditorEvent.onBeforeExecuteCommand],
     );
+
     addListener<EventHandle<CommandEvent>>(
       graph,
       EditorEvent.onAfterExecuteCommand,
       props[EditorEvent.onAfterExecuteCommand],
     );
-    addListener<EventHandle<LabelStateEvent>>(graph, EditorEvent.onBeforeLabelStateChange, ({ labelState }) => {
-      if (labelState === this.state.labelState) {
+
+    addListener<EventHandle<GraphStateEvent>>(graph, EditorEvent.onGraphStateChange, ({ graphState }) => {
+      if (graphState === this.state.graphState) {
         return;
       }
 
-      this.setLabelState(labelState);
+      this.setState({
+        graphState,
+      });
     });
+
+    addListener<EventHandle<LabelStateEvent>>(
+      graph,
+      EditorEvent.onLabelStateChange,
+      ({ graphState = GraphState.NodeSelected, labelState }) => {
+        if (labelState === this.state.labelState) {
+          return;
+        }
+
+        this.setState({
+          graphState,
+          labelState,
+        });
+      },
+    );
+
     addListener<EventHandle<ContextMenuEvent>>(
       graph,
       EditorEvent.onContextMenuStateChange,

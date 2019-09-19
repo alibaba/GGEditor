@@ -21,7 +21,7 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
 
   type: GraphState;
 
-  constructor(props: PanelProps, type: GraphState) {
+  constructor(props: DetailPanelProps, type: GraphState) {
     super(props);
 
     this.type = type;
@@ -29,6 +29,7 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
 
   render() {
     const { graph, graphState, children } = this.props;
+
     if (!graph) {
       return null;
     }
