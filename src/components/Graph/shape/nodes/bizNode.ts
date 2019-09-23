@@ -32,6 +32,7 @@ export const bizOption: BizNode = {
   },
 
   drawAppendix(model: NodeModel, group: Group) {
+    console.log(model);
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
@@ -167,12 +168,12 @@ export const bizOption: BizNode = {
   adjustAppendix({ keyShapeSize, appendix, model }: { keyShapeSize: any; appendix: Shape; model: NodeModel }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     if (!model) return;
-    if (model.x < 0) {
-      appendix.attr('x', -keyShapeWidth / 2 + 1);
-      appendix.attr('y', -keyShapeHeight / 2 + 1);
+    if (model.x > 0) {
+      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 0.5);
+      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
     } else {
-      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 1);
-      appendix.attr('y', -keyShapeHeight / 2 + 1);
+      appendix.attr('x', -keyShapeWidth / 2 + 0.5);
+      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
     }
   },
 
