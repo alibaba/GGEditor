@@ -84,13 +84,11 @@ class Mind extends React.Component<MindProps, MindState> {
       },
     };
 
-    if (customModes) {
-      Object.keys(modes).forEach(mode => {
-        const behaviors = modes[mode];
+    Object.keys(modes).forEach(mode => {
+      const behaviors = modes[mode];
 
-        modes[mode] = Object.values(customModes(mode, behaviors));
-      });
-    }
+      modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
+    });
 
     this.graph = new G6.TreeGraph({
       container: containerId,
