@@ -32,7 +32,6 @@ export const bizOption: BizNode = {
   },
 
   drawAppendix(model: NodeModel, group: Group) {
-    console.log(model);
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
         className: ShapeClassName.Appendix,
