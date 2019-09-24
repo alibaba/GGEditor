@@ -15,30 +15,20 @@ import {
 } from '../../common/constants';
 import {
   Graph,
-  GraphCommonEventProps,
-  GraphNodeEventProps,
-  GraphEdgeEventProps,
-  GraphCanvasEventProps,
-  GraphCustomEventProps,
   GraphNativeEvent,
   GraphReactEvent,
+  GraphReactEventProps,
   GraphEvent,
   CommandEvent,
   EventHandle,
 } from '../../common/interface';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import { withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import EditableLabel from '../../components/EditableLabel';
 
 import './command';
 import './behavior';
 
-interface EditorGraphProps
-  extends EditorPrivateContextProps,
-    GraphCommonEventProps,
-    GraphNodeEventProps,
-    GraphEdgeEventProps,
-    GraphCanvasEventProps,
-    GraphCustomEventProps {
+interface EditorGraphProps extends GraphReactEventProps {
   containerId: string;
   data: any;
   parseData(data: object): void;

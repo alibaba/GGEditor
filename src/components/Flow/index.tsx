@@ -2,27 +2,17 @@ import React from 'react';
 import G6 from '@antv/g6';
 import { uuid } from '../../utils';
 import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
-import {
-  GraphCommonEventProps,
-  GraphNodeEventProps,
-  GraphEdgeEventProps,
-  GraphCanvasEventProps,
-  GraphCustomEventProps,
-} from '../../common/interface';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import { GraphReactEventProps } from '../../common/interface';
+import { withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import Graph from '../Graph';
 
 import './shape';
 import './behavior';
 import { GraphEvent } from '../../common/interface';
 
-interface FlowProps
-  extends EditorPrivateContextProps,
-    GraphCommonEventProps,
-    GraphNodeEventProps,
-    GraphEdgeEventProps,
-    GraphCanvasEventProps,
-    GraphCustomEventProps {}
+interface FlowProps extends GraphReactEventProps {
+  customModes?: (mode: string, behaviors: any) => object;
+}
 
 interface FlowState {}
 
@@ -67,32 +57,44 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
+    const { customModes } = this.props;
+
+    const modes: any = {
+      default: {
+        'active-edge': 'active-edge',
+        align: 'align',
+        'brush-select': 'brush-select',
+        'click-select': 'click-select',
+        'drag-add-edge': 'drag-add-edge',
+        'drag-canvas': {
+          type: 'drag-canvas',
+          shouldBegin: this.canDragCanvas,
+          shouldUpdate: this.canDragCanvas,
+          shouldEnd: this.canDragCanvas,
+        },
+        'drag-node': 'drag-node',
+        'hover-anchor': 'hover-anchor',
+        'hover-node': 'hover-node',
+        'zoom-canvas': {
+          type: 'zoom-canvas',
+          shouldUpdate: this.canZoomCanvas,
+        },
+      },
+    };
+
+    if (customModes) {
+      Object.keys(modes).forEach(mode => {
+        const behaviors = modes[mode];
+
+        modes[mode] = Object.values(customModes(mode, behaviors));
+      });
+    }
+
     this.graph = new G6.Graph({
       container: containerId,
       width,
       height,
-      modes: {
-        default: [
-          {
-            type: 'zoom-canvas',
-            shouldUpdate: this.canZoomCanvas,
-          },
-          'active-edge',
-          'align',
-          'click-select',
-          'drag-add-edge',
-          'drag-node',
-          'hover-anchor',
-          'hover-node',
-          'brush-select',
-          {
-            type: 'drag-canvas',
-            shouldBegin: this.canDragCanvas,
-            shouldUpdate: this.canDragCanvas,
-            shouldEnd: this.canDragCanvas,
-          },
-        ],
-      },
+      modes,
     });
 
     return this.graph;

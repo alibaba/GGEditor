@@ -2,27 +2,17 @@ import React from 'react';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '../../utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
-import {
-  GraphCommonEventProps,
-  GraphNodeEventProps,
-  GraphEdgeEventProps,
-  GraphCanvasEventProps,
-  GraphCustomEventProps,
-} from '../../common/interface';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import { GraphReactEventProps } from '../../common/interface';
+import { withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
 import Graph from '../Graph';
 
 import './shape';
 import './command';
 import './behavior';
 
-interface MindProps
-  extends EditorPrivateContextProps,
-    GraphCommonEventProps,
-    GraphNodeEventProps,
-    GraphEdgeEventProps,
-    GraphCanvasEventProps,
-    GraphCustomEventProps {}
+interface MindProps extends GraphReactEventProps {
+  customModes?: (mode: string, behaviors: any) => object;
+}
 
 interface MindState {}
 
@@ -65,37 +55,48 @@ class Mind extends React.Component<MindProps, MindState> {
 
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
+    const { customModes } = this.props;
+
+    const modes: any = {
+      default: {
+        'click-item': {
+          type: 'click-item',
+          multiple: false,
+        },
+        'collapse-expand': {
+          type: 'collapse-expand',
+          shouldBegin: this.canCollapseExpand,
+        },
+        'context-menu': 'context-menu',
+        'drag-canvas': {
+          type: 'drag-canvas',
+          shouldBegin: this.canDragCanvas,
+          shouldUpdate: this.canDragCanvas,
+          shouldEnd: this.canDragCanvas,
+        },
+        'edit-label': 'edit-label',
+        'hover-item': 'hover-item',
+        'recall-edge': 'recall-edge',
+        'zoom-canvas': {
+          type: 'zoom-canvas',
+          shouldUpdate: this.canZoomCanvas,
+        },
+      },
+    };
+
+    if (customModes) {
+      Object.keys(modes).forEach(mode => {
+        const behaviors = modes[mode];
+
+        modes[mode] = Object.values(customModes(mode, behaviors));
+      });
+    }
 
     this.graph = new G6.TreeGraph({
       container: containerId,
       width,
       height,
-      modes: {
-        default: [
-          {
-            type: 'drag-canvas',
-            shouldBegin: this.canDragCanvas,
-            shouldUpdate: this.canDragCanvas,
-            shouldEnd: this.canDragCanvas,
-          },
-          {
-            type: 'zoom-canvas',
-            shouldUpdate: this.canZoomCanvas,
-          },
-          {
-            type: 'click-item',
-            multiple: false,
-          },
-          'hover-item',
-          'edit-label',
-          'context-menu',
-          'recall-edge',
-          {
-            type: 'collapse-expand',
-            shouldBegin: this.canCollapseExpand,
-          },
-        ],
-      },
+      modes,
       layout: {
         type: 'mindmap',
         direction: 'H',

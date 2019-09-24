@@ -12,6 +12,7 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '../common/constants';
+import { EditorPrivateContextProps } from './context/EditorPrivateContext';
 
 /**
  * G BBOX
@@ -138,6 +139,9 @@ export interface Graph extends EventEmitter {
   // 查找
   findById<T = Item>(id: string): T;
   findAllByState<T = Item>(type: ItemType, state: string): T[];
+
+  // 数据
+  save<T>(): T;
 
   // 坐标转换
   getPointByClient(clientX: number, clientY: number): { x: number; y: number };
@@ -370,3 +374,11 @@ export type GraphReactEvent =
   | keyof typeof GraphEdgeEvent
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
+
+export interface GraphReactEventProps
+  extends EditorPrivateContextProps,
+    GraphCommonEventProps,
+    GraphNodeEventProps,
+    GraphEdgeEventProps,
+    GraphCanvasEventProps,
+    GraphCustomEventProps {}
