@@ -1,5 +1,5 @@
 import { isMind, getSelectedNodes, getSelectedEdges } from '../../../utils';
-import { ItemState } from '../../../common/constants';
+import { ItemState, LabelState, EditorEvent } from '../../../common/constants';
 import { Node, Edge, Graph, Command } from '../../../common/interface';
 import command from '../../../common/command';
 import commandManager from '../../../common/commandManager';
@@ -13,6 +13,8 @@ export interface BaseCommand<P = object, G = Graph> extends Command<P, G> {
   getSelectedEdges(graph: G): Edge[];
   /** 设置选中节点 */
   setSelectedNode(graph: G, id: string): void;
+  /** 编辑选中节点 */
+  editSelectedNode(graph: G): void;
 }
 
 export const baseCommand: BaseCommand = {
@@ -40,6 +42,22 @@ export const baseCommand: BaseCommand = {
     graph.setItemState(id, ItemState.Selected, true);
     graph.setAutoPaint(autoPaint);
     graph.paint();
+  },
+
+  editSelectedNode(graph: Graph) {
+    const modes = graph.get('modes');
+    const mode = graph.getCurrentMode();
+    const behaviors = modes[mode];
+
+    if (
+      behaviors.some((behavior: any) => {
+        return behavior === 'edit-label' || behavior.type === 'edit-label';
+      })
+    ) {
+      graph.emit(EditorEvent.onLabelStateChange, {
+        labelState: LabelState.Show,
+      });
+    }
   },
 };
 

@@ -131,6 +131,8 @@ export interface Graph extends EventEmitter {
   setAutoPaint(auto: boolean): void;
 
   // 交互
+  setMode(mode: string): void;
+  getCurrentMode(): string;
   fitView(padding?: number | number[]): void;
 
   // 状态

@@ -1,5 +1,5 @@
 import { uuid } from '../../../utils';
-import { NODE_DEFAULT_LABEL, EditorEvent, LabelState } from '../../../common/constants';
+import { NODE_DEFAULT_LABEL } from '../../../common/constants';
 import { TreeGraph, MindNodeModel } from '../../../common/interface';
 import commandManager from '../../../common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
@@ -53,9 +53,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
     this.setSelectedNode(graph, model.id);
 
     // 编辑节点
-    graph.emit(EditorEvent.onLabelStateChange, {
-      labelState: LabelState.Show,
-    });
+    this.editSelectedNode(graph);
   },
 
   undo(graph) {

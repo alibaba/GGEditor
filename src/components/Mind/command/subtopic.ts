@@ -1,4 +1,3 @@
-import { EditorEvent, LabelState } from '../../../common/constants';
 import { TreeGraph, MindNodeModel, Node } from '../../../common/interface';
 import commandManager from '../../../common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
@@ -28,9 +27,7 @@ const subtopicCommand: BaseCommand<SubtopicCommandParams, TreeGraph> = {
     this.setSelectedNode(graph, model.id);
 
     // 编辑节点
-    graph.emit(EditorEvent.onLabelStateChange, {
-      labelState: LabelState.Show,
-    });
+    this.editSelectedNode(graph);
   },
 
   shortcuts: ['Tab'],
