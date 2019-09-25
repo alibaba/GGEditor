@@ -1,10 +1,12 @@
 import G6 from '@antv/g6';
 import { GraphEvent, Item, Shape } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
+
 const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;
 const hypot = Math.hypot;
-G6.registerBehavior('brush-select', {
+behaviorManager.registerFlowBehavior('brush-select', {
   getDefaultCfg() {
     return {
       brushStyle: {
