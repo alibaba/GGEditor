@@ -66,8 +66,8 @@ class Flow extends React.Component<FlowProps, FlowState> {
         'brush-select': 'brush-select',
         'click-select': 'click-select',
         'drag-add-edge': 'drag-add-edge',
-        'drag-canvas': {
-          type: 'drag-canvas',
+        'flow-drag-canvas': {
+          type: 'flow-drag-canvas',
           shouldBegin: this.canDragCanvas,
           shouldUpdate: this.canDragCanvas,
           shouldEnd: this.canDragCanvas,

@@ -5,7 +5,7 @@ const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
 
-behaviorManager.registerFlowBehavior('drag-canvas', {
+behaviorManager.registerFlowBehavior('flow-drag-canvas', {
   getDefaultCfg() {
     return {
       direction: 'both',
