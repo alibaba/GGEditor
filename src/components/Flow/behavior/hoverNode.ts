@@ -1,7 +1,8 @@
 import G6 from '@antv/g6';
 import { GraphEvent } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 
-G6.registerBehavior('hover-node', {
+behaviorManager.registerFlowBehavior('hover-node', {
   getEvents() {
     return {
       'node:mouseenter': 'onEnterNode',

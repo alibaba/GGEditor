@@ -1,10 +1,11 @@
 import G6 from '@antv/g6';
 import globalStyle from '../common/globalStyle';
 import { GraphEvent, Shape } from '../../../common/interface';
+import behaviorManager from '../../../common/behaviorManager';
 const { delegateStyle } = globalStyle;
 const { body } = document;
 
-G6.registerBehavior('drag-node', {
+behaviorManager.registerFlowBehavior('drag-node', {
   getEvents() {
     return {
       'node:dragstart': 'onDragStart',
