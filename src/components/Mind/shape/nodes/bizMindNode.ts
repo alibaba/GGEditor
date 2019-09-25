@@ -93,7 +93,7 @@ const options: BizMindNodeOptions = {
      * 2. all nodes have identical width
      * 3. model.x model.y refer to the center point of a node
      * */
-    if (!model.children || model.children.length < 0) {
+    if (!model.children || model.children.length <= 0) {
       return;
     }
 
