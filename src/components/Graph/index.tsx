@@ -28,6 +28,8 @@ import EditableLabel from '../../components/EditableLabel';
 import './command';
 import './behavior';
 
+const FIT_VIEW_PADDING = 200;
+
 interface EditorGraphProps extends GraphReactEventProps {
   containerId: string;
   data: any;
@@ -49,6 +51,14 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
   componentDidMount() {
     this.initGraph();
     this.bindEvent();
+  }
+
+  componentDidUpdate(prevProps: EditorGraphProps) {
+    const { data } = this.props;
+
+    if (data !== prevProps.data) {
+      this.changeData(data);
+    }
   }
 
   getGraphState = () => {
@@ -90,9 +100,8 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     // 初始画布
     this.graph = initGraph(clientWidth, clientHeight);
 
-    this.graph.data(data);
-    this.graph.render();
-    this.graph.fitView();
+    this.graph.read(data);
+    this.graph.fitView(FIT_VIEW_PADDING);
     this.graph.setMode('default');
 
     setGraph(this.graph);
@@ -144,6 +153,20 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     addListener<EventHandle<GraphEvent>>(graph, GraphCanvasEvent.onCanvasClick, () => {
       setGraphState(GraphState.CanvasSelected);
     });
+  }
+
+  changeData(data: any) {
+    const { graph } = this;
+    const { parseData } = this.props;
+
+    if (!graph) {
+      return;
+    }
+
+    parseData(data);
+
+    graph.changeData(data);
+    graph.fitView(FIT_VIEW_PADDING);
   }
 
   render() {

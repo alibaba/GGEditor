@@ -133,6 +133,7 @@ export interface Graph extends EventEmitter {
   // 交互
   setMode(mode: string): void;
   getCurrentMode(): string;
+  focusItem(item: string | Item): void;
   fitView(padding?: number | number[]): void;
 
   // 状态
