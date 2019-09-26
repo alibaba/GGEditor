@@ -28,6 +28,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     Global.setTrackable(trackable);
   }
 
+  lastMousedownTarget: EventTarget | null;
+
   constructor(props: GGEditorProps) {
     super(props);
 
@@ -43,6 +45,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       executeCommand: this.executeCommand,
       setContextMenuState: this.setContextMenuState,
     };
+
+    this.lastMousedownTarget = null;
   }
 
   bindEvent(graph: Graph) {
@@ -95,11 +99,15 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   }
 
   bindShortcut(graph: Graph) {
-    graph.on(GraphCommonEvent.onKeyDown, (e: any) => {
-      const { nodeName } = e.target || {};
+    window.addEventListener(GraphCommonEvent.onMouseDown, e => {
+      this.lastMousedownTarget = e.target;
+    });
 
-      if (!(nodeName === 'INPUT') && !(nodeName === 'DIV' && e.target.contentEditable === 'true')) {
-        e.preventDefault();
+    graph.on(GraphCommonEvent.onKeyDown, (e: any) => {
+      const canvasElement = graph.get('canvas').get('el');
+
+      if (this.lastMousedownTarget !== canvasElement) {
+        return;
       }
 
       Object.values(commandManager.command).some(command => {
