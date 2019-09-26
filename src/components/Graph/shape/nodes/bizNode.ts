@@ -203,10 +203,10 @@ export const bizOption: BizNode = {
     wrapper.attr('width', keyShapeWidth);
 
     wrapper.attr('y', -wrapper.attr('height') / 2);
-    if (model.x < 0) {
-      wrapper.attr('x', -keyShapeWidth / 2 + 4);
-    } else {
+    if (model.x > 0) {
       wrapper.attr('x', -keyShapeWidth / 2 - 4);
+    } else {
+      wrapper.attr('x', -keyShapeWidth / 2 + 4);
     }
   },
 
