@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { GraphEvent } from '../../../common/interface';
-import behaviorManager from '../../../common/behaviorManager';
+import { GraphEvent } from '@common/interface';
+import behaviorManager from '@common/behaviorManager';
 
 behaviorManager.registerFlowBehavior('hover-anchor', {
   getEvents() {

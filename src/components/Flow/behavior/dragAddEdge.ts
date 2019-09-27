@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
-import { GraphEvent, Shape } from '../../../common/interface';
+import { GraphEvent, Shape } from '@common/interface';
 import * as uuidv4 from 'uuid/v4';
-import behaviorManager from '../../../common/behaviorManager';
+import behaviorManager from '@common/behaviorManager';
 
 behaviorManager.registerFlowBehavior('drag-add-edge', {
   getDefaultCfg() {

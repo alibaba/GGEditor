@@ -3,18 +3,22 @@
 const { exec } = require('child_process');
 const { version } = require('../package.json');
 
-exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:es`, (error) => {
+exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:es`, error => {
   console.log(error || 'Build es success！');
+
+  exec(`tscpaths -p ./tsconfig.es.json -s ./es`);
 });
 
-exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:cjs`, (error) => {
+exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:cjs`, error => {
   console.log(error || 'Build cjs success！');
+
+  exec(`tscpaths -p ./tsconfig.cjs.json -s ./cjs`);
 });
 
-exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:umd`, (error) => {
+exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:umd`, error => {
   console.log(error || 'Build umd success！');
 });
 
-exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:demo`, (error) => {
+exec(`cross-env GG_EDITOR_VERSION=${version} npm run build:demo`, error => {
   console.log(error || 'Build demo success！');
 });

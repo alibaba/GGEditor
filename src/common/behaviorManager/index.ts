@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { isMind } from '../../utils';
+import { isMind } from '@utils';
 import { GraphType } from '../constants';
 import { Graph, Behavior, GraphNativeEvent } from '../interface';
 

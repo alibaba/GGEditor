@@ -1,8 +1,8 @@
 import React from 'react';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import pick from 'lodash/pick';
-import { Shape, Node } from '../../common/interface';
-import { ItemType } from '../../common/constants';
+import { Shape, Node } from '@common/interface';
+import { ItemType } from '@common/constants';
 
 interface ItemProps extends EditorPrivateContextProps {
   /** 预览图资源 */

@@ -1,9 +1,9 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { uuid, recursiveTraversal } from '../../utils';
-import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '../../common/constants';
-import { GraphReactEventProps } from '../../common/interface';
-import { withEditorPrivateContext } from '../../common/context/EditorPrivateContext';
+import { uuid, recursiveTraversal } from '@utils';
+import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
+import { GraphReactEventProps } from '@common/interface';
+import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import Graph from '../Graph';
 
 import './shape';

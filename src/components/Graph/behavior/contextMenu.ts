@@ -1,6 +1,6 @@
-import { EditorEvent, ShapeClassName } from '../../../common/constants';
-import { Behavior, GraphEvent } from '../../../common/interface';
-import behaviorManager from '../../../common/behaviorManager';
+import { EditorEvent } from '@common/constants';
+import { Behavior, GraphEvent } from '@common/interface';
+import behaviorManager from '@common/behaviorManager';
 
 interface ContextMenuBehavior extends Behavior {
   /** 显示右键菜单 */

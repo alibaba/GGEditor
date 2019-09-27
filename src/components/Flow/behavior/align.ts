@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import globalStyle from '../common/globalStyle';
-import { Item, GraphEvent } from '../../../common/interface';
+import { Item, GraphEvent } from '@common/interface';
 
 const { alignLine } = globalStyle;
 
