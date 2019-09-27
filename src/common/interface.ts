@@ -11,7 +11,7 @@ import {
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
-} from '../common/constants';
+} from '@common/constants';
 import { EditorPrivateContextProps } from './context/EditorPrivateContext';
 
 /**

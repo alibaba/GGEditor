@@ -1,7 +1,7 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import upperFirst from 'lodash/upperFirst';
-import commandManager from '../../common/commandManager';
+import commandManager from '@common/commandManager';
 
 interface RegisterProps {
   name: string;

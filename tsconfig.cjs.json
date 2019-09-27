@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "cjs",
+    "paths": {
+      "@common/*": ["cjs/common/*"],
+      "@components/*": ["cjs/components/*"],
+      "@helpers": ["cjs/helpers"],
+      "@utils": ["cjs/utils"]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "es",
+    "paths": {
+      "@common/*": ["es/common/*"],
+      "@components/*": ["es/components/*"],
+      "@helpers": ["es/helpers"],
+      "@utils": ["es/utils"]
+    }
+  }
+}

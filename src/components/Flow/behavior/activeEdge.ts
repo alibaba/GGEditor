@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { GGEditorEvent } from 'gg-editor';
-import behaviorManager from '../../../common/behaviorManager';
+import behaviorManager from '@common/behaviorManager';
 
 behaviorManager.registerFlowBehavior('active-edge', {
   getEvents() {

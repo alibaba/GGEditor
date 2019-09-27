@@ -1,6 +1,6 @@
-import { ItemState } from '../../../common/constants';
-import { Item, Behavior } from '../../../common/interface';
-import behaviorManager from '../../../common/behaviorManager';
+import { ItemState } from '@common/constants';
+import { Item, Behavior } from '@common/interface';
+import behaviorManager from '@common/behaviorManager';
 
 interface HoverItemBehavior extends Behavior {
   /** 处理鼠标进入 */

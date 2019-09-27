@@ -1,5 +1,5 @@
-import command from '../../../common/command';
-import commandManager from '../../../common/commandManager';
+import command from '@common/command';
+import commandManager from '@common/commandManager';
 
 commandManager.register('undo', {
   ...command,
