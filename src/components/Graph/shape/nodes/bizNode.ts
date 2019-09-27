@@ -41,6 +41,7 @@ export const bizOption: BizNode = {
           x: 0,
           y: 0,
           width: 20,
+          cursor: 'pointer',
         },
       });
     } else {
@@ -52,6 +53,7 @@ export const bizOption: BizNode = {
           x: 0,
           y: 0,
           width: 20,
+          cursor: 'pointer',
         },
       });
     }
@@ -245,13 +247,13 @@ export const bizOption: BizNode = {
 
   [`get${ShapeClassName.KeyShape}activeStyle`]() {
     return {
-      fill: '#f1f1f1',
+      fill: '#e9e5ff',
     };
   },
 
   [`get${ShapeClassName.KeyShape}selectedStyle`]() {
     return {
-      fill: '#f1f1f1',
+      fill: '#e9e5ff',
     };
   },
 
