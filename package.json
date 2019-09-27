@@ -11,7 +11,6 @@
   ],
   "main": "cjs/index.js",
   "module": "es/index.js",
-  "types": "src/index.tsx",
   "files": [
     "src",
     "es",
@@ -25,8 +24,8 @@
     "start": "webpack-dev-server --config ./tools/webpack.config.demo.dev.js --open",
     "watch": "webpack --config ./tools/webpack.config.dev.js --watch",
     "build": "node ./scripts/build.js",
-    "build:es": "rimraf ./es && babel ./src --out-dir ./es --extensions .ts,.tsx",
-    "build:cjs": "rimraf ./cjs && babel ./src --out-dir ./cjs --plugins @babel/plugin-transform-modules-commonjs --extensions .ts,.tsx",
+    "build:es": "rimraf ./es && babel ./src --out-dir ./es --extensions .ts,.tsx && tsc --emitDeclarationOnly --declarationDir ./es",
+    "build:cjs": "rimraf ./cjs && babel ./src --out-dir ./cjs --plugins @babel/plugin-transform-modules-commonjs --extensions .ts,.tsx && tsc --emitDeclarationOnly --declarationDir ./cjs",
     "build:umd": "rimraf ./dist && webpack --config ./tools/webpack.config.prod.js",
     "build:demo": "rimraf ./demo/dist && webpack --config ./tools/webpack.config.demo.prod.js",
     "lint": "eslint --cache --ext .ts,.tsx ./src",

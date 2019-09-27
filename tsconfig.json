@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "declaration": true,
     "esModuleInterop": true,
     "importHelpers": true,
     "jsx": "react",
