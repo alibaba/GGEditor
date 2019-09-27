@@ -5,11 +5,11 @@
       {
         "modules": false,
         "useBuiltIns": "usage",
-        "corejs": 2,
+        "corejs": 2
       }
     ],
     "@babel/preset-react",
-    "@babel/preset-typescript",
+    "@babel/preset-typescript"
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
