@@ -157,6 +157,9 @@ export const bizOption: BizNode = {
     if (label.attr('text').includes('\n')) {
       keyShape.attr('width', 114);
       keyShape.attr('height', 54);
+    } else {
+      keyShape.attr('width', 114);
+      keyShape.attr('height', 36);
     }
     return {
       width: keyShape.attr('width'),
