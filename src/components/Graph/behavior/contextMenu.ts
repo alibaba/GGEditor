@@ -1,4 +1,4 @@
-import { EditorEvent } from '@common/constants';
+import { EditorEvent, ShapeClassName } from '@common/constants';
 import { Behavior, GraphEvent } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
