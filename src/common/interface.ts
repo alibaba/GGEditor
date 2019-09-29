@@ -91,10 +91,10 @@ export interface NodeModel extends ItemModel {
 }
 
 export interface EdgeModel extends ItemModel {
-  /** 起始节点 */
-  source: Node;
-  /** 终止节点 */
-  target: Node;
+  /** 起始节点id */
+  source: string;
+  /** 终止节点id */
+  target: string;
   /** 起始点 */
   startPoint: { x: number; y: number };
   /** 终止点 */
