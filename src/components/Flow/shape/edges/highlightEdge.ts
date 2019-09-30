@@ -13,11 +13,12 @@ export default function drawHighlightEdge(name: ItemState, value: boolean, item:
     keyShape.endArrow && keyShape.endArrow.attr({ fill: edgeStyle.stroke });
   };
 
-  if (name === ItemState.HighLight && value) {
+  if (item.hasState(ItemState.HighLight)) {
     keyShape.attr({
       lineWidth: 2,
       stroke: '#1890FF',
     });
+    keyShape.endArrorw && keyShape.endArrow.attr({ fill: '#1890FF' });
   } else {
     revertStyle();
   }

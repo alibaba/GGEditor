@@ -1,5 +1,5 @@
 import { getHighlightEdges, executeBatch, isMind } from '@utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent } from '@common/constants';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent } from '@common/constants';
 import { Item, Edge, Behavior } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
@@ -9,6 +9,9 @@ interface RecallEdgeBehavior extends Behavior {
 
   /** 处理点击事件 */
   handleNodeClick({ item }: { item: Item }): void;
+
+  /** 处理边线点击 */
+  handleEdgeClick({ item }: { item: Item }): void;
 
   /** 处理画布点击 */
   handleCanvasClick(): void;
@@ -20,7 +23,7 @@ interface RecallEdgeBehavior extends Behavior {
   findMindParentEdges(item: Item, edges?: Edge[]): Edge[];
 
   /** 查找流程图回溯边线 */
-  findFlowRecallEdges(item: Item, edges?: Edge[]): Edge[];
+  findFlowRecallEdges(item: Item): Edge[];
 }
 
 const recallEdgeBehavior = {
@@ -28,6 +31,7 @@ const recallEdgeBehavior = {
     return {
       [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
       [`${GraphCanvasEvent.onCanvasClick}`]: 'handleCanvasClick',
+      [`${GraphEdgeEvent.onEdgeClick}`]: 'handleEdgeClick',
     };
   },
 
@@ -59,6 +63,16 @@ const recallEdgeBehavior = {
     }
 
     this.highlightParentEdges(item);
+  },
+
+  handleEdgeClick({ item }) {
+    const { graph } = this;
+
+    const isHighlight = item.hasState(ItemState.HighLight);
+
+    if (isHighlight) {
+      graph.setItemState(item, ItemState.HighLight, false);
+    }
   },
 
   highlightParentEdges(item) {
@@ -97,25 +111,11 @@ const recallEdgeBehavior = {
     return this.findMindParentEdges(item.get('parent'), edges);
   },
 
-  findFlowRecallEdges(item, edges = []) {
-    const { graph } = this;
-
-    const itemId = item.getModel().id;
-    const edgesOnItem = item.getEdges();
-
-    if (!edgesOnItem.find(edge => edge.getModel().target === itemId)) {
-      return edges;
-    }
-
-    for (let i = 0; i < edgesOnItem.length; i++) {
-      if (edgesOnItem[i].getModel().target === itemId) {
-        edges.push(edgesOnItem[i]);
-      }
-    }
-
-    for (let i = 0; i < edgesOnItem.length; i++) {
-      return this.findFlowRecallEdges(graph.findById(edgesOnItem[i].getModel().source), edges);
-    }
+  /**
+   * 暂时支持返回直接连到节点的边
+   * */
+  findFlowRecallEdges(item) {
+    return item.getEdges();
   },
 
   handleCanvasClick() {
