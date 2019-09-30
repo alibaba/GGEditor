@@ -17,6 +17,8 @@ import EditorContext from '@common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
 
 interface GGEditorProps {
+  className?: string;
+  style?: React.CSSProperties;
   [EditorEvent.onBeforeExecuteCommand]?: EventHandle<CommandEvent>;
   [EditorEvent.onAfterExecuteCommand]?: EventHandle<CommandEvent>;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid } from '@utils';
 import { FLOW_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
@@ -11,6 +12,9 @@ import './behavior';
 import { GraphEvent } from '@common/interface';
 
 interface FlowProps extends GraphReactEventProps {
+  className?: string;
+  style?: React.CSSProperties;
+  data: any;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
@@ -100,8 +104,17 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   render() {
     const { containerId, parseData, initGraph } = this;
+    const { data } = this.props;
 
-    return <Graph containerId={containerId} parseData={parseData} initGraph={initGraph} {...this.props} />;
+    return (
+      <Graph
+        containerId={containerId}
+        data={data}
+        parseData={parseData}
+        initGraph={initGraph}
+        {...pick(this.props, ['className', 'style'])}
+      />
+    );
   }
 }
 

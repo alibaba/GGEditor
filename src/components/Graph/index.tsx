@@ -31,6 +31,8 @@ import './behavior';
 const FIT_VIEW_PADDING = 200;
 
 interface EditorGraphProps extends GraphReactEventProps {
+  className?: string;
+  style?: React.CSSProperties;
   containerId: string;
   data: any;
   parseData(data: object): void;

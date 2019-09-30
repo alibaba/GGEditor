@@ -4,7 +4,11 @@ import { getSelectedNodes, getSelectedEdges } from '@utils';
 import { GraphState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
-interface DetailPanelProps extends EditorPrivateContextProps {}
+interface DetailPanelProps extends EditorPrivateContextProps {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
 
 interface DetailPanelState {}
 
