@@ -1,8 +1,9 @@
-import G6 from '@antv/g6';
+import { GraphType } from '@common/constants';
 import { GraphEvent } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
-behaviorManager.registerFlowBehavior('hover-anchor', {
+behaviorManager.register('hover-anchor', {
+  graphType: GraphType.Flow,
   getEvents() {
     return {
       mouseenter: 'onEnterAnchor',

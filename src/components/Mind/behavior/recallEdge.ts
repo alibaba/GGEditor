@@ -1,5 +1,5 @@
 import { getHighlightEdges, executeBatch } from '@utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent } from '@common/constants';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphType } from '@common/constants';
 import { Item, Edge, Behavior } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
@@ -21,6 +21,8 @@ interface RecallEdgeBehavior extends Behavior {
 }
 
 const recallEdgeBehavior = {
+  graphType: GraphType.Mind,
+
   getEvents() {
     return {
       [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
@@ -91,4 +93,4 @@ const recallEdgeBehavior = {
   },
 } as RecallEdgeBehavior;
 
-behaviorManager.registerMindBehavior('recall-edge', recallEdgeBehavior);
+behaviorManager.register('recall-edge', recallEdgeBehavior);

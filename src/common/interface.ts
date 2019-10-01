@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import {
   ItemType,
   ItemState,
+  GraphType,
   GraphState,
   LabelState,
   EditorEvent,
@@ -286,6 +287,7 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
  */
 export interface Behavior {
   graph: Graph;
+  graphType?: GraphType;
   getEvents(): {
     [propName in GraphNativeEvent]: string;
   };

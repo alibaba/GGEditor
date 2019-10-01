@@ -1,9 +1,17 @@
 import G6 from '@antv/g6';
 import { isMind } from '@utils';
-import { GraphType } from '../constants';
-import { Graph, Behavior, GraphNativeEvent } from '../interface';
+import { GraphType } from '@common/constants';
+import { Graph, Behavior, GraphNativeEvent } from '@common/interface';
 
 class BehaviorManager {
+  behaviors: {
+    [propName: string]: Behavior;
+  };
+
+  constructor() {
+    this.behaviors = {};
+  }
+
   wrapEventHandler(type: GraphType, behavior: Behavior): Behavior {
     const events = behavior.getEvents();
 
@@ -28,16 +36,24 @@ class BehaviorManager {
     return behavior;
   }
 
-  registerBehavior(name: string, behavior: Behavior) {
-    G6.registerBehavior(name, behavior);
-  }
+  register(name: string, behavior: Behavior) {
+    const { graphType } = behavior;
 
-  registerFlowBehavior(name: string, behavior: Behavior) {
-    G6.registerBehavior(name, this.wrapEventHandler(GraphType.Flow, behavior));
-  }
+    this.behaviors[name] = behavior;
 
-  registerMindBehavior(name: string, behavior: Behavior) {
-    G6.registerBehavior(name, this.wrapEventHandler(GraphType.Mind, behavior));
+    switch (graphType) {
+      case GraphType.Flow:
+        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Flow, behavior));
+        break;
+
+      case GraphType.Mind:
+        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Mind, behavior));
+        break;
+
+      default:
+        G6.registerBehavior(name, behavior);
+        break;
+    }
   }
 }
 

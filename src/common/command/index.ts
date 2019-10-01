@@ -1,4 +1,4 @@
-import { Command } from '../interface';
+import { Command } from '@common/interface';
 
 const command: Command = {
   name: '',

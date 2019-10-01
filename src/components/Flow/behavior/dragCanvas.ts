@@ -1,11 +1,13 @@
-import G6 from '@antv/g6';
+import { GraphType } from '@common/constants';
 import { GraphEvent } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
+
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
 
-behaviorManager.registerFlowBehavior('flow-drag-canvas', {
+behaviorManager.register('flow-drag-canvas', {
+  graphType: GraphType.Flow,
   getDefaultCfg() {
     return {
       direction: 'both',
