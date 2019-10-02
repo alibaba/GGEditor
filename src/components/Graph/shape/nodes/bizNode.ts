@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
-import { Group, Item, NodeModel, CustomNode, Shape } from '@common/interface';
+import { Group, Item, NodeModel, CustomNode, Shape, Node } from '@common/interface';
 
 export interface BizNode extends CustomNode {
   keyShape: Shape | null;
@@ -27,8 +27,25 @@ export const bizOption: BizNode = {
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
     this.drawAppendix(model, group);
+    this.drawTooltip(model, group);
     this.adjustPosition({ model, group });
     return keyShape;
+  },
+
+  drawTooltip(model: NodeModel, group: Group) {
+    if (model.tooltip) {
+      group.addShape('image', {
+        className: ShapeClassName.Tooltip,
+        attrs: {
+          img: model.tooltip.icon,
+          x: 0,
+          y: 0,
+          width: 20,
+          height: 20,
+          cursor: 'pointer',
+        },
+      });
+    }
   },
 
   drawAppendix(model: NodeModel, group: Group) {
@@ -138,6 +155,7 @@ export const bizOption: BizNode = {
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
+    const tooltip = group.findByClassName(ShapeClassName.Tooltip);
     const keyShapeSize = this.adjustKeyShape({ label, keyShape });
 
     if (wrapper) {
@@ -152,7 +170,18 @@ export const bizOption: BizNode = {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
 
+    if (tooltip) {
+      this.adjustTooltip(tooltip, model, keyShapeSize);
+    }
+
     this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
+  },
+
+  adjustTooltip(tooltip: Shape, model: NodeModel, keyShapeSize: any) {
+    const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
+
+    tooltip.attr('y', -tooltip.attr('width') - keyShapeHeight / 2);
+    tooltip.attr('x', -keyShapeWidth / 2 - 20);
   },
 
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
@@ -181,6 +210,9 @@ export const bizOption: BizNode = {
     }
   },
 
+  /**
+   * 节点坐标原点放在中心
+   * */
   resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any; keyShape: Shape; label: Shape }) {
     const shapeArr = [label];
     keyShape.attr('x', 0 - keyShapeSize.width / 2);

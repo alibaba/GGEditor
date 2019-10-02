@@ -107,6 +107,8 @@ export interface NodeModel extends ItemModel {
   y?: number;
   /** 节点尺寸 */
   size?: [number, number];
+  /** tooltip信息 */
+  tooltip: { icon: string; tip: string };
 }
 
 export interface EdgeModel extends ItemModel {

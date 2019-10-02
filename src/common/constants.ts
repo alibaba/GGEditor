@@ -11,6 +11,7 @@ export enum ShapeClassName {
   Appendix = 'node-appendix',
   Anchor = 'Anchor',
   CollapseExpandButton = 'CollapseExpandButton',
+  Tooltip = 'Tooltip',
 }
 
 export enum ItemType {
