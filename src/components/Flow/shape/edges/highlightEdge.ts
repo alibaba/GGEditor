@@ -19,7 +19,5 @@ export default function drawHighlightEdge(name: ItemState, value: boolean, item:
       stroke: '#1890FF',
     });
     keyShape.endArrorw && keyShape.endArrow.attr({ fill: '#1890FF' });
-  } else {
-    revertStyle();
   }
 }
