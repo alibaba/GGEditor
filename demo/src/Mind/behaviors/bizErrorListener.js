@@ -10,10 +10,14 @@ export const bizErrorListenerConfig = {
 
   handleAfterUpdateItem({ item, cfg }) {
     const itemModel = item.getModel();
+    const keyShape = item.getKeyShape();
+    const { graph } = this;
 
     console.log(itemModel);
-    console.log(this.graph);
+    console.log(item);
     if (itemModel && itemModel.error) {
+      keyShape.attr('fill', 'red');
+      console.log(keyShape);
     }
   },
 };
