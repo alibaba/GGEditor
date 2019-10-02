@@ -26,15 +26,18 @@ const tooltipBehavior = {
 
   showTooltip(e) {
     const { graph } = this;
+    const itemModel = e.item.getModel();
 
-    graph.emit(EditorEvent.onTooltipStateChange, {
-      tooltipState: {
-        visible: true,
-        clientX: e.clientX,
-        clientY: e.clientY,
-        text: '123',
-      },
-    });
+    if (e.target.get('className') === ShapeClassName.Tooltip && itemModel) {
+      graph.emit(EditorEvent.onTooltipStateChange, {
+        tooltipState: {
+          visible: true,
+          clientX: e.canvasX,
+          clientY: e.canvasY,
+          text: itemModel.tooltip && itemModel.tooltip.tip,
+        },
+      });
+    }
   },
 
   hideTooltip() {

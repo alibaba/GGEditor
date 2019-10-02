@@ -36,15 +36,23 @@ const options: BizMindNodeOptions = {
     const group = item.getContainer();
     let label = group.findByClassName(ShapeClassName.Label);
     let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
+    let tooltip = group.findByClassName(ShapeClassName.Tooltip);
+
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
+
+    // repaint tooltip
+    tooltip && tooltip.remove();
+
+    if (nextModel.tooltip) {
+      this.drawTooltip(nextModel, group);
+    }
+
     // adjust position
     this.adjustPosition({ model: nextModel, group });
     // repaint button
-    if (button) {
-      button.remove();
-    }
+    button && button.remove();
     if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }

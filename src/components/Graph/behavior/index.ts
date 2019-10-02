@@ -3,4 +3,4 @@ import './hoverItem';
 import './editLabel';
 import './contextMenu';
 import './recallEdge';
-import './toolTip';
+import './tooltip';
