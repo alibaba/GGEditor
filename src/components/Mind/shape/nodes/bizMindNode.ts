@@ -49,13 +49,14 @@ const options: BizMindNodeOptions = {
       this.drawTooltip(nextModel, group);
     }
 
-    // adjust position
-    this.adjustPosition({ model: nextModel, group });
     // repaint button
     button && button.remove();
     if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
+
+    // adjust position
+    this.adjustPosition({ model: nextModel, group });
   },
 
   drawExpandOrCollapseButton(model, group) {
@@ -107,7 +108,7 @@ const options: BizMindNodeOptions = {
     }
 
     const childModel = model.children[0];
-    const nodeWidth = group.getBBox().width;
+    const nodeWidth = group.findByClassName(ShapeClassName.KeyShape).attr('width');
 
     // left side
     if (model.x < 0) {
