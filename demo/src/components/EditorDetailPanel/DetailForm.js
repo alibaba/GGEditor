@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input } from 'antd';
+import { Card, Form, Input, Switch } from 'antd';
 import { withEditorContext } from 'gg-editor';
 import upperFirst from 'lodash/upperFirst';
 
@@ -15,7 +15,7 @@ const inlineFormItemLayout = {
 };
 
 class DetailForm extends React.Component {
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
@@ -44,9 +44,14 @@ class DetailForm extends React.Component {
     const { form } = this.props;
 
     return (
-      <Item label="Label" {...inlineFormItemLayout}>
-        {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
-      </Item>
+      <>
+        <Item label="Label" {...inlineFormItemLayout}>
+          {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
+        </Item>
+        <Item label="mock错误" {...inlineFormItemLayout}>
+          {form.getFieldDecorator('error')(<Switch onChange={this.handleSubmit} />)}
+        </Item>
+      </>
     );
   };
 
@@ -55,9 +60,7 @@ class DetailForm extends React.Component {
 
     return (
       <Card type="inner" size="small" title={upperFirst(type)} bordered={false}>
-        <Form onSubmit={this.handleSubmit}>
-          {this.renderNodeDetail()}
-        </Form>
+        <Form onSubmit={this.handleSubmit}>{this.renderNodeDetail()}</Form>
       </Card>
     );
   }
