@@ -3,14 +3,15 @@ import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import { addListener } from '@utils';
 import Global from '@common/Global';
-import { GraphState, LabelState, EditorEvent, GraphCommonEvent } from '@common/constants';
+import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@common/constants';
 import {
-  Graph,
   CommandEvent,
+  ContextMenuEvent,
+  EventHandle,
+  Graph,
   GraphStateEvent,
   LabelStateEvent,
-  EventHandle,
-  ContextMenuEvent,
+  TooltipEvent,
 } from '@common/interface';
 import commandManager from '@common/commandManager';
 import EditorContext from '@common/context/EditorContext';
@@ -40,6 +41,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
       contextMenuState: { visible: false, clientX: 0, clientY: 0 },
+      tooltipState: { visible: false, clientX: 0, clientY: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
@@ -98,6 +100,10 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
         this.setContextMenuState(param);
       },
     );
+
+    addListener<EventHandle<TooltipEvent>>(graph, EditorEvent.onTooltipStateChange, (param: TooltipEvent) => {
+      this.setTooltipState(param);
+    });
   }
 
   bindShortcut(graph: Graph) {
@@ -169,6 +175,12 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.setState({
       contextMenuState,
     });
+  };
+
+  setTooltipState = (param: TooltipEvent) => {
+    const { tooltipState } = param;
+
+    this.setState({ tooltipState });
   };
 
   canExecuteCommand = (name: string) => {

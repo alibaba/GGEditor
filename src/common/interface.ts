@@ -37,18 +37,31 @@ export interface BBox {
  * */
 export interface Shape {
   attr(name?: string, value?: string | number): void | any;
+
   attr(params?: object): void;
+
   get(name: string): any;
+
   set(name: string, value: any): any;
+
   getBBox(): BBox;
+
   getKeyShape(): Shape;
+
   getModel(): any;
+
   show(): void;
+
   hide(): void;
+
   remove(): void;
+
   destroy(): void;
+
   translate(x: number, y: number): void;
+
   updatePosition(p: { x: number; y: number }): void;
+
   hasState(state: string): boolean;
 }
 
@@ -58,15 +71,20 @@ export interface Shape {
  * */
 export interface Group {
   get(name: string): any;
+
   set(name: string, value: any): any;
+
   addShape(type: string, config: object): Shape;
+
   getBBox(): BBox;
+
   findByClassName(className: string): Shape;
 }
 
 export interface EventEmitter {
   /** 绑定事件 */
   on(eventName: EditorEvent | GraphNativeEvent, handler: Function): void;
+
   /** 触发事件 */
   emit(eventName: EditorEvent | GraphNativeEvent, params: object): void;
 }
@@ -118,23 +136,35 @@ export interface Graph extends EventEmitter {
 
   // 渲染
   render(): void;
+
   read(data: object): void;
+
   changeData(data: object): void;
 
   // 更新
   add<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
+
   addItem(type: ItemType, model: NodeModel | EdgeModel): void;
+
   update(item: string | Item, model: object): void;
+
   updateItem(item: string | Item, model: object): void;
+
   remove(item: string | Item): void;
+
   removeItem(item: string | Item): void;
+
   paint(): void;
+
   setAutoPaint(auto: boolean): void;
 
   // 交互
   setMode(mode: string): void;
+
   getCurrentMode(): string;
+
   focusItem(item: string | Item): void;
+
   fitView(padding?: number | number[]): void;
 
   // 状态
@@ -142,6 +172,7 @@ export interface Graph extends EventEmitter {
 
   // 查找
   findById<T = Item>(id: string): T;
+
   findAllByState<T = Item>(type: ItemType, state: string): T[];
 
   // 数据
@@ -152,6 +183,7 @@ export interface Graph extends EventEmitter {
 
   // 其它
   get(key: string): any;
+
   set(key: string, val: any): void;
 }
 
@@ -162,9 +194,13 @@ export interface Graph extends EventEmitter {
 export interface TreeGraph extends Graph {
   // 实例方法
   addChild(model: MindNodeModel, parent: Node | string): void;
+
   removeChild(id: string): void;
+
   updateChild(model: MindNodeModel, parent?: string): void;
+
   findDataById(id: string, parent?: object): MindNodeModel;
+
   refreshLayout(): TreeGraph;
 }
 
@@ -175,24 +211,40 @@ export interface TreeGraph extends Graph {
 export interface Item {
   // 通用
   getBBox(): BBox;
+
   getContainer(): Group;
+
   getKeyShape(): Shape;
+
   getModel<T = ItemModel>(): T;
+
   getType(): ItemType;
+
   getEdges(): Edge[];
+
   enableCapture(enable: boolean): void;
+
   clearCache(): void;
 
   // 状态
   show(): void;
+
   hide(): void;
+
   changeVisibility(visible: boolean): void;
+
   isVisible(): boolean;
+
   toFront(): void;
+
   toBack(): void;
+
   setState(state: string, enable: boolean): void;
+
   clearStates(states: string | string[]): void;
+
   getStates(): string[];
+
   hasState(state: string): boolean;
 
   // 其它
@@ -209,7 +261,9 @@ export interface Node extends Item {
 
   // 特有
   getEdges(): Edge[];
+
   getInEdges(): Edge[];
+
   getOutEdges(): Edge[];
 }
 
@@ -238,20 +292,29 @@ export interface CustomShape<T, M> {
 
   // 绘制
   draw?(model: M, group: Group): Shape;
+
   drawShape?(model: M, group: Group): void;
+
   drawLabel?(model: M, group: Group): Shape;
+
   afterDraw?(model: M, group: Group): void;
 
   // 更新
   update?(model: M, item: T): void;
+
   afterUpdate?(model: M, item: T): void;
+
   shouldUpdate?(type: ItemType): boolean;
+
   setState?(name: ItemState, value: boolean, item: T): void;
 
   // 通用
   getShape?(type: ItemType): CustomNode | CustomEdge;
+
   getLabelStyle?(model: M, labelConfig: LabelConfig, group: Group): CSSProperties;
+
   getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: Group): CSSProperties;
+
   getShapeStyle?(model: M): CSSProperties;
 }
 
@@ -277,7 +340,9 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
 
   // 通用
   getControlPoints?: number[][];
+
   getPath?(points: { x: number; y: number }[]): [];
+
   getPathPoints?(model: M): any;
 }
 
@@ -288,12 +353,17 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
 export interface Behavior {
   graph: Graph;
   graphType?: GraphType;
+
   getEvents(): {
     [propName in GraphNativeEvent]: string;
   };
+
   getDefaultCfg?(): object;
+
   shouldBegin?(): boolean;
+
   shouldUpdate?(): boolean;
+
   shouldEnd?(): boolean;
 }
 
@@ -323,18 +393,25 @@ export interface Command<P = object, G = Graph> {
   name: string;
   /** 命令参数 */
   params: P;
+
   /** 是否可以执行 */
   canExecute(graph: G): boolean;
+
   /** 是否应该执行 */
   shouldExecute(graph: G): boolean;
+
   /** 是否可以撤销 */
   canUndo(graph: G): boolean;
+
   /** 初始命令 */
   init(graph: G): void;
+
   /** 执行命令 */
   execute(graph: G): void;
+
   /** 撤销命令 */
   undo(graph: G): void;
+
   /** 命令快捷键 */
   shortcuts: string[] | string[][];
 }
@@ -359,8 +436,19 @@ export interface ContextMenuState {
   clientY: number;
 }
 
+export interface TooltipState {
+  visible: boolean;
+  clientX: number;
+  clientY: number;
+  text?: string;
+}
+
 export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
+}
+
+export interface TooltipEvent {
+  tooltipState: TooltipState;
 }
 
 export type EventHandle<T> = (e: T) => void;
