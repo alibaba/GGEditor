@@ -1,16 +1,21 @@
 import React from 'react';
+import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
-import { MIND_CONTAINER_ID, ShapeClassName, LabelState } from '@common/constants';
+import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
 import { GraphReactEventProps } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import Graph from '../Graph';
+import behaviorManager from '@common/behaviorManager';
+import Graph from '@components/Graph';
 
 import './shape';
 import './command';
 import './behavior';
 
 interface MindProps extends GraphReactEventProps {
+  className?: string;
+  style?: React.CSSProperties;
+  data: any;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
@@ -57,8 +62,19 @@ class Mind extends React.Component<MindProps, MindState> {
     const { containerId } = this;
     const { customModes } = this.props;
 
+    const customBehaviors: any = {};
+
+    Object.keys(behaviorManager.behaviors).forEach(name => {
+      const behavior = behaviorManager.behaviors[name];
+
+      if (!behavior.graphType || behavior.graphType === GraphType.Mind) {
+        customBehaviors[name] = name;
+      }
+    });
+
     const modes: any = {
       default: {
+        ...customBehaviors,
         'click-item': {
           type: 'click-item',
           multiple: false,
@@ -67,16 +83,12 @@ class Mind extends React.Component<MindProps, MindState> {
           type: 'collapse-expand',
           shouldBegin: this.canCollapseExpand,
         },
-        'context-menu': 'context-menu',
         'drag-canvas': {
           type: 'drag-canvas',
           shouldBegin: this.canDragCanvas,
           shouldUpdate: this.canDragCanvas,
           shouldEnd: this.canDragCanvas,
         },
-        'edit-label': 'edit-label',
-        'hover-item': 'hover-item',
-        'recall-edge': 'recall-edge',
         'zoom-canvas': {
           type: 'zoom-canvas',
           shouldUpdate: this.canZoomCanvas,
@@ -116,8 +128,17 @@ class Mind extends React.Component<MindProps, MindState> {
 
   render() {
     const { containerId, parseData, initGraph } = this;
+    const { data } = this.props;
 
-    return <Graph containerId={containerId} parseData={parseData} initGraph={initGraph} {...this.props} />;
+    return (
+      <Graph
+        containerId={containerId}
+        data={data}
+        parseData={parseData}
+        initGraph={initGraph}
+        {...pick(this.props, ['className', 'style'])}
+      />
+    );
   }
 }
 

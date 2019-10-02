@@ -58,4 +58,4 @@ const editLabelBehavior = {
   },
 } as EditLabelBehavior;
 
-behaviorManager.registerBehavior('edit-label', editLabelBehavior);
+behaviorManager.register('edit-label', editLabelBehavior);

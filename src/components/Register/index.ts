@@ -1,7 +1,8 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import upperFirst from 'lodash/upperFirst';
+import { Command, Behavior } from '@common/interface';
 import commandManager from '@common/commandManager';
+import behaviorManager from '@common/behaviorManager';
 
 interface RegisterProps {
   name: string;
@@ -26,16 +27,26 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
     const { name, config, extend } = props;
 
-    if (type === 'command') {
-      commandManager.register({
-        name,
-        config,
-      });
+    switch (type) {
+      case 'node':
+        G6.registerNode(name, config, extend);
+        break;
 
-      return;
+      case 'edge':
+        G6.registerEdge(name, config, extend);
+        break;
+
+      case 'command':
+        commandManager.register(name, config as Command);
+        break;
+
+      case 'behavior':
+        behaviorManager.register(name, config as Behavior);
+        break;
+
+      default:
+        break;
     }
-
-    G6[`register${upperFirst(type)}`](name, config, extend);
   }
 
   render() {

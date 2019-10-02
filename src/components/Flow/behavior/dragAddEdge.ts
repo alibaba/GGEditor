@@ -1,9 +1,10 @@
-import G6 from '@antv/g6';
-import { GraphEvent, Shape } from '@common/interface';
 import * as uuidv4 from 'uuid/v4';
+import { GraphType } from '@common/constants';
+import { GraphEvent, Shape } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
-behaviorManager.registerFlowBehavior('drag-add-edge', {
+behaviorManager.register('drag-add-edge', {
+  graphType: GraphType.Flow,
   getDefaultCfg() {
     return { edgeType: 'flowSmooth' };
   },

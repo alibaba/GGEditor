@@ -68,4 +68,4 @@ const contextMenuBehavior = {
   },
 } as ContextMenuBehavior;
 
-behaviorManager.registerBehavior('context-menu', contextMenuBehavior);
+behaviorManager.register('context-menu', contextMenuBehavior);

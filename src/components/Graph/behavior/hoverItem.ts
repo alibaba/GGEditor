@@ -32,4 +32,4 @@ const hoverItemBehavior = {
   },
 } as HoverItemBehavior;
 
-behaviorManager.registerBehavior('hover-item', hoverItemBehavior);
+behaviorManager.register('hover-item', hoverItemBehavior);

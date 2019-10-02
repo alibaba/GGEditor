@@ -1,9 +1,9 @@
-// @reference https://github.com/antvis/g6/tree/master/src/behavior
-import G6 from '@antv/g6';
+import { GraphType } from '@common/constants';
 import { GraphEvent } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
-behaviorManager.registerFlowBehavior('click-select', {
+behaviorManager.register('click-select', {
+  graphType: GraphType.Flow,
   getDefaultCfg() {
     return {
       multiple: true,

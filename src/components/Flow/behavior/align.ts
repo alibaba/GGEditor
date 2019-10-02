@@ -1,6 +1,7 @@
-import G6 from '@antv/g6';
-import globalStyle from '../common/globalStyle';
+import { GraphType } from '@common/constants';
 import { Item, GraphEvent } from '@common/interface';
+import behaviorManager from '@common/behaviorManager';
+import globalStyle from '../common/globalStyle';
 
 const { alignLine } = globalStyle;
 
@@ -48,7 +49,8 @@ interface HVLine {
   [index: string]: Line[];
 }
 
-G6.registerBehavior('align', {
+behaviorManager.register('align', {
+  graphType: GraphType.Flow,
   getEvents() {
     return {
       'node:drag': 'onDrag',

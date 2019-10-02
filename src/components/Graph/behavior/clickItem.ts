@@ -90,4 +90,4 @@ const clickItemBehavior = {
   },
 } as ClickItemBehavior;
 
-behaviorManager.registerBehavior('click-item', clickItemBehavior);
+behaviorManager.register('click-item', clickItemBehavior);
