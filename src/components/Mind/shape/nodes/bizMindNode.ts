@@ -24,6 +24,7 @@ const options: BizMindNodeOptions = {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
+    this.drawTooltip(model, group);
     this.drawAppendix(model, group);
     if (!model.isRoot) {
       this.drawExpandOrCollapseButton(model, group);
@@ -35,18 +36,27 @@ const options: BizMindNodeOptions = {
     const group = item.getContainer();
     let label = group.findByClassName(ShapeClassName.Label);
     let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
+    let tooltip = group.findByClassName(ShapeClassName.Tooltip);
+
     // repaint label
     label.remove();
     label = this.drawLabel(nextModel, group);
-    // adjust position
-    this.adjustPosition({ model: nextModel, group });
-    // repaint button
-    if (button) {
-      button.remove();
+
+    // repaint tooltip
+    tooltip && tooltip.remove();
+
+    if (nextModel.tooltip) {
+      this.drawTooltip(nextModel, group);
     }
+
+    // repaint button
+    button && button.remove();
     if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
+
+    // adjust position
+    this.adjustPosition({ model: nextModel, group });
   },
 
   drawExpandOrCollapseButton(model, group) {
@@ -98,7 +108,7 @@ const options: BizMindNodeOptions = {
     }
 
     const childModel = model.children[0];
-    const nodeWidth = group.getBBox().width;
+    const nodeWidth = group.findByClassName(ShapeClassName.KeyShape).attr('width');
 
     // left side
     if (model.x < 0) {

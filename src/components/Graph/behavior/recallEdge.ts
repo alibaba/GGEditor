@@ -1,5 +1,5 @@
-import { getHighlightEdges, executeBatch } from '@utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphType } from '@common/constants';
+import { getHighlightEdges, executeBatch, isMind } from '@utils';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent, GraphType } from '@common/constants';
 import { Item, Edge, Behavior } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
 
@@ -10,23 +10,28 @@ interface RecallEdgeBehavior extends Behavior {
   /** 处理点击事件 */
   handleNodeClick({ item }: { item: Item }): void;
 
+  /** 处理边线点击 */
+  handleEdgeClick({ item }: { item: Item }): void;
+
   /** 处理画布点击 */
   handleCanvasClick(): void;
 
   /** 高亮 */
   highlightParentEdges(item: Item): void;
 
-  /** 查找父级边线 */
-  findParentEdges(item: Item, edges?: Edge[]): Edge[];
+  /** 查找脑图父级边线 */
+  findMindParentEdges(item: Item, edges?: Edge[]): Edge[];
+
+  /** 查找流程图回溯边线 */
+  findFlowRecallEdges(item: Item): Edge[];
 }
 
 const recallEdgeBehavior = {
-  graphType: GraphType.Mind,
-
   getEvents() {
     return {
       [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
       [`${GraphCanvasEvent.onCanvasClick}`]: 'handleCanvasClick',
+      [`${GraphEdgeEvent.onEdgeClick}`]: 'handleEdgeClick',
     };
   },
 
@@ -60,19 +65,37 @@ const recallEdgeBehavior = {
     this.highlightParentEdges(item);
   },
 
+  handleEdgeClick({ item }) {
+    const { graph } = this;
+
+    const isHighlight = item.hasState(ItemState.HighLight);
+
+    if (isHighlight) {
+      graph.setItemState(item, ItemState.HighLight, false);
+    }
+  },
+
   highlightParentEdges(item) {
     const { graph } = this;
 
     this.clearHighlightState();
 
-    const edges = this.findParentEdges(item);
+    let edges = [];
+
+    if (isMind(graph)) {
+      edges = this.findMindParentEdges(item);
+    }
+
+    if (!isMind(graph)) {
+      edges = this.findFlowRecallEdges(item);
+    }
 
     if (edges.length > 0) {
       edges.forEach(edge => graph.setItemState(edge, ItemState.HighLight, true));
     }
   },
 
-  findParentEdges(item, edges = []) {
+  findMindParentEdges(item, edges = []) {
     const parentNode = item.get('parent');
 
     if (!parentNode) {
@@ -85,7 +108,14 @@ const recallEdgeBehavior = {
       edges.push(foundEdge);
     }
 
-    return this.findParentEdges(item.get('parent'), edges);
+    return this.findMindParentEdges(item.get('parent'), edges);
+  },
+
+  /**
+   * 暂时支持返回直接连到节点的边
+   * */
+  findFlowRecallEdges(item) {
+    return item.getEdges();
   },
 
   handleCanvasClick() {

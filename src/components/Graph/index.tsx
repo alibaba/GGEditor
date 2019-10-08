@@ -27,6 +27,7 @@ import EditableLabel from '@components/EditableLabel';
 
 import './command';
 import './behavior';
+import Tooltip from '@components/Tooltip';
 
 const FIT_VIEW_PADDING = 200;
 
@@ -178,6 +179,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
         <EditableLabel />
+        <Tooltip />
       </div>
     );
   }

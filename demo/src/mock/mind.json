@@ -4,7 +4,11 @@
 
   "children": [
     {
-      "label": "123",
+      "label": "带提示节点测试",
+      "tooltip": {
+        "icon": "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-128.png",
+        "tip": "节点错误：测试需要"
+      },
       "children": [
         {
           "label": "克罗地亚",

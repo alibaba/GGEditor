@@ -86,6 +86,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
           type: 'zoom-canvas',
           shouldUpdate: this.canZoomCanvas,
         },
+        'recall-edge': 'recall-edge',
       },
     };
 

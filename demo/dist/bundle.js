@@ -27021,7 +27021,7 @@
             _()(this, e);
             for (var r = arguments.length, i = new Array(r), a = 0; a < r; a++) i[a] = arguments[a];
             return (
-              ((n = P()(this, (t = O()(e)).call.apply(t, [this].concat(i)))).getContextMenuStyle = function() {
+              ((n = P()(this, (t = O()(e)).call.apply(t, [this].concat(i)))).getTooltipStyle = function() {
                 var t = n.props.contextMenuState;
                 return {
                   position: 'absolute',

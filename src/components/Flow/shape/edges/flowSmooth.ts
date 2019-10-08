@@ -9,6 +9,7 @@ import drawLabel from './label';
 import globalStyle from '../../common/globalStyle';
 import drawActivedEdges from './activedEdge';
 import G6 from '@antv/g6';
+import drawHighlightEdge from '@components/Flow/shape/edges/highlightEdge';
 
 const { edgeStyle } = globalStyle;
 
@@ -137,5 +138,8 @@ G6.registerEdge('flowSmooth', {
   setState(name, value, item) {
     // 线条激活状态
     drawActivedEdges.call(this, name, value, item);
+
+    // 线条高亮态
+    drawHighlightEdge.call(this, name, value, item);
   },
 });
