@@ -36,9 +36,7 @@ interface EditorGraphProps extends GraphReactEventProps {
   style?: React.CSSProperties;
   containerId: string;
   data: any;
-
   parseData(data: object): void;
-
   initGraph(width: number, height: number): Graph;
 }
 
