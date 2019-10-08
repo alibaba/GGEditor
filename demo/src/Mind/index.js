@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import GGEditor, { Mind, RegisterBehavior } from 'gg-editor';
+import GGEditor, { Mind } from 'gg-editor';
 import { MindToolbar } from '../components/EditorToolbar';
 import { MindDetailPanel } from '../components/EditorDetailPanel';
 import data from '../mock/mind.json';
