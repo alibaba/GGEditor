@@ -1,6 +1,7 @@
 import { EditorEvent, ShapeClassName } from '@common/constants';
 import { Behavior, GraphEvent, Item } from '@common/interface';
 import behaviorManager from '@common/behaviorManager';
+import debounce from 'lodash/debounce';
 
 interface TooltipBehavior extends Behavior {
   /** 显示tooltip */
@@ -12,6 +13,9 @@ interface TooltipBehavior extends Behavior {
   /** 处理鼠标进入 */
   handleItemMouseenter(e: GraphEvent): void;
 
+  /** 处理鼠标移动 */
+  handleItemMousemove(e: GraphEvent): void;
+
   /** 处理鼠标移出 */
   handleItemMouseleave(e: GraphEvent): void;
 }
@@ -21,6 +25,7 @@ const tooltipBehavior = {
     return {
       'node:mouseenter': 'handleItemMouseenter',
       'node:mouseleave': 'handleItemMouseleave',
+      'node:mousemove': 'handleItemMousemove',
     };
   },
 
@@ -28,16 +33,32 @@ const tooltipBehavior = {
     const { graph } = this;
     const itemModel = e.item.getModel();
 
-    if (e.target.get('className') === ShapeClassName.Tooltip && itemModel) {
+    if (!itemModel.tooltip) return;
+
+    graph.emit(EditorEvent.onTooltipStateChange, {
+      tooltipState: {
+        visible: true,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        text: itemModel.tooltip,
+      },
+    });
+  },
+
+  handleItemMousemove(e) {
+    const { graph } = this;
+    const itemModel = e.item.getModel();
+
+    return debounce(() => {
       graph.emit(EditorEvent.onTooltipStateChange, {
         tooltipState: {
           visible: true,
-          clientX: e.canvasX,
-          clientY: e.canvasY,
-          text: itemModel.tooltip && itemModel.tooltip.tip,
+          clientX: e.clientX,
+          clientY: e.clientY,
+          text: itemModel.tooltip,
         },
       });
-    }
+    }, 100)();
   },
 
   hideTooltip() {

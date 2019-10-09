@@ -11,12 +11,15 @@ class Tooltip extends React.Component<TooltipProps> {
     const { tooltipState } = this.props;
 
     return {
-      position: 'absolute',
+      position: 'fixed',
       minWidth: '50px',
       minHeight: '10px',
       left: `${tooltipState.clientX}px`,
       top: `${tooltipState.clientY}px`,
       display: tooltipState.visible ? 'block' : 'none',
+      padding: '2px',
+      border: 'solid 1px #ccc',
+      backgroundColor: '#fff',
     };
   };
 

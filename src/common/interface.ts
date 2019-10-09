@@ -90,7 +90,7 @@ export interface NodeModel extends ItemModel {
   /** 节点尺寸 */
   size?: [number, number];
   /** tooltip信息 */
-  tooltip?: { icon: string; tip: string };
+  tooltip?: string;
   /** states信息 */
   states?: Array<string>;
 }
