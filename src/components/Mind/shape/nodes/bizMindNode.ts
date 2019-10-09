@@ -24,7 +24,11 @@ const options: BizMindNodeOptions = {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
-    this.drawAppendix(model, group);
+
+    if (this.showMenuIcon()) {
+      this.drawAppendix(model, group);
+    }
+
     if (!model.isRoot) {
       this.drawExpandOrCollapseButton(model, group);
     }

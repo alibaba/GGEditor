@@ -19,6 +19,10 @@ export const bizOption: BizNode = {
   wrapper: null,
   appendix: null,
 
+  showMenuIcon() {
+    return false;
+  },
+
   /**
    * internal method
    * */
@@ -26,7 +30,11 @@ export const bizOption: BizNode = {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
-    this.drawAppendix(model, group);
+
+    if (this.showMenuIcon()) {
+      this.drawAppendix(model, group);
+    }
+
     this.adjustPosition({ model, group });
     return keyShape;
   },

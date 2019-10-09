@@ -14,7 +14,7 @@ class Tooltip extends React.Component<TooltipProps> {
       position: 'fixed',
       minWidth: '50px',
       minHeight: '10px',
-      left: `${tooltipState.clientX}px`,
+      left: `${tooltipState.clientX + 5}px`,
       top: `${tooltipState.clientY}px`,
       display: tooltipState.visible ? 'block' : 'none',
       padding: '2px',
