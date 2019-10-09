@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
+import { ItemState, NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
 import { Group, Item, NodeModel, CustomNode, Shape, Node } from '@common/interface';
 
@@ -29,6 +29,17 @@ export const bizOption: BizNode = {
     this.drawAppendix(model, group);
     this.adjustPosition({ model, group });
     return keyShape;
+  },
+
+  /**
+   * update item states according to its model
+   * */
+  setItemState(nextModel: NodeModel, item: Item) {
+    if (Array.isArray(nextModel.states)) {
+      nextModel.states.map(stateName => item.setState(stateName, true));
+
+      !nextModel.states.includes(ItemState.Error) && item.setState(ItemState.Error, false);
+    }
   },
 
   drawAppendix(model: NodeModel, group: Group) {
@@ -69,7 +80,6 @@ export const bizOption: BizNode = {
         y: 0,
         width: 114,
         height: 36,
-        stroke: '#6580EB',
         ...keyShapeDefaultStyle,
       },
     });
@@ -245,12 +255,19 @@ export const bizOption: BizNode = {
     return {
       fill: '#fff',
       radius: 6,
+      stroke: '#6580EB',
     };
   },
 
   [`get${ShapeClassName.KeyShape}activeStyle`]() {
     return {
       fill: '#e9e5ff',
+    };
+  },
+
+  [`get${ShapeClassName.KeyShape}errorStyle`]() {
+    return {
+      stroke: 'red',
     };
   },
 
@@ -261,7 +278,9 @@ export const bizOption: BizNode = {
   },
 
   [`get${ShapeClassName.Wrapper}defaultStyle`]() {
-    return {};
+    return {
+      fill: '#6580EB',
+    };
   },
 
   [`get${ShapeClassName.Wrapper}selectedStyle`]() {
@@ -270,6 +289,12 @@ export const bizOption: BizNode = {
       shadowOffsetY: 4,
       shadowBlur: 10,
       shadowColor: '#ccc',
+    };
+  },
+
+  [`get${ShapeClassName.Wrapper}errorStyle`]() {
+    return {
+      fill: 'red',
     };
   },
 

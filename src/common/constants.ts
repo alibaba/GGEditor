@@ -23,6 +23,7 @@ export enum ItemState {
   Active = 'active',
   Selected = 'selected',
   HighLight = 'highLight',
+  Error = 'error',
 }
 
 export enum GraphType {

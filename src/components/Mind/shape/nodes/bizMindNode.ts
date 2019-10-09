@@ -48,6 +48,9 @@ const options: BizMindNodeOptions = {
 
     // adjust position
     this.adjustPosition({ model: nextModel, group });
+
+    // set item state according to model
+    this.setItemState(nextModel, item);
   },
 
   drawExpandOrCollapseButton(model, group) {

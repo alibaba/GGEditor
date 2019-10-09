@@ -36,8 +36,11 @@ class DetailForm extends React.Component {
                 icon: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-128.png',
                 tip: '用户强制其错误',
               },
+              states: ['error'],
             }
-          : {};
+          : {
+              states: [],
+            };
 
         executeCommand('update', {
           id,
@@ -51,7 +54,9 @@ class DetailForm extends React.Component {
   };
 
   renderNodeDetail = () => {
-    const { form } = this.props;
+    const { form, nodes } = this.props;
+
+    const { states } = nodes.length ? nodes[0].getModel() : {};
 
     return (
       <>
@@ -59,7 +64,9 @@ class DetailForm extends React.Component {
           {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
         </Item>
         <Item label="mock错误" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('error')(<Switch onChange={this.handleSubmit} />)}
+          {form.getFieldDecorator('error', {
+            initialValue: Array.isArray(states) && states.includes('error'),
+          })(<Switch onChange={this.handleSubmit} checked={Array.isArray(states) && states.includes('error')} />)}
         </Item>
       </>
     );
