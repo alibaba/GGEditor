@@ -49,6 +49,8 @@ const tooltipBehavior = {
     const { graph } = this;
     const itemModel = e.item.getModel();
 
+    if (!itemModel.tooltip) return;
+
     return debounce(() => {
       graph.emit(EditorEvent.onTooltipStateChange, {
         tooltipState: {
@@ -58,7 +60,7 @@ const tooltipBehavior = {
           text: itemModel.tooltip,
         },
       });
-    }, 100)();
+    }, 10)();
   },
 
   hideTooltip() {
