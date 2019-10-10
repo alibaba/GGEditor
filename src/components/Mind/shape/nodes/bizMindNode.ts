@@ -44,14 +44,14 @@ const options: BizMindNodeOptions = {
     label.remove();
     label = this.drawLabel(nextModel, group);
 
+    // adjust position
+    this.adjustPosition({ model: nextModel, group });
+
     // repaint button
     button && button.remove();
     if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
       button = this.drawExpandOrCollapseButton(nextModel, group);
     }
-
-    // adjust position
-    this.adjustPosition({ model: nextModel, group });
 
     // set item state according to model
     this.setItemState(nextModel, item);
@@ -61,7 +61,8 @@ const options: BizMindNodeOptions = {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     // button width
     const width = 17;
-    const offset = this.getOffset(model, group, width);
+    // button & item distance
+    const offset = 5;
 
     if (model.collapsed) {
       const button = group.addShape('path', {
@@ -73,8 +74,8 @@ const options: BizMindNodeOptions = {
         },
       });
       button.translate(
-        model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
-        -width / 2,
+        model.x > 0 ? keyShape.attr('width') + offset : -keyShape.attr('width') - width - offset,
+        keyShape.attr('height') / 2 - width / 2,
       );
       return button;
     }
@@ -88,35 +89,10 @@ const options: BizMindNodeOptions = {
       },
     });
     button.translate(
-      model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
-      -width / 2,
+      model.x > 0 ? keyShape.attr('width') + offset : -keyShape.attr('width') - width - offset,
+      keyShape.attr('height') / 2 - width / 2,
     );
     return button;
-  },
-
-  getOffset(model: MindNodeModel, group: Group, width: number) {
-    /**
-     * button need to place in the middle of parent & child node
-     * 1. children nodes have identical x position
-     * 2. all nodes have identical width
-     * 3. model.x model.y refer to the center point of a node
-     * */
-    if (!model.children || model.children.length <= 0) {
-      return;
-    }
-
-    const childModel = model.children[0];
-    const nodeWidth = group.findByClassName(ShapeClassName.KeyShape).attr('width');
-
-    // left side
-    if (model.x < 0) {
-      return (model.x - childModel.x - nodeWidth) / 2 - width / 2;
-    }
-
-    // right side
-    else {
-      return (childModel.x - model.x - nodeWidth) / 2 - width / 2;
-    }
   },
 
   /**
