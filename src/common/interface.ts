@@ -113,6 +113,38 @@ export interface MindNodeModel extends NodeModel {
 }
 
 /**
+ * G6 图表载体配置
+ * @see https://www.yuque.com/antv/g6/graph
+ */
+export interface GraphConfig {
+  contianer: string | HTMLElement;
+  width: number;
+  height: number;
+  renderer: 'canvas' | 'svg';
+  fitViewPadding: number | number[];
+  groupByTypes: boolean;
+  autoPaint: boolean;
+  modes: object;
+  nodeStateStyles: object;
+  edgeStateStyles: object;
+  defaultNode: object;
+  defaultEdge: object;
+  plugins: [];
+  animate: boolean;
+  animateCfg: {
+    onFrame?: Function | null;
+    duration?: number;
+    easing?: string;
+  };
+  minZoom: number;
+  maxZoom: number;
+  pixeRatio: number;
+  groupType: 'circle' | 'rect';
+  groupStyle: object;
+  layout: object;
+}
+
+/**
  * G6 图表载体
  * @see https://www.yuque.com/antv/g6/graph
  */
