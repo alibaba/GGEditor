@@ -35,26 +35,26 @@ const options: BizMindNodeOptions = {
     return keyShape;
   },
 
-  update(nextModel, item) {
-    const group = item.getContainer();
+  afterDraw(model: MindNodeModel, group: Group) {
+    const button = group.findByClassName(ShapeClassName.CollapseExpandButton);
     let label = group.findByClassName(ShapeClassName.Label);
-    let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
-
     // repaint label
     label.remove();
-    label = this.drawLabel(nextModel, group);
+    label = this.drawLabel(model, group);
 
-    // adjust position
-    this.adjustPosition({ model: nextModel, group });
+    this.adjustPosition({ group, model });
 
-    // repaint button
-    button && button.remove();
-    if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
-      button = this.drawExpandOrCollapseButton(nextModel, group);
+    if (button) {
+      button.remove();
+      if (model.children && model.children.length > 0 && !model.isRoot) {
+        this.drawExpandOrCollapseButton(model, group);
+      }
     }
+  },
 
+  update(model, item) {
     // set item state according to model
-    this.setItemState(nextModel, item);
+    this.setItemState(model, item);
   },
 
   drawExpandOrCollapseButton(model, group) {

@@ -134,8 +134,7 @@ export const bizOption: BizNode = {
   /**
    * internal method
    * */
-  update(nextModel: NodeModel, item) {
-    const group = item.getContainer();
+  afterDraw(nextModel: NodeModel, group) {
     let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
     label.remove();
