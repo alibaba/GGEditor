@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid } from '@utils';
 import { FLOW_CONTAINER_ID, ShapeClassName, GraphType, LabelState } from '@common/constants';
-import { GraphEvent, GraphReactEventProps } from '@common/interface';
+import { GraphConfig, GraphEvent, GraphReactEventProps } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -15,19 +15,18 @@ interface FlowProps extends GraphReactEventProps {
   className?: string;
   style?: React.CSSProperties;
   data: any;
+  graphConfig?: Partial<GraphConfig>;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
 interface FlowState {}
 
 class Flow extends React.Component<FlowProps, FlowState> {
-  containerId: string;
+  static defaultProps = {
+    graphConfig: {},
+  };
 
-  constructor(props: FlowProps) {
-    super(props);
-
-    this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
-  }
+  containerId: string = `${FLOW_CONTAINER_ID}_${uuid()}`;
 
   canDragCanvas = () => {
     const { labelState } = this.props;
@@ -61,7 +60,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
-    const { customModes } = this.props;
+    const { graphConfig, customModes } = this.props;
 
     const customBehaviors: any = {};
 
@@ -101,6 +100,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
       width,
       height,
       modes,
+      ...graphConfig,
     });
 
     return this.graph;

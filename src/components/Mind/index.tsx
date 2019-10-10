@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
-import { GraphReactEventProps } from '@common/interface';
+import { GraphConfig, GraphReactEventProps } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -16,19 +16,18 @@ interface MindProps extends GraphReactEventProps {
   className?: string;
   style?: React.CSSProperties;
   data: any;
+  graphConfig?: Partial<GraphConfig>;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
 interface MindState {}
 
 class Mind extends React.Component<MindProps, MindState> {
-  containerId: string;
+  static defaultProps = {
+    graphConfig: {},
+  };
 
-  constructor(props: MindProps) {
-    super(props);
-
-    this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
-  }
+  containerId: string = `${MIND_CONTAINER_ID}_${uuid()}`;
 
   canDragCanvas = () => {
     const { labelState } = this.props;
@@ -60,7 +59,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
-    const { customModes } = this.props;
+    const { graphConfig, customModes } = this.props;
 
     const customBehaviors: any = {};
 
@@ -121,6 +120,7 @@ class Mind extends React.Component<MindProps, MindState> {
       defaultEdge: {
         shape: 'biz-mind-edge',
       },
+      ...graphConfig,
     });
 
     return this.graph;
