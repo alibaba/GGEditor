@@ -39,6 +39,10 @@ class DetailForm extends React.Component {
               states: [],
             };
 
+        if (values.error) {
+          this.props.nodes[0].setState('error', true);
+        }
+
         executeCommand('update', {
           id,
           updateModel: {

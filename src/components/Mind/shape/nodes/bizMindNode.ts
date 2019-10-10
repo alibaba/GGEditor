@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ShapeClassName } from '@common/constants';
+import { ItemState, ShapeClassName } from '@common/constants';
 import Util from '@components/Graph/shape/nodes/util';
 import '@components/Graph/shape/nodes/bizNode';
 import { Group, NodeModel, CustomNode } from '@common/interface';
@@ -50,11 +50,6 @@ const options: BizMindNodeOptions = {
         this.drawExpandOrCollapseButton(model, group);
       }
     }
-  },
-
-  update(model, item) {
-    // set item state according to model
-    this.setItemState(model, item);
   },
 
   drawExpandOrCollapseButton(model, group) {

@@ -39,17 +39,6 @@ export const bizOption: BizNode = {
     return keyShape;
   },
 
-  /**
-   * update item states according to its model
-   * */
-  setItemState(nextModel: NodeModel, item: Item) {
-    if (Array.isArray(nextModel.states)) {
-      nextModel.states.map(stateName => item.setState(stateName, true));
-
-      !nextModel.states.includes(ItemState.Error) && item.setState(ItemState.Error, false);
-    }
-  },
-
   drawAppendix(model: NodeModel, group: Group) {
     if (model.x > 0) {
       this.appendix = group.addShape('image', {
@@ -209,7 +198,6 @@ export const bizOption: BizNode = {
     const appendix = group.findByClassName(ShapeClassName.Appendix);
     if (model.x <= 0) {
       keyShape.translate(-keyShape.attr('width'), 0);
-      console.log(keyShape.attr('x'));
     }
   },
 
