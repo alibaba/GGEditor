@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { ItemState, NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
-import { Group, Item, NodeModel, CustomNode, Shape, Node } from '@common/interface';
+import { Group, Item, NodeModel, CustomNode, Shape, Node, MindNodeModel } from '@common/interface';
 
 export interface BizNode extends CustomNode {
   keyShape: Shape | null;
@@ -20,7 +20,7 @@ export const bizOption: BizNode = {
   appendix: null,
 
   showMenuIcon() {
-    return false;
+    return true;
   },
 
   /**
@@ -170,17 +170,14 @@ export const bizOption: BizNode = {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
 
-    this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
+    this.resetCoordinate({ keyShapeSize, group, model });
   },
 
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
-    if (label.attr('text').includes('\n')) {
-      keyShape.attr('width', 114);
-      keyShape.attr('height', 54);
-    } else {
-      keyShape.attr('width', 114);
-      keyShape.attr('height', 36);
-    }
+    keyShape.attr({
+      width: label.getBBox().width + 20,
+      height: label.getBBox().height + 20,
+    });
     return {
       width: keyShape.attr('width'),
       height: keyShape.attr('height'),
@@ -191,26 +188,36 @@ export const bizOption: BizNode = {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     if (!model) return;
     if (model.x > 0) {
-      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 0.5);
-      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
+      appendix.attr('x', keyShapeWidth - appendix.attr('width') - 0.5);
+      appendix.attr('y', 0.5);
     } else {
-      appendix.attr('x', -keyShapeWidth / 2 + 0.5);
-      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
+      appendix.attr('x', 0.5);
+      appendix.attr('y', 0.5);
     }
   },
 
   /**
-   * 节点坐标原点放在中心
+   * 节点文本坐标原点放在中心
+   * 脑图左侧节点关键形坐标原点在右上，右侧在左上
    * */
-  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any; keyShape: Shape; label: Shape }) {
-    const shapeArr = [label];
-    keyShape.attr('x', 0 - keyShapeSize.width / 2);
-    keyShape.attr('y', 0 - keyShapeSize.height / 2);
-    shapeArr.map(shape => {
-      shape.attr('x', shape.attr('x') - keyShapeSize.width / 2);
-      shape.attr('y', shape.attr('y') - keyShapeSize.height / 2);
-      return shape;
-    });
+  resetCoordinate({ keyShapeSize, group, model }: { keyShapeSize: any; group: Group; model: MindNodeModel }) {
+    const keyShape = group.findByClassName(ShapeClassName.KeyShape);
+    const wrapper = group.findByClassName(ShapeClassName.Wrapper);
+    const label = group.findByClassName(ShapeClassName.Label);
+    const appendix = group.findByClassName(ShapeClassName.Appendix);
+
+    if (model.x <= 0) {
+      keyShape.translate(-keyShapeSize.width, 0);
+      if (wrapper) {
+        wrapper.translate(-keyShapeSize.width, 0);
+      }
+      if (label) {
+        label.translate(-keyShapeSize.width, 0);
+      }
+      if (appendix) {
+        appendix.translate(-keyShapeSize.width, 0);
+      }
+    }
   },
 
   adjustLabel({ keyShapeSize, label }: { keyShapeSize: any; label: Shape }) {
@@ -228,11 +235,11 @@ export const bizOption: BizNode = {
 
     wrapper.attr('width', keyShapeWidth);
 
-    wrapper.attr('y', -wrapper.attr('height') / 2);
+    wrapper.attr('y', -0.5);
     if (model.x > 0) {
-      wrapper.attr('x', -keyShapeWidth / 2 - 4);
+      wrapper.attr('x', -4);
     } else {
-      wrapper.attr('x', -keyShapeWidth / 2 + 4);
+      wrapper.attr('x', 4);
     }
   },
 
