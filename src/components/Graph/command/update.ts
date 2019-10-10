@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import commandManager from '@common/commandManager';
 import { baseCommand, BaseCommand } from '@components/Graph/command/base';
+import { isMind } from '@utils';
 
 interface UpdateCommandParams {
   id: string;
@@ -37,6 +38,9 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
   execute(graph) {
     const { id, updateModel } = this.params;
     graph.updateItem(id, updateModel);
+    if (isMind(graph)) {
+      graph.refreshLayout();
+    }
   },
 
   undo(graph) {

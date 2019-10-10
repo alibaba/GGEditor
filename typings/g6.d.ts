@@ -173,14 +173,22 @@ declare module '@antv/g6' {
     height: number;
     mode?: string;
     modes?: any;
+    defaultNode?: object;
+    defaultEdge?: object;
   }
+
+  interface TreeGraphArgs extends GraphArgs {
+    layout: object;
+    animate: boolean;
+  }
+
   interface GraphData {
     nodes: NodeInfo[];
     edges: EdgeInfo[];
   }
 
-  export class Graph {
-    constructor(initArgs: GraphArgs);
+  export class Graph<T = GraphArgs> {
+    constructor(initArgs: T);
     data(data: GraphData): void;
     getNodes(): Shape[];
     getCanvasByPoint(x: number, y: number): [number, number];
@@ -202,5 +210,5 @@ declare module '@antv/g6' {
     on(name: string, f: Function): void;
   }
 
-  export class TreeGraph extends Graph {}
+  export class TreeGraph extends Graph<TreeGraphArgs> {}
 }

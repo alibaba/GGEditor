@@ -43,9 +43,6 @@ const Util: ShapeUtil = {
 
     const multilineArr = multilineText.split('\n');
 
-    if (multilineArr.length > 1) {
-      return `${multilineArr[0]}\n${multilineArr[1].slice(0, -1)}...`;
-    }
     return multilineText;
   },
 

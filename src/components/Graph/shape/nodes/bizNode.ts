@@ -310,7 +310,7 @@ export const bizOption: BizNode = {
   },
 
   getMaxTextLineWidth() {
-    return NODE_MAX_TEXT_LINE_WIDTH;
+    return 200;
   },
 
   getAnchorPoints() {
