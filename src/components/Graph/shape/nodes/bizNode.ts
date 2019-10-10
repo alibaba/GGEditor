@@ -86,8 +86,8 @@ export const bizOption: BizNode = {
       attrs: {
         x: 0,
         y: 0,
-        width: 114,
-        height: 36,
+        width: 0,
+        height: 0,
         ...keyShapeDefaultStyle,
       },
     });
@@ -153,6 +153,7 @@ export const bizOption: BizNode = {
 
   adjustPosition({ model, group }: { model: NodeModel; group: Group }) {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
+    const originKeyShapeWidth = keyShape.attr('width');
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
@@ -163,14 +164,16 @@ export const bizOption: BizNode = {
     }
 
     if (label) {
-      this.adjustLabel({ keyShapeSize, keyShape, label, wrapper });
+      this.adjustLabel({ keyShapeSize, keyShape, label, wrapper, model });
     }
 
     if (appendix) {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
 
-    this.resetCoordinate({ keyShapeSize, group, model });
+    if (originKeyShapeWidth === 0) {
+      this.resetCoordinate({ keyShapeSize, group, model });
+    }
   },
 
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
@@ -191,7 +194,7 @@ export const bizOption: BizNode = {
       appendix.attr('x', keyShapeWidth - appendix.attr('width') - 0.5);
       appendix.attr('y', 0.5);
     } else {
-      appendix.attr('x', 0.5);
+      appendix.attr('x', -keyShapeWidth + 0.5);
       appendix.attr('y', 0.5);
     }
   },
@@ -205,26 +208,24 @@ export const bizOption: BizNode = {
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const label = group.findByClassName(ShapeClassName.Label);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
-
     if (model.x <= 0) {
-      keyShape.translate(-keyShapeSize.width, 0);
-      if (wrapper) {
-        wrapper.translate(-keyShapeSize.width, 0);
-      }
-      if (label) {
-        label.translate(-keyShapeSize.width, 0);
-      }
-      if (appendix) {
-        appendix.translate(-keyShapeSize.width, 0);
-      }
+      keyShape.translate(-keyShape.attr('width'), 0);
+      console.log(keyShape.attr('x'));
     }
   },
 
-  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any; label: Shape }) {
+  adjustLabel({ keyShapeSize, label, model }: { keyShapeSize: any; label: Shape; model: MindNodeModel }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
-    label.attr('x', (keyShapeWidth - labelWidth) / 2);
-    label.attr('y', keyShapeHeight / 2);
+    if (model.x > 0) {
+      label.attr('x', (keyShapeWidth - labelWidth) / 2);
+      label.attr('y', keyShapeHeight / 2);
+    } else {
+      label.attr({
+        x: -keyShapeWidth + 10,
+        y: keyShapeHeight / 2,
+      });
+    }
   },
 
   adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
@@ -239,7 +240,9 @@ export const bizOption: BizNode = {
     if (model.x > 0) {
       wrapper.attr('x', -4);
     } else {
-      wrapper.attr('x', 4);
+      wrapper.attr({
+        x: -keyShapeWidth + 4,
+      });
     }
   },
 
