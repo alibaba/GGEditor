@@ -60,7 +60,7 @@ const tooltipBehavior = {
           text: itemModel.tooltip,
         },
       });
-    }, 10)();
+    })();
   },
 
   hideTooltip() {
