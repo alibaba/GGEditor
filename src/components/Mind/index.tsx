@@ -110,7 +110,11 @@ class Mind extends React.Component<MindProps, MindState> {
         type: 'mindmap',
         direction: 'H',
         getHGap(model) {
+          console.log(model);
           if (typeof model.label === 'string' && model.label.length > 4) {
+            if (model.label.length > 16) {
+              return 120;
+            }
             return model.label.length * 5;
           }
           return 40;
@@ -124,7 +128,7 @@ class Mind extends React.Component<MindProps, MindState> {
         shape: 'mind-node',
       },
       defaultEdge: {
-        shape: 'quadratic',
+        shape: 'cubic-horizontal',
       },
       ...graphConfig,
     });

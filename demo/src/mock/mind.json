@@ -3,7 +3,7 @@
   "isRoot": true,
   "children": [
     {
-      "label": "带提示节点测试",
+      "label": "带提示节",
       "states": ["error"],
       "tooltip": "节点错误：测试需要",
       "children": [

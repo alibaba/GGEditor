@@ -158,10 +158,6 @@ export const bizOption: BizNode = {
     if (appendix) {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
-
-    if (originKeyShapeWidth === 0) {
-      this.resetCoordinate({ keyShapeSize, group, model });
-    }
   },
 
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
@@ -182,7 +178,7 @@ export const bizOption: BizNode = {
       appendix.attr('x', keyShapeWidth - appendix.attr('width') - 0.5);
       appendix.attr('y', 0.5);
     } else {
-      appendix.attr('x', -keyShapeWidth + 0.5);
+      appendix.attr('x', 0.5);
       appendix.attr('y', 0.5);
     }
   },
@@ -209,7 +205,7 @@ export const bizOption: BizNode = {
       label.attr('y', keyShapeHeight / 2);
     } else {
       label.attr({
-        x: -keyShapeWidth + 10,
+        x: (keyShapeWidth - labelWidth) / 2,
         y: keyShapeHeight / 2,
       });
     }
@@ -228,7 +224,7 @@ export const bizOption: BizNode = {
       wrapper.attr('x', -4);
     } else {
       wrapper.attr({
-        x: -keyShapeWidth + 4,
+        x: 4,
       });
     }
   },
@@ -314,7 +310,7 @@ export const bizOption: BizNode = {
   },
 
   getAnchorPoints() {
-    return [[0, 0], [0, 0]];
+    return [[0, 0.5], [1, 0.5]];
   },
 };
 

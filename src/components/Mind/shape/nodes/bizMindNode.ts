@@ -69,7 +69,7 @@ const options: BizMindNodeOptions = {
         },
       });
       button.translate(
-        model.x > 0 ? keyShape.attr('width') + offset : -keyShape.attr('width') - width - offset,
+        model.x > 0 ? keyShape.attr('width') + offset : -width - offset,
         keyShape.attr('height') / 2 - width / 2,
       );
       return button;
@@ -84,7 +84,7 @@ const options: BizMindNodeOptions = {
       },
     });
     button.translate(
-      model.x > 0 ? keyShape.attr('width') + offset : -keyShape.attr('width') - width - offset,
+      model.x > 0 ? keyShape.attr('width') + offset : -width - offset,
       keyShape.attr('height') / 2 - width / 2,
     );
     return button;
