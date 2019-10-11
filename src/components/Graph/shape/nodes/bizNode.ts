@@ -197,20 +197,6 @@ export const bizOption: BizNode = {
     }
   },
 
-  /**
-   * 节点文本坐标原点放在中心
-   * 脑图左侧节点关键形坐标原点在右上，右侧在左上
-   * */
-  resetCoordinate({ keyShapeSize, group, model }: { keyShapeSize: any; group: Group; model: MindNodeModel }) {
-    const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-    const wrapper = group.findByClassName(ShapeClassName.Wrapper);
-    const label = group.findByClassName(ShapeClassName.Label);
-    const appendix = group.findByClassName(ShapeClassName.Appendix);
-    if (model.x <= 0) {
-      keyShape.translate(-keyShape.attr('width'), 0);
-    }
-  },
-
   adjustLabel({ keyShapeSize, label, model }: { keyShapeSize: any; label: Shape; model: MindNodeModel }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
