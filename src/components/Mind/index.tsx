@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
-import { GraphConfig, GraphReactEventProps } from '@common/interface';
+import { GraphConfig, GraphReactEventProps, MindNodeModel } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -11,6 +11,7 @@ import Graph from '@components/Graph';
 import './shape';
 import './command';
 import './behavior';
+import { UtilCanvas, UtilCanvasContext } from '@components/Graph/shape/nodes/util';
 
 interface MindProps extends GraphReactEventProps {
   className?: string;
@@ -56,6 +57,39 @@ class Mind extends React.Component<MindProps, MindState> {
       item.id = uuid();
     });
   };
+
+  getHGap(model: MindNodeModel) {
+    let totalTextWidth = 0;
+
+    if (typeof model.label !== 'string' || !UtilCanvasContext) return 40;
+
+    for (let char of model.label) {
+      totalTextWidth += UtilCanvasContext.measureText(char).width;
+    }
+
+    // 达到节点最大宽度
+    if (totalTextWidth >= 120) return 120;
+
+    // 节点最小宽度
+    if (totalTextWidth < 40) return 40;
+
+    return totalTextWidth + 10;
+  }
+
+  getVGap(model: MindNodeModel) {
+    let totalTextWidth = 0;
+
+    if (typeof model.label !== 'string' || !UtilCanvasContext) return 5;
+
+    for (let char of model.label) {
+      totalTextWidth += UtilCanvasContext.measureText(char).width;
+    }
+
+    // 没有换行
+    if (totalTextWidth <= 120) return 5;
+
+    return (totalTextWidth / 120) * 5;
+  }
 
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
@@ -109,19 +143,8 @@ class Mind extends React.Component<MindProps, MindState> {
       layout: {
         type: 'mindmap',
         direction: 'H',
-        getHGap(model) {
-          console.log(model);
-          if (typeof model.label === 'string' && model.label.length > 4) {
-            if (model.label.length > 16) {
-              return 120;
-            }
-            return model.label.length * 5;
-          }
-          return 40;
-        },
-        getVGap() {
-          return 5;
-        },
+        getHGap: this.getHGap,
+        getVGap: this.getVGap,
       },
       animate: false,
       defaultNode: {
