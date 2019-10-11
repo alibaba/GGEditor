@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
-import { GraphConfig, GraphReactEventProps } from '@common/interface';
+import { MindData, FlowAndMindCommonProps } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -12,12 +12,8 @@ import './shape';
 import './command';
 import './behavior';
 
-interface MindProps extends GraphReactEventProps {
-  className?: string;
-  style?: React.CSSProperties;
-  data: any;
-  graphConfig?: Partial<GraphConfig>;
-  customModes?: (mode: string, behaviors: any) => object;
+interface MindProps extends FlowAndMindCommonProps {
+  data: MindData;
 }
 
 interface MindState {}

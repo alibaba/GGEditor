@@ -90,7 +90,7 @@ export interface NodeModel extends ItemModel {
   /** 节点尺寸 */
   size?: [number, number];
   /** tooltip信息 */
-  tooltip: { icon: string; tip: string };
+  tooltip?: { icon: string; tip: string };
 }
 
 export interface EdgeModel extends ItemModel {
@@ -425,10 +425,22 @@ export type GraphReactEvent =
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
 
-export interface GraphReactEventProps
+export interface FlowData {
+  nodes: NodeModel[];
+  edges: EdgeModel[];
+}
+
+export interface MindData extends MindNodeModel {}
+
+export interface FlowAndMindCommonProps
   extends EditorPrivateContextProps,
     GraphCommonEventProps,
     GraphNodeEventProps,
     GraphEdgeEventProps,
     GraphCanvasEventProps,
-    GraphCustomEventProps {}
+    GraphCustomEventProps {
+  className?: string;
+  style?: React.CSSProperties;
+  graphConfig?: Partial<GraphConfig>;
+  customModes?: (mode: string, behaviors: any) => object;
+}
