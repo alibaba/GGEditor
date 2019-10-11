@@ -35,7 +35,9 @@ const options: BizMindNodeOptions = {
     return keyShape;
   },
 
-  afterDraw(model: MindNodeModel, group: Group) {
+  update(model: MindNodeModel, item) {
+    const group = item.getContainer();
+
     const button = group.findByClassName(ShapeClassName.CollapseExpandButton);
     let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
@@ -50,6 +52,8 @@ const options: BizMindNodeOptions = {
         this.drawExpandOrCollapseButton(model, group);
       }
     }
+
+    this.setItemState(model, item);
   },
 
   drawExpandOrCollapseButton(model, group) {
