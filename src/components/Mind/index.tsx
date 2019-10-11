@@ -151,7 +151,7 @@ class Mind extends React.Component<MindProps, MindState> {
         shape: 'mind-node',
       },
       defaultEdge: {
-        shape: 'cubic-horizontal',
+        shape: 'biz-cubic',
       },
       ...graphConfig,
     });
