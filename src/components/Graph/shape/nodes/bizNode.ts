@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
+import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
 import { Group, Item, NodeModel, CustomNode, Shape, Node } from '@common/interface';
 
@@ -309,7 +309,7 @@ export const bizOption: BizNode = {
   },
 
   getMaxTextLineWidth() {
-    return NODE_MAX_TEXT_LINE_WIDTH;
+    return LABEL_DEFAULT_MAX_WIDTH;
   },
 
   getAnchorPoints() {

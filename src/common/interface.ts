@@ -80,6 +80,15 @@ export interface ItemModel {
   shape?: string;
   /** 元素标签 */
   label?: string;
+  /** 元素标签配置 */
+  labelCfg?: {
+    /** 标签文本样式 */
+    style?: any;
+    /** 标签默认文本 */
+    defaultText?: string;
+    /** 标签最大宽度 */
+    maxWidth?: number;
+  };
 }
 
 export interface NodeModel extends ItemModel {
