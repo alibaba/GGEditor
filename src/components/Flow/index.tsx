@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid } from '@utils';
 import { FLOW_CONTAINER_ID, ShapeClassName, GraphType, LabelState } from '@common/constants';
-import { GraphConfig, GraphEvent, GraphReactEventProps } from '@common/interface';
+import { FlowData, FlowAndMindCommonProps } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -11,12 +11,8 @@ import Graph from '@components/Graph';
 import './shape';
 import './behavior';
 
-interface FlowProps extends GraphReactEventProps {
-  className?: string;
-  style?: React.CSSProperties;
-  data: any;
-  graphConfig?: Partial<GraphConfig>;
-  customModes?: (mode: string, behaviors: any) => object;
+interface FlowProps extends FlowAndMindCommonProps {
+  data: FlowData;
 }
 
 interface FlowState {}

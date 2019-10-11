@@ -17,25 +17,25 @@ import {
   Graph,
   GraphNativeEvent,
   GraphReactEvent,
-  GraphReactEventProps,
   GraphEvent,
   CommandEvent,
   EventHandle,
+  FlowData,
+  MindData,
+  FlowAndMindCommonProps,
 } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import EditableLabel from '@components/EditableLabel';
+import Tooltip from '@components/Tooltip';
 
 import './command';
 import './behavior';
-import Tooltip from '@components/Tooltip';
 
 const FIT_VIEW_PADDING = 200;
 
-interface EditorGraphProps extends GraphReactEventProps {
-  className?: string;
-  style?: React.CSSProperties;
+interface EditorGraphProps extends Omit<FlowAndMindCommonProps, 'graphConfig' | 'customModes'> {
   containerId: string;
-  data: any;
+  data: FlowData | MindData;
   parseData(data: object): void;
   initGraph(width: number, height: number): Graph;
 }

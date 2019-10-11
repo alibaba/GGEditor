@@ -1,7 +1,7 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { getSelectedNodes } from '@utils';
-import { NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName, LabelState } from '@common/constants';
+import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName, LabelState } from '@common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 
 interface EditableLabelProps extends EditorPrivateContextProps {}
@@ -93,11 +93,14 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
   getLabelSize = ({ labelShape }) => {
     const { width, height } = labelShape.getBBox();
 
+    const model = this.getSelectedNode().getModel();
+    const maxWidth = (model.labelCfg && model.labelCfg.maxWidth) || LABEL_DEFAULT_MAX_WIDTH;
+
     return {
       width: 'auto',
       height: 'auto',
       'min-width': width,
-      'max-width': `${NODE_MAX_TEXT_LINE_WIDTH}px`,
+      'max-width': maxWidth,
       'min-height': height,
     };
   };
@@ -165,7 +168,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
           this.labelElement = el;
         }}
         style={labelStyle}
-        contentEditable="true"
+        contentEditable
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
       >

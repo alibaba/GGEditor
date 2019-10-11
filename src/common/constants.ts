@@ -1,8 +1,8 @@
 export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
-export const NODE_DEFAULT_LABEL = '新建节点';
-export const NODE_MAX_TEXT_LINE_WIDTH = 94;
+export const LABEL_DEFAULT_TEXT = '新建节点';
+export const LABEL_DEFAULT_MAX_WIDTH = 100;
 
 export enum ShapeClassName {
   Label = 'node-label',

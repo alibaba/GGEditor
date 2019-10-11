@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ItemState, NODE_MAX_TEXT_LINE_WIDTH, ShapeClassName } from '@common/constants';
+import { ItemState, LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@common/constants';
 import Util from './util';
 import { Group, Item, NodeModel, CustomNode, Shape, Node, MindNodeModel } from '@common/interface';
 
@@ -155,7 +155,6 @@ export const bizOption: BizNode = {
 
   adjustPosition({ model, group }: { model: NodeModel; group: Group }) {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-    const originKeyShapeWidth = keyShape.attr('width');
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
@@ -306,7 +305,7 @@ export const bizOption: BizNode = {
   },
 
   getMaxTextLineWidth() {
-    return 200;
+    return LABEL_DEFAULT_MAX_WIDTH;
   },
 
   getAnchorPoints() {

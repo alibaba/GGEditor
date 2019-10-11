@@ -1,5 +1,5 @@
 import { uuid } from '@utils';
-import { NODE_DEFAULT_LABEL } from '@common/constants';
+import { LABEL_DEFAULT_TEXT } from '@common/constants';
 import { TreeGraph, MindNodeModel } from '@common/interface';
 import commandManager from '@common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
@@ -36,7 +36,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
       id: selectedNode.get('id'),
       model: {
         id: uuid(),
-        label: NODE_DEFAULT_LABEL,
+        label: LABEL_DEFAULT_TEXT,
       },
     };
   },
