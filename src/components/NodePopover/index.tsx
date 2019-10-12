@@ -17,8 +17,11 @@ class NodePopover extends React.Component<NodePopoverProps> {
       left: `${nodePopoverState.x}px`,
       top: `${nodePopoverState.y}px`,
       display: nodePopoverState.visible ? 'block' : 'none',
-      padding: '2px',
+      padding: '4px',
+      textAlign: 'center',
+      boxShadow: '#d9d9d9 0 0 5px 1px',
       border: 'solid 1px #ccc',
+      borderRadius: '4px',
       backgroundColor: '#fff',
     };
   };
