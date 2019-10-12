@@ -98,4 +98,4 @@ const nodePopoverBehavior = {
   },
 } as NodePopoverBehavior;
 
-behaviorManager.register('nodePopover', nodePopoverBehavior);
+behaviorManager.register('node-popover', nodePopoverBehavior);

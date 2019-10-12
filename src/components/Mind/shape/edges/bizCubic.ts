@@ -14,7 +14,6 @@ const options = {
     if (!edgeShape) return;
 
     edgeShape.attr({ ...commonStyle });
-    console.log(edgeShape);
   },
 
   afterUpdate(model: EdgeModel, item: Edge) {

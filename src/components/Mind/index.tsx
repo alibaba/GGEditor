@@ -103,12 +103,6 @@ class Mind extends React.Component<MindProps, MindState> {
 
     const modes: any = {
       default: {
-        nodePopover: {
-          type: 'nodePopover',
-          formatText(model) {
-            return model.label;
-          },
-        },
         ...customBehaviors,
         'click-item': {
           type: 'click-item',

@@ -30,10 +30,18 @@ class DetailForm extends React.Component {
 
         const { id } = this.props.nodes[0].getModel();
 
+        const errorModel = {};
+        if (values.isError) {
+          errorModel.errorMsg = '用户强制错误';
+        } else {
+          errorModel.errorMsg = null;
+        }
+
         executeCommand('update', {
           id,
           updateModel: {
             ...values,
+            ...errorModel,
           },
         });
       });
@@ -43,7 +51,7 @@ class DetailForm extends React.Component {
   renderNodeDetail = () => {
     const { form, nodes } = this.props;
 
-    const { states } = nodes.length ? nodes[0].getModel() : {};
+    const { isError } = nodes.length ? nodes[0].getModel() : {};
 
     return (
       <>
@@ -51,9 +59,10 @@ class DetailForm extends React.Component {
           {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
         </Item>
         <Item label="mock错误" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('error', {
-            initialValue: Array.isArray(states) && states.includes('error'),
-          })(<Switch onChange={this.handleSubmit} checked={Array.isArray(states) && states.includes('error')} />)}
+          {form.getFieldDecorator('isError', {
+            initialValue: !!isError,
+            valuePropName: 'checked',
+          })(<Switch onChange={this.handleSubmit} />)}
         </Item>
       </>
     );

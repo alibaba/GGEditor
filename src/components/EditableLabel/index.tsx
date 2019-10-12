@@ -83,7 +83,6 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     );
 
     const { x: left, y: top } = graph.getCanvasByPoint(absoluteX, absoluteY);
-    console.log({ top, left });
 
     return {
       top,
