@@ -123,16 +123,6 @@ export const bizOption: BizNode = {
   /**
    * internal method
    * */
-  /**
-   * update item states according to its model
-   * */
-  setItemState(nextModel: NodeModel, item: Item) {
-    if (Array.isArray(nextModel.states)) {
-      nextModel.states.map(stateName => item.setState(stateName, true));
-
-      !nextModel.states.includes(ItemState.Error) && item.setState(ItemState.Error, false);
-    }
-  },
 
   update(nextModel: NodeModel, item) {
     const group = item.getContainer();
@@ -141,8 +131,6 @@ export const bizOption: BizNode = {
     label.remove();
     label = this.drawLabel(nextModel, group);
     this.adjustPosition({ group, model: nextModel });
-
-    this.setItemState(nextModel, item);
   },
 
   /**

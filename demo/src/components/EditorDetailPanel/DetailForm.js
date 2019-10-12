@@ -30,20 +30,10 @@ class DetailForm extends React.Component {
 
         const { id } = this.props.nodes[0].getModel();
 
-        const errorTip = values.error
-          ? {
-              tooltip: '用户强制其错误',
-              states: ['error'],
-            }
-          : {
-              states: [],
-            };
-
         executeCommand('update', {
           id,
           updateModel: {
             ...values,
-            ...errorTip,
           },
         });
       });

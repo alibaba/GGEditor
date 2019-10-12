@@ -4,8 +4,6 @@
   "children": [
     {
       "label": "带提示节",
-      "states": ["error"],
-      "tooltip": "节点错误：测试需要",
       "children": [
         {
           "label": "克罗地亚",

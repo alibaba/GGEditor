@@ -3,8 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
-import { GraphConfig, GraphReactEventProps, MindNodeModel } from '@common/interface';
-import { MindData, FlowAndMindCommonProps } from '@common/interface';
+import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import behaviorManager from '@common/behaviorManager';
 import Graph from '@components/Graph';
@@ -12,7 +11,7 @@ import Graph from '@components/Graph';
 import './shape';
 import './command';
 import './behavior';
-import { UtilCanvas, UtilCanvasContext } from '@components/Graph/shape/nodes/util';
+import { UtilCanvasContext } from '@components/Graph/shape/nodes/util';
 
 interface MindProps extends FlowAndMindCommonProps {
   data: MindData;
@@ -34,9 +33,9 @@ class Mind extends React.Component<MindProps, MindState> {
   };
 
   canZoomCanvas = () => {
-    const { labelState, contextMenuState, tooltipState } = this.props;
+    const { labelState, contextMenuState, nodePopoverState } = this.props;
 
-    return labelState === LabelState.Hide && !contextMenuState.visible && !tooltipState.visible;
+    return labelState === LabelState.Hide && !contextMenuState.visible && !nodePopoverState.visible;
   };
 
   canCollapseExpand = ({ target }) => {
@@ -104,6 +103,12 @@ class Mind extends React.Component<MindProps, MindState> {
 
     const modes: any = {
       default: {
+        nodePopover: {
+          type: 'nodePopover',
+          formatText(model) {
+            return model.label;
+          },
+        },
         ...customBehaviors,
         'click-item': {
           type: 'click-item',

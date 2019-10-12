@@ -52,8 +52,6 @@ const options: BizMindNodeOptions = {
         this.drawExpandOrCollapseButton(model, group);
       }
     }
-
-    this.setItemState(model, item);
   },
 
   drawExpandOrCollapseButton(model, group) {

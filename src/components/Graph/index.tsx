@@ -26,7 +26,7 @@ import {
 } from '@common/interface';
 import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
 import EditableLabel from '@components/EditableLabel';
-import Tooltip from '@components/Tooltip';
+import NodePopover from '@components/NodePopover';
 
 import './command';
 import './behavior';
@@ -179,7 +179,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
         <EditableLabel />
-        <Tooltip />
+        <NodePopover />
       </div>
     );
   }

@@ -53,8 +53,8 @@ export enum EditorEvent {
   onLabelStateChange = 'onLabelStateChange',
   /** 改变右键菜单状态触发 */
   onContextMenuStateChange = 'onContextMenuStateChange',
-  /** 改变tooltip状态触发 */
-  onTooltipStateChange = 'onTooltipStateChange',
+  /** 改变nodePopover状态触发 */
+  onNodePopoverStateChange = 'onNodePopoverStateChange',
 }
 
 export enum EditorCommand {

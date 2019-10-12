@@ -11,7 +11,7 @@ import {
   Graph,
   GraphStateEvent,
   LabelStateEvent,
-  TooltipEvent,
+  NodePopoverEvent,
 } from '@common/interface';
 import commandManager from '@common/commandManager';
 import EditorContext from '@common/context/EditorContext';
@@ -41,7 +41,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
       contextMenuState: { visible: false, clientX: 0, clientY: 0 },
-      tooltipState: { visible: false, clientX: 0, clientY: 0 },
+      nodePopoverState: { visible: false, x: 0, y: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
@@ -101,9 +101,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       },
     );
 
-    addListener<EventHandle<TooltipEvent>>(graph, EditorEvent.onTooltipStateChange, (param: TooltipEvent) => {
-      this.setTooltipState(param);
-    });
+    addListener<EventHandle<NodePopoverEvent>>(
+      graph,
+      EditorEvent.onNodePopoverStateChange,
+      (param: NodePopoverEvent) => {
+        this.setNodePopoverState(param);
+      },
+    );
   }
 
   bindShortcut(graph: Graph) {
@@ -177,10 +181,10 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   };
 
-  setTooltipState = (param: TooltipEvent) => {
-    const { tooltipState } = param;
+  setNodePopoverState = (param: NodePopoverEvent) => {
+    const { nodePopoverState } = param;
 
-    this.setState({ tooltipState });
+    this.setState({ nodePopoverState });
   };
 
   canExecuteCommand = (name: string) => {
