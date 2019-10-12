@@ -61,6 +61,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
       updateModel: {
         label: textContent,
       },
+      forceRefreshLayout: true,
     });
   };
 

@@ -43,6 +43,7 @@ class DetailForm extends React.Component {
             ...values,
             ...errorModel,
           },
+          forceRefreshLayout: true,
         });
       });
     }, 0);
