@@ -1,8 +1,8 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { getSelectedNodes } from '@utils';
-import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName, LabelState } from '@common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
+import { getSelectedNodes } from '@/utils';
+import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName, LabelState } from '@/common/constants';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
 interface EditableLabelProps extends EditorPrivateContextProps {}
 

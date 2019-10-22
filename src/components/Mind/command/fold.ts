@@ -1,5 +1,5 @@
-import { TreeGraph, MindNodeModel } from '@common/interface';
-import commandManager from '@common/commandManager';
+import { TreeGraph, MindNodeModel } from '@/common/interface';
+import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
 interface FoldCommandParams {

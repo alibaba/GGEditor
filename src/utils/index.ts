@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import uuidv4 from 'uuid/v4';
-import { EditorEvent, ItemState, ItemType } from '@common/constants';
-import { Edge, Graph, GraphNativeEvent, Item, Node } from '@common/interface';
+import { EditorEvent, ItemState, ItemType } from '@/common/constants';
+import { Edge, Graph, GraphNativeEvent, Item, Node } from '@/common/interface';
 
 /** 生成唯一标识 */
 export function uuid() {

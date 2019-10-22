@@ -1,12 +1,12 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
-import { uuid } from '@utils';
-import { FLOW_CONTAINER_ID, ShapeClassName, GraphType, LabelState } from '@common/constants';
-import { FlowData, FlowAndMindCommonProps } from '@common/interface';
-import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import behaviorManager from '@common/behaviorManager';
-import Graph from '@components/Graph';
+import { uuid } from '@/utils';
+import { FLOW_CONTAINER_ID, ShapeClassName, GraphType, LabelState } from '@/common/constants';
+import { FlowData, FlowAndMindCommonProps } from '@/common/interface';
+import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import behaviorManager from '@/common/behaviorManager';
+import Graph from '@/components/Graph';
 
 import './shape';
 import './behavior';
@@ -22,7 +22,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
     graphConfig: {},
   };
 
-  containerId: string = `${FLOW_CONTAINER_ID}_${uuid()}`;
+  containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
 
   canDragCanvas = () => {
     const { labelState } = this.props;
@@ -34,10 +34,6 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const { labelState } = this.props;
 
     return labelState === LabelState.Hide;
-  };
-
-  canDragNode = ({ target }: GraphEvent) => {
-    return target && target.get('className') !== ShapeClassName.Anchor;
   };
 
   parseData = data => {

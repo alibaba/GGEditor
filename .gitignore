@@ -1,6 +1,7 @@
-es
-cjs
 dist
+lib
+es
+types
+
 node_modules
 .eslintcache
-.idea

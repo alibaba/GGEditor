@@ -1,21 +1,15 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "declaration": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "jsx": "react",
+    "declarationDir": "types",
     "module": "esnext",
     "moduleResolution": "node",
+    "target": "esnext",
+    "jsx": "react",
+    "baseUrl": ".",
     "paths": {
-      "@common/*": ["src/common/*"],
-      "@components/*": ["src/components/*"],
-      "@helpers": ["src/helpers"],
-      "@utils": ["src/utils"]
-    },
-    "sourceMap": true,
-    "strict": true,
-    "target": "esnext"
+      "@/*": ["src/*"]
+    }
   }
 }

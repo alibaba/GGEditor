@@ -1,6 +1,6 @@
-import { EditorEvent, ShapeClassName } from '@common/constants';
-import { Behavior, GraphEvent, Item } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { EditorEvent, ShapeClassName } from '@/common/constants';
+import { Behavior, GraphEvent, Item } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 interface TooltipBehavior extends Behavior {
   /** 显示tooltip */

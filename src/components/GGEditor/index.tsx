@@ -1,9 +1,9 @@
 import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
-import { addListener } from '@utils';
-import Global from '@common/Global';
-import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@common/constants';
+import { addListener } from '@/utils';
+import Global from '@/common/Global';
+import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@/common/constants';
 import {
   CommandEvent,
   ContextMenuEvent,
@@ -12,10 +12,10 @@ import {
   GraphStateEvent,
   LabelStateEvent,
   TooltipEvent,
-} from '@common/interface';
-import commandManager from '@common/commandManager';
-import EditorContext from '@common/context/EditorContext';
-import EditorPrivateContext, { EditorPrivateContextProps } from '@common/context/EditorPrivateContext';
+} from '@/common/interface';
+import commandManager from '@/common/commandManager';
+import EditorContext from '@/common/context/EditorContext';
+import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
 
 interface GGEditorProps {
   className?: string;
