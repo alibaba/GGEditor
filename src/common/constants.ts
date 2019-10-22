@@ -243,4 +243,8 @@ export enum GraphCustomEvent {
   onBeforeItemStatesClear = 'beforeitemstatesclear',
   /** 调用 clearItemStates 方法之后触发 */
   onAfterItemStatesClear = 'afteritemstatesclear',
+  /** 布局前触发。调用 render 时会进行布局，因此 render 时会触发。或用户主动调用图的 layout 时触发 */
+  onBeforeLayout = 'beforelayout',
+  /** 布局完成后触发。调用 render 时会进行布局，因此 render 时布局完成后会触发。或用户主动调用图的 layout 时布局完成后触发 */
+  onAfterLayout = 'afterlayout',
 }
