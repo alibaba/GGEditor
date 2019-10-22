@@ -6,6 +6,7 @@ interface UpdateCommandParams {
   id: string;
   originModel: object;
   updateModel: object;
+  forceRefreshLayout: boolean;
 }
 
 const updateCommand: BaseCommand<UpdateCommandParams> = {
@@ -15,6 +16,7 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
     id: '',
     originModel: {},
     updateModel: {},
+    forceRefreshLayout: false,
   },
 
   canExecute(graph) {
@@ -35,8 +37,12 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
   },
 
   execute(graph) {
-    const { id, updateModel } = this.params;
+    const { id, updateModel, forceRefreshLayout } = this.params;
     graph.updateItem(id, updateModel);
+
+    if (forceRefreshLayout) {
+      graph.refreshLayout && graph.refreshLayout();
+    }
   },
 
   undo(graph) {

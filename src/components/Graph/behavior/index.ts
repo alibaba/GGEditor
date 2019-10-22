@@ -3,4 +3,4 @@ import './hoverItem';
 import './editLabel';
 import './contextMenu';
 import './recallEdge';
-import './tooltip';
+import './nodePopover';

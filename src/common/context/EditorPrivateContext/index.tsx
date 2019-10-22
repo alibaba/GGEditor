@@ -12,7 +12,7 @@ export interface EditorPrivateContextProps {
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
   contextMenuState: ContextMenuState;
-  tooltipState: TooltipState;
+  nodePopoverState: NodePopoverState;
   setContextMenuState: (contextMenuEvent: ContextMenuEvent) => void;
 }
 

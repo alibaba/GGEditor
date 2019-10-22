@@ -2,6 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import Menu from './Menu';
+import { EditorEvent } from '@common/constants';
 
 interface ContextMenuProps extends EditorPrivateContextProps {}
 
@@ -21,11 +22,25 @@ class ContextMenu extends React.Component<ContextMenuProps> {
     };
   };
 
+  handleClick = () => {
+    const { graph } = this.props;
+
+    if (!graph) return;
+
+    graph.emit(EditorEvent.onContextMenuStateChange, {
+      contextMenuState: {
+        visible: false,
+        clientX: 0,
+        clientY: 0,
+      },
+    });
+  };
+
   render() {
     const { children } = this.props;
 
     return (
-      <div {...pick(this.props, ['style', 'className'])} style={this.getContextMenuStyle()}>
+      <div {...pick(this.props, ['style', 'className'])} style={this.getContextMenuStyle()} onClick={this.handleClick}>
         {children}
       </div>
     );

@@ -19,6 +19,10 @@ export const bizOption: BizNode = {
   wrapper: null,
   appendix: null,
 
+  showMenuIcon() {
+    return true;
+  },
+
   /**
    * internal method
    * */
@@ -26,26 +30,13 @@ export const bizOption: BizNode = {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
-    this.drawAppendix(model, group);
-    this.drawTooltip(model, group);
+
+    if (this.showMenuIcon()) {
+      this.drawAppendix(model, group);
+    }
+
     this.adjustPosition({ model, group });
     return keyShape;
-  },
-
-  drawTooltip(model: NodeModel, group: Group) {
-    if (model.tooltip) {
-      group.addShape('image', {
-        className: ShapeClassName.Tooltip,
-        attrs: {
-          img: model.tooltip.icon,
-          x: 0,
-          y: 0,
-          width: 20,
-          height: 20,
-          cursor: 'pointer',
-        },
-      });
-    }
   },
 
   drawAppendix(model: NodeModel, group: Group) {
@@ -84,9 +75,8 @@ export const bizOption: BizNode = {
       attrs: {
         x: 0,
         y: 0,
-        width: 114,
-        height: 36,
-        stroke: '#6580EB',
+        width: 0,
+        height: 0,
         ...keyShapeDefaultStyle,
       },
     });
@@ -133,6 +123,7 @@ export const bizOption: BizNode = {
   /**
    * internal method
    * */
+
   update(nextModel: NodeModel, item) {
     const group = item.getContainer();
     let label = group.findByClassName(ShapeClassName.Label);
@@ -155,7 +146,6 @@ export const bizOption: BizNode = {
     const label = group.findByClassName(ShapeClassName.Label);
     const wrapper = group.findByClassName(ShapeClassName.Wrapper);
     const appendix = group.findByClassName(ShapeClassName.Appendix);
-    const tooltip = group.findByClassName(ShapeClassName.Tooltip);
     const keyShapeSize = this.adjustKeyShape({ label, keyShape });
 
     if (wrapper) {
@@ -163,35 +153,19 @@ export const bizOption: BizNode = {
     }
 
     if (label) {
-      this.adjustLabel({ keyShapeSize, keyShape, label, wrapper });
+      this.adjustLabel({ keyShapeSize, keyShape, label, wrapper, model });
     }
 
     if (appendix) {
       this.adjustAppendix({ keyShapeSize, appendix, model });
     }
-
-    if (tooltip) {
-      this.adjustTooltip(tooltip, model, keyShapeSize);
-    }
-
-    this.resetCoordinate({ keyShapeSize, keyShape, label, wrapper });
-  },
-
-  adjustTooltip(tooltip: Shape, model: NodeModel, keyShapeSize: any) {
-    const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-
-    tooltip.attr('y', -tooltip.attr('width') - keyShapeHeight / 2);
-    tooltip.attr('x', -keyShapeWidth / 2 - 20);
   },
 
   adjustKeyShape({ label, keyShape }: { label: Shape; keyShape: Shape }) {
-    if (label.attr('text').includes('\n')) {
-      keyShape.attr('width', 114);
-      keyShape.attr('height', 54);
-    } else {
-      keyShape.attr('width', 114);
-      keyShape.attr('height', 36);
-    }
+    keyShape.attr({
+      width: label.getBBox().width + 20,
+      height: label.getBBox().height + 20,
+    });
     return {
       width: keyShape.attr('width'),
       height: keyShape.attr('height'),
@@ -202,33 +176,26 @@ export const bizOption: BizNode = {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     if (!model) return;
     if (model.x > 0) {
-      appendix.attr('x', keyShapeWidth / 2 - appendix.attr('width') - 0.5);
-      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
+      appendix.attr('x', keyShapeWidth - appendix.attr('width') - 0.5);
+      appendix.attr('y', 0.5);
     } else {
-      appendix.attr('x', -keyShapeWidth / 2 + 0.5);
-      appendix.attr('y', -keyShapeHeight / 2 + 0.5);
+      appendix.attr('x', 0.5);
+      appendix.attr('y', 0.5);
     }
   },
 
-  /**
-   * 节点坐标原点放在中心
-   * */
-  resetCoordinate({ keyShapeSize, keyShape, label }: { keyShapeSize: any; keyShape: Shape; label: Shape }) {
-    const shapeArr = [label];
-    keyShape.attr('x', 0 - keyShapeSize.width / 2);
-    keyShape.attr('y', 0 - keyShapeSize.height / 2);
-    shapeArr.map(shape => {
-      shape.attr('x', shape.attr('x') - keyShapeSize.width / 2);
-      shape.attr('y', shape.attr('y') - keyShapeSize.height / 2);
-      return shape;
-    });
-  },
-
-  adjustLabel({ keyShapeSize, label }: { keyShapeSize: any; label: Shape }) {
+  adjustLabel({ keyShapeSize, label, model }: { keyShapeSize: any; label: Shape; model: MindNodeModel }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
-    label.attr('x', (keyShapeWidth - labelWidth) / 2);
-    label.attr('y', keyShapeHeight / 2);
+    if (model.x > 0) {
+      label.attr('x', (keyShapeWidth - labelWidth) / 2);
+      label.attr('y', keyShapeHeight / 2);
+    } else {
+      label.attr({
+        x: (keyShapeWidth - labelWidth) / 2,
+        y: keyShapeHeight / 2,
+      });
+    }
   },
 
   adjustWrapper({ model, keyShapeSize, wrapper }: { model: NodeModel; keyShapeSize: any; wrapper: Shape }) {
@@ -239,11 +206,13 @@ export const bizOption: BizNode = {
 
     wrapper.attr('width', keyShapeWidth);
 
-    wrapper.attr('y', -wrapper.attr('height') / 2);
+    wrapper.attr('y', -0.5);
     if (model.x > 0) {
-      wrapper.attr('x', -keyShapeWidth / 2 - 4);
+      wrapper.attr('x', -4);
     } else {
-      wrapper.attr('x', -keyShapeWidth / 2 + 4);
+      wrapper.attr({
+        x: 4,
+      });
     }
   },
 
@@ -274,12 +243,19 @@ export const bizOption: BizNode = {
     return {
       fill: '#fff',
       radius: 6,
+      stroke: '#6580EB',
     };
   },
 
   [`get${ShapeClassName.KeyShape}activeStyle`]() {
     return {
       fill: '#e9e5ff',
+    };
+  },
+
+  [`get${ShapeClassName.KeyShape}errorStyle`]() {
+    return {
+      stroke: 'red',
     };
   },
 
@@ -290,7 +266,9 @@ export const bizOption: BizNode = {
   },
 
   [`get${ShapeClassName.Wrapper}defaultStyle`]() {
-    return {};
+    return {
+      fill: '#6580EB',
+    };
   },
 
   [`get${ShapeClassName.Wrapper}selectedStyle`]() {
@@ -299,6 +277,12 @@ export const bizOption: BizNode = {
       shadowOffsetY: 4,
       shadowBlur: 10,
       shadowColor: '#ccc',
+    };
+  },
+
+  [`get${ShapeClassName.Wrapper}errorStyle`]() {
+    return {
+      fill: 'red',
     };
   },
 
@@ -313,7 +297,7 @@ export const bizOption: BizNode = {
   },
 
   getAnchorPoints() {
-    return [[0, 0], [0, 0]];
+    return [[0, 0.5], [1, 0.5]];
   },
 };
 

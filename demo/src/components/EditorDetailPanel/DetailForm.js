@@ -30,28 +30,29 @@ class DetailForm extends React.Component {
 
         const { id } = this.props.nodes[0].getModel();
 
-        const errorTip = values.error
-          ? {
-              tooltip: {
-                icon: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-128.png',
-                tip: '用户强制其错误',
-              },
-            }
-          : {};
+        const errorModel = {};
+        if (values.isError) {
+          errorModel.errorMsg = '用户强制错误';
+        } else {
+          errorModel.errorMsg = null;
+        }
 
         executeCommand('update', {
           id,
           updateModel: {
             ...values,
-            ...errorTip,
+            ...errorModel,
           },
+          forceRefreshLayout: true,
         });
       });
     }, 0);
   };
 
   renderNodeDetail = () => {
-    const { form } = this.props;
+    const { form, nodes } = this.props;
+
+    const { isError } = nodes.length ? nodes[0].getModel() : {};
 
     return (
       <>
@@ -59,7 +60,10 @@ class DetailForm extends React.Component {
           {form.getFieldDecorator('label')(<Input onBlur={this.handleSubmit} />)}
         </Item>
         <Item label="mock错误" {...inlineFormItemLayout}>
-          {form.getFieldDecorator('error')(<Switch onChange={this.handleSubmit} />)}
+          {form.getFieldDecorator('isError', {
+            initialValue: !!isError,
+            valuePropName: 'checked',
+          })(<Switch onChange={this.handleSubmit} />)}
         </Item>
       </>
     );

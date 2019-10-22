@@ -98,8 +98,6 @@ export interface NodeModel extends ItemModel {
   y?: number;
   /** 节点尺寸 */
   size?: [number, number];
-  /** tooltip信息 */
-  tooltip?: { icon: string; tip: string };
 }
 
 export interface EdgeModel extends ItemModel {
@@ -402,10 +400,10 @@ export interface ContextMenuState {
   clientY: number;
 }
 
-export interface TooltipState {
+export interface NodePopoverState {
   visible: boolean;
-  clientX: number;
-  clientY: number;
+  x: number;
+  y: number;
   text?: string;
 }
 
@@ -413,8 +411,8 @@ export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
 }
 
-export interface TooltipEvent {
-  tooltipState: TooltipState;
+export interface NodePopoverEvent {
+  nodePopoverState: NodePopoverState;
 }
 
 export type EventHandle<T> = (e: T) => void;

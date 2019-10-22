@@ -1,14 +1,11 @@
 {
   "label": "法国",
   "isRoot": true,
-
   "children": [
     {
-      "label": "带提示节点测试",
-      "tooltip": {
-        "icon": "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678069-sign-error-128.png",
-        "tip": "节点错误：测试需要"
-      },
+      "label": "带提示节",
+      "isError": true,
+      "errorMsg": "获取初始数据时错误信息【业务字段】",
       "children": [
         {
           "label": "克罗地亚",
@@ -147,7 +144,7 @@
           "label": "克罗地亚",
           "children": [
             {
-              "label": "克罗地分阶段开始啦放假快乐大家哦付出哪来的健康亚",
+              "label": "克罗地分阶段开始啦放假",
               "children": [
                 {
                   "label": "克罗地亚"

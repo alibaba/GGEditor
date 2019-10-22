@@ -18,7 +18,8 @@ const options: CustomEdge = {
     const startNode = model.source;
     const endNode = model.target;
     /**
-     * (x,y) is on the left-top point of a keyShape
+     * left side: (x,y) is on the left-top point of a keyShape
+     * right side: (x,y) is on the right-top point of a keyShape
      * */
     const { x: startX, y: startY } = model.startPoint;
     const { x: endX, y: endY } = model.endPoint;
@@ -31,19 +32,19 @@ const options: CustomEdge = {
       return group.addShape('path', {
         attrs: {
           path: [
-            ['M', startX, startY + sourceHeight / 2],
-            ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
+            ['M', startX - sourceWidth, startY + sourceHeight / 2],
+            ['L', endX + wrapperOffset, endY + targetHeight / 2],
           ],
           ...commonStyle,
         },
       });
     }
 
-    if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x > 0) {
+    if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x >= 0) {
       return group.addShape('path', {
         attrs: {
           path: [
-            ['M', startX + sourceWidth, startY + sourceHeight / 2],
+            ['M', startX - sourceWidth, startY + sourceHeight / 2],
             ['L', endX - wrapperOffset, endY + targetHeight / 2],
           ],
           ...commonStyle,
@@ -52,11 +53,21 @@ const options: CustomEdge = {
     }
 
     if (endNode.getModel().x < 0 && endNode.getModel().y > startNode.getModel().y) {
-      return this.drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
+      return this.drawLeftBottom(
+        group,
+        startX,
+        startY,
+        endX,
+        endY,
+        sourceHeight,
+        targetHeight,
+        targetWidth,
+        sourceWidth,
+      );
     }
 
     if (endNode.getModel().x < 0 && endNode.getModel().y < startNode.getModel().y) {
-      return this.drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth);
+      return this.drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth);
     }
 
     if (endNode.getModel().x > 0 && endNode.getModel().y > startNode.getModel().y) {
@@ -66,36 +77,36 @@ const options: CustomEdge = {
     }
   },
 
-  drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth) {
-    const offset = (startX - (endX + targetWidth)) / 2;
+  drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth) {
+    const offset = (startX - endX - sourceWidth) / 2;
     const radius = offset / 3;
     return group.addShape('path', {
       attrs: {
         path: [
-          ['M', startX, startY + sourceHeight / 2],
-          ['L', startX - offset + radius, startY + sourceHeight / 2],
-          ['A', radius, radius, 0, 0, 0, startX - offset, startY + sourceHeight / 2 + radius],
-          ['L', endX + targetWidth + offset, endY + targetHeight / 2 - radius],
-          ['A', radius, radius, 0, 0, 1, endX + targetWidth + offset - radius, endY + targetHeight / 2],
-          ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
+          ['M', startX - sourceWidth, startY + sourceHeight / 2],
+          ['L', startX - sourceWidth - offset + radius, startY + sourceHeight / 2],
+          ['A', radius, radius, 0, 0, 0, startX - sourceWidth - offset, startY + sourceHeight / 2 + radius],
+          ['L', endX + offset, endY + targetHeight / 2 - radius],
+          ['A', radius, radius, 0, 0, 1, endX + offset - radius, endY + targetHeight / 2],
+          ['L', endX + wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },
     });
   },
 
-  drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth) {
-    const offset = (startX - (endX + targetWidth)) / 2;
+  drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth) {
+    const offset = (startX - endX - sourceWidth) / 2;
     const radius = offset / 3;
     return group.addShape('path', {
       attrs: {
         path: [
-          ['M', startX, startY + sourceHeight / 2],
-          ['L', startX - offset + radius, startY + sourceHeight / 2],
-          ['A', radius, radius, 0, 0, 1, startX - offset, startY + sourceHeight / 2 - radius],
-          ['L', endX + targetWidth + offset, endY + targetHeight / 2 + radius],
-          ['A', radius, radius, 0, 0, 0, endX + targetWidth + offset - radius, endY + targetHeight / 2],
-          ['L', endX + targetWidth + wrapperOffset, endY + targetHeight / 2],
+          ['M', startX - sourceWidth, startY + sourceHeight / 2],
+          ['L', startX - sourceWidth - offset + radius, startY + sourceHeight / 2],
+          ['A', radius, radius, 0, 0, 1, startX - sourceWidth - offset, startY + sourceHeight / 2 - radius],
+          ['L', endX + offset, endY + targetHeight / 2 + radius],
+          ['A', radius, radius, 0, 0, 0, endX + offset - radius, endY + targetHeight / 2],
+          ['L', endX + wrapperOffset, endY + targetHeight / 2],
         ],
         ...commonStyle,
       },
@@ -108,7 +119,7 @@ const options: CustomEdge = {
     return group.addShape('path', {
       attrs: {
         path: [
-          ['M', startX + sourceWidth, startY + sourceHeight / 2],
+          ['M', startX, startY + sourceHeight / 2],
           ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
           ['A', radius, radius, 0, 0, 1, startX + sourceWidth + offset, startY + sourceHeight / 2 + radius],
           ['L', endX - offset, endY + targetHeight / 2 - radius],
@@ -126,7 +137,7 @@ const options: CustomEdge = {
     return group.addShape('path', {
       attrs: {
         path: [
-          ['M', startX + sourceWidth, startY + sourceHeight / 2],
+          ['M', startX, startY + sourceHeight / 2],
           ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
           ['A', radius, radius, 0, 0, 0, startX + sourceWidth + offset, startY + sourceHeight / 2 - radius],
           ['L', endX - offset, endY + targetHeight / 2 + radius],

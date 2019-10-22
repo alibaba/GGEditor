@@ -179,7 +179,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
         <EditableLabel />
-        <Tooltip />
+        <NodePopover />
       </div>
     );
   }

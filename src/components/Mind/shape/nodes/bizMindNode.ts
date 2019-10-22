@@ -24,46 +24,42 @@ const options: BizMindNodeOptions = {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
-    this.drawTooltip(model, group);
-    this.drawAppendix(model, group);
+
+    if (this.showMenuIcon()) {
+      this.drawAppendix(model, group);
+    }
+
     if (!model.isRoot) {
       this.drawExpandOrCollapseButton(model, group);
     }
     return keyShape;
   },
 
-  update(nextModel, item) {
+  update(model: MindNodeModel, item) {
     const group = item.getContainer();
-    let label = group.findByClassName(ShapeClassName.Label);
-    let button = group.findByClassName(ShapeClassName.CollapseExpandButton);
-    let tooltip = group.findByClassName(ShapeClassName.Tooltip);
 
+    const button = group.findByClassName(ShapeClassName.CollapseExpandButton);
+    let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
     label.remove();
-    label = this.drawLabel(nextModel, group);
+    label = this.drawLabel(model, group);
 
-    // repaint tooltip
-    tooltip && tooltip.remove();
+    this.adjustPosition({ group, model });
 
-    if (nextModel.tooltip) {
-      this.drawTooltip(nextModel, group);
+    if (button) {
+      button.remove();
+      if (model.children && model.children.length > 0 && !model.isRoot) {
+        this.drawExpandOrCollapseButton(model, group);
+      }
     }
-
-    // repaint button
-    button && button.remove();
-    if (nextModel.children && nextModel.children.length > 0 && !nextModel.isRoot) {
-      button = this.drawExpandOrCollapseButton(nextModel, group);
-    }
-
-    // adjust position
-    this.adjustPosition({ model: nextModel, group });
   },
 
   drawExpandOrCollapseButton(model, group) {
     const keyShape = group.findByClassName(ShapeClassName.KeyShape);
     // button width
     const width = 17;
-    const offset = this.getOffset(model, group, width);
+    // button & item distance
+    const offset = 5;
 
     if (model.collapsed) {
       const button = group.addShape('path', {
@@ -75,8 +71,8 @@ const options: BizMindNodeOptions = {
         },
       });
       button.translate(
-        model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
-        -width / 2,
+        model.x > 0 ? keyShape.attr('width') + offset : -width - offset,
+        keyShape.attr('height') / 2 - width / 2,
       );
       return button;
     }
@@ -90,35 +86,10 @@ const options: BizMindNodeOptions = {
       },
     });
     button.translate(
-      model.x < 0 ? -keyShape.attr('width') / 2 - width - offset : keyShape.attr('width') / 2 + offset,
-      -width / 2,
+      model.x > 0 ? keyShape.attr('width') + offset : -width - offset,
+      keyShape.attr('height') / 2 - width / 2,
     );
     return button;
-  },
-
-  getOffset(model: MindNodeModel, group: Group, width: number) {
-    /**
-     * button need to place in the middle of parent & child node
-     * 1. children nodes have identical x position
-     * 2. all nodes have identical width
-     * 3. model.x model.y refer to the center point of a node
-     * */
-    if (!model.children || model.children.length <= 0) {
-      return;
-    }
-
-    const childModel = model.children[0];
-    const nodeWidth = group.findByClassName(ShapeClassName.KeyShape).attr('width');
-
-    // left side
-    if (model.x < 0) {
-      return (model.x - childModel.x - nodeWidth) / 2 - width / 2;
-    }
-
-    // right side
-    else {
-      return (childModel.x - model.x - nodeWidth) / 2 - width / 2;
-    }
   },
 
   /**

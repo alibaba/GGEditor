@@ -1,8 +1,8 @@
 import upperFirst from 'lodash/upperFirst';
 // import each from '@antv/util/lib/each';
 
-const canvas = document.createElement('canvas');
-const canvasContext = canvas.getContext('2d');
+export const UtilCanvas = document.createElement('canvas');
+export const UtilCanvasContext = UtilCanvas.getContext('2d');
 
 /* const BaseUtil = {
   each,
@@ -20,9 +20,9 @@ interface ShapeUtil {
 
 const Util: ShapeUtil = {
   optimizeMultilineText(text, font, maxWidth = 94) {
-    canvasContext.font = font;
+    UtilCanvasContext.font = font;
 
-    if (canvasContext.measureText(text).width <= maxWidth) {
+    if (UtilCanvasContext.measureText(text).width <= maxWidth) {
       return text;
     }
 
@@ -30,7 +30,7 @@ const Util: ShapeUtil = {
     let multilineTextWidth = 0;
 
     for (const char of text) {
-      const { width } = canvasContext.measureText(char);
+      const { width } = UtilCanvasContext.measureText(char);
 
       if (multilineTextWidth + width >= maxWidth) {
         multilineText += '\n';
@@ -43,9 +43,6 @@ const Util: ShapeUtil = {
 
     const multilineArr = multilineText.split('\n');
 
-    if (multilineArr.length > 1) {
-      return `${multilineArr[0]}\n${multilineArr[1].slice(0, -1)}...`;
-    }
     return multilineText;
   },
 
