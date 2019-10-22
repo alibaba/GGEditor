@@ -8,6 +8,7 @@
     "jsx": "react",
     "module": "esnext",
     "moduleResolution": "node",
+    "outDir": "compile",
     "paths": {
       "@common/*": ["src/common/*"],
       "@components/*": ["src/components/*"],
