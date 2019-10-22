@@ -1,6 +1,6 @@
-import { GraphType } from '@common/constants';
-import { GraphEvent } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { GraphType } from '@/common/constants';
+import { GraphEvent } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 const abs = Math.abs;
 const DRAG_OFFSET = 10;

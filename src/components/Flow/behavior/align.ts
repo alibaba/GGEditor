@@ -1,6 +1,6 @@
-import { GraphType } from '@common/constants';
-import { Item, GraphEvent } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { GraphType } from '@/common/constants';
+import { Item, GraphEvent } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
 const { alignLine } = globalStyle;

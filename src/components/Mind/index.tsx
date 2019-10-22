@@ -1,17 +1,15 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
-import { uuid, recursiveTraversal } from '@utils';
-import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@common/constants';
-import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@common/interface';
-import { withEditorPrivateContext } from '@common/context/EditorPrivateContext';
-import behaviorManager from '@common/behaviorManager';
-import Graph from '@components/Graph';
+import { uuid, recursiveTraversal } from '@/utils';
+import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@/common/constants';
+import { MindData, FlowAndMindCommonProps } from '@/common/interface';
+import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import behaviorManager from '@/common/behaviorManager';
+import Graph from '@/components/Graph';
 
 import './shape';
 import './command';
-import './behavior';
-import { UtilCanvasContext } from '@components/Graph/shape/nodes/util';
 
 interface MindProps extends FlowAndMindCommonProps {
   data: MindData;
@@ -24,7 +22,7 @@ class Mind extends React.Component<MindProps, MindState> {
     graphConfig: {},
   };
 
-  containerId: string = `${MIND_CONTAINER_ID}_${uuid()}`;
+  containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
 
   canDragCanvas = () => {
     const { labelState } = this.props;

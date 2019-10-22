@@ -1,6 +1,6 @@
-import { LabelState, EditorEvent, GraphState } from '@common/constants';
-import { Behavior } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { LabelState, EditorEvent, GraphState } from '@/common/constants';
+import { Behavior } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 interface EditLabelBehavior extends Behavior {
   /** 显示标签编辑 */

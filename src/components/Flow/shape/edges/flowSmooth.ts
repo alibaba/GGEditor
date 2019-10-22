@@ -9,7 +9,7 @@ import drawLabel from './label';
 import globalStyle from '../../common/globalStyle';
 import drawActivedEdges from './activedEdge';
 import G6 from '@antv/g6';
-import drawHighlightEdge from '@components/Flow/shape/edges/highlightEdge';
+import drawHighlightEdge from '@/components/Flow/shape/edges/highlightEdge';
 
 const { edgeStyle } = globalStyle;
 

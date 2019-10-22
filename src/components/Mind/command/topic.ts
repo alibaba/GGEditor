@@ -1,7 +1,7 @@
-import { uuid } from '@utils';
-import { LABEL_DEFAULT_TEXT } from '@common/constants';
-import { TreeGraph, MindNodeModel } from '@common/interface';
-import commandManager from '@common/commandManager';
+import { uuid } from '@/utils';
+import { LABEL_DEFAULT_TEXT } from '@/common/constants';
+import { TreeGraph, MindNodeModel } from '@/common/interface';
+import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
 interface TopicCommandParams {

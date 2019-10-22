@@ -1,7 +1,7 @@
-import { getHighlightEdges, executeBatch, isMind } from '@utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent, GraphType } from '@common/constants';
-import { Item, Edge, Behavior } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { getHighlightEdges, executeBatch, isMind } from '@/utils';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent, GraphType } from '@/common/constants';
+import { Item, Edge, Behavior } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
   /** 清空高亮状态 */

@@ -1,7 +1,7 @@
-import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@utils';
-import { ItemState } from '@common/constants';
-import { Item, Behavior } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@/utils';
+import { ItemState } from '@/common/constants';
+import { Item, Behavior } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 interface ClickItemBehavior extends Behavior {
   /** 是否支持多选 */

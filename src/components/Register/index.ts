@@ -1,8 +1,8 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { Command, Behavior } from '@common/interface';
-import commandManager from '@common/commandManager';
-import behaviorManager from '@common/behaviorManager';
+import { Command, Behavior } from '@/common/interface';
+import commandManager from '@/common/commandManager';
+import behaviorManager from '@/common/behaviorManager';
 
 interface RegisterProps {
   name: string;

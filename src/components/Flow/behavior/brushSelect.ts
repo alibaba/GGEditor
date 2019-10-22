@@ -1,6 +1,6 @@
-import { GraphType } from '@common/constants';
-import { GraphEvent, Item, Shape } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { GraphType } from '@/common/constants';
+import { GraphEvent, Item, Shape } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
 const max = Math.max;

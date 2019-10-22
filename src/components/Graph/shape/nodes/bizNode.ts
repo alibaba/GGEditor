@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
-import { ItemState, LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@common/constants';
+import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@/common/constants';
 import Util from './util';
-import { Group, Item, NodeModel, CustomNode, Shape, Node, MindNodeModel } from '@common/interface';
+import { Group, Item, NodeModel, CustomNode, Shape, Node } from '@/common/interface';
 
 export interface BizNode extends CustomNode {
   keyShape: Shape | null;
