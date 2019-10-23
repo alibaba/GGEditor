@@ -1,6 +1,6 @@
-import { EditorEvent } from '@common/constants';
-import { Behavior, GraphEvent, Item, ItemModel } from '@common/interface';
-import behaviorManager from '@common/behaviorManager';
+import { EditorEvent } from '@/common/constants';
+import { Behavior, GraphEvent, Item, ItemModel } from '@/common/interface';
+import behaviorManager from '@/common/behaviorManager';
 import G6 from '@antv/g6';
 
 interface NodePopoverBehavior extends Behavior {

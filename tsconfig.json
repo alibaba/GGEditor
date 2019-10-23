@@ -11,5 +11,7 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "lib", "es", "types", "scripts", "examples", "node_modules"]
 }

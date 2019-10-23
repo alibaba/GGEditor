@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { Edge, EdgeModel, Group, Shape } from '@common/interface';
-import { ItemState } from '@common/constants';
+import { Edge, EdgeModel, Group, Shape } from '@/common/interface';
+import { ItemState } from '@/common/constants';
 
 const commonStyle = {
   stroke: '#d8d8d8',

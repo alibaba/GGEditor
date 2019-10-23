@@ -1,6 +1,6 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@common/context/EditorPrivateContext';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
 interface NodePopoverProps extends EditorPrivateContextProps {}
 
