@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import Menu from './Menu';
-import { EditorEvent } from '@common/constants';
+import { EditorEvent } from '@/common/constants';
 
 interface ContextMenuProps extends EditorPrivateContextProps {}
 
