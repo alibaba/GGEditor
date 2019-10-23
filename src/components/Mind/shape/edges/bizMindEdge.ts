@@ -1,5 +1,6 @@
+import { Node, Group } from './../../../../common/interface';
 import G6 from '@antv/g6';
-import { CustomEdge, Edge, Shape } from '@/common/interface';
+import { Edge, Shape, EdgeModel } from '@/common/interface';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {
@@ -13,10 +14,10 @@ const commonStyle = {
 /** wrapper and keyShape's offset, determining end point of an edge */
 const wrapperOffset = 4;
 
-const options: CustomEdge = {
-  draw(model, group) {
-    const startNode = model.source;
-    const endNode = model.target;
+const options = {
+  draw(model: EdgeModel, group: Group) {
+    const startNode = (model.source as unknown) as Node;
+    const endNode = (model.target as unknown) as Node;
     /**
      * left side: (x,y) is on the left-top point of a keyShape
      * right side: (x,y) is on the right-top point of a keyShape

@@ -11,7 +11,7 @@ import {
   Graph,
   GraphStateEvent,
   LabelStateEvent,
-  TooltipEvent,
+  NodePopoverEvent,
 } from '@/common/interface';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import pick from 'lodash/pick';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
@@ -7,7 +7,7 @@ interface NodePopoverProps extends EditorPrivateContextProps {}
 class NodePopover extends React.Component<NodePopoverProps> {
   componentDidMount(): void {}
 
-  getPopoverStyle = () => {
+  getPopoverStyle = (): CSSProperties => {
     const { nodePopoverState } = this.props;
 
     return {
