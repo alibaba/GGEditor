@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 /* eslint-disable */
+const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
 const resolve = require('rollup-plugin-node-resolve');
@@ -14,65 +15,84 @@ async function build() {
   rimraf.sync('es');
   rimraf.sync('types');
 
-  // Build umd
-  const umdBundle = await rollup.rollup({
-    input: 'src/index.tsx',
-    plugins: [
-      resolve(),
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-          },
-        },
-      }),
-    ],
-    external: ['react'],
-  });
+  signale.success('Clean success');
 
-  await umdBundle.write({
-    name: 'GGEditor',
-    file: 'dist/index.js',
-    format: 'umd',
-  });
+  // Build umd
+  try {
+    const umdBundle = await rollup.rollup({
+      input: 'src/index.tsx',
+      plugins: [
+        resolve(),
+        typescript({
+          tsconfigOverride: {
+            compilerOptions: {
+              declaration: false,
+            },
+          },
+        }),
+      ],
+      external: ['react'],
+    });
+
+    await umdBundle.write({
+      name: 'GGEditor',
+      file: 'dist/index.js',
+      format: 'umd',
+    });
+
+    signale.success('Build umd success');
+  } catch (error) {
+    signale.error(error);
+  }
 
   // Build cjs
-  const cjsBundle = await rollup.rollup({
-    input: 'src/index.tsx',
-    plugins: [
-      resolve(),
-      typescript({
-        useTsconfigDeclarationDir: true,
-      }),
-    ],
-    external: ['react'],
-  });
+  try {
+    const cjsBundle = await rollup.rollup({
+      input: 'src/index.tsx',
+      plugins: [
+        resolve(),
+        typescript({
+          useTsconfigDeclarationDir: true,
+        }),
+      ],
+      external: ['react'],
+    });
 
-  await cjsBundle.write({
-    file: 'lib/index.js',
-    format: 'cjs',
-  });
+    await cjsBundle.write({
+      file: 'lib/index.js',
+      format: 'cjs',
+    });
+    signale.success('Build cjs success');
+  } catch (error) {
+    signale.error(error);
+  }
 
   // Build esm
-  const esmBundle = await rollup.rollup({
-    input: 'src/index.tsx',
-    plugins: [
-      resolve(),
-      typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
+  try {
+    const esmBundle = await rollup.rollup({
+      input: 'src/index.tsx',
+      plugins: [
+        resolve(),
+        typescript({
+          tsconfigOverride: {
+            compilerOptions: {
+              declaration: false,
+            },
           },
-        },
-      }),
-    ],
-    external: ['react'],
-  });
+        }),
+      ],
+      external: ['react'],
+    });
 
-  await esmBundle.write({
-    file: 'es/index.js',
-    format: 'esm',
-  });
+    await esmBundle.write({
+      file: 'es/index.js',
+      format: 'esm',
+    });
+
+    signale.success('Build esm success');
+  } catch (error) {
+    signale.error(error);
+  }
 }
 
 build();
