@@ -62,6 +62,7 @@ export interface Group {
   addShape(type: string, config: object): Shape;
   getBBox(): BBox;
   findByClassName(className: string): Shape;
+  getMatrix(): object;
 }
 
 export interface EventEmitter {
@@ -304,7 +305,7 @@ export interface CustomNode<M = NodeModel> extends CustomShape<Node, M> {
   labelPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center';
 
   // 通用
-  getAnchorPoints?: number[][];
+  getAnchorPoints?(): number[][];
   getSize?: number[];
 }
 

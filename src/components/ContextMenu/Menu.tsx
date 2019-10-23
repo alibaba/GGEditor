@@ -1,6 +1,7 @@
 import React from 'react';
 
 class Menu extends React.Component {
+  static type = null;
   static create = function(type) {
     return class TypedMenu extends Menu {
       constructor(props) {

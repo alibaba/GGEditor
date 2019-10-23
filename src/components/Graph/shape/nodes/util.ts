@@ -1,3 +1,5 @@
+import { Group } from './../../../../common/interface';
+import { Item } from '@/common/interface';
 import upperFirst from 'lodash/upperFirst';
 // import each from '@antv/util/lib/each';
 
@@ -16,6 +18,8 @@ interface ShapeUtil {
   getCollapseButtonPath: (param: { width: number; height: number }) => string;
 
   getExpandButtonPath: (param: { width: number; height: number }) => string;
+
+  itemStates({ item: Item, group: Group }): void;
 }
 
 const Util: ShapeUtil = {

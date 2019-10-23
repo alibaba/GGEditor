@@ -2,7 +2,7 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@/common/constants';
 import Util from '@/components/Graph/shape/nodes/util';
 import '@/components/Graph/shape/nodes/bizNode';
-import { Group, NodeModel, CustomNode } from '@/common/interface';
+import { Group, NodeModel, CustomNode, MindNodeModel } from '@/common/interface';
 import { bizOption } from '@/components/Graph/shape/nodes/bizNode';
 
 export interface MindNodeModel extends NodeModel {
@@ -20,7 +20,7 @@ const options: BizMindNodeOptions = {
   /**
    * main draw method
    * */
-  draw(model, group) {
+  draw(model: MindNodeModel, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);

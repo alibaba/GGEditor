@@ -3,13 +3,14 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@/common/constants';
-import { MindData, FlowAndMindCommonProps } from '@/common/interface';
+import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@/common/interface';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './shape';
 import './command';
+import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
 interface MindProps extends FlowAndMindCommonProps {
   data: MindData;
