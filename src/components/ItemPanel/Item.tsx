@@ -42,7 +42,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     };
   }
 
-  handleMouseDown = (ev: MouseEvent) => {
+  handleMouseDown = (ev: any) => {
     const shadowShape = this.createShadowShape(ev);
     document.body.appendChild(shadowShape);
     this.setState({
@@ -54,7 +54,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     this.unloadDragShape();
   };
 
-  createShadowShape(ev: MouseEvent) {
+  createShadowShape(ev: any) {
     const { src } = this.props;
 
     const Img = document.createElement('img');
@@ -96,7 +96,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
 
     const canvas = graph.get('container').getElementsByTagName('canvas')[0];
     // drag into canvas
-    if (ev.target && ev.target.id === canvas.id) {
+    if (ev.target && ev.target === canvas.id) {
       this.loadDragShape(transferredPos);
     }
   };
@@ -169,7 +169,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     document.removeEventListener('drop', this.handleDrop);
   }
 
-  handleDrop = (ev: DragEvent) => {
+  handleDrop = (ev: any) => {
     const { graph, executeCommand, type, model, shape, size } = this.props;
     const { dragShapeID } = this.state;
 

@@ -1,3 +1,4 @@
+import { NodeModel } from './../../../common/interface';
 import { EditorEvent } from '@/common/constants';
 import { Behavior, GraphEvent, Item, ItemModel } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
@@ -21,15 +22,19 @@ interface NodePopoverBehavior extends Behavior {
 
   /** 处理鼠标移出 */
   handleItemMouseleave(e: GraphEvent): void;
+
+  /** 格式化文本  */
+  formatText?(model: NodeModel): string;
 }
 
 const nodePopoverBehavior = {
   getPopoverText(model) {
     let text = model.label;
+    const { formatText } = this;
 
     // 用户初始化画布时配置的，与G6保持一致
-    if (typeof this.formatText === 'function') {
-      text = this.formatText(model);
+    if (typeof formatText === 'function') {
+      text = formatText(model);
     }
 
     return text;

@@ -1,10 +1,10 @@
 import { isMind, getSelectedNodes, getSelectedEdges } from '@/utils';
 import { ItemState, LabelState, EditorEvent } from '@/common/constants';
-import { Node, Edge, Graph, Command } from '@/common/interface';
+import { Node, Edge, Graph, Command, TreeGraph } from '@/common/interface';
 import command from '@/common/command';
 import commandManager from '@/common/commandManager';
 
-export interface BaseCommand<P = object, G = Graph> extends Command<P, G> {
+export interface BaseCommand<P = object, G = Partial<Graph & TreeGraph>> extends Command<P, G> {
   /** 判断是否脑图 */
   isMind(graph: G): boolean;
   /** 获取选中节点 */
