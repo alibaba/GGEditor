@@ -6,7 +6,7 @@ const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
 
-behaviorManager.register('flow-drag-canvas', {
+const flowDragCanvas = {
   graphType: GraphType.Flow,
   getDefaultCfg() {
     return {
@@ -111,7 +111,7 @@ behaviorManager.register('flow-drag-canvas', {
     if (this.dragging) {
       const self = this;
       const canvasElement = self.graph.get('canvas').get('el');
-      const fn = (ev: GraphEvent) => {
+      const fn = ev => {
         if (ev.target !== canvasElement) {
           self.onMouseUp(e);
         }
@@ -120,4 +120,6 @@ behaviorManager.register('flow-drag-canvas', {
       body.addEventListener('mouseup', fn, false);
     }
   },
-});
+};
+
+behaviorManager.register('flow-drag-canvas', flowDragCanvas);

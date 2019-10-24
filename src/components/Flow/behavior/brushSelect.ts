@@ -1,12 +1,25 @@
 import { GraphType } from '@/common/constants';
-import { GraphEvent, Item, Shape } from '@/common/interface';
+import { GraphEvent, Item, Shape, Edge, Behavior } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;
 const hypot = Math.hypot;
-behaviorManager.register('brush-select', {
+
+interface BrushBehavior extends Behavior {
+  onKeyUp(e: GraphEvent): void;
+  onKeyDown(e: GraphEvent): void;
+  onMouseDown(e: GraphEvent): void;
+  onMouseMove(e: GraphEvent): void;
+  onMouseUp(e: GraphEvent): void;
+  clearStates(): void;
+  _getSelectedNodes(e: GraphEvent): void;
+  _createBrush(e: GraphEvent): void;
+  _updateBrush(e: GraphEvent): void;
+}
+
+const brushSelect: BrushBehavior = {
   graphType: GraphType.Flow,
   getDefaultCfg() {
     return {
@@ -127,7 +140,7 @@ behaviorManager.register('brush-select', {
       }
     });
 
-    const selectedEdges: Shape[] = [];
+    const selectedEdges: Edge[] = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
       selectedNodes.forEach(node => {
@@ -165,4 +178,6 @@ behaviorManager.register('brush-select', {
       y: min(e.canvasY, originPoint.y),
     });
   },
-});
+};
+
+behaviorManager.register('brush-select', brushSelect);

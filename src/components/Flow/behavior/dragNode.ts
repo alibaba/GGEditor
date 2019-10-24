@@ -6,7 +6,7 @@ import globalStyle from '../common/globalStyle';
 const { delegateStyle } = globalStyle;
 const { body } = document;
 
-behaviorManager.register('drag-node', {
+const dragNode = {
   graphType: GraphType.Flow,
   getEvents() {
     return {
@@ -208,4 +208,5 @@ behaviorManager.register('drag-node', {
       },
     });
   },
-});
+};
+behaviorManager.register('drag-node', dragNode);

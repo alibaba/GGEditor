@@ -2,7 +2,7 @@ import { GraphType } from '@/common/constants';
 import { GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
-behaviorManager.register('click-select', {
+const clickSelect = {
   graphType: GraphType.Flow,
   getDefaultCfg() {
     return {
@@ -60,4 +60,6 @@ behaviorManager.register('click-select', {
   onKeyUp() {
     this.keydown = false;
   },
-});
+};
+
+behaviorManager.register('click-select', clickSelect);

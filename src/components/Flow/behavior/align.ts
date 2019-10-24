@@ -1,5 +1,5 @@
 import { GraphType } from '@/common/constants';
-import { Item, GraphEvent } from '@/common/interface';
+import { Item, GraphEvent, Behavior } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
@@ -49,7 +49,12 @@ interface HVLine {
   [index: string]: Line[];
 }
 
-behaviorManager.register('align', {
+interface AlignBehavior extends Behavior {
+  getBoxLine(e: Item): void;
+  onDrag(e: GraphEvent): void;
+}
+
+const alignBehavior: AlignBehavior = {
   graphType: GraphType.Flow,
   getEvents() {
     return {
@@ -169,4 +174,6 @@ behaviorManager.register('align', {
     drawLine(hLines, 'H');
     drawLine(vLines, 'V');
   },
-});
+};
+
+behaviorManager.register('align', alignBehavior);
