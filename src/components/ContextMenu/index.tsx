@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import pick from 'lodash/pick';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import Menu from './Menu';
@@ -9,7 +9,7 @@ interface ContextMenuProps extends EditorPrivateContextProps {}
 class ContextMenu extends React.Component<ContextMenuProps> {
   componentDidMount(): void {}
 
-  getContextMenuStyle = (): CSSProperties => {
+  getContextMenuStyle = (): React.CSSProperties => {
     const { contextMenuState } = this.props;
 
     return {

@@ -9,7 +9,6 @@ const babel = require('rollup-plugin-babel');
 const typescript = require('rollup-plugin-typescript2');
 const serve = require('rollup-plugin-serve');
 const livereload = require('rollup-plugin-livereload');
-
 /* eslint-enable */
 
 function start(example) {

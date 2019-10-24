@@ -44,12 +44,14 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
 
     return (
       <div {...pick(this.props, ['style', 'className'])}>
-        {React.Children.toArray(children).map(child =>
-          React.cloneElement(child, {
-            nodes: getSelectedNodes(graph),
-            edges: getSelectedEdges(graph),
-          }),
-        )}
+        {React.Children.toArray(children).map(child => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child, {
+              nodes: getSelectedNodes(graph),
+              edges: getSelectedEdges(graph),
+            });
+          }
+        })}
       </div>
     );
   }

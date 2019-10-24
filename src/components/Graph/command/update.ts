@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
+import { Graph, TreeGraph } from '@/common/interface';
 
 interface UpdateCommandParams {
   id: string;
@@ -36,8 +37,9 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
     this.params.originModel = originModel;
   },
 
-  execute(graph) {
+  execute(graph: Graph & TreeGraph) {
     const { id, updateModel, forceRefreshLayout } = this.params;
+
     graph.updateItem(id, updateModel);
 
     if (forceRefreshLayout) {
