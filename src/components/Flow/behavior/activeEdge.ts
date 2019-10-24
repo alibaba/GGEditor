@@ -1,8 +1,13 @@
 import { GraphType } from '@/common/constants';
-import { GraphEvent } from '@/common/interface';
+import { GraphEvent, Behavior } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
-behaviorManager.register('active-edge', {
+interface ActiveEdgeBehavior extends Behavior {
+  setAllItemStates(e: GraphEvent): void;
+  clearAllItemStates(e: GraphEvent): void;
+}
+
+const activeEdgeBehavior: ActiveEdgeBehavior = {
   graphType: GraphType.Flow,
   getEvents() {
     return {
@@ -35,4 +40,5 @@ behaviorManager.register('active-edge', {
     graph.setItemState(e.item.getTarget(), 'active', false);
     graph.setItemState(e.item.getSource(), 'active', false);
   },
-});
+};
+behaviorManager.register('active-edge', activeEdgeBehavior);

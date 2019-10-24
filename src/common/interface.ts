@@ -49,6 +49,8 @@ export interface Shape {
   translate(x: number, y: number): void;
   updatePosition(p: { x: number; y: number }): void;
   hasState(state: string): boolean;
+  getTarget(): any;
+  getSource(): any;
 }
 
 /**
@@ -333,13 +335,13 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
  * @see https://www.yuque.com/antv/g6/behavior-api
  */
 export interface Behavior {
-  graph: Graph;
+  graph?: Graph;
   graphType?: GraphType;
   getEvents(): {
     [propName in GraphNativeEvent]: string;
   };
   getDefaultCfg?(): object;
-  shouldBegin?(): boolean;
+  shouldBegin?(e?: GraphEvent): boolean;
   shouldUpdate?(): boolean;
   shouldEnd?(): boolean;
 }

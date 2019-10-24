@@ -2,7 +2,7 @@ import { GraphType } from '@/common/constants';
 import { GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
-behaviorManager.register('hover-node', {
+const hoverNode = {
   graphType: GraphType.Flow,
   getEvents() {
     return {
@@ -21,4 +21,5 @@ behaviorManager.register('hover-node', {
     const node = e.item;
     graph.setItemState(node, 'active', false);
   },
-});
+};
+behaviorManager.register('hover-node', hoverNode);
