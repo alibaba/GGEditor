@@ -12,10 +12,6 @@ class ItemPanel extends React.PureComponent<ItemPanelProps, ItemPanelState> {
     this.bindEvent();
   }
 
-  handleMouseUp = () => {
-    this.page.cancelAdd();
-  };
-
   bindEvent() {
     /* const { onAfterAddPage } = this.props;
 
@@ -26,18 +22,10 @@ class ItemPanel extends React.PureComponent<ItemPanelProps, ItemPanelState> {
     }); */
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mouseup', this.handleMouseUp);
-  }
-
   render() {
     const { children } = this.props;
 
-    return (
-      <div id={this.containerId} {...pick(this.props, ['style', 'className'])}>
-        {children}
-      </div>
-    );
+    return <div {...pick(this.props, ['style', 'className'])}>{children}</div>;
   }
 }
 

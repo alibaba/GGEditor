@@ -357,7 +357,7 @@ export interface GraphEvent {
   target: Shape;
   type: string;
   CurrentTarget: object;
-  item: Shape;
+  item: Item;
   removed: boolean;
   timeStamp: number;
   bubbles: boolean;
