@@ -20,6 +20,8 @@ interface ShapeUtil {
   getExpandButtonPath: (param: { width: number; height: number }) => string;
 
   itemStates({ item: Item, group: Group }): void;
+
+  [props: string]: any;
 }
 
 const Util: ShapeUtil = {

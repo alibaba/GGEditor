@@ -11,6 +11,8 @@ export interface BizNode extends CustomNode {
   wrapper: Shape | null;
 
   appendix: Shape | null;
+
+  [props: string]: any;
 }
 
 export const bizOption: BizNode = {

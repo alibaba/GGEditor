@@ -26,10 +26,10 @@ import {
 } from '@/common/interface';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import EditableLabel from '@/components/EditableLabel';
-import Tooltip from '@/components/Tooltip';
 
 import './command';
 import './behavior';
+import NodePopover from '../NodePopover';
 
 const FIT_VIEW_PADDING = 200;
 

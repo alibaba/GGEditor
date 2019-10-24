@@ -13,6 +13,7 @@ export interface MindNodeModel extends NodeModel {
 
 export interface BizMindNodeOptions extends CustomNode {
   drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
+  [props: string]: any;
 }
 
 const options: BizMindNodeOptions = {
