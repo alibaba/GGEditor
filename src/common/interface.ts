@@ -1,4 +1,3 @@
-import { CSSProperties } from 'react';
 import {
   ItemType,
   ItemState,
@@ -178,6 +177,9 @@ export interface Graph extends EventEmitter {
   // 交互
   setMode(mode: string): void;
   getCurrentMode(): string;
+  getZoom(): number;
+  zoom(ratio: number, center?: { x: number; y: number }): void;
+  zoomTo(toRatio: number, center?: { x: number; y: number }): void;
   focusItem(item: string | Item): void;
   fitView(padding?: number | number[]): void;
 
@@ -193,6 +195,9 @@ export interface Graph extends EventEmitter {
 
   // 坐标转换
   getPointByClient(clientX: number, clientY: number): { x: number; y: number };
+  getClientByPoint(x: number, y: number): { x: number; y: number };
+  getPointByCanvas(canvasX: number, canvasY: number): { x: number; y: number };
+  getCanvasByPoint(x: number, y: number): { x: number; y: number };
 
   // 其它
   get(key: string): any;
@@ -269,7 +274,7 @@ export interface Edge extends Item {
 export interface LabelConfig {
   position: 'top' | 'bottom' | 'left' | 'right' | 'center';
   offset?: number;
-  style?: CSSProperties;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -294,9 +299,9 @@ export interface CustomShape<T, M> {
 
   // 通用
   getShape?(type: ItemType): CustomNode | CustomEdge;
-  getLabelStyle?(model: M, labelConfig: LabelConfig, group: Group): CSSProperties;
-  getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: Group): CSSProperties;
-  getShapeStyle?(model: M): CSSProperties;
+  getLabelStyle?(model: M, labelConfig: LabelConfig, group: Group): React.CSSProperties;
+  getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: Group): React.CSSProperties;
+  getShapeStyle?(model: M): React.CSSProperties;
 }
 
 /**

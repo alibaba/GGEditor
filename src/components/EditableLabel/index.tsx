@@ -9,6 +9,8 @@ interface EditableLabelProps extends EditorPrivateContextProps {}
 interface EditableLabelState {}
 
 class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabelState> {
+  labelElement: HTMLDivElement = null;
+
   componentDidUpdate() {
     const { labelState } = this.props;
 
@@ -29,7 +31,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     }
   };
 
-  handleKeyDown = (e: KeyboardEvent) => {
+  handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const { key } = e;
 
     if (key === 'Enter' || key === 'Escape') {
@@ -129,7 +131,7 @@ class EditableLabel extends React.PureComponent<EditableLabelProps, EditableLabe
     const { labelState } = this.props;
 
     let label = '';
-    let labelStyle = {
+    let labelStyle: React.CSSProperties = {
       position: 'absolute',
       background: 'white',
       border: '1px solid #1890FF',
