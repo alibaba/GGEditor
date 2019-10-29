@@ -49,8 +49,6 @@ export interface Shape {
   translate(x: number, y: number): void;
   updatePosition(p: { x: number; y: number }): void;
   hasState(state: string): boolean;
-  getTarget(): any;
-  getSource(): any;
 }
 
 /**
@@ -269,6 +267,12 @@ export interface Node extends Item {
 export interface Edge extends Item {
   // 通用
   getModel<T = EdgeModel>(): T;
+
+  // 特有
+  getSource(): Node;
+  getTarget(): Node;
+  setSource(source: Node): void;
+  setTarget(target: Node): void;
 }
 
 export interface LabelConfig {
@@ -338,12 +342,12 @@ export interface Behavior {
   graph?: Graph;
   graphType?: GraphType;
   getEvents(): {
-    [propName in GraphNativeEvent]: string;
+    [propName in GraphNativeEvent]?: string;
   };
   getDefaultCfg?(): object;
   shouldBegin?(e?: GraphEvent): boolean;
-  shouldUpdate?(): boolean;
-  shouldEnd?(): boolean;
+  shouldUpdate?(e?: GraphEvent): boolean;
+  shouldEnd?(e?: GraphEvent): boolean;
 }
 
 export interface GraphEvent {

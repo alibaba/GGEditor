@@ -6,9 +6,9 @@ import globalStyle from '../common/globalStyle';
 const { alignLine } = globalStyle;
 
 function normalize(out: number[], a: number[]) {
-  var x = a[0],
-    y = a[1];
-  var len = x * x + y * y;
+  const x = a[0];
+  const y = a[1];
+  let len = x * x + y * y;
   if (len > 0) {
     len = 1 / Math.sqrt(len);
     out[0] = a[0] * len;
@@ -126,8 +126,8 @@ const alignBehavior: AlignBehavior = {
       // 2. 一旦距离小于误差便自动吸附，一旦吸附就终止其它对齐点的计算
       // 3. 吸附后对齐点到水平线的距离应该是无误差的，此时显示对齐线
       const calc = <T>(points: Point[], lines: Lines, arr: HVLine, axis: string) => {
-        start: for (let p of points)
-          for (let name of Object.keys(lines)) {
+        start: for (const p of points)
+          for (const name of Object.keys(lines)) {
             const line = lines[name];
             const dis = pointLineDistance(line, [p.x, p.y]);
             if (Math.abs(dis) < tolerance) {

@@ -1,13 +1,17 @@
 import * as uuidv4 from 'uuid/v4';
 import { GraphType } from '@/common/constants';
-import { GraphEvent, Shape } from '@/common/interface';
+import { Shape, Behavior, GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
-const dragAddEdge = {
+interface DragAddEdgeBehavior extends Behavior {}
+
+const dragAddEdge: DragAddEdgeBehavior = {
   graphType: GraphType.Flow,
+
   getDefaultCfg() {
     return { edgeType: 'flowSmooth' };
   },
+
   getEvents() {
     return {
       mousedown: 'onMousedown',
@@ -15,18 +19,21 @@ const dragAddEdge = {
       mouseup: 'onMouseup',
     };
   },
+
   isAnchor(ev: GraphEvent) {
     const { target } = ev;
     const targetName = target.get('className');
     if (targetName == 'anchor') return true;
     else return false;
   },
+
   notThis(ev: GraphEvent) {
     const node = ev.item;
     const model = node.getModel();
     if (this.edge.getSource().get('id') === model.id) return false;
     return true;
   },
+
   shouldBegin(ev: GraphEvent) {
     const { target } = ev;
     const targetName = target.get('className');
@@ -34,6 +41,7 @@ const dragAddEdge = {
     if (targetName === 'anchor') return true;
     else return false;
   },
+
   onMousedown(ev: GraphEvent) {
     const { edgeType } = this;
     if (!this.shouldBegin.call(this, ev)) return;
@@ -61,6 +69,7 @@ const dragAddEdge = {
       this.addingEdge = true;
     }
   },
+
   onMousemove(ev: GraphEvent) {
     if (this.addingEdge && this.edge) {
       const point = { x: ev.x, y: ev.y };
@@ -81,6 +90,7 @@ const dragAddEdge = {
       }
     }
   },
+
   onMouseup(ev: GraphEvent) {
     const { graph, sourceNode } = this;
     const node = ev.item;
@@ -125,4 +135,5 @@ const dragAddEdge = {
     }
   },
 };
+
 behaviorManager.register('drag-add-edge', dragAddEdge);

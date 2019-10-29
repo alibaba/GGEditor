@@ -7,27 +7,21 @@ import G6 from '@antv/g6';
 interface NodePopoverBehavior extends Behavior {
   /** 获取nodePopover展示文本 */
   getPopoverText(model: ItemModel): string | undefined;
-
   /** 获取nodePopover的位置 */
   getPopoverPosition(item: Item): { x: number; y: number };
-
   /** 显示nodePopover */
   showPopover(e: GraphEvent): void;
-
   /** 隐藏nodePopover */
   hidePopover(): void;
-
   /** 处理鼠标进入 */
   handleItemMouseenter(e: GraphEvent): void;
-
   /** 处理鼠标移出 */
   handleItemMouseleave(e: GraphEvent): void;
-
   /** 格式化文本  */
   formatText?(model: NodeModel): string;
 }
 
-const nodePopoverBehavior = {
+const nodePopoverBehavior: NodePopoverBehavior = {
   getPopoverText(model) {
     let text = model.label;
     const { formatText } = this;
@@ -98,9 +92,9 @@ const nodePopoverBehavior = {
     this.showPopover(e);
   },
 
-  handleItemMouseleave(e) {
+  handleItemMouseleave() {
     this.hidePopover();
   },
-} as NodePopoverBehavior;
+};
 
 behaviorManager.register('node-popover', nodePopoverBehavior);

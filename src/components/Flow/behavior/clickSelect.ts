@@ -1,15 +1,24 @@
 import { GraphType } from '@/common/constants';
-import { GraphEvent } from '@/common/interface';
+import { Behavior, GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
-const clickSelect = {
+interface ClickSelectBehavior extends Behavior {}
+
+interface DefaultConfig {
+  multiple: boolean;
+  keyCode: number;
+}
+
+const clickSelect: ClickSelectBehavior & ThisType<ClickSelectBehavior & DefaultConfig> = {
   graphType: GraphType.Flow,
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       multiple: true,
-      keyCode: 17, // ctrl 键
+      keyCode: 17,
     };
   },
+
   getEvents() {
     return {
       'node:click': 'onClick',
@@ -19,6 +28,7 @@ const clickSelect = {
       keydown: 'onKeyDown',
     };
   },
+
   onClick(e: GraphEvent) {
     const self = this;
     const item = e.item;
@@ -41,6 +51,7 @@ const clickSelect = {
     graph.setAutoPaint(autoPaint);
     graph.paint();
   },
+
   resetState(e: GraphEvent) {
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
@@ -52,11 +63,13 @@ const clickSelect = {
     graph.paint();
     graph.setAutoPaint(autoPaint);
   },
+
   onKeyDown(e: GraphEvent) {
     const code = e.keyCode || e.which;
     if (code === this.keyCode) this.keydown = true;
     else this.keydown = false;
   },
+
   onKeyUp() {
     this.keydown = false;
   },

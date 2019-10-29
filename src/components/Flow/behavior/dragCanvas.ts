@@ -1,18 +1,22 @@
 import { GraphType } from '@/common/constants';
-import { GraphEvent } from '@/common/interface';
+import { Behavior, GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
 const abs = Math.abs;
 const DRAG_OFFSET = 10;
 const body = document.body;
 
-const flowDragCanvas = {
+interface DragCanvasBehavior extends Behavior {}
+
+const dragCanvas: DragCanvasBehavior = {
   graphType: GraphType.Flow,
+
   getDefaultCfg() {
     return {
       direction: 'both',
     };
   },
+
   getEvents() {
     return {
       keyup: 'onKeyUp',
@@ -24,6 +28,7 @@ const flowDragCanvas = {
       'canvas:mouseleave': 'onOutOfRange',
     };
   },
+
   updateViewport(e: GraphEvent) {
     const origin = this.origin;
     const clientX = +e.clientX;
@@ -45,19 +50,23 @@ const flowDragCanvas = {
     this.graph.translate(dx, dy);
     this.graph.paint();
   },
+
   onKeyUp(e) {
     const SPACE = 32;
     if (e.keyCode === SPACE) this.keyFlag = false;
   },
+
   onKeyDown(e) {
     const SPACE = 32;
     if (e.keyCode === SPACE) this.keyFlag = true;
   },
+
   onMouseDown(e: GraphEvent) {
     if (!this.keyFlag) return;
     this.origin = { x: e.clientX, y: e.clientY };
     this.dragging = false;
   },
+
   onMouseMove(e: GraphEvent) {
     const graph = this.graph;
     if (!this.origin) {
@@ -81,6 +90,7 @@ const flowDragCanvas = {
       this.updateViewport(e);
     }
   },
+
   onMouseUp(e: GraphEvent) {
     if (!this.dragging) {
       this.origin = null;
@@ -94,6 +104,7 @@ const flowDragCanvas = {
     graph.emit('canvas:dragend', e);
     this.endDrag();
   },
+
   endDrag() {
     if (this.dragging) {
       this.origin = null;
@@ -106,6 +117,7 @@ const flowDragCanvas = {
       }
     }
   },
+
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
   onOutOfRange(e: GraphEvent) {
     if (this.dragging) {
@@ -122,4 +134,4 @@ const flowDragCanvas = {
   },
 };
 
-behaviorManager.register('flow-drag-canvas', flowDragCanvas);
+behaviorManager.register('flow-drag-canvas', dragCanvas);

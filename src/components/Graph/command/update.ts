@@ -10,7 +10,7 @@ interface UpdateCommandParams {
   forceRefreshLayout: boolean;
 }
 
-const updateCommand: BaseCommand<UpdateCommandParams> = {
+const updateCommand: BaseCommand<UpdateCommandParams, Graph & TreeGraph> = {
   ...baseCommand,
 
   params: {
@@ -37,7 +37,7 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
     this.params.originModel = originModel;
   },
 
-  execute(graph: Graph & TreeGraph) {
+  execute(graph) {
     const { id, updateModel, forceRefreshLayout } = this.params;
 
     graph.updateItem(id, updateModel);

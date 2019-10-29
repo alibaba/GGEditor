@@ -1,13 +1,36 @@
-import { GraphType } from '@/common/constants';
-import { GraphEvent, Shape } from '@/common/interface';
+import { GraphType, ItemType, ItemState } from '@/common/constants';
+import { Shape, Item, Node, Behavior, GraphEvent } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
 const { delegateStyle } = globalStyle;
 const { body } = document;
 
-const dragNode = {
+interface DragNodeBehavior extends Behavior {
+  origin?: {
+    x: number;
+    y: number;
+  };
+  target?: Item;
+  selectedNodes?: Node[];
+  onDragStart(e: GraphEvent): void;
+  onDrag(e: GraphEvent): void;
+  onDragEnd(e: GraphEvent): void;
+  onOutOfRange(e: GraphEvent): void;
+  _update(e: GraphEvent, force: boolean): void;
+  _updateDelegate(item: Shape, x: number, y: number): void;
+  drawMultipleDelegate(): void;
+}
+
+interface DefaultConfig {
+  updateEdge: boolean;
+  showDelegate: boolean;
+  delegateStyle: object;
+}
+
+const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = {
   graphType: GraphType.Flow,
+
   getEvents() {
     return {
       'node:dragstart': 'onDragStart',
@@ -16,19 +39,22 @@ const dragNode = {
       'canvas:mouseleave': 'onOutOfRange',
     };
   },
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       updateEdge: true,
       showDelegate: true,
       delegateStyle: {},
     };
   },
-  shouldBegin(e: GraphEvent) {
+
+  shouldBegin(e) {
     // 锚点上不触发拖拽；
     if (e.target.get('className') == 'anchor') return false;
     else return true;
   },
-  onDragStart(e: GraphEvent) {
+
+  onDragStart(e) {
     if (!this.shouldBegin(e)) return;
     const { graph } = this;
     this.origin = {
@@ -37,15 +63,17 @@ const dragNode = {
     };
     this.target = e.item;
     // 单节点拖拽当做多节点拖拽的特例
-    this.selectedNodes = graph.findAllByState('node', 'selected') || [];
-    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item);
+    this.selectedNodes = graph.findAllByState(ItemType.Node, ItemState.Selected) || [];
+    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item as Node);
   },
-  onDrag(e: GraphEvent) {
+
+  onDrag(e) {
     if (!this.get('shouldUpdate').call(this, e)) return;
     if (!this.origin) return;
     this._update(e, false);
   },
-  onDragEnd(e: GraphEvent) {
+
+  onDragEnd(e) {
     if (!this.shouldEnd.call(this, e)) return;
     if (!this.origin) return;
     const { selectedNodes } = this;
@@ -76,8 +104,9 @@ const dragNode = {
       this.fn = null;
     }
   },
+
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
-  onOutOfRange(e: GraphEvent) {
+  onOutOfRange(e) {
     const self = this;
     if (this.origin) {
       const canvasElement = self.graph.get('canvas').get('el');
@@ -90,6 +119,7 @@ const dragNode = {
       body.addEventListener('mouseup', fn, false);
     }
   },
+
   _update(e: GraphEvent, force: boolean) {
     const { selectedNodes, showDelegate, origin } = this;
     const offsetX = e.x - origin.x;
@@ -135,6 +165,7 @@ const dragNode = {
       this.graph.paint();
     }
   },
+
   _updateDelegate(item: Shape, x: number, y: number) {
     let shape = item.get('delegateShape');
     const bbox = item.get('keyShape').getBBox();
@@ -176,6 +207,7 @@ const dragNode = {
       shape.attachFlag = '';
     }
   },
+
   // 绘制所有选中节点的最小外接矩形
   drawMultipleDelegate() {
     if (this.multipleDelegate) return;
@@ -209,4 +241,5 @@ const dragNode = {
     });
   },
 };
+
 behaviorManager.register('drag-node', dragNode);

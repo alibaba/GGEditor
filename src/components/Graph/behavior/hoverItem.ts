@@ -9,7 +9,7 @@ interface HoverItemBehavior extends Behavior {
   handleItemMouseleave({ item }: { item: Item }): void;
 }
 
-const hoverItemBehavior = {
+const hoverItemBehavior: HoverItemBehavior = {
   getEvents() {
     return {
       'node:mouseenter': 'handleItemMouseenter',
@@ -30,6 +30,6 @@ const hoverItemBehavior = {
 
     graph.setItemState(item, ItemState.Active, false);
   },
-} as HoverItemBehavior;
+};
 
 behaviorManager.register('hover-item', hoverItemBehavior);
