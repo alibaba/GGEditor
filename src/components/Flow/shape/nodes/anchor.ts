@@ -1,5 +1,10 @@
 import globalStyle from '../../common/globalStyle';
+import { Item } from '@/common/interface';
 
+interface ThisProps {
+  addingEdge: boolean;
+  getAnchorPoints: () => number[];
+}
 const {
   anchorPointStyle,
   anchorPointHoverStyle,
@@ -9,7 +14,7 @@ const {
   zIndex,
 } = globalStyle;
 
-function handleAnchor(name, value, item) {
+function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
   const model = item.getModel();
   // 拿到 group
   const group = item.getContainer();
@@ -54,7 +59,7 @@ function handleAnchor(name, value, item) {
   // if (name === 'limitLink' && value) drawBanAnchor.call(this, model, group);
 }
 
-function drawBanAnchor(model, group) {
+function drawBanAnchor(this: ThisProps, model, group) {
   const anchorPoints = this.getAnchorPoints();
   return anchorPoints.map((p, index) => {
     const keyShape = group.get('item').getKeyShape();
@@ -80,7 +85,7 @@ function drawBanAnchor(model, group) {
   });
 }
 
-function drawAnchor(model, group) {
+function drawAnchor(this: ThisProps, model, group) {
   const anchorPoints = this.getAnchorPoints();
   // 为每个点添加标记
   return anchorPoints.map((p, index) => {

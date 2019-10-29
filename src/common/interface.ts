@@ -234,7 +234,7 @@ export interface Item {
   getEdges(): Edge[];
   enableCapture(enable: boolean): void;
   clearCache(): void;
-
+  updatePosition(obj: { x?: number; y?: number }): void;
   // 状态
   show(): void;
   hide(): void;
@@ -249,6 +249,7 @@ export interface Item {
 
   // 其它
   get(key: string): any;
+  set(key: string, value: any): void;
 }
 
 /**
@@ -263,6 +264,9 @@ export interface Node extends Item {
   getEdges(): Edge[];
   getInEdges(): Edge[];
   getOutEdges(): Edge[];
+
+  x: number;
+  y: number;
 }
 
 /**

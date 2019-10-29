@@ -7,18 +7,12 @@ const { delegateStyle } = globalStyle;
 const { body } = document;
 
 interface DragNodeBehavior extends Behavior {
-  origin?: {
-    x: number;
-    y: number;
-  };
-  target?: Item;
-  selectedNodes?: Node[];
   onDragStart(e: GraphEvent): void;
   onDrag(e: GraphEvent): void;
   onDragEnd(e: GraphEvent): void;
   onOutOfRange(e: GraphEvent): void;
   _update(e: GraphEvent, force: boolean): void;
-  _updateDelegate(item: Shape, x: number, y: number): void;
+  _updateDelegate(item: Node, x: number, y: number): void;
   drawMultipleDelegate(): void;
 }
 
@@ -27,8 +21,19 @@ interface DefaultConfig {
   showDelegate: boolean;
   delegateStyle: object;
 }
+interface ThisProps {
+  origin?: {
+    x: number;
+    y: number;
+  };
+  target?: Item;
+  selectedNodes?: Node[];
+  multipleDelegate: Shape;
+  fn: EventListenerObject;
+  mdOrigin: { x: number; y: number };
+}
 
-const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = {
+const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & ThisProps> = {
   graphType: GraphType.Flow,
 
   getEvents() {
@@ -68,7 +73,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
   },
 
   onDrag(e) {
-    if (!this.get('shouldUpdate').call(this, e)) return;
+    if (!this.shouldUpdate.call(this, e)) return;
     if (!this.origin) return;
     this._update(e, false);
   },
@@ -79,7 +84,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
     const { selectedNodes } = this;
     // 清理委托图形与对齐线
     selectedNodes
-      .map((item: Shape) => item.get('delegateShape'))
+      .map((item: Node) => item.get('delegateShape'))
       .forEach((ds: any) => {
         if (ds) {
           ['HTL', 'HCL', 'HBL', 'VLL', 'VCL', 'VRL'].forEach(lname => {
@@ -90,7 +95,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
         }
       });
 
-    selectedNodes.forEach((node: Shape) => node.set('delegateShape', null));
+    selectedNodes.forEach((node: Node) => node.set('delegateShape', null));
     this._update(e, true);
     if (this.multipleDelegate) {
       this.multipleDelegate.remove();
@@ -124,7 +129,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
     const { selectedNodes, showDelegate, origin } = this;
     const offsetX = e.x - origin.x;
     const offsetY = e.y - origin.y;
-    const moveXY = (item: Shape) => {
+    const moveXY = (item: Node) => {
       const model = item.getModel();
       const bbox = item.getBBox();
       const x = model.x - bbox.width / 2 + offsetX;
@@ -136,7 +141,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
       if (selectedNodes.length > 1 && !this.multipleDelegate) this.drawMultipleDelegate();
       // this._updateDelegate(item, x, y);
       // 更新所有委托图形的位置;
-      selectedNodes.forEach((node: Shape) => {
+      selectedNodes.forEach((node: Node) => {
         const { x, y } = moveXY(node);
         this._updateDelegate(node, x, y);
       });
@@ -148,15 +153,15 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
       this.graph.paint();
       return;
     }
-    if (this.get('updateEdge')) {
-      selectedNodes.forEach((node: Shape) => {
+    if (this.updateEdge) {
+      selectedNodes.forEach((node: Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
         this.graph.updateItem(node, { x, y });
       });
     } else {
-      selectedNodes.forEach((node: Shape) => {
+      selectedNodes.forEach((node: Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
@@ -166,7 +171,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
     }
   },
 
-  _updateDelegate(item: Shape, x: number, y: number) {
+  _updateDelegate(item: Node, x: number, y: number) {
     let shape = item.get('delegateShape');
     const bbox = item.get('keyShape').getBBox();
 
@@ -214,7 +219,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig> = 
     const nodes = this.selectedNodes;
     const xs: number[] = [];
     const ys: number[] = [];
-    nodes.forEach((n: Shape) => {
+    nodes.forEach((n: Node) => {
       const { minX, minY, maxX, maxY } = n.getBBox();
       xs.push(minX, maxX);
       ys.push(minY, maxY);

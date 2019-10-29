@@ -1,5 +1,5 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { Item, Node, Edge, Behavior, GraphEvent } from '@/common/interface';
+import { Item, Node, Edge, Behavior, GraphEvent, Shape } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
@@ -8,12 +8,6 @@ const abs = Math.abs;
 const hypot = Math.hypot;
 
 interface BrushBehavior extends Behavior {
-  keyFlag: boolean;
-  dragging: boolean;
-  originPoint: {
-    x: number;
-    y: number;
-  };
   onKeyUp(e: KeyboardEvent): void;
   onKeyDown(e: KeyboardEvent): void;
   onMouseDown(e: GraphEvent): void;
@@ -21,7 +15,7 @@ interface BrushBehavior extends Behavior {
   onMouseUp(e: GraphEvent): void;
   clearStates(): void;
   _getSelectedNodes(e: GraphEvent): void;
-  _createBrush(): void;
+  _createBrush(): Shape;
   _updateBrush(e: GraphEvent): void;
 }
 
@@ -34,7 +28,18 @@ interface DefaultConfig {
   includeEdges: boolean;
 }
 
-const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig> = {
+interface ThisProps {
+  keyFlag: boolean;
+  dragging: boolean;
+  originPoint: {
+    x: number;
+    y: number;
+  };
+  selectedState: string;
+  brush: Shape;
+}
+
+const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & ThisProps> = {
   graphType: GraphType.Flow,
 
   getDefaultCfg(): DefaultConfig {
@@ -148,17 +153,14 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig> = {
     const top = min(p1.y, p2.y);
     const bottom = max(p1.y, p2.y);
     const selectedNodes: Node[] = [];
-    const shouldUpdate = this.shouldUpdate;
     const selectedIds: string[] = [];
     graph.getNodes().forEach((node: Node) => {
       const bbox = node.getBBox();
       if (bbox.centerX >= left && bbox.centerX <= right && bbox.centerY >= top && bbox.centerY <= bottom) {
-        if (shouldUpdate(node, 'select')) {
-          selectedNodes.push(node);
-          const model: any = node.getModel();
-          selectedIds.push(model.id);
-          graph.setItemState(node, state, true);
-        }
+        selectedNodes.push(node);
+        const model: any = node.getModel();
+        selectedIds.push(model.id);
+        graph.setItemState(node, state, true);
       }
     });
 
@@ -170,7 +172,7 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig> = {
         edges.forEach(edge => {
           const model = edge.getModel();
           const { source, target } = model;
-          if (selectedIds.includes(source) && selectedIds.includes(target) && shouldUpdate(edge, 'select')) {
+          if (selectedIds.includes(source) && selectedIds.includes(target)) {
             selectedEdges.push(edge);
             graph.setItemState(edge, ItemState.Selected, true);
           }
@@ -185,7 +187,7 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig> = {
 
   _createBrush() {
     const self = this;
-    const brush = self.graph.get('canvas').addShape('rect', {
+    const brush: Shape = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
       capture: false,
     });
