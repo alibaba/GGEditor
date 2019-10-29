@@ -37,53 +37,57 @@ interface Point {
   x: number;
   y: number;
 }
+
 type PointLine = [number, number, number, number];
+
 interface Lines {
   [index: string]: PointLine;
 }
+
 interface Line {
   line: any;
   dis: number;
 }
+
 interface HVLine {
   [index: string]: Line[];
 }
 
 interface AlignBehavior extends Behavior {
-  getBoxLine(e: Item): void;
   onDrag(e: GraphEvent): void;
+  getBoxLine(
+    e: Item,
+  ): {
+    horizontalLines: Lines;
+    verticalLines: Lines;
+  };
 }
 
-const alignBehavior: AlignBehavior = {
+interface DefaultConfig {
+  enable: boolean;
+  tolerance: number;
+}
+
+const alignBehavior: AlignBehavior & ThisType<AlignBehavior & DefaultConfig> = {
   graphType: GraphType.Flow,
-  getEvents() {
-    return {
-      'node:drag': 'onDrag',
-    };
-  },
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       enable: true,
       tolerance: 5,
     };
   },
-  getBoxLine(item: Item) {
-    const bbox = item.getBBox();
-    const horizontalLines = {
-      HTL: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
-      HCL: [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY],
-      HBL: [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+
+  getEvents() {
+    return {
+      'node:drag': 'onDrag',
     };
-    const verticalLines = {
-      VLL: [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
-      VCL: [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY],
-      VRL: [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY],
-    };
-    return { horizontalLines, verticalLines };
   },
+
   shouldBegin() {
     return this.enable;
   },
+
   onDrag(e: GraphEvent) {
     if (!this.shouldBegin()) return;
     const { graph } = this;
@@ -173,6 +177,21 @@ const alignBehavior: AlignBehavior = {
     };
     drawLine(hLines, 'H');
     drawLine(vLines, 'V');
+  },
+
+  getBoxLine(item: Item) {
+    const bbox = item.getBBox();
+    const horizontalLines: Lines = {
+      HTL: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
+      HCL: [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY],
+      HBL: [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+    };
+    const verticalLines: Lines = {
+      VLL: [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
+      VCL: [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY],
+      VRL: [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY],
+    };
+    return { horizontalLines, verticalLines };
   },
 };
 
