@@ -15,7 +15,7 @@ interface EditLabelBehavior extends Behavior {
   handleCanvasClick(): void;
 }
 
-const editLabelBehavior = {
+const editLabelBehavior: EditLabelBehavior = {
   getEvents() {
     return {
       'node:click': 'handleNodeClick',
@@ -56,6 +56,6 @@ const editLabelBehavior = {
       labelState: LabelState.Hide,
     });
   },
-} as EditLabelBehavior;
+};
 
 behaviorManager.register('edit-label', editLabelBehavior);

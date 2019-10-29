@@ -58,7 +58,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 40;
 
-    for (let char of model.label) {
+    for (const char of model.label) {
       totalTextWidth += UtilCanvasContext.measureText(char).width;
     }
 
@@ -76,7 +76,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 5;
 
-    for (let char of model.label) {
+    for (const char of model.label) {
       totalTextWidth += UtilCanvasContext.measureText(char).width;
     }
 
@@ -130,7 +130,7 @@ class Mind extends React.Component<MindProps, MindState> {
       modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
     });
 
-    this.graph = new G6.TreeGraph({
+    return new G6.TreeGraph({
       container: containerId,
       width,
       height,
@@ -150,8 +150,6 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       ...graphConfig,
     });
-
-    return this.graph;
   };
 
   render() {

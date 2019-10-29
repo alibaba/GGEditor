@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { uuid } from '@/utils';
-import { FLOW_CONTAINER_ID, ShapeClassName, GraphType, LabelState } from '@/common/constants';
+import { FLOW_CONTAINER_ID, GraphType, LabelState } from '@/common/constants';
 import { FlowData, FlowAndMindCommonProps } from '@/common/interface';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
@@ -87,15 +87,13 @@ class Flow extends React.Component<FlowProps, FlowState> {
       modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
     });
 
-    this.graph = new G6.Graph({
+    return new G6.Graph({
       container: containerId,
       width,
       height,
       modes,
       ...graphConfig,
     });
-
-    return this.graph;
   };
 
   render() {

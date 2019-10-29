@@ -1,32 +1,26 @@
 import { getHighlightEdges, executeBatch, isMind } from '@/utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent, GraphType } from '@/common/constants';
+import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent } from '@/common/constants';
 import { Item, Edge, Behavior } from '@/common/interface';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
   /** 清空高亮状态 */
   clearHighlightState(shouldUpdate?: (item: Item) => boolean): void;
-
   /** 处理点击事件 */
   handleNodeClick({ item }: { item: Item }): void;
-
   /** 处理边线点击 */
   handleEdgeClick({ item }: { item: Item }): void;
-
   /** 处理画布点击 */
   handleCanvasClick(): void;
-
   /** 高亮 */
   highlightParentEdges(item: Item): void;
-
   /** 查找脑图父级边线 */
   findMindParentEdges(item: Item, edges?: Edge[]): Edge[];
-
   /** 查找流程图回溯边线 */
   findFlowRecallEdges(item: Item): Edge[];
 }
 
-const recallEdgeBehavior = {
+const recallEdgeBehavior: RecallEdgeBehavior = {
   getEvents() {
     return {
       [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
@@ -121,6 +115,6 @@ const recallEdgeBehavior = {
   handleCanvasClick() {
     this.clearHighlightState();
   },
-} as RecallEdgeBehavior;
+};
 
 behaviorManager.register('recall-edge', recallEdgeBehavior);

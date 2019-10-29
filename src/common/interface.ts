@@ -49,8 +49,6 @@ export interface Shape {
   translate(x: number, y: number): void;
   updatePosition(p: { x: number; y: number }): void;
   hasState(state: string): boolean;
-  getTarget(): any;
-  getSource(): any;
 }
 
 /**
@@ -166,7 +164,7 @@ export interface Graph extends EventEmitter {
 
   // 更新
   add<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
-  addItem(type: ItemType, model: NodeModel | EdgeModel): void;
+  addItem<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
   update(item: string | Item, model: object): void;
   updateItem(item: string | Item, model: object): void;
   remove(item: string | Item): void;
@@ -184,7 +182,10 @@ export interface Graph extends EventEmitter {
   fitView(padding?: number | number[]): void;
 
   // 状态
+  showItem(item: string | Item): void;
+  hideItem(item: string | Item): void;
   setItemState(item: string | Item, state: string, enabled: boolean): void;
+  clearItemStates(item: string | Item, state?: string | string[] | null): void;
 
   // 查找
   findById<T = Item>(id: string): T;
@@ -192,6 +193,8 @@ export interface Graph extends EventEmitter {
 
   // 数据
   save<T>(): T;
+  getNodes(): Node[];
+  getEdges(): Edge[];
 
   // 坐标转换
   getPointByClient(clientX: number, clientY: number): { x: number; y: number };
@@ -269,6 +272,12 @@ export interface Node extends Item {
 export interface Edge extends Item {
   // 通用
   getModel<T = EdgeModel>(): T;
+
+  // 特有
+  getSource(): Node;
+  getTarget(): Node;
+  setSource(source: Node): void;
+  setTarget(target: Node): void;
 }
 
 export interface LabelConfig {
@@ -338,12 +347,12 @@ export interface Behavior {
   graph?: Graph;
   graphType?: GraphType;
   getEvents(): {
-    [propName in GraphNativeEvent]: string;
+    [propName in GraphNativeEvent]?: string;
   };
   getDefaultCfg?(): object;
   shouldBegin?(e?: GraphEvent): boolean;
-  shouldUpdate?(): boolean;
-  shouldEnd?(): boolean;
+  shouldUpdate?(e?: GraphEvent): boolean;
+  shouldEnd?(e?: GraphEvent): boolean;
 }
 
 export interface GraphEvent {
@@ -356,15 +365,13 @@ export interface GraphEvent {
   event: MouseEvent;
   target: Shape;
   type: string;
-  CurrentTarget: object;
+  currentTarget: object;
   item: Item;
   removed: boolean;
   timeStamp: number;
   bubbles: boolean;
   defaultPrevented: boolean;
   cancelable: boolean;
-  keyCode?: number;
-  which?: number;
 }
 
 export interface Command<P = object, G = Graph> {

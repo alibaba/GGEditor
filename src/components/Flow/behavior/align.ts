@@ -6,9 +6,9 @@ import globalStyle from '../common/globalStyle';
 const { alignLine } = globalStyle;
 
 function normalize(out: number[], a: number[]) {
-  var x = a[0],
-    y = a[1];
-  var len = x * x + y * y;
+  const x = a[0];
+  const y = a[1];
+  let len = x * x + y * y;
   if (len > 0) {
     len = 1 / Math.sqrt(len);
     out[0] = a[0] * len;
@@ -37,53 +37,57 @@ interface Point {
   x: number;
   y: number;
 }
+
 type PointLine = [number, number, number, number];
+
 interface Lines {
   [index: string]: PointLine;
 }
+
 interface Line {
   line: any;
   dis: number;
 }
+
 interface HVLine {
   [index: string]: Line[];
 }
 
 interface AlignBehavior extends Behavior {
-  getBoxLine(e: Item): void;
   onDrag(e: GraphEvent): void;
+  getBoxLine(
+    e: Item,
+  ): {
+    horizontalLines: Lines;
+    verticalLines: Lines;
+  };
 }
 
-const alignBehavior: AlignBehavior = {
+interface DefaultConfig {
+  enable: boolean;
+  tolerance: number;
+}
+
+const alignBehavior: AlignBehavior & ThisType<AlignBehavior & DefaultConfig> = {
   graphType: GraphType.Flow,
-  getEvents() {
-    return {
-      'node:drag': 'onDrag',
-    };
-  },
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       enable: true,
       tolerance: 5,
     };
   },
-  getBoxLine(item: Item) {
-    const bbox = item.getBBox();
-    const horizontalLines = {
-      HTL: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
-      HCL: [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY],
-      HBL: [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+
+  getEvents() {
+    return {
+      'node:drag': 'onDrag',
     };
-    const verticalLines = {
-      VLL: [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
-      VCL: [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY],
-      VRL: [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY],
-    };
-    return { horizontalLines, verticalLines };
   },
+
   shouldBegin() {
     return this.enable;
   },
+
   onDrag(e: GraphEvent) {
     if (!this.shouldBegin()) return;
     const { graph } = this;
@@ -126,8 +130,8 @@ const alignBehavior: AlignBehavior = {
       // 2. 一旦距离小于误差便自动吸附，一旦吸附就终止其它对齐点的计算
       // 3. 吸附后对齐点到水平线的距离应该是无误差的，此时显示对齐线
       const calc = <T>(points: Point[], lines: Lines, arr: HVLine, axis: string) => {
-        start: for (let p of points)
-          for (let name of Object.keys(lines)) {
+        start: for (const p of points)
+          for (const name of Object.keys(lines)) {
             const line = lines[name];
             const dis = pointLineDistance(line, [p.x, p.y]);
             if (Math.abs(dis) < tolerance) {
@@ -173,6 +177,21 @@ const alignBehavior: AlignBehavior = {
     };
     drawLine(hLines, 'H');
     drawLine(vLines, 'V');
+  },
+
+  getBoxLine(item: Item) {
+    const bbox = item.getBBox();
+    const horizontalLines: Lines = {
+      HTL: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],
+      HCL: [bbox.minX, bbox.centerY, bbox.maxX, bbox.centerY],
+      HBL: [bbox.minX, bbox.maxY, bbox.maxX, bbox.maxY],
+    };
+    const verticalLines: Lines = {
+      VLL: [bbox.minX, bbox.minY, bbox.minX, bbox.maxY],
+      VCL: [bbox.centerX, bbox.minY, bbox.centerX, bbox.maxY],
+      VRL: [bbox.maxX, bbox.minY, bbox.maxX, bbox.maxY],
+    };
+    return { horizontalLines, verticalLines };
   },
 };
 
