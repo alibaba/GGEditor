@@ -14,14 +14,14 @@ interface BrushBehavior extends Behavior {
     x: number;
     y: number;
   };
-  onKeyUp(e: GraphEvent): void;
-  onKeyDown(e: GraphEvent): void;
+  onKeyUp(e: KeyboardEvent): void;
+  onKeyDown(e: KeyboardEvent): void;
   onMouseDown(e: GraphEvent): void;
   onMouseMove(e: GraphEvent): void;
   onMouseUp(e: GraphEvent): void;
   clearStates(): void;
   _getSelectedNodes(e: GraphEvent): void;
-  _createBrush(e: GraphEvent): void;
+  _createBrush(): void;
   _updateBrush(e: GraphEvent): void;
 }
 
