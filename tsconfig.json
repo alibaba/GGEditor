@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "jsx": "react",
+    "noImplicitThis": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"]
+}

@@ -1,4 +1,6 @@
-es
-cjs
 dist
+lib
+es
+
 node_modules
+.eslintcache
