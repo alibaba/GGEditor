@@ -10,17 +10,13 @@
 
 ## 演示
 
-[流程图](http://ggeditor.com/demo/#/flow)
+[流程图](http://ggeditor.com/examples/flow)
 
-[![Flow](https://img.alicdn.com/tfs/TB1cl0LyAzoK1RjSZFlXXai4VXa-800-407.gif)](http://ggeditor.com/demo/#/flow)
+[![Flow](https://img.alicdn.com/tfs/TB1cl0LyAzoK1RjSZFlXXai4VXa-800-407.gif)](http://ggeditor.com/examples/flow)
 
-[思维导图](http://ggeditor.com/demo/#/mind)
+[思维导图](http://ggeditor.com/examples/mind)
 
-[![Mind](https://img.alicdn.com/tfs/TB1Qed2yxjaK1RjSZFAXXbdLFXa-800-467.gif)](http://ggeditor.com/demo/#/mind)
-
-[拓扑图](http://ggeditor.com/demo/#/koni)
-
-[<img src="https://img.alicdn.com/tfs/TB1vWxUyAvoK1RjSZFwXXciCFXa-1920-1003.png" alt="Koni" width="800">](http://ggeditor.com/demo/#/koni)
+[![Mind](https://img.alicdn.com/tfs/TB1Qed2yxjaK1RjSZFAXXbdLFXa-800-467.gif)](http://ggeditor.com/examples/mind)
 
 ## 安装
 
@@ -33,7 +29,7 @@ npm install --save gg-editor
 ### umd
 
 ```html
-<script src="https://unpkg.com/gg-editor@${version}/dist/bundle.js"></script>
+<script src="https://unpkg.com/gg-editor@${version}/dist/index.js"></script>
 ```
 
 ### run demo
@@ -53,40 +49,45 @@ $ npm start
 import GGEditor, { Flow } from 'gg-editor';
 
 const data = {
-  nodes: [{
-    type: 'node',
-    size: '70*70',
-    shape: 'flow-circle',
-    color: '#FA8C16',
-    label: '起止节点',
-    x: 55,
-    y: 55,
-    id: 'ea1184e8',
-    index: 0,
-  }, {
-    type: 'node',
-    size: '70*70',
-    shape: 'flow-circle',
-    color: '#FA8C16',
-    label: '结束节点',
-    x: 55,
-    y: 255,
-    id: '481fbb1a',
-    index: 2,
-  }],
-  edges: [{
-    source: 'ea1184e8',
-    sourceAnchor: 2,
-    target: '481fbb1a',
-    targetAnchor: 0,
-    id: '7989ac70',
-    index: 1,
-  }],
+  nodes: [
+    {
+      type: 'node',
+      size: '70*70',
+      shape: 'flow-circle',
+      color: '#FA8C16',
+      label: '起止节点',
+      x: 55,
+      y: 55,
+      id: 'ea1184e8',
+      index: 0,
+    },
+    {
+      type: 'node',
+      size: '70*70',
+      shape: 'flow-circle',
+      color: '#FA8C16',
+      label: '结束节点',
+      x: 55,
+      y: 255,
+      id: '481fbb1a',
+      index: 2,
+    },
+  ],
+  edges: [
+    {
+      source: 'ea1184e8',
+      sourceAnchor: 2,
+      target: '481fbb1a',
+      targetAnchor: 0,
+      id: '7989ac70',
+      index: 1,
+    },
+  ],
 };
 
 <GGEditor>
   <Flow style={{ width: 500, height: 500 }} data={data} />
-</GGEditor>
+</GGEditor>;
 ```
 
 ### 思维导图
@@ -95,26 +96,32 @@ const data = {
 import GGEditor, { Mind } from 'gg-editor';
 
 const data = {
-  roots: [{
-    label: '中心主题',
-    children: [{
-      label: '分支主题 1',
-    }, {
-      label: '分支主题 2',
-    }, {
-      label: '分支主题 3',
-    }],
-  }],
+  roots: [
+    {
+      label: '中心主题',
+      children: [
+        {
+          label: '分支主题 1',
+        },
+        {
+          label: '分支主题 2',
+        },
+        {
+          label: '分支主题 3',
+        },
+      ],
+    },
+  ],
 };
 
 <GGEditor>
   <Mind style={{ width: 500, height: 500 }} data={data} />
-</GGEditor>
+</GGEditor>;
 ```
 
 ## 文档
 
-* [API](/docs/README.zh-CN.md#api)
+- [API](https://www.yuque.com/ggeditor/api)
 
 ## 钉钉交流
 
