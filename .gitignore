@@ -1,6 +1,6 @@
-dist
-lib
-es
+/dist
+/lib
+/es
 
-node_modules
+/node_modules
 .eslintcache

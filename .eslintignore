@@ -1,3 +1,6 @@
-dist
-lib
-es
+/dist
+/lib
+/es
+
+/examples/**/dist
+/node_modules

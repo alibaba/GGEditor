@@ -29,6 +29,7 @@ function start(example) {
       format: 'umd',
       globals: {
         react: 'React',
+        'react-dom': 'ReactDOM',
       },
     },
     plugins: [
@@ -41,11 +42,7 @@ function start(example) {
       resolve(),
       commonjs(),
       typescript({
-        tsconfigOverride: {
-          compilerOptions: {
-            declaration: false,
-          },
-        },
+        tsconfig: 'examples/tsconfig.json',
       }),
       babel(),
       serve({
