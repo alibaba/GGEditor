@@ -106,13 +106,22 @@ export interface EdgeModel extends ItemModel {
   /** 终止节点id */
   target: string;
   /** 起始点 */
-  startPoint: { x: number; y: number };
+  startPoint?: { x: number; y: number };
   /** 终止点 */
-  endPoint: { x: number; y: number };
+  endPoint?: { x: number; y: number };
 }
 
-export interface MindNodeModel extends NodeModel {
+export interface FlowNodeModel extends Omit<NodeModel, 'id'> {
+  id?: string;
+}
+
+export interface FlowEdgeModel extends Omit<EdgeModel, 'id'> {
+  id?: string;
+}
+
+export interface MindNodeModel extends Omit<NodeModel, 'id'> {
   isRoot?: boolean;
+  id?: string;
   children?: MindNodeModel[];
   collapsed?: boolean;
 }
@@ -452,8 +461,8 @@ export type GraphReactEvent =
   | keyof typeof GraphCustomEvent;
 
 export interface FlowData {
-  nodes: NodeModel[];
-  edges: EdgeModel[];
+  nodes: FlowNodeModel[];
+  edges: FlowEdgeModel[];
 }
 
 export interface MindData extends MindNodeModel {}
