@@ -4,6 +4,7 @@
 const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
+const postcss = require('rollup-plugin-postcss');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
@@ -31,6 +32,12 @@ function start(example) {
       },
     },
     plugins: [
+      postcss({
+        modules: {
+          camelCase: true,
+          generateScopedName: '[local]--[hash:base64:5]',
+        },
+      }),
       resolve(),
       commonjs(),
       typescript({
