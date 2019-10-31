@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 /* eslint-disable */
+const inquirer = require('inquirer');
 const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
@@ -13,8 +14,8 @@ const serve = require('rollup-plugin-serve');
 const livereload = require('rollup-plugin-livereload');
 /* eslint-enable */
 
-function start(example) {
-  const contentBase = `examples/${example}`;
+function start(name) {
+  const contentBase = `examples/${name}`;
 
   // Clean
   rimraf.sync(`${contentBase}/dist`);
@@ -72,4 +73,15 @@ function start(example) {
   });
 }
 
-start('flow');
+inquirer
+  .prompt([
+    {
+      type: 'list',
+      name: 'name',
+      message: 'Which example do you want to run?',
+      choices: ['flow', 'mind'],
+    },
+  ])
+  .then(({ name }) => {
+    start(name);
+  });

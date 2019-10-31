@@ -65,6 +65,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "husky": "^3.0.9",
+    "inquirer": "^7.0.0",
     "less": "^3.10.3",
     "lodash": "^4.17.15",
     "prettier": "^1.18.2",
