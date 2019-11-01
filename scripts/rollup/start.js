@@ -7,11 +7,13 @@ const rimraf = require('rimraf');
 const rollup = require('rollup');
 const postcss = require('rollup-plugin-postcss');
 const resolve = require('rollup-plugin-node-resolve');
+const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
 const serve = require('rollup-plugin-serve');
 const livereload = require('rollup-plugin-livereload');
+const { version } = require('../../package.json');
 /* eslint-enable */
 
 function start(name) {
@@ -41,6 +43,9 @@ function start(name) {
         },
       }),
       resolve(),
+      replace({
+        'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
+      }),
       commonjs(),
       typescript({
         tsconfig: 'examples/tsconfig.json',
