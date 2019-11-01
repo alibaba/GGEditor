@@ -5,6 +5,10 @@
     "moduleResolution": "node",
     "target": "esnext",
     "jsx": "react",
-    "noImplicitThis": true
+    "noImplicitThis": true,
+    "baseUrl": "../",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }
