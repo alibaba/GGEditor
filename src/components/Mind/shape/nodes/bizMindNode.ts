@@ -11,7 +11,7 @@ export interface MindNodeModel extends NodeModel {
   children: MindNodeModel[];
 }
 
-export interface BizMindNodeOptions extends CustomNode {
+export interface BizMindNodeOptions extends CustomNode<MindNodeModel> {
   drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
   [props: string]: any;
 }
