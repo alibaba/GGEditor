@@ -1,5 +1,5 @@
 import { GraphType } from '@/common/constants';
-import { Edge, Behavior, GraphEvent } from '@/common/interface';
+import { Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ActiveEdgeBehavior extends Behavior {

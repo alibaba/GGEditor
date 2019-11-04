@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { isMind } from '@/utils';
 import { GraphType } from '@/common/constants';
-import { Graph, Behavior, GraphNativeEvent } from '@/common/interface';
+import { Graph, Behavior, GraphNativeEvent } from '@/common/interfaces';
 
 class BehaviorManager {
   behaviors: {

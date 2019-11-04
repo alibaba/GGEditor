@@ -12,7 +12,7 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
-import { EditorPrivateContextProps } from './context/EditorPrivateContext';
+import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
 
 /**
  * G BBOX

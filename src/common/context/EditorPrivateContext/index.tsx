@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraphState, LabelState } from '@/common/constants';
-import { ContextMenuEvent, ContextMenuState, Graph, NodePopoverState } from '@/common/interface';
+import { ContextMenuEvent, ContextMenuState, Graph, NodePopoverState } from '@/common/interfaces';
 
 export interface EditorPrivateContextProps {
   graph: Graph | null;

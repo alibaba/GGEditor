@@ -23,7 +23,7 @@ import {
   FlowData,
   MindData,
   FlowAndMindCommonProps,
-} from '@/common/interface';
+} from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import EditableLabel from '@/components/EditableLabel';
 

@@ -1,6 +1,6 @@
 import { isMind, executeBatch } from '@/utils';
 import { ItemType } from '@/common/constants';
-import { TreeGraph, NodeModel, EdgeModel, MindNodeModel } from '@/common/interface';
+import { TreeGraph, NodeModel, EdgeModel, MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
 

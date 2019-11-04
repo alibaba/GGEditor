@@ -12,7 +12,7 @@ import {
   GraphStateEvent,
   LabelStateEvent,
   NodePopoverEvent,
-} from '@/common/interface';
+} from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';

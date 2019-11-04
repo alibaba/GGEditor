@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { EditorEvent } from '@/common/constants';
-import { Graph, Command } from '@/common/interface';
+import { Graph, Command } from '@/common/interfaces';
 
 class CommandManager {
   command: {

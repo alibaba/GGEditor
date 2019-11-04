@@ -1,7 +1,7 @@
 import pick from 'lodash/pick';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
-import { Graph, TreeGraph } from '@/common/interface';
+import { Graph, TreeGraph } from '@/common/interfaces';
 
 interface UpdateCommandParams {
   id: string;
