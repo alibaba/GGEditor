@@ -1,5 +1,5 @@
-import { Group } from './../../../../common/interface';
-import { Item } from '@/common/interface';
+import { Group } from '@/common/interfaces';
+import { Item } from '@/common/interfaces';
 import upperFirst from 'lodash/upperFirst';
 // import each from '@antv/util/lib/each';
 

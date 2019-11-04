@@ -1,6 +1,6 @@
 import { guid } from '@/utils';
 import { GraphType, ItemType } from '@/common/constants';
-import { Node, Edge, Behavior, GraphEvent } from '@/common/interface';
+import { Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddEdgeBehavior extends Behavior {

@@ -1,6 +1,6 @@
 import { isMind, getSelectedNodes, getSelectedEdges } from '@/utils';
 import { ItemState, LabelState, EditorEvent } from '@/common/constants';
-import { Node, Edge, Graph, Command } from '@/common/interface';
+import { Node, Edge, Graph, Command } from '@/common/interfaces';
 import command from '@/common/command';
 import commandManager from '@/common/commandManager';
 

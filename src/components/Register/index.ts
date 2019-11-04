@@ -1,6 +1,6 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { Command, Behavior } from '@/common/interface';
+import { Command, Behavior } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import behaviorManager from '@/common/behaviorManager';
 

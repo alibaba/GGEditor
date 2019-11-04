@@ -1,6 +1,5 @@
-import { Node, Group } from './../../../../common/interface';
 import G6 from '@antv/g6';
-import { Edge, Shape, EdgeModel } from '@/common/interface';
+import { Shape, Group, EdgeModel, Node, Edge } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {

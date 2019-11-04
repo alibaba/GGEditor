@@ -1,6 +1,5 @@
-import { NodeModel } from './../../../common/interface';
 import { EditorEvent } from '@/common/constants';
-import { Behavior, GraphEvent, Item, ItemModel } from '@/common/interface';
+import { ItemModel, NodeModel, Item, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import G6 from '@antv/g6';
 

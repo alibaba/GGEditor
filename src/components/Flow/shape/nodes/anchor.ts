@@ -1,5 +1,5 @@
 import globalStyle from '../../common/globalStyle';
-import { Item } from '@/common/interface';
+import { Item } from '@/common/interfaces';
 
 interface ThisProps {
   addingEdge: boolean;

@@ -1,5 +1,5 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { Shape, Item, Node, Behavior, GraphEvent } from '@/common/interface';
+import { Shape, Item, Node, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 

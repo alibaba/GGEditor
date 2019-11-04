@@ -1,6 +1,6 @@
 import { getHighlightEdges, executeBatch, isMind } from '@/utils';
 import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent } from '@/common/constants';
-import { Item, Edge, Behavior } from '@/common/interface';
+import { Item, Edge, Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {

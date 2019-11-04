@@ -1,4 +1,4 @@
-import { TreeGraph, MindNodeModel } from '@/common/interface';
+import { TreeGraph, MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
 import { foldCommand } from './fold';

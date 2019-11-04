@@ -1,5 +1,5 @@
 import { LabelState, EditorEvent, GraphState } from '@/common/constants';
-import { Behavior } from '@/common/interface';
+import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface EditLabelBehavior extends Behavior {
