@@ -1,6 +1,5 @@
-import { Shape } from './../../../../common/interface';
 import globalStyle from '../../common/globalStyle';
-import { Edge } from '@/common/interface';
+import { Shape, Edge } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const { edgeStyle } = globalStyle;

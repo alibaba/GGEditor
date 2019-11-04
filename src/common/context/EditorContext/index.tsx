@@ -1,5 +1,5 @@
 import React from 'react';
-import { Graph } from '@/common/interface';
+import { Graph } from '@/common/interfaces';
 
 export interface EditorContextProps {
   graph: Graph | null;

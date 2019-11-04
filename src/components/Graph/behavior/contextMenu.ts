@@ -1,5 +1,5 @@
 import { EditorEvent, ShapeClassName } from '@/common/constants';
-import { Behavior, GraphEvent } from '@/common/interface';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ContextMenuBehavior extends Behavior {

@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { EditorEvent, ItemState, ItemType } from '@/common/constants';
-import { Edge, Graph, GraphNativeEvent, Item, Node } from '@/common/interface';
+import { Edge, Graph, GraphNativeEvent, Item, Node } from '@/common/interfaces';
 
 /** 生成唯一标识 */
 export function guid() {

@@ -1,6 +1,6 @@
 import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
-import { TreeGraph, MindNodeModel } from '@/common/interface';
+import { TreeGraph, MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 

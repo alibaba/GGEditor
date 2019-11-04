@@ -1,5 +1,5 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { Item, Node, Edge, Behavior, GraphEvent, Shape } from '@/common/interface';
+import { Item, Node, Edge, Behavior, GraphEvent, Shape } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;

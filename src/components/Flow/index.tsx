@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, LabelState } from '@/common/constants';
-import { FlowData, FlowAndMindCommonProps } from '@/common/interface';
+import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
