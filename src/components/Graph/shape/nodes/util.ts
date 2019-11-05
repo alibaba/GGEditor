@@ -1,14 +1,7 @@
-import { Group } from '@/common/interfaces';
-import { Item } from '@/common/interfaces';
 import upperFirst from 'lodash/upperFirst';
-// import each from '@antv/util/lib/each';
 
 export const UtilCanvas = document.createElement('canvas');
 export const UtilCanvasContext = UtilCanvas.getContext('2d');
-
-/* const BaseUtil = {
-  each,
-}; */
 
 interface ShapeUtil {
   optimizeMultilineText: (text: string, font: string, maxWidth: number) => string;
@@ -46,8 +39,6 @@ const Util: ShapeUtil = {
       multilineText += char;
       multilineTextWidth += width;
     }
-
-    const multilineArr = multilineText.split('\n');
 
     return multilineText;
   },

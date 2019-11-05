@@ -1,4 +1,4 @@
-import { TreeGraph, MindNodeModel } from '@/common/interfaces';
+import { MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
@@ -13,7 +13,7 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
     id: '',
   },
 
-  canExecute(graph: TreeGraph) {
+  canExecute(graph: G6.TreeGraph) {
     const selectedNodes = this.getSelectedNodes(graph);
 
     if (!selectedNodes.length) {
@@ -43,14 +43,14 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
     };
   },
 
-  execute(graph: TreeGraph) {
+  execute(graph: G6.TreeGraph) {
     const { id } = this.params;
 
     const sourceData = graph.findDataById(id);
 
     sourceData.collapsed = !sourceData.collapsed;
 
-    graph.refreshLayout();
+    graph.refreshLayout(false);
   },
 
   undo(graph) {
