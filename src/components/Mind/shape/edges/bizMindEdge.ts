@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-import { Shape, Group, EdgeModel, Node, Edge } from '@/common/interfaces';
+import { G } from '@/common/interfaces/g';
+import { Node, Edge, EdgeModel } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {
@@ -14,7 +15,7 @@ const commonStyle = {
 const wrapperOffset = 4;
 
 const options = {
-  draw(model: EdgeModel, group: Group) {
+  draw(model: EdgeModel, group: G.Group) {
     const startNode = (model.source as unknown) as Node;
     const endNode = (model.target as unknown) as Node;
     /**
@@ -150,7 +151,7 @@ const options = {
   },
 
   setState(name: ItemState, value: boolean, edge: Edge): void {
-    const shape: Shape = edge.getContainer().get('children')[0];
+    const shape: G.Shape = edge.getContainer().get('children')[0];
     const states = edge.getStates();
 
     if (states.includes(ItemState.HighLight)) {

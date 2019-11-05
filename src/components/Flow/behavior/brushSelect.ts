@@ -1,5 +1,6 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { Item, Node, Edge, Behavior, GraphEvent, Shape } from '@/common/interfaces';
+import { G } from '@/common/interfaces/g';
+import { Item, Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
@@ -15,7 +16,7 @@ interface BrushBehavior extends Behavior {
   onMouseUp(e: GraphEvent): void;
   clearStates(): void;
   _getSelectedNodes(e: GraphEvent): void;
-  _createBrush(): Shape;
+  _createBrush(): G.Shape;
   _updateBrush(e: GraphEvent): void;
 }
 
@@ -36,7 +37,7 @@ interface ThisProps {
     y: number;
   };
   selectedState: string;
-  brush: Shape;
+  brush: G.Shape;
 }
 
 const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & ThisProps> = {
@@ -187,7 +188,7 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & This
 
   _createBrush() {
     const self = this;
-    const brush: Shape = self.graph.get('canvas').addShape('rect', {
+    const brush: G.Shape = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
       capture: false,
     });
