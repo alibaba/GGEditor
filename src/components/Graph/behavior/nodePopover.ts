@@ -1,7 +1,7 @@
+import G6 from '@antv/g6';
 import { EditorEvent } from '@/common/constants';
 import { ItemModel, NodeModel, Item, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
-import G6 from '@antv/g6';
 
 interface NodePopoverBehavior extends Behavior {
   /** 获取nodePopover展示文本 */

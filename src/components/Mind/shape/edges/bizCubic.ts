@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-import { Edge, EdgeModel, Group, Shape } from '@/common/interfaces';
+import { G } from '@/common/interfaces/g';
+import { Edge, EdgeModel } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {
@@ -8,8 +9,8 @@ const commonStyle = {
 };
 
 const options = {
-  afterDraw(model: EdgeModel, group: Group) {
-    const edgeShape: Shape = group.get('children')[0];
+  afterDraw(model: EdgeModel, group: G.Group) {
+    const edgeShape: G.Shape = group.get('children')[0];
 
     if (!edgeShape) return;
 
@@ -21,7 +22,7 @@ const options = {
   },
 
   setState(name: ItemState, value: boolean, edge: Edge): void {
-    const shape: Shape = edge.getContainer().get('children')[0];
+    const shape: G.Shape = edge.getContainer().get('children')[0];
     const states = edge.getStates();
 
     if (states.includes(ItemState.HighLight)) {

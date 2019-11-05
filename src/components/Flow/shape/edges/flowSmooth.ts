@@ -4,12 +4,12 @@
  * @reference https://lark.alipay.com/antv/blog/an-approach-to-draw-smooth-cubic-bezier-curves-in-graphs
  **/
 
+import G6 from '@antv/g6';
+import drawHighlightEdge from '@/components/Flow/shape/edges/highlightEdge';
 import drawArrow from './arrow';
 import drawLabel from './label';
 import globalStyle from '../../common/globalStyle';
 import drawActivedEdges from './activedEdge';
-import G6 from '@antv/g6';
-import drawHighlightEdge from '@/components/Flow/shape/edges/highlightEdge';
 
 const { edgeStyle } = globalStyle;
 

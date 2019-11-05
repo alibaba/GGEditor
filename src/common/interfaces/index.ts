@@ -11,57 +11,8 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
+import { G } from '@/common/interfaces/g';
 import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
-
-/**
- * G BBOX
- * */
-export interface BBox {
-  x: number;
-  y: number;
-  maxX: number;
-  minX: number;
-  maxY: number;
-  minY: number;
-  centerX: number;
-  centerY: number;
-  width: number;
-  height: number;
-}
-
-/**
- * G Shape
- * @see https://github.com/antvis/g#shape
- * */
-export interface Shape {
-  attr(name?: string, value?: string | number): void | any;
-  attr(params?: object): void;
-  get(name: string): any;
-  set(name: string, value: any): any;
-  getBBox(): BBox;
-  getKeyShape(): Shape;
-  getModel(): any;
-  show(): void;
-  hide(): void;
-  remove(): void;
-  destroy(): void;
-  translate(x: number, y: number): void;
-  updatePosition(p: { x: number; y: number }): void;
-  hasState(state: string): boolean;
-}
-
-/**
- * G Group
- * @see https://github.com/antvis/g#group
- * */
-export interface Group {
-  get(name: string): any;
-  set(name: string, value: any): any;
-  addShape(type: string, config: object): Shape;
-  getBBox(): BBox;
-  findByClassName(className: string): Shape;
-  getMatrix(): number;
-}
 
 export interface ItemModel {
   /** 元素 ID */
@@ -124,9 +75,9 @@ export interface MindNodeModel extends Omit<NodeModel, 'id'> {
  */
 export interface Item {
   // 通用
-  getBBox(): BBox;
-  getContainer(): Group;
-  getKeyShape(): Shape;
+  getBBox(): G.Box;
+  getContainer(): G.Group;
+  getKeyShape(): G.Shape;
   getModel<T = ItemModel>(): T;
   getType(): ItemType;
   getEdges(): Edge[];
@@ -197,10 +148,10 @@ export interface CustomShape<T, M> {
   itemType?: ItemType;
 
   // 绘制
-  draw?(model: M, group: Group): Shape;
-  drawShape?(model: M, group: Group): void;
-  drawLabel?(model: M, group: Group): Shape;
-  afterDraw?(model: M, group: Group): void;
+  draw?(model: M, group: G.Group): G.Shape;
+  drawShape?(model: M, group: G.Group): void;
+  drawLabel?(model: M, group: G.Group): G.Shape;
+  afterDraw?(model: M, group: G.Group): void;
 
   // 更新
   update?(model: M, item: T): void;
@@ -210,8 +161,8 @@ export interface CustomShape<T, M> {
 
   // 通用
   getShape?(type: ItemType): CustomNode | CustomEdge;
-  getLabelStyle?(model: M, labelConfig: LabelConfig, group: Group): React.CSSProperties;
-  getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: Group): React.CSSProperties;
+  getLabelStyle?(model: M, labelConfig: LabelConfig, group: G.Group): React.CSSProperties;
+  getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: G.Group): React.CSSProperties;
   getShapeStyle?(model: M): React.CSSProperties;
 }
 
@@ -265,7 +216,7 @@ export interface GraphEvent {
   clientX: number;
   clientY: number;
   event: MouseEvent;
-  target: Shape;
+  target: G.Shape;
   type: string;
   currentTarget: object;
   item: Item;
