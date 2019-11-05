@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { isMind } from '@/utils';
 import { GraphType } from '@/common/constants';
-import { Graph, Behavior, GraphNativeEvent } from '@/common/interfaces';
+import { Behavior, GraphNativeEvent } from '@/common/interfaces';
 
 class BehaviorManager {
   behaviors: {
@@ -25,8 +25,8 @@ class BehaviorManager {
         const { graph } = this;
 
         if (
-          (type === GraphType.Flow && isMind(graph as Graph) === false) ||
-          (type === GraphType.Mind && isMind(graph as Graph))
+          (type === GraphType.Flow && isMind(graph as G6.Graph) === false) ||
+          (type === GraphType.Mind && isMind(graph as G6.Graph))
         ) {
           handler.apply(this, params);
         }

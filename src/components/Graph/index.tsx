@@ -14,7 +14,6 @@ import {
   GraphCustomEvent,
 } from '@/common/constants';
 import {
-  Graph,
   GraphNativeEvent,
   GraphReactEvent,
   GraphEvent,
@@ -37,13 +36,13 @@ interface EditorGraphProps extends Omit<FlowAndMindCommonProps, 'graphConfig' | 
   containerId: string;
   data: FlowData | MindData;
   parseData(data: object): void;
-  initGraph(width: number, height: number): Graph;
+  initGraph(width: number, height: number): G6.Graph;
 }
 
 interface EditorGraphState {}
 
 class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
-  graph: Graph | null;
+  graph: G6.Graph | null;
 
   constructor(props: EditorGraphProps) {
     super(props);

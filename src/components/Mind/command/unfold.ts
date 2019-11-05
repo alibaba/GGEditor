@@ -1,4 +1,4 @@
-import { TreeGraph, MindNodeModel } from '@/common/interfaces';
+import { MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
 import { foldCommand } from './fold';
@@ -10,7 +10,7 @@ interface UnfoldCommandParams {
 const unfoldCommand: BaseCommand<UnfoldCommandParams> = {
   ...foldCommand,
 
-  canExecute(graph: TreeGraph) {
+  canExecute(graph: G6.TreeGraph) {
     const selectedNodes = this.getSelectedNodes(graph);
 
     if (!selectedNodes.length) {

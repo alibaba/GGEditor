@@ -1,8 +1,7 @@
 import React from 'react';
-import { Graph } from '@/common/interfaces';
 
 export interface EditorContextProps {
-  graph: Graph | null;
+  graph: G6.Graph | null;
   executeCommand: (name: string, params?: object) => void;
 }
 
