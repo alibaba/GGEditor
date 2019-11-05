@@ -1,5 +1,6 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { Shape, Item, Node, Behavior, GraphEvent } from '@/common/interfaces';
+import { G } from '@/common/interfaces/g';
+import { Item, Node, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
@@ -28,7 +29,7 @@ interface ThisProps {
   };
   target?: Item;
   selectedNodes?: Node[];
-  multipleDelegate: Shape;
+  multipleDelegate: G.Shape;
   fn: EventListenerObject;
   mdOrigin: { x: number; y: number };
 }
@@ -98,7 +99,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     selectedNodes.forEach((node: Node) => node.set('delegateShape', null));
     this._update(e, true);
     if (this.multipleDelegate) {
-      this.multipleDelegate.remove();
+      this.multipleDelegate.remove(false);
       this.multipleDelegate = void 0;
     }
     this.origin = null;
