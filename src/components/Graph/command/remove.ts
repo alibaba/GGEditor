@@ -1,6 +1,6 @@
 import { isMind, executeBatch } from '@/utils';
 import { ItemType } from '@/common/constants';
-import { TreeGraph, NodeModel, EdgeModel, MindNodeModel } from '@/common/interfaces';
+import { NodeModel, EdgeModel, MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
 
@@ -87,7 +87,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
         return;
       }
 
-      (graph as TreeGraph).removeChild(model.id);
+      (graph as G6.TreeGraph).removeChild(model.id);
     } else {
       const { nodes, edges } = this.params.flow;
 
@@ -107,7 +107,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
         return;
       }
 
-      (graph as TreeGraph).addChild(model, parent);
+      (graph as G6.TreeGraph).addChild(model, parent);
     } else {
       const { nodes, edges } = this.params.flow;
 

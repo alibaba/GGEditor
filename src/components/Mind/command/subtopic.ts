@@ -1,4 +1,4 @@
-import { TreeGraph, MindNodeModel, Node } from '@/common/interfaces';
+import { MindNodeModel, Node } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
 import { topicCommand } from './topic';
@@ -8,7 +8,7 @@ interface SubtopicCommandParams {
   model: MindNodeModel;
 }
 
-const subtopicCommand: BaseCommand<SubtopicCommandParams, TreeGraph> = {
+const subtopicCommand: BaseCommand<SubtopicCommandParams, G6.TreeGraph> = {
   ...topicCommand,
 
   canExecute(graph) {
@@ -18,10 +18,8 @@ const subtopicCommand: BaseCommand<SubtopicCommandParams, TreeGraph> = {
   execute(graph) {
     const { id, model } = this.params;
 
-    const parent = graph.findById<Node>(id);
-
     // 添加节点
-    graph.addChild(model, parent);
+    graph.addChild(model, id);
 
     // 选中节点
     this.setSelectedNode(graph, model.id);

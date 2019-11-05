@@ -4,7 +4,6 @@ import {
   GraphType,
   GraphState,
   LabelState,
-  EditorEvent,
   EditorCommand,
   GraphCommonEvent,
   GraphNodeEvent,
@@ -61,14 +60,7 @@ export interface Group {
   addShape(type: string, config: object): Shape;
   getBBox(): BBox;
   findByClassName(className: string): Shape;
-  getMatrix(): object;
-}
-
-export interface EventEmitter {
-  /** 绑定事件 */
-  on(eventName: EditorEvent | GraphNativeEvent, handler: Function): void;
-  /** 触发事件 */
-  emit(eventName: EditorEvent | GraphNativeEvent, params: object): void;
+  getMatrix(): number;
 }
 
 export interface ItemModel {
@@ -124,109 +116,6 @@ export interface MindNodeModel extends Omit<NodeModel, 'id'> {
   id?: string;
   children?: MindNodeModel[];
   collapsed?: boolean;
-}
-
-/**
- * G6 图表载体配置
- * @see https://www.yuque.com/antv/g6/graph
- */
-export interface GraphConfig {
-  contianer: string | HTMLElement;
-  width: number;
-  height: number;
-  renderer: 'canvas' | 'svg';
-  fitViewPadding: number | number[];
-  groupByTypes: boolean;
-  autoPaint: boolean;
-  modes: object;
-  nodeStateStyles: object;
-  edgeStateStyles: object;
-  defaultNode: object;
-  defaultEdge: object;
-  plugins: [];
-  animate: boolean;
-  animateCfg: {
-    onFrame?: Function | null;
-    duration?: number;
-    easing?: string;
-  };
-  minZoom: number;
-  maxZoom: number;
-  pixeRatio: number;
-  groupType: 'circle' | 'rect';
-  groupStyle: object;
-  layout: object;
-}
-
-/**
- * G6 图表载体
- * @see https://www.yuque.com/antv/g6/graph
- */
-export interface Graph extends EventEmitter {
-  // 加载
-  data(data: object): void;
-
-  // 渲染
-  render(): void;
-  read(data: object): void;
-  changeData(data: object): void;
-
-  // 更新
-  add<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
-  addItem<T = Node>(type: ItemType, model: NodeModel | EdgeModel): T;
-  update(item: string | Item, model: object): void;
-  updateItem(item: string | Item, model: object): void;
-  remove(item: string | Item): void;
-  removeItem(item: string | Item): void;
-  paint(): void;
-  setAutoPaint(auto: boolean): void;
-
-  // 交互
-  setMode(mode: string): void;
-  getCurrentMode(): string;
-  getZoom(): number;
-  zoom(ratio: number, center?: { x: number; y: number }): void;
-  zoomTo(toRatio: number, center?: { x: number; y: number }): void;
-  focusItem(item: string | Item): void;
-  fitView(padding?: number | number[]): void;
-
-  // 状态
-  showItem(item: string | Item): void;
-  hideItem(item: string | Item): void;
-  setItemState(item: string | Item, state: string, enabled: boolean): void;
-  clearItemStates(item: string | Item, state?: string | string[] | null): void;
-
-  // 查找
-  findById<T = Item>(id: string): T;
-  findAllByState<T = Item>(type: ItemType, state: string): T[];
-
-  // 数据
-  save<T>(): T;
-  getNodes(): Node[];
-  getEdges(): Edge[];
-
-  // 坐标转换
-  getPointByClient(clientX: number, clientY: number): { x: number; y: number };
-  getClientByPoint(x: number, y: number): { x: number; y: number };
-  getPointByCanvas(canvasX: number, canvasY: number): { x: number; y: number };
-  getCanvasByPoint(x: number, y: number): { x: number; y: number };
-
-  // 其它
-  get(key: string): any;
-  set(key: string, val: any): void;
-}
-
-/**
- * G6 树图载体
- * @see https://www.yuque.com/antv/g6/treegraph
- */
-export interface TreeGraph extends Graph {
-  // 实例方法
-  addChild(model: MindNodeModel, parent: Node | string): void;
-  removeChild(id: string): void;
-  updateChild(model: MindNodeModel, parent?: string): void;
-  findDataById(id: string, parent?: object): MindNodeModel;
-  refreshLayout(): TreeGraph;
 }
 
 /**
@@ -357,7 +246,7 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
  * @see https://www.yuque.com/antv/g6/behavior-api
  */
 export interface Behavior {
-  graph?: Graph;
+  graph?: G6.Graph;
   graphType?: GraphType;
   getEvents(): {
     [propName in GraphNativeEvent]?: string;
@@ -387,7 +276,7 @@ export interface GraphEvent {
   cancelable: boolean;
 }
 
-export interface Command<P = object, G = Graph> {
+export interface Command<P = object, G = G6.Graph> {
   /** 命令名称 */
   name: string;
   /** 命令参数 */
@@ -476,6 +365,6 @@ export interface FlowAndMindCommonProps
     GraphCustomEventProps {
   className?: string;
   style?: React.CSSProperties;
-  graphConfig?: Partial<GraphConfig>;
+  graphConfig?: Partial<G6.GraphOptions>;
   customModes?: (mode: string, behaviors: any) => object;
 }

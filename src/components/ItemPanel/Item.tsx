@@ -1,8 +1,7 @@
 import React from 'react';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import pick from 'lodash/pick';
-import { Shape, Node } from '@/common/interfaces';
 import { ItemType } from '@/common/constants';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
 interface ItemProps extends EditorPrivateContextProps {
   /** 预览图资源 */
@@ -25,10 +24,10 @@ interface ItemState {
   /** 隐藏的用于拖拽的DOM节点 */
   shadowShape: null | HTMLElement;
 
-  /** 在画布上的节点拖拽过程中的代理图形 */
-  dragShape: null | Node;
+  /** 画布上代理图形是否存在 */
+  hasDragShape: boolean;
 
-  /** 画布上代理图形的id（常量） */
+  /** 画布上代理图形的 ID（常量）*/
   dragShapeID: 'temp_drag_node';
 }
 
@@ -37,7 +36,7 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
     super(props);
     this.state = {
       shadowShape: null,
-      dragShape: null,
+      hasDragShape: false,
       dragShapeID: 'temp_drag_node',
     };
   }
@@ -108,8 +107,8 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
       return;
     }
 
-    const { dragShape, dragShapeID } = this.state;
-    if (dragShape) {
+    const { hasDragShape, dragShapeID } = this.state;
+    if (hasDragShape) {
       const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
       graph.update(dragShapeID, {
         ...transferredPos,
@@ -118,15 +117,15 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
   };
 
   loadDragShape({ x, y }: { x: number; y: number }) {
-    const { graph, shape } = this.props;
-    const { dragShape, shadowShape, dragShapeID } = this.state;
+    const { graph } = this.props;
+    const { hasDragShape, shadowShape, dragShapeID } = this.state;
 
     if (!graph || !shadowShape) {
       return;
     }
 
-    if (!dragShape) {
-      const newDragShape = graph.add(ItemType.Node, {
+    if (!hasDragShape) {
+      graph.add(ItemType.Node, {
         shape: 'rect',
         x,
         y,
@@ -140,28 +139,29 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
         },
         id: dragShapeID,
       });
+
       this.setState({
-        dragShape: newDragShape,
+        hasDragShape: true,
       });
     }
   }
 
   unloadDragShape() {
     const { graph } = this.props;
-    const { dragShape, shadowShape, dragShapeID } = this.state;
+    const { hasDragShape, shadowShape, dragShapeID } = this.state;
 
     if (!graph) {
       return;
     }
 
-    if (dragShape) {
+    if (hasDragShape) {
       graph.remove(dragShapeID);
     }
     if (shadowShape) {
       document.body.removeChild(shadowShape);
     }
     this.setState({
-      dragShape: null,
+      hasDragShape: false,
       shadowShape: null,
     });
     document.removeEventListener('dragenter', this.handleDragenter);

@@ -1,12 +1,12 @@
 import React from 'react';
 import { GraphState, LabelState } from '@/common/constants';
-import { ContextMenuEvent, ContextMenuState, Graph, NodePopoverState } from '@/common/interfaces';
+import { ContextMenuEvent, ContextMenuState, NodePopoverState } from '@/common/interfaces';
 
 export interface EditorPrivateContextProps {
-  graph: Graph | null;
+  graph: G6.Graph | null;
   graphState: GraphState;
   labelState: LabelState;
-  setGraph: (graph: Graph) => void;
+  setGraph: (graph: G6.Graph) => void;
   setGraphState: (graphState: GraphState) => void;
   setLabelState: (labelState: LabelState) => void;
   executeCommand: (name: string, params?: object) => void;

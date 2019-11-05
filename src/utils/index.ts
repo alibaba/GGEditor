@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { EditorEvent, ItemState, ItemType } from '@/common/constants';
-import { Edge, Graph, GraphNativeEvent, Item, Node } from '@/common/interfaces';
+import { Edge, GraphNativeEvent, Item, Node } from '@/common/interfaces';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -18,14 +18,14 @@ export const toQueryString = (obj: object) =>
     .join('&');
 
 /** 添加事件监听 */
-export function addListener<T>(target: Graph, eventName: EditorEvent | GraphNativeEvent, handler: T | undefined) {
+export function addListener<T>(target: G6.Graph, eventName: EditorEvent | GraphNativeEvent, handler: T | undefined) {
   if (typeof handler === 'function') {
-    target.on(eventName, handler);
+    target.on<T>(eventName, handler);
   }
 }
 
 /** 判断是否脑图 */
-export function isMind(graph: Graph) {
+export function isMind(graph: G6.Graph) {
   return graph.constructor === G6.TreeGraph;
 }
 
@@ -40,22 +40,22 @@ export function isEdge(item: Item) {
 }
 
 /** 获取选中节点 */
-export function getSelectedNodes(graph: Graph) {
-  return graph.findAllByState<Node>(ItemType.Node, ItemState.Selected);
+export function getSelectedNodes(graph: G6.Graph): Node[] {
+  return graph.findAllByState(ItemType.Node, ItemState.Selected);
 }
 
 /** 获取选中边线 */
-export function getSelectedEdges(graph: Graph) {
-  return graph.findAllByState<Edge>(ItemType.Edge, ItemState.Selected);
+export function getSelectedEdges(graph: G6.Graph): Edge[] {
+  return graph.findAllByState(ItemType.Edge, ItemState.Selected);
 }
 
 /** 获取高亮边线 */
-export function getHighlightEdges(graph: Graph) {
-  return graph.findAllByState<Edge>(ItemType.Edge, ItemState.HighLight);
+export function getHighlightEdges(graph: G6.Graph): Edge[] {
+  return graph.findAllByState(ItemType.Edge, ItemState.HighLight);
 }
 
 /** 执行批量处理 */
-export function executeBatch(graph: Graph, execute: Function) {
+export function executeBatch(graph: G6.Graph, execute: Function) {
   graph.setAutoPaint(false);
 
   execute();
