@@ -1,12 +1,12 @@
 import { guid } from '@/utils';
 import { GraphType, ItemType } from '@/common/constants';
-import { Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddEdgeBehavior extends Behavior {
-  edge?: Edge;
+  edge?: G6.Edge;
   addingEdge?: boolean;
-  sourceNode?: Node;
+  sourceNode?: G6.Node;
   isAnchor(e: GraphEvent): boolean;
   notThis(e: GraphEvent): boolean;
   onMousedown(e: GraphEvent): void;
@@ -60,7 +60,7 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
   onMousedown(e) {
     const { edgeType } = this;
     if (!this.shouldBegin.call(this, e)) return;
-    const node = e.item as Node;
+    const node = e.item as G6.Node;
     const graph = this.graph;
     this.sourceNode = node;
     graph.getNodes().forEach(node => {

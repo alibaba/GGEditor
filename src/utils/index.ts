@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { EditorEvent, ItemState, ItemType } from '@/common/constants';
-import { Edge, GraphNativeEvent, Item, Node } from '@/common/interfaces';
+import { GraphNativeEvent } from '@/common/interfaces';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -30,27 +30,27 @@ export function isMind(graph: G6.Graph) {
 }
 
 /** 判断是否节点 */
-export function isNode(item: Item) {
+export function isNode(item: G6.Item) {
   return item.getType() === ItemType.Node;
 }
 
 /** 判断是否边线 */
-export function isEdge(item: Item) {
+export function isEdge(item: G6.Item) {
   return item.getType() === ItemType.Edge;
 }
 
 /** 获取选中节点 */
-export function getSelectedNodes(graph: G6.Graph): Node[] {
+export function getSelectedNodes(graph: G6.Graph): G6.Node[] {
   return graph.findAllByState(ItemType.Node, ItemState.Selected);
 }
 
 /** 获取选中边线 */
-export function getSelectedEdges(graph: G6.Graph): Edge[] {
+export function getSelectedEdges(graph: G6.Graph): G6.Edge[] {
   return graph.findAllByState(ItemType.Edge, ItemState.Selected);
 }
 
 /** 获取高亮边线 */
-export function getHighlightEdges(graph: G6.Graph): Edge[] {
+export function getHighlightEdges(graph: G6.Graph): G6.Edge[] {
   return graph.findAllByState(ItemType.Edge, ItemState.HighLight);
 }
 

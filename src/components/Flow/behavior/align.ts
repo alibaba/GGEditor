@@ -1,5 +1,5 @@
 import { GraphType } from '@/common/constants';
-import { Item, GraphEvent, Behavior } from '@/common/interfaces';
+import { GraphEvent, Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
@@ -56,7 +56,7 @@ interface HVLine {
 interface AlignBehavior extends Behavior {
   onDrag(e: GraphEvent): void;
   getBoxLine(
-    e: Item,
+    e: G6.Item,
   ): {
     horizontalLines: Lines;
     verticalLines: Lines;
@@ -119,7 +119,7 @@ const alignBehavior: AlignBehavior & ThisType<AlignBehavior & DefaultConfig> = {
       x: originPoint.x + bbox.width,
       y: originPoint.y + bbox.height / 2,
     };
-    const nodes: Item[] = graph.getNodes();
+    const nodes: G6.Item[] = graph.getNodes();
     const tolerance = this.tolerance;
 
     const hLines: HVLine = { HTL: [], HCL: [], HBL: [] };
@@ -179,7 +179,7 @@ const alignBehavior: AlignBehavior & ThisType<AlignBehavior & DefaultConfig> = {
     drawLine(vLines, 'V');
   },
 
-  getBoxLine(item: Item) {
+  getBoxLine(item: G6.Item) {
     const bbox = item.getBBox();
     const horizontalLines: Lines = {
       HTL: [bbox.minX, bbox.minY, bbox.maxX, bbox.minY],

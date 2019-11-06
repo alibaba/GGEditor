@@ -1,23 +1,23 @@
 import { getHighlightEdges, executeBatch, isMind } from '@/utils';
 import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent } from '@/common/constants';
-import { Item, Edge, Behavior } from '@/common/interfaces';
+import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
   /** 清空高亮状态 */
-  clearHighlightState(shouldUpdate?: (item: Item) => boolean): void;
+  clearHighlightState(shouldUpdate?: (item: G6.Item) => boolean): void;
   /** 处理点击事件 */
-  handleNodeClick({ item }: { item: Item }): void;
+  handleNodeClick({ item }: { item: G6.Item }): void;
   /** 处理边线点击 */
-  handleEdgeClick({ item }: { item: Item }): void;
+  handleEdgeClick({ item }: { item: G6.Item }): void;
   /** 处理画布点击 */
   handleCanvasClick(): void;
   /** 高亮 */
-  highlightParentEdges(item: Item): void;
+  highlightParentEdges(item: G6.Item): void;
   /** 查找脑图父级边线 */
-  findMindParentEdges(item: Item, edges?: Edge[]): Edge[];
+  findMindParentEdges(item: G6.Item, edges?: G6.Edge[]): G6.Edge[];
   /** 查找流程图回溯边线 */
-  findFlowRecallEdges(item: Item): Edge[];
+  findFlowRecallEdges(item: G6.Item): G6.Edge[];
 }
 
 const recallEdgeBehavior: RecallEdgeBehavior = {
@@ -96,7 +96,7 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
       return edges;
     }
 
-    const foundEdge = item.getEdges().find(edge => edge.getModel().source === parentNode.getModel().id);
+    const foundEdge = (item as G6.Node).getEdges().find(edge => edge.getModel().source === parentNode.getModel().id);
 
     if (foundEdge) {
       edges.push(foundEdge);
@@ -109,7 +109,7 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
    * 暂时支持返回直接连到节点的边
    * */
   findFlowRecallEdges(item) {
-    return item.getEdges();
+    return (item as G6.Node).getEdges();
   },
 
   handleCanvasClick() {
