@@ -1,14 +1,49 @@
-import { GraphType } from '@/common/constants';
-import { GraphEvent, Item, Shape } from '@/common/interface';
+import { GraphType, ItemType, ItemState } from '@/common/constants';
+import { G } from '@antv/g6/types/g';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
 const max = Math.max;
 const abs = Math.abs;
 const hypot = Math.hypot;
-behaviorManager.register('brush-select', {
+
+interface BrushBehavior extends Behavior {
+  onKeyUp(e: KeyboardEvent): void;
+  onKeyDown(e: KeyboardEvent): void;
+  onMouseDown(e: GraphEvent): void;
+  onMouseMove(e: GraphEvent): void;
+  onMouseUp(e: GraphEvent): void;
+  clearStates(): void;
+  _getSelectedNodes(e: GraphEvent): void;
+  _createBrush(): G.Shape;
+  _updateBrush(e: GraphEvent): void;
+}
+
+interface DefaultConfig {
+  brushStyle: object;
+  onSelect: (selectedNodes: G6.Node[], selectedEdges: G6.Edge[]) => void;
+  onDeselect: (selectedNodes: G6.Node[], selectedEdges: G6.Edge[]) => void;
+  selectedNodes: G6.Node[];
+  selectedEdges: G6.Edge[];
+  includeEdges: boolean;
+}
+
+interface ThisProps {
+  keyFlag: boolean;
+  dragging: boolean;
+  originPoint: {
+    x: number;
+    y: number;
+  };
+  selectedState: string;
+  brush: G.Shape;
+}
+
+const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & ThisProps> = {
   graphType: GraphType.Flow,
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       brushStyle: {
         fill: '#EEF6FF',
@@ -18,12 +53,12 @@ behaviorManager.register('brush-select', {
       },
       onSelect() {},
       onDeselect() {},
-      selectedState: 'selected',
-      includeEdges: true,
-      selectedEdges: [],
       selectedNodes: [],
+      selectedEdges: [],
+      includeEdges: true,
     };
   },
+
   getEvents() {
     return {
       keyup: 'onKeyUp',
@@ -88,12 +123,11 @@ behaviorManager.register('brush-select', {
     const graph = this.graph;
     const autoPaint = graph.get('autoPaint');
     graph.setAutoPaint(false);
-    const selectedState = this.selectedState;
 
-    const nodes = graph.findAllByState('node', selectedState);
-    const edges = graph.findAllByState('edge', selectedState);
-    nodes.forEach((node: Item) => graph.setItemState(node, selectedState, false));
-    edges.forEach((edge: Item) => graph.setItemState(edge, selectedState, false));
+    const nodes = graph.findAllByState(ItemType.Node, ItemState.Selected);
+    const edges = graph.findAllByState(ItemType.Edge, ItemState.Selected);
+    nodes.forEach((node: G6.Item) => graph.setItemState(node, ItemState.Selected, false));
+    edges.forEach((edge: G6.Item) => graph.setItemState(edge, ItemState.Selected, false));
 
     this.selectedNodes = [];
 
@@ -112,22 +146,19 @@ behaviorManager.register('brush-select', {
     const right = max(p1.x, p2.x);
     const top = min(p1.y, p2.y);
     const bottom = max(p1.y, p2.y);
-    const selectedNodes: Item[] = [];
-    const shouldUpdate = this.shouldUpdate;
+    const selectedNodes: G6.Node[] = [];
     const selectedIds: string[] = [];
-    graph.getNodes().forEach((node: Item) => {
+    graph.getNodes().forEach((node: G6.Node) => {
       const bbox = node.getBBox();
       if (bbox.centerX >= left && bbox.centerX <= right && bbox.centerY >= top && bbox.centerY <= bottom) {
-        if (shouldUpdate(node, 'select')) {
-          selectedNodes.push(node);
-          const model: any = node.getModel();
-          selectedIds.push(model.id);
-          graph.setItemState(node, state, true);
-        }
+        selectedNodes.push(node);
+        const model: any = node.getModel();
+        selectedIds.push(model.id);
+        graph.setItemState(node, state, true);
       }
     });
 
-    const selectedEdges: Shape[] = [];
+    const selectedEdges: G6.Edge[] = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
       selectedNodes.forEach(node => {
@@ -135,21 +166,22 @@ behaviorManager.register('brush-select', {
         edges.forEach(edge => {
           const model = edge.getModel();
           const { source, target } = model;
-          if (selectedIds.includes(source) && selectedIds.includes(target) && shouldUpdate(edge, 'select')) {
+          if (selectedIds.includes(source) && selectedIds.includes(target)) {
             selectedEdges.push(edge);
-            graph.setItemState(edge, this.selectedState, true);
+            graph.setItemState(edge, ItemState.Selected, true);
           }
         });
       });
     }
 
-    this.selectedEdges = selectedEdges;
     this.selectedNodes = selectedNodes;
+    this.selectedEdges = selectedEdges;
     this.onSelect && this.onSelect(selectedNodes, selectedEdges);
   },
+
   _createBrush() {
     const self = this;
-    const brush = self.graph.get('canvas').addShape('rect', {
+    const brush: G.Shape = self.graph.get('canvas').addShape('rect', {
       attrs: self.brushStyle,
       capture: false,
     });
@@ -165,4 +197,6 @@ behaviorManager.register('brush-select', {
       y: min(e.canvasY, originPoint.y),
     });
   },
-});
+};
+
+behaviorManager.register('brush-select', brushSelect);

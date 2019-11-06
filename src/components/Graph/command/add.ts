@@ -1,6 +1,6 @@
-import { uuid } from '@/utils';
+import { guid } from '@/utils';
 import { ItemType } from '@/common/constants';
-import { ItemModel } from '@/common/interface';
+import { ItemModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from './base';
 
@@ -26,7 +26,7 @@ const addCommand: BaseCommand<AddCommandParams> = {
       return;
     }
 
-    model.id = uuid();
+    model.id = guid();
   },
 
   execute(graph) {

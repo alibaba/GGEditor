@@ -1,7 +1,6 @@
 import pick from 'lodash/pick';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
-import { Graph, TreeGraph } from '@/common/interface';
 
 interface UpdateCommandParams {
   id: string;
@@ -10,7 +9,7 @@ interface UpdateCommandParams {
   forceRefreshLayout: boolean;
 }
 
-const updateCommand: BaseCommand<UpdateCommandParams> = {
+const updateCommand: BaseCommand<UpdateCommandParams, G6.Graph & G6.TreeGraph> = {
   ...baseCommand,
 
   params: {
@@ -37,13 +36,13 @@ const updateCommand: BaseCommand<UpdateCommandParams> = {
     this.params.originModel = originModel;
   },
 
-  execute(graph: Graph & TreeGraph) {
+  execute(graph) {
     const { id, updateModel, forceRefreshLayout } = this.params;
 
     graph.updateItem(id, updateModel);
 
     if (forceRefreshLayout) {
-      graph.refreshLayout && graph.refreshLayout();
+      graph.refreshLayout && graph.refreshLayout(false);
     }
   },
 

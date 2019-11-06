@@ -1,5 +1,5 @@
 import { LabelState, EditorEvent, GraphState } from '@/common/constants';
-import { Behavior } from '@/common/interface';
+import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface EditLabelBehavior extends Behavior {
@@ -15,7 +15,7 @@ interface EditLabelBehavior extends Behavior {
   handleCanvasClick(): void;
 }
 
-const editLabelBehavior = {
+const editLabelBehavior: EditLabelBehavior = {
   getEvents() {
     return {
       'node:click': 'handleNodeClick',
@@ -56,6 +56,6 @@ const editLabelBehavior = {
       labelState: LabelState.Hide,
     });
   },
-} as EditLabelBehavior;
+};
 
 behaviorManager.register('edit-label', editLabelBehavior);

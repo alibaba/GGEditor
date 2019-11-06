@@ -1,6 +1,6 @@
-import { uuid } from '@/utils';
+import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
-import { TreeGraph, MindNodeModel } from '@/common/interface';
+import { MindNodeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
@@ -9,7 +9,7 @@ interface TopicCommandParams {
   model: MindNodeModel;
 }
 
-export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
+export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
   ...baseCommand,
 
   params: {
@@ -35,7 +35,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
     this.params = {
       id: selectedNode.get('id'),
       model: {
-        id: uuid(),
+        id: guid(),
         label: LABEL_DEFAULT_TEXT,
       },
     };

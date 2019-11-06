@@ -1,24 +1,34 @@
 import { GraphType } from '@/common/constants';
-import { GraphEvent } from '@/common/interface';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
-behaviorManager.register('hover-node', {
+interface HoverNodeBehavior extends Behavior {
+  onEnterNode(e: GraphEvent): void;
+  onLeaveNode(e: GraphEvent): void;
+}
+
+const hoverNode: HoverNodeBehavior = {
   graphType: GraphType.Flow,
+
   getEvents() {
     return {
       'node:mouseenter': 'onEnterNode',
       'node:mouseleave': 'onLeaveNode',
     };
   },
-  onEnterNode(e: GraphEvent) {
+
+  onEnterNode(e) {
     const graph = this.graph;
     const node = e.item;
     if (!this.shouldBegin(e)) return;
     graph.setItemState(node, 'active', true);
   },
-  onLeaveNode(e: GraphEvent) {
+
+  onLeaveNode(e) {
     const graph = this.graph;
     const node = e.item;
     graph.setItemState(node, 'active', false);
   },
-});
+};
+
+behaviorManager.register('hover-node', hoverNode);

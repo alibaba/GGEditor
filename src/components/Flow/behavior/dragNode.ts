@@ -1,13 +1,42 @@
-import { GraphType } from '@/common/constants';
-import { GraphEvent, Shape } from '@/common/interface';
+import { GraphType, ItemType, ItemState } from '@/common/constants';
+import { G } from '@antv/g6/types/g';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
 const { delegateStyle } = globalStyle;
 const { body } = document;
 
-behaviorManager.register('drag-node', {
+interface DragNodeBehavior extends Behavior {
+  onDragStart(e: GraphEvent): void;
+  onDrag(e: GraphEvent): void;
+  onDragEnd(e: GraphEvent): void;
+  onOutOfRange(e: GraphEvent): void;
+  _update(e: GraphEvent, force: boolean): void;
+  _updateDelegate(item: G6.Node, x: number, y: number): void;
+  drawMultipleDelegate(): void;
+}
+
+interface DefaultConfig {
+  updateEdge: boolean;
+  showDelegate: boolean;
+  delegateStyle: object;
+}
+interface ThisProps {
+  origin?: {
+    x: number;
+    y: number;
+  };
+  target?: G6.Item;
+  selectedNodes?: G6.Node[];
+  multipleDelegate: G.Shape;
+  fn: EventListenerObject;
+  mdOrigin: { x: number; y: number };
+}
+
+const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & ThisProps> = {
   graphType: GraphType.Flow,
+
   getEvents() {
     return {
       'node:dragstart': 'onDragStart',
@@ -16,19 +45,22 @@ behaviorManager.register('drag-node', {
       'canvas:mouseleave': 'onOutOfRange',
     };
   },
-  getDefaultCfg() {
+
+  getDefaultCfg(): DefaultConfig {
     return {
       updateEdge: true,
       showDelegate: true,
       delegateStyle: {},
     };
   },
-  shouldBegin(e: GraphEvent) {
+
+  shouldBegin(e) {
     // 锚点上不触发拖拽；
     if (e.target.get('className') == 'anchor') return false;
     else return true;
   },
-  onDragStart(e: GraphEvent) {
+
+  onDragStart(e) {
     if (!this.shouldBegin(e)) return;
     const { graph } = this;
     this.origin = {
@@ -37,21 +69,23 @@ behaviorManager.register('drag-node', {
     };
     this.target = e.item;
     // 单节点拖拽当做多节点拖拽的特例
-    this.selectedNodes = graph.findAllByState('node', 'selected') || [];
-    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item);
+    this.selectedNodes = graph.findAllByState(ItemType.Node, ItemState.Selected) || [];
+    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item as G6.Node);
   },
-  onDrag(e: GraphEvent) {
-    if (!this.get('shouldUpdate').call(this, e)) return;
+
+  onDrag(e) {
+    if (!this.shouldUpdate.call(this, e)) return;
     if (!this.origin) return;
     this._update(e, false);
   },
-  onDragEnd(e: GraphEvent) {
+
+  onDragEnd(e) {
     if (!this.shouldEnd.call(this, e)) return;
     if (!this.origin) return;
     const { selectedNodes } = this;
     // 清理委托图形与对齐线
     selectedNodes
-      .map((item: Shape) => item.get('delegateShape'))
+      .map((item: G6.Node) => item.get('delegateShape'))
       .forEach((ds: any) => {
         if (ds) {
           ['HTL', 'HCL', 'HBL', 'VLL', 'VCL', 'VRL'].forEach(lname => {
@@ -62,10 +96,10 @@ behaviorManager.register('drag-node', {
         }
       });
 
-    selectedNodes.forEach((node: Shape) => node.set('delegateShape', null));
+    selectedNodes.forEach((node: G6.Node) => node.set('delegateShape', null));
     this._update(e, true);
     if (this.multipleDelegate) {
-      this.multipleDelegate.remove();
+      this.multipleDelegate.remove(false);
       this.multipleDelegate = void 0;
     }
     this.origin = null;
@@ -76,8 +110,9 @@ behaviorManager.register('drag-node', {
       this.fn = null;
     }
   },
+
   // 若在拖拽时，鼠标移出画布区域，此时放开鼠标无法终止 drag 行为。在画布外监听 mouseup 事件，放开则终止
-  onOutOfRange(e: GraphEvent) {
+  onOutOfRange(e) {
     const self = this;
     if (this.origin) {
       const canvasElement = self.graph.get('canvas').get('el');
@@ -94,7 +129,7 @@ behaviorManager.register('drag-node', {
     const { selectedNodes, showDelegate, origin } = this;
     const offsetX = e.x - origin.x;
     const offsetY = e.y - origin.y;
-    const moveXY = (item: Shape) => {
+    const moveXY = (item: G6.Node) => {
       const model = item.getModel();
       const bbox = item.getBBox();
       const x = model.x - bbox.width / 2 + offsetX;
@@ -106,7 +141,7 @@ behaviorManager.register('drag-node', {
       if (selectedNodes.length > 1 && !this.multipleDelegate) this.drawMultipleDelegate();
       // this._updateDelegate(item, x, y);
       // 更新所有委托图形的位置;
-      selectedNodes.forEach((node: Shape) => {
+      selectedNodes.forEach((node: G6.Node) => {
         const { x, y } = moveXY(node);
         this._updateDelegate(node, x, y);
       });
@@ -118,15 +153,15 @@ behaviorManager.register('drag-node', {
       this.graph.paint();
       return;
     }
-    if (this.get('updateEdge')) {
-      selectedNodes.forEach((node: Shape) => {
+    if (this.updateEdge) {
+      selectedNodes.forEach((node: G6.Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
         this.graph.updateItem(node, { x, y });
       });
     } else {
-      selectedNodes.forEach((node: Shape) => {
+      selectedNodes.forEach((node: G6.Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
@@ -135,7 +170,8 @@ behaviorManager.register('drag-node', {
       this.graph.paint();
     }
   },
-  _updateDelegate(item: Shape, x: number, y: number) {
+
+  _updateDelegate(item: G6.Node, x: number, y: number) {
     let shape = item.get('delegateShape');
     const bbox = item.get('keyShape').getBBox();
 
@@ -182,7 +218,7 @@ behaviorManager.register('drag-node', {
     const nodes = this.selectedNodes;
     const xs: number[] = [];
     const ys: number[] = [];
-    nodes.forEach((n: Shape) => {
+    nodes.forEach((n: G6.Node) => {
       const { minX, minY, maxX, maxY } = n.getBBox();
       xs.push(minX, maxX);
       ys.push(minY, maxY);
@@ -208,4 +244,6 @@ behaviorManager.register('drag-node', {
       },
     });
   },
-});
+};
+
+behaviorManager.register('drag-node', dragNode);

@@ -1,25 +1,21 @@
 import { EditorEvent, ShapeClassName } from '@/common/constants';
-import { Behavior, GraphEvent } from '@/common/interface';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ContextMenuBehavior extends Behavior {
   /** 显示右键菜单 */
   showContextMenu(e: GraphEvent): void;
-
   /** 隐藏右键菜单 */
   hideContextMenu(): void;
-
   /** 处理节点右击 */
   handleNodeContextMenu(e: GraphEvent): void;
-
   /** 处理画布鼠标落下 */
   handleCanvasMousedown(): void;
-
   /** 处理节点上的菜单按钮点击 */
   handleAppendixClick(e: GraphEvent): void;
 }
 
-const contextMenuBehavior = {
+const contextMenuBehavior: ContextMenuBehavior = {
   getEvents() {
     return {
       'node:contextmenu': 'handleNodeContextMenu',
@@ -66,6 +62,6 @@ const contextMenuBehavior = {
       this.showContextMenu(e);
     }
   },
-} as ContextMenuBehavior;
+};
 
 behaviorManager.register('context-menu', contextMenuBehavior);

@@ -2,17 +2,12 @@ import G6 from '@antv/g6';
 import { ShapeClassName } from '@/common/constants';
 import Util from '@/components/Graph/shape/nodes/util';
 import '@/components/Graph/shape/nodes/bizNode';
-import { Group, NodeModel, CustomNode, MindNodeModel } from '@/common/interface';
+import { G } from '@antv/g6/types/g';
+import { MindNodeModel, CustomNode } from '@/common/interfaces';
 import { bizOption } from '@/components/Graph/shape/nodes/bizNode';
 
-export interface MindNodeModel extends NodeModel {
-  isRoot?: boolean;
-  collapsed?: boolean;
-  children: MindNodeModel[];
-}
-
-export interface BizMindNodeOptions extends CustomNode {
-  drawExpandOrCollapseButton: (model: MindNodeModel, group: Group) => any;
+export interface BizMindNodeOptions extends CustomNode<MindNodeModel> {
+  drawExpandOrCollapseButton: (model: MindNodeModel, group: G.Group) => any;
   [props: string]: any;
 }
 
@@ -42,13 +37,13 @@ const options: BizMindNodeOptions = {
     const button = group.findByClassName(ShapeClassName.CollapseExpandButton);
     let label = group.findByClassName(ShapeClassName.Label);
     // repaint label
-    label.remove();
+    label.remove(false);
     label = this.drawLabel(model, group);
 
     this.adjustPosition({ group, model });
 
     if (button) {
-      button.remove();
+      button.remove(false);
       if (model.children && model.children.length > 0 && !model.isRoot) {
         this.drawExpandOrCollapseButton(model, group);
       }

@@ -5,7 +5,11 @@ const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
 const resolve = require('rollup-plugin-node-resolve');
+const replace = require('rollup-plugin-replace');
+const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
+const { exec } = require('child_process');
+const { version } = require('../../package.json');
 /* eslint-enable */
 
 async function build() {
@@ -13,7 +17,6 @@ async function build() {
   rimraf.sync('dist');
   rimraf.sync('lib');
   rimraf.sync('es');
-  rimraf.sync('types');
 
   signale.success('Clean success');
 
@@ -23,6 +26,10 @@ async function build() {
       input: 'src/index.tsx',
       plugins: [
         resolve(),
+        replace({
+          'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
+        }),
+        commonjs(),
         typescript({
           tsconfigOverride: {
             compilerOptions: {
@@ -38,6 +45,9 @@ async function build() {
       name: 'GGEditor',
       file: 'dist/index.js',
       format: 'umd',
+      globals: {
+        react: 'React',
+      },
     });
 
     signale.success('Build umd success');
@@ -51,11 +61,13 @@ async function build() {
       input: 'src/index.tsx',
       plugins: [
         resolve(),
-        typescript({
-          useTsconfigDeclarationDir: true,
+        replace({
+          'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
         }),
+        commonjs(),
+        typescript(),
       ],
-      external: ['react'],
+      external: ['react', '@antv/g6', 'lodash'],
     });
 
     await cjsBundle.write({
@@ -73,6 +85,10 @@ async function build() {
       input: 'src/index.tsx',
       plugins: [
         resolve(),
+        replace({
+          'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
+        }),
+        commonjs(),
         typescript({
           tsconfigOverride: {
             compilerOptions: {
@@ -81,7 +97,7 @@ async function build() {
           },
         }),
       ],
-      external: ['react'],
+      external: ['react', '@antv/g6', 'lodash'],
     });
 
     await esmBundle.write({
@@ -93,6 +109,13 @@ async function build() {
   } catch (error) {
     signale.error(error);
   }
+
+  // Replace absolute paths to relative paths
+  exec(`tscpaths -p ./tsconfig.cjs.json -s ./lib`, error => {
+    if (error) {
+      signale.error(error);
+    }
+  });
 }
 
 build();

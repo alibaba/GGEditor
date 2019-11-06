@@ -1,14 +1,8 @@
-import { Group } from './../../../../common/interface';
-import { Item } from '@/common/interface';
 import upperFirst from 'lodash/upperFirst';
-// import each from '@antv/util/lib/each';
+import { G } from '@antv/g6/types/g';
 
 export const UtilCanvas = document.createElement('canvas');
 export const UtilCanvasContext = UtilCanvas.getContext('2d');
-
-/* const BaseUtil = {
-  each,
-}; */
 
 interface ShapeUtil {
   optimizeMultilineText: (text: string, font: string, maxWidth: number) => string;
@@ -19,7 +13,7 @@ interface ShapeUtil {
 
   getExpandButtonPath: (param: { width: number; height: number }) => string;
 
-  itemStates({ item: Item, group: Group }): void;
+  itemStates(param: { item: G6.Item; group: G.Group }): void;
 
   [props: string]: any;
 }
@@ -46,8 +40,6 @@ const Util: ShapeUtil = {
       multilineText += char;
       multilineTextWidth += width;
     }
-
-    const multilineArr = multilineText.split('\n');
 
     return multilineText;
   },

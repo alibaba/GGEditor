@@ -1,19 +1,13 @@
 import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@/utils';
 import { ItemState } from '@/common/constants';
-import { Item, Behavior } from '@/common/interface';
+import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ClickItemBehavior extends Behavior {
-  /** 是否支持多选 */
-  multiple: boolean;
-  /** 是否按下多选 */
-  keydown: boolean;
-  /** 多选按键码值 */
-  keyCode: number;
   /** 清空选中状态 */
-  clearSelectedState(shouldUpdate?: (item: Item) => boolean): void;
+  clearSelectedState(shouldUpdate?: (item: G6.Item) => boolean): void;
   /** 处理点击事件 */
-  handleItemClick({ item }: { item: Item }): void;
+  handleItemClick({ item }: { item: G6.Item }): void;
   /** 处理画布点击 */
   handleCanvasClick(): void;
   /** 处理按键按下 */
@@ -22,10 +16,20 @@ interface ClickItemBehavior extends Behavior {
   handleKeyUp(e: KeyboardEvent): void;
 }
 
-const clickItemBehavior = {
-  getDefaultCfg() {
+interface DefaultConfig {
+  /** 是否支持多选 */
+  multiple: boolean;
+  /** 是否按下多选 */
+  keydown: boolean;
+  /** 多选按键码值 */
+  keyCode: number;
+}
+
+const clickItemBehavior: ClickItemBehavior & ThisType<ClickItemBehavior & DefaultConfig> = {
+  getDefaultCfg(): DefaultConfig {
     return {
       multiple: true,
+      keydown: false,
       keyCode: 17,
     };
   },
@@ -85,9 +89,9 @@ const clickItemBehavior = {
     this.keydown = (e.keyCode || e.which) === this.keyCode;
   },
 
-  handleKeyUp(e) {
+  handleKeyUp() {
     this.keydown = false;
   },
-} as ClickItemBehavior;
+};
 
 behaviorManager.register('click-item', clickItemBehavior);

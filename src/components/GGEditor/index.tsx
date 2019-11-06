@@ -8,11 +8,10 @@ import {
   CommandEvent,
   ContextMenuEvent,
   EventHandle,
-  Graph,
   GraphStateEvent,
   LabelStateEvent,
   NodePopoverEvent,
-} from '@/common/interface';
+} from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
@@ -53,7 +52,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.lastMousedownTarget = null;
   }
 
-  bindEvent(graph: Graph) {
+  bindEvent(graph: G6.Graph) {
     const { props } = this;
 
     addListener<EventHandle<CommandEvent>>(
@@ -110,7 +109,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     );
   }
 
-  bindShortcut(graph: Graph) {
+  bindShortcut(graph: G6.Graph) {
     window.addEventListener(GraphCommonEvent.onMouseDown, e => {
       this.lastMousedownTarget = e.target;
     });
@@ -153,7 +152,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     });
   }
 
-  setGraph = (graph: Graph) => {
+  setGraph = (graph: G6.Graph) => {
     this.setState({
       graph,
     });

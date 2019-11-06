@@ -6,8 +6,8 @@ interface Global {
 }
 
 const global: Global = {
-  version: process.env.GG_EDITOR_VERSION || '',
-  trackable: process.env.NODE_ENV === 'production',
+  version: process.env.GG_EDITOR_VERSION,
+  trackable: true,
 };
 
 export default {

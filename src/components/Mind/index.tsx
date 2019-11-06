@@ -1,9 +1,9 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
-import { uuid, recursiveTraversal } from '@/utils';
+import { guid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@/common/constants';
-import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@/common/interface';
+import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -23,7 +23,7 @@ class Mind extends React.Component<MindProps, MindState> {
     graphConfig: {},
   };
 
-  containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
+  containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
   canDragCanvas = () => {
     const { labelState } = this.props;
@@ -49,7 +49,7 @@ class Mind extends React.Component<MindProps, MindState> {
         return;
       }
 
-      item.id = uuid();
+      item.id = guid();
     });
   };
 
@@ -58,7 +58,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 40;
 
-    for (let char of model.label) {
+    for (const char of model.label) {
       totalTextWidth += UtilCanvasContext.measureText(char).width;
     }
 
@@ -76,7 +76,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 5;
 
-    for (let char of model.label) {
+    for (const char of model.label) {
       totalTextWidth += UtilCanvasContext.measureText(char).width;
     }
 
@@ -130,7 +130,7 @@ class Mind extends React.Component<MindProps, MindState> {
       modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
     });
 
-    this.graph = new G6.TreeGraph({
+    return new G6.TreeGraph({
       container: containerId,
       width,
       height,
@@ -150,8 +150,6 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       ...graphConfig,
     });
-
-    return this.graph;
   };
 
   render() {

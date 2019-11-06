@@ -1,33 +1,26 @@
-import { NodeModel } from './../../../common/interface';
-import { EditorEvent } from '@/common/constants';
-import { Behavior, GraphEvent, Item, ItemModel } from '@/common/interface';
-import behaviorManager from '@/common/behaviorManager';
 import G6 from '@antv/g6';
+import { EditorEvent } from '@/common/constants';
+import { ItemModel, NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
+import behaviorManager from '@/common/behaviorManager';
 
 interface NodePopoverBehavior extends Behavior {
   /** 获取nodePopover展示文本 */
   getPopoverText(model: ItemModel): string | undefined;
-
   /** 获取nodePopover的位置 */
-  getPopoverPosition(item: Item): { x: number; y: number };
-
+  getPopoverPosition(item: G6.Item): { x: number; y: number };
   /** 显示nodePopover */
   showPopover(e: GraphEvent): void;
-
   /** 隐藏nodePopover */
   hidePopover(): void;
-
   /** 处理鼠标进入 */
   handleItemMouseenter(e: GraphEvent): void;
-
   /** 处理鼠标移出 */
   handleItemMouseleave(e: GraphEvent): void;
-
   /** 格式化文本  */
   formatText?(model: NodeModel): string;
 }
 
-const nodePopoverBehavior = {
+const nodePopoverBehavior: NodePopoverBehavior = {
   getPopoverText(model) {
     let text = model.label;
     const { formatText } = this;
@@ -47,7 +40,7 @@ const nodePopoverBehavior = {
     };
   },
 
-  getPopoverPosition(item: Item) {
+  getPopoverPosition(item: G6.Item) {
     const { graph } = this;
 
     const { x: relativeX, y: relativeY } = item.getKeyShape().getBBox();
@@ -98,9 +91,9 @@ const nodePopoverBehavior = {
     this.showPopover(e);
   },
 
-  handleItemMouseleave(e) {
+  handleItemMouseleave() {
     this.hidePopover();
   },
-} as NodePopoverBehavior;
+};
 
 behaviorManager.register('node-popover', nodePopoverBehavior);
