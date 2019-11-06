@@ -1,5 +1,4 @@
 import globalStyle from '../../common/globalStyle';
-import { Item } from '@/common/interfaces';
 
 interface ThisProps {
   addingEdge: boolean;
@@ -14,7 +13,7 @@ const {
   zIndex,
 } = globalStyle;
 
-function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
+function handleAnchor(this: ThisProps, name: string, value: any, item: G6.Item) {
   const model = item.getModel();
   // 拿到 group
   const group = item.getContainer();

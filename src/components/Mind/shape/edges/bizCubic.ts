@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { G } from '@/common/interfaces/g';
-import { Edge, EdgeModel } from '@/common/interfaces';
+import { G } from '@antv/g6/types/g';
+import { EdgeModel } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {
@@ -17,11 +17,11 @@ const options = {
     edgeShape.attr({ ...commonStyle });
   },
 
-  afterUpdate(model: EdgeModel, item: Edge) {
+  afterUpdate(model: EdgeModel, item: G6.Edge) {
     item.getKeyShape().attr({ ...commonStyle });
   },
 
-  setState(name: ItemState, value: boolean, edge: Edge): void {
+  setState(name: ItemState, value: boolean, edge: G6.Edge): void {
     const shape: G.Shape = edge.getContainer().get('children')[0];
     const states = edge.getStates();
 

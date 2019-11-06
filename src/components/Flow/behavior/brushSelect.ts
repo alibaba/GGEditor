@@ -1,6 +1,6 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { G } from '@/common/interfaces/g';
-import { Item, Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
+import { G } from '@antv/g6/types/g';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 const min = Math.min;
@@ -22,10 +22,10 @@ interface BrushBehavior extends Behavior {
 
 interface DefaultConfig {
   brushStyle: object;
-  onSelect: (selectedNodes: Node[], selectedEdges: Edge[]) => void;
-  onDeselect: (selectedNodes: Node[], selectedEdges: Edge[]) => void;
-  selectedNodes: Node[];
-  selectedEdges: Edge[];
+  onSelect: (selectedNodes: G6.Node[], selectedEdges: G6.Edge[]) => void;
+  onDeselect: (selectedNodes: G6.Node[], selectedEdges: G6.Edge[]) => void;
+  selectedNodes: G6.Node[];
+  selectedEdges: G6.Edge[];
   includeEdges: boolean;
 }
 
@@ -132,8 +132,8 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & This
 
     const nodes = graph.findAllByState(ItemType.Node, ItemState.Selected);
     const edges = graph.findAllByState(ItemType.Edge, ItemState.Selected);
-    nodes.forEach((node: Item) => graph.setItemState(node, ItemState.Selected, false));
-    edges.forEach((edge: Item) => graph.setItemState(edge, ItemState.Selected, false));
+    nodes.forEach((node: G6.Item) => graph.setItemState(node, ItemState.Selected, false));
+    edges.forEach((edge: G6.Item) => graph.setItemState(edge, ItemState.Selected, false));
 
     this.selectedNodes = [];
 
@@ -153,9 +153,9 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & This
     const right = max(p1.x, p2.x);
     const top = min(p1.y, p2.y);
     const bottom = max(p1.y, p2.y);
-    const selectedNodes: Node[] = [];
+    const selectedNodes: G6.Node[] = [];
     const selectedIds: string[] = [];
-    graph.getNodes().forEach((node: Node) => {
+    graph.getNodes().forEach((node: G6.Node) => {
       const bbox = node.getBBox();
       if (bbox.centerX >= left && bbox.centerX <= right && bbox.centerY >= top && bbox.centerY <= bottom) {
         selectedNodes.push(node);
@@ -165,7 +165,7 @@ const brushSelect: BrushBehavior & ThisType<BrushBehavior & DefaultConfig & This
       }
     });
 
-    const selectedEdges: Edge[] = [];
+    const selectedEdges: G6.Edge[] = [];
     if (this.includeEdges) {
       // 选中边，边的source和target都在选中的节点中时才选中
       selectedNodes.forEach(node => {
