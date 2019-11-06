@@ -1,4 +1,5 @@
 import upperFirst from 'lodash/upperFirst';
+import { G } from '@antv/g6/types/g';
 
 export const UtilCanvas = document.createElement('canvas');
 export const UtilCanvasContext = UtilCanvas.getContext('2d');
@@ -12,7 +13,7 @@ interface ShapeUtil {
 
   getExpandButtonPath: (param: { width: number; height: number }) => string;
 
-  itemStates({ item: Item, group: Group }): void;
+  itemStates(param: { item: G6.Item; group: G.Group }): void;
 
   [props: string]: any;
 }

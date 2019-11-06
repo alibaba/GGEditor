@@ -11,7 +11,7 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
-import { G } from '@/common/interfaces/g';
+import { G } from '@antv/g6/types/g';
 import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
 
 export interface ItemModel {
@@ -69,70 +69,6 @@ export interface MindNodeModel extends Omit<NodeModel, 'id'> {
   collapsed?: boolean;
 }
 
-/**
- * G6 绘图元素
- * @see https://www.yuque.com/antv/g6/item
- */
-export interface Item {
-  // 通用
-  getBBox(): G.Box;
-  getContainer(): G.Group;
-  getKeyShape(): G.Shape;
-  getModel<T = ItemModel>(): T;
-  getType(): ItemType;
-  getEdges(): Edge[];
-  enableCapture(enable: boolean): void;
-  clearCache(): void;
-  updatePosition(obj: { x?: number; y?: number }): void;
-  // 状态
-  show(): void;
-  hide(): void;
-  changeVisibility(visible: boolean): void;
-  isVisible(): boolean;
-  toFront(): void;
-  toBack(): void;
-  setState(state: string, enable: boolean): void;
-  clearStates(states: string | string[]): void;
-  getStates(): string[];
-  hasState(state: string): boolean;
-
-  // 其它
-  get(key: string): any;
-  set(key: string, value: any): void;
-}
-
-/**
- * G6 节点元素
- * @see https://www.yuque.com/antv/g6/node-api
- */
-export interface Node extends Item {
-  // 通用
-  getModel<T = NodeModel>(): T;
-
-  // 特有
-  getEdges(): Edge[];
-  getInEdges(): Edge[];
-  getOutEdges(): Edge[];
-
-  x: number;
-  y: number;
-}
-
-/**
- * G6 边线元素
- * @see https://www.yuque.com/antv/g6/edge-api
- */
-export interface Edge extends Item {
-  // 通用
-  getModel<T = EdgeModel>(): T;
-
-  // 特有
-  getSource(): Node;
-  getTarget(): Node;
-  setSource(source: Node): void;
-  setTarget(target: Node): void;
-}
-
 export interface LabelConfig {
   position: 'top' | 'bottom' | 'left' | 'right' | 'center';
   offset?: number;
@@ -169,7 +105,7 @@ export interface CustomShape<T, M> {
 /**
  * G6 自定义节点
  */
-export interface CustomNode<M = NodeModel> extends CustomShape<Node, M> {
+export interface CustomNode<M = NodeModel> extends CustomShape<G6.Node, M> {
   // 属性
   labelPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center';
 
@@ -181,7 +117,7 @@ export interface CustomNode<M = NodeModel> extends CustomShape<Node, M> {
 /**
  * G6 自定义边线
  */
-export interface CustomEdge<M = EdgeModel> extends CustomShape<Edge, M> {
+export interface CustomEdge<M = EdgeModel> extends CustomShape<G6.Edge, M> {
   // 属性
   labelPosition?: 'start' | 'end' | 'center';
   labelAutoRotate?: boolean;
@@ -219,7 +155,7 @@ export interface GraphEvent {
   target: G.Shape;
   type: string;
   currentTarget: object;
-  item: Item;
+  item: G6.Item;
   removed: boolean;
   timeStamp: number;
   bubbles: boolean;

@@ -1,6 +1,6 @@
 import { GraphType, ItemType, ItemState } from '@/common/constants';
-import { G } from '@/common/interfaces/g';
-import { Item, Node, Behavior, GraphEvent } from '@/common/interfaces';
+import { G } from '@antv/g6/types/g';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import globalStyle from '../common/globalStyle';
 
@@ -13,7 +13,7 @@ interface DragNodeBehavior extends Behavior {
   onDragEnd(e: GraphEvent): void;
   onOutOfRange(e: GraphEvent): void;
   _update(e: GraphEvent, force: boolean): void;
-  _updateDelegate(item: Node, x: number, y: number): void;
+  _updateDelegate(item: G6.Node, x: number, y: number): void;
   drawMultipleDelegate(): void;
 }
 
@@ -27,8 +27,8 @@ interface ThisProps {
     x: number;
     y: number;
   };
-  target?: Item;
-  selectedNodes?: Node[];
+  target?: G6.Item;
+  selectedNodes?: G6.Node[];
   multipleDelegate: G.Shape;
   fn: EventListenerObject;
   mdOrigin: { x: number; y: number };
@@ -70,7 +70,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     this.target = e.item;
     // 单节点拖拽当做多节点拖拽的特例
     this.selectedNodes = graph.findAllByState(ItemType.Node, ItemState.Selected) || [];
-    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item as Node);
+    if (this.selectedNodes.length == 0) this.selectedNodes.push(e.item as G6.Node);
   },
 
   onDrag(e) {
@@ -85,7 +85,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     const { selectedNodes } = this;
     // 清理委托图形与对齐线
     selectedNodes
-      .map((item: Node) => item.get('delegateShape'))
+      .map((item: G6.Node) => item.get('delegateShape'))
       .forEach((ds: any) => {
         if (ds) {
           ['HTL', 'HCL', 'HBL', 'VLL', 'VCL', 'VRL'].forEach(lname => {
@@ -96,7 +96,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
         }
       });
 
-    selectedNodes.forEach((node: Node) => node.set('delegateShape', null));
+    selectedNodes.forEach((node: G6.Node) => node.set('delegateShape', null));
     this._update(e, true);
     if (this.multipleDelegate) {
       this.multipleDelegate.remove(false);
@@ -130,7 +130,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     const { selectedNodes, showDelegate, origin } = this;
     const offsetX = e.x - origin.x;
     const offsetY = e.y - origin.y;
-    const moveXY = (item: Node) => {
+    const moveXY = (item: G6.Node) => {
       const model = item.getModel();
       const bbox = item.getBBox();
       const x = model.x - bbox.width / 2 + offsetX;
@@ -142,7 +142,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
       if (selectedNodes.length > 1 && !this.multipleDelegate) this.drawMultipleDelegate();
       // this._updateDelegate(item, x, y);
       // 更新所有委托图形的位置;
-      selectedNodes.forEach((node: Node) => {
+      selectedNodes.forEach((node: G6.Node) => {
         const { x, y } = moveXY(node);
         this._updateDelegate(node, x, y);
       });
@@ -155,14 +155,14 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
       return;
     }
     if (this.updateEdge) {
-      selectedNodes.forEach((node: Node) => {
+      selectedNodes.forEach((node: G6.Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
         this.graph.updateItem(node, { x, y });
       });
     } else {
-      selectedNodes.forEach((node: Node) => {
+      selectedNodes.forEach((node: G6.Node) => {
         const model = node.getModel();
         const x = model.x + offsetX;
         const y = model.y + offsetY;
@@ -172,7 +172,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     }
   },
 
-  _updateDelegate(item: Node, x: number, y: number) {
+  _updateDelegate(item: G6.Node, x: number, y: number) {
     let shape = item.get('delegateShape');
     const bbox = item.get('keyShape').getBBox();
 
@@ -220,7 +220,7 @@ const dragNode: DragNodeBehavior & ThisType<DragNodeBehavior & DefaultConfig & T
     const nodes = this.selectedNodes;
     const xs: number[] = [];
     const ys: number[] = [];
-    nodes.forEach((n: Node) => {
+    nodes.forEach((n: G6.Node) => {
       const { minX, minY, maxX, maxY } = n.getBBox();
       xs.push(minX, maxX);
       ys.push(minY, maxY);

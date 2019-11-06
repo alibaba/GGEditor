@@ -1,12 +1,11 @@
-import { Edge } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
-import { G } from '@/common/interfaces/g';
+import { G } from '@antv/g6/types/g';
 import globalStyle from '../../common/globalStyle';
 
 const { edgeStyle } = globalStyle;
 
 // 选中时改变边框颜色
-export default function drawHighlightEdge(name: ItemState, value: boolean, item: Edge) {
+export default function drawHighlightEdge(name: ItemState, value: boolean, item: G6.Edge) {
   const keyShape = item.getKeyShape() as G.Shape & { endArrow?: G.Shape };
 
   const revertStyle = () => {

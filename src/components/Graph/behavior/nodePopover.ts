@@ -1,13 +1,13 @@
 import G6 from '@antv/g6';
 import { EditorEvent } from '@/common/constants';
-import { ItemModel, NodeModel, Item, Behavior, GraphEvent } from '@/common/interfaces';
+import { ItemModel, NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface NodePopoverBehavior extends Behavior {
   /** 获取nodePopover展示文本 */
   getPopoverText(model: ItemModel): string | undefined;
   /** 获取nodePopover的位置 */
-  getPopoverPosition(item: Item): { x: number; y: number };
+  getPopoverPosition(item: G6.Item): { x: number; y: number };
   /** 显示nodePopover */
   showPopover(e: GraphEvent): void;
   /** 隐藏nodePopover */
@@ -40,7 +40,7 @@ const nodePopoverBehavior: NodePopoverBehavior = {
     };
   },
 
-  getPopoverPosition(item: Item) {
+  getPopoverPosition(item: G6.Item) {
     const { graph } = this;
 
     const { x: relativeX, y: relativeY } = item.getKeyShape().getBBox();

@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@/common/constants';
-import { G } from '@/common/interfaces/g';
-import { Item, NodeModel, CustomNode, MindNodeModel } from '@/common/interfaces';
+import { G } from '@antv/g6/types/g';
+import { NodeModel, CustomNode, MindNodeModel } from '@/common/interfaces';
 import Util from './util';
 
 export interface BizNode extends CustomNode {
@@ -219,7 +219,7 @@ export const bizOption: BizNode = {
     }
   },
 
-  setStateStyle(item: Item) {
+  setStateStyle(item: G6.Item) {
     const statesArr = item.getStates();
     const group = item.getContainer();
     const allChildren = group.get('children');

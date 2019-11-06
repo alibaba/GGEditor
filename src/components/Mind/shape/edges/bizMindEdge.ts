@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
-import { G } from '@/common/interfaces/g';
-import { Node, Edge, EdgeModel } from '@/common/interfaces';
+import { G } from '@antv/g6/types/g';
+import { EdgeModel } from '@/common/interfaces';
 import { ItemState } from '@/common/constants';
 
 const commonStyle = {
@@ -16,8 +16,8 @@ const wrapperOffset = 4;
 
 const options = {
   draw(model: EdgeModel, group: G.Group) {
-    const startNode = (model.source as unknown) as Node;
-    const endNode = (model.target as unknown) as Node;
+    const startNode = (model.source as unknown) as G6.Node;
+    const endNode = (model.target as unknown) as G6.Node;
     /**
      * left side: (x,y) is on the left-top point of a keyShape
      * right side: (x,y) is on the right-top point of a keyShape
@@ -150,7 +150,7 @@ const options = {
     });
   },
 
-  setState(name: ItemState, value: boolean, edge: Edge): void {
+  setState(name: ItemState, value: boolean, edge: G6.Edge): void {
     const shape: G.Shape = edge.getContainer().get('children')[0];
     const states = edge.getStates();
 
