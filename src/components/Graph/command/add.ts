@@ -1,12 +1,12 @@
 import { guid } from '@/utils';
 import { ItemType } from '@/common/constants';
-import { ItemModel } from '@/common/interfaces';
+import { NodeModel, EdgeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from './base';
 
 interface AddCommandParams {
   type: ItemType;
-  model: ItemModel;
+  model: NodeModel | EdgeModel;
 }
 
 const addCommand: BaseCommand<AddCommandParams> = {
