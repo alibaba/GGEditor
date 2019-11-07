@@ -5112,7 +5112,7 @@
 	    },
 	    /* 绘制文本 */
 	    drawLabel(model, group) {
-	        return group.addShape('text', {
+	        const label = group.addShape('text', {
 	            className: ShapeClassName.Label,
 	            attrs: {
 	                textAlign: 'left',
@@ -5123,54 +5123,56 @@
 	                y: 0,
 	            },
 	        });
+	        label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
+	        return label;
 	    },
 	    /* 更新 */
 	    update(model, item) {
 	        const group = item.getContainer();
 	        const label = group.findByClassName(ShapeClassName.Label);
 	        label.remove();
-	        this.drawLabel(model, group);
-	        this.alignLabel(label);
+	        const newLabel = this.drawLabel(model, group);
+	        this.alignLabel(newLabel);
 	    },
 	    /* 根据尺寸重设节点文本 */
-	    resetLabel(label) {
-	        const text = label.attr('text');
-	        if (typeof text !== 'string' || text === '')
-	            return;
+	    resetLabelText(label, maxWidth, maxLine = 2) {
+	        const initialText = label.attr('text');
+	        if (typeof initialText !== 'string' || initialText === '')
+	            return initialText;
 	        const { fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = label.attr();
-	        const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
-	        let resultString = '';
-	        // 省略号的宽度
-	        UtilCanvasContext.font = font;
+	        const initialFont = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
+	        UtilCanvasContext.font = initialFont;
 	        const ellipseWidth = UtilCanvasContext.measureText('...').width;
-	        // 节点内边距10
-	        const labelWidth = keyShapeSize.width - 20;
-	        // 折行处理
-	        for (const char of text) {
+	        const lines = [];
+	        let tempStr = '';
+	        for (let i = 0; i < initialText.length; i++) {
+	            const char = initialText[i];
 	            if (/\s/.test(char)) {
 	                continue;
 	            }
-	            if (UtilCanvasContext.measureText(resultString).width < labelWidth) {
-	                resultString += char;
-	            }
-	            else {
-	                resultString += '\n';
-	            }
-	        }
-	        const splitResult = resultString.split('\n');
-	        if (splitResult.length === 1) {
-	            return splitResult[0];
-	        }
-	        const temp = '';
-	        for (const char of splitResult[1]) {
-	            if (/\s/.test(char)) {
-	                continue;
-	            }
-	            if (UtilCanvasContext.measureText(temp).width <= labelWidth - ellipseWidth) {
-	                resultString += char;
+	            tempStr += char;
+	            if (UtilCanvasContext.measureText(tempStr).width > maxWidth || i === initialText.length - 1) {
+	                lines.push(tempStr);
+	                // 超出的字符放在下一行
+	                tempStr = char;
 	            }
 	        }
-	        return `${splitResult[0]}\n${temp}...`;
+	        const lastLine = lines[maxLine - 1];
+	        // 没有最后一行文本或最后一行文本宽度不超，则直接返回
+	        if (!lastLine || UtilCanvasContext.measureText(lastLine).width < maxWidth) {
+	            return lines.join('\n').trim();
+	        }
+	        // 添加省略号
+	        let newLastLine = '';
+	        for (const char of lastLine) {
+	            if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipseWidth) {
+	                newLastLine += char;
+	            }
+	        }
+	        return lines
+	            .slice(0, maxLine - 1)
+	            .concat(`${newLastLine}...`)
+	            .join('\n');
 	    },
 	    /* 调整节点文本的位置 */
 	    alignLabel(label) {
