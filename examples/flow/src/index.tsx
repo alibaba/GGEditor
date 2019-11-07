@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow } from '../../../lib';
+import GGEditor, { Flow } from '../../../src';
 import styles from './index.less';
 
 const data = {
@@ -38,7 +38,7 @@ class Index extends React.Component {
   render() {
     return (
       <GGEditor className={styles.editor}>
-        <Flow className={styles.editorBd} data={data} />
+        <Flow className={styles.editorBd} data={data} graphConfig={{ defaultNode: { shape: 'bizTreeNode' } }} />
       </GGEditor>
     );
   }

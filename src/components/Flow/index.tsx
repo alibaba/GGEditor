@@ -8,6 +8,7 @@ import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext'
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
+import '@/components/Graph/shape/nodes/bizTreeNode';
 import './shape';
 import './behavior';
 
