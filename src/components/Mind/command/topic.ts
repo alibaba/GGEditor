@@ -1,12 +1,12 @@
 import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
-import { MindNodeModel } from '@/common/interfaces';
+import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
 interface TopicCommandParams {
   id: string;
-  model: MindNodeModel;
+  model: MindData;
 }
 
 export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
