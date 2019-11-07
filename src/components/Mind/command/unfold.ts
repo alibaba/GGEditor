@@ -1,4 +1,4 @@
-import { MindNodeModel } from '@/common/interfaces';
+import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
 import { foldCommand } from './fold';
@@ -18,7 +18,7 @@ const unfoldCommand: BaseCommand<UnfoldCommandParams> = {
     }
 
     const selectedNode = selectedNodes[0];
-    const selectedNodeModel = selectedNode.getModel<MindNodeModel>();
+    const selectedNodeModel = selectedNode.getModel<MindData>();
 
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;
