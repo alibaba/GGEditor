@@ -3,11 +3,11 @@ import { ShapeClassName } from '@/common/constants';
 import Util from '@/components/Graph/shape/nodes/util';
 import '@/components/Graph/shape/nodes/bizNode';
 import { G } from '@antv/g6/types/g';
-import { MindNodeModel, CustomNode } from '@/common/interfaces';
+import { MindData, CustomNode } from '@/common/interfaces';
 import { bizOption } from '@/components/Graph/shape/nodes/bizNode';
 
-export interface BizMindNodeOptions extends CustomNode<MindNodeModel> {
-  drawExpandOrCollapseButton: (model: MindNodeModel, group: G.Group) => any;
+export interface BizMindNodeOptions extends CustomNode<MindData> {
+  drawExpandOrCollapseButton: (model: MindData, group: G.Group) => any;
   [props: string]: any;
 }
 
@@ -16,7 +16,7 @@ const options: BizMindNodeOptions = {
   /**
    * main draw method
    * */
-  draw(model: MindNodeModel, group) {
+  draw(model: MindData, group) {
     this.drawWrapper(model, group);
     const keyShape = this.drawKeyShape(model, group);
     this.drawLabel(model, group);
@@ -31,7 +31,7 @@ const options: BizMindNodeOptions = {
     return keyShape;
   },
 
-  update(model: MindNodeModel, item) {
+  update(model: MindData, item) {
     const group = item.getContainer();
 
     const button = group.findByClassName(ShapeClassName.CollapseExpandButton);

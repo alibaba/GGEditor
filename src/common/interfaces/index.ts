@@ -14,65 +14,128 @@ import {
 import { G } from '@antv/g6/types/g';
 import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
 
-export interface ItemModel {
-  /** 元素 ID */
+interface LabelStyle {
+  // 文本颜色
+  fill?: string;
+  // 文本描边颜色
+  stroke?: string;
+  // 文本描边宽度
+  lineWidth?: number;
+  // 文本透明度
+  opacity?: number;
+  // 文本字体属性
+  font?: string;
+  // 文本字体大小
+  fontSize?: number;
+
+  [propName: string]: any;
+}
+
+interface NodeLabelCfg {
+  position?: 'center' | 'top' | 'right' | 'bottom' | 'left';
+  offset?: number;
+  style?: LabelStyle;
+}
+
+interface EdgeLabelCfg {
+  position?: 'start' | 'end' | 'center';
+  refX?: number;
+  refY?: number;
+  style?: LabelStyle;
+  autoRotate?: boolean;
+}
+
+/**
+ * G6 内置节点
+ * @see https://www.yuque.com/antv/g6/internal-node
+ */
+export interface NodeModel {
   id: string;
-  /** 元素样式 */
-  style?: object;
-  /** 元素形状 */
   shape?: string;
-  /** 元素标签 */
+  style?: {
+    // 节点填充颜色
+    fill?: string;
+    // 节点描边颜色
+    stroke?: string;
+    // 节点描边宽度
+    lineWidth?: number;
+    // 节点阴影颜色
+    shadowColor?: string;
+    // 节点阴影范围
+    shadowBlur?: number;
+    // 节点阴影 x 方向偏移量
+    shadowOffsetX?: number;
+    // 节点阴影 y 方向偏移量
+    shadowOffsetY?: number;
+
+    [propName: string]: any;
+  };
   label?: string;
-  /** 元素标签配置 */
-  labelCfg?: {
-    /** 标签文本样式 */
-    style?: any;
-    /** 标签默认文本 */
-    defaultText?: string;
-    /** 标签最大宽度 */
-    maxWidth?: number;
+  labelCfg?: NodeLabelCfg;
+  x?: number;
+  y?: number;
+  size?: number | number[];
+  anchorPoints?: number[][];
+}
+
+/**
+ * G6 内置边线
+ * @see https://www.yuque.com/antv/g6/internal-edge
+ */
+export interface EdgeModel {
+  id: string;
+  shape?: string;
+  style?: {
+    // 边线颜色
+    stroke?: string;
+    // 边线宽度
+    lineWidth?: number;
+    // 边线响应宽度
+    lineAppendWidth?: number;
+    // 边线结束箭头
+    endArrow: boolean;
+    // 边线透明度
+    strokeOpacity: number;
+    // 边线阴影颜色
+    shadowColor?: string;
+    // 边线阴影范围
+    shadowBlur?: number;
+    // 边线阴影 x 方向偏移量
+    shadowOffsetX?: number;
+    // 边线阴影 y 方向偏移量
+    shadowOffsetY?: number;
+  };
+  label?: string;
+  labelCfg?: EdgeLabelCfg;
+  source: string;
+  target: string;
+  sourceAnchor?: number;
+  targetAnchor?: number;
+  startPoint?: {
+    x: number;
+    y: number;
+  };
+  endPoint?: {
+    x: number;
+    y: number;
   };
 }
 
-export interface NodeModel extends ItemModel {
-  /** 元素 X 坐标 */
-  x?: number;
-  /** 元素 Y 坐标 */
-  y?: number;
-  /** 节点尺寸 */
-  size?: [number, number];
+/**
+ * FlowData
+ */
+export interface FlowData {
+  nodes: Partial<NodeModel>[];
+  edges: Partial<EdgeModel>[];
 }
 
-export interface EdgeModel extends ItemModel {
-  /** 起始节点id */
-  source: string;
-  /** 终止节点id */
-  target: string;
-  /** 起始点 */
-  startPoint?: { x: number; y: number };
-  /** 终止点 */
-  endPoint?: { x: number; y: number };
-}
-
-export interface FlowNodeModel extends Omit<NodeModel, 'id'> {
-  id?: string;
-}
-
-export interface FlowEdgeModel extends Omit<EdgeModel, 'id'> {
-  id?: string;
-}
-
-export interface MindNodeModel extends Omit<NodeModel, 'id'> {
+/**
+ * MindData
+ */
+export interface MindData extends Partial<NodeModel> {
   isRoot?: boolean;
-  id?: string;
-  children?: MindNodeModel[];
+  children?: MindData[];
   collapsed?: boolean;
-}
-
-export interface LabelConfig {
-  position: 'top' | 'bottom' | 'left' | 'right' | 'center';
-  offset?: number;
-  style?: React.CSSProperties;
 }
 
 /**
@@ -97,8 +160,8 @@ export interface CustomShape<T, M> {
 
   // 通用
   getShape?(type: ItemType): CustomNode | CustomEdge;
-  getLabelStyle?(model: M, labelConfig: LabelConfig, group: G.Group): React.CSSProperties;
-  getLabelStyleByPosition?(model: M, labelConfig: LabelConfig, group: G.Group): React.CSSProperties;
+  getLabelStyle?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
+  getLabelStyleByPosition?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
   getShapeStyle?(model: M): React.CSSProperties;
 }
 
@@ -107,7 +170,7 @@ export interface CustomShape<T, M> {
  */
 export interface CustomNode<M = NodeModel> extends CustomShape<G6.Node, M> {
   // 属性
-  labelPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center';
+  labelPosition?: 'center' | 'top' | 'right' | 'bottom' | 'left';
 
   // 通用
   getAnchorPoints?(): number[][];
@@ -235,13 +298,6 @@ export type GraphReactEvent =
   | keyof typeof GraphEdgeEvent
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
-
-export interface FlowData {
-  nodes: FlowNodeModel[];
-  edges: FlowEdgeModel[];
-}
-
-export interface MindData extends MindNodeModel {}
 
 export interface FlowAndMindCommonProps
   extends EditorPrivateContextProps,

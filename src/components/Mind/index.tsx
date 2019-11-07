@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@/common/constants';
-import { MindData, FlowAndMindCommonProps, MindNodeModel } from '@/common/interfaces';
+import { MindData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -53,7 +53,7 @@ class Mind extends React.Component<MindProps, MindState> {
     });
   };
 
-  getHGap(model: MindNodeModel) {
+  getHGap(model: MindData) {
     let totalTextWidth = 0;
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 40;
@@ -71,7 +71,7 @@ class Mind extends React.Component<MindProps, MindState> {
     return totalTextWidth + 10;
   }
 
-  getVGap(model: MindNodeModel) {
+  getVGap(model: MindData) {
     let totalTextWidth = 0;
 
     if (typeof model.label !== 'string' || !UtilCanvasContext) return 5;

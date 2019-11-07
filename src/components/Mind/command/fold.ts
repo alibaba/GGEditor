@@ -1,4 +1,4 @@
-import { MindNodeModel } from '@/common/interfaces';
+import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { baseCommand, BaseCommand } from '../../Graph/command/base';
 
@@ -21,7 +21,7 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
     }
 
     const selectedNode = selectedNodes[0];
-    const selectedNodeModel = selectedNode.getModel<MindNodeModel>();
+    const selectedNodeModel = selectedNode.getModel<MindData>();
 
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;
@@ -36,7 +36,7 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
 
   init(graph) {
     const selectedNode = this.getSelectedNodes(graph)[0];
-    const selectedNodeModel = selectedNode.getModel<MindNodeModel>();
+    const selectedNodeModel = selectedNode.getModel<MindData>();
 
     this.params = {
       id: selectedNodeModel.id,

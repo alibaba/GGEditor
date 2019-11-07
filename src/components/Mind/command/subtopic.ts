@@ -1,11 +1,11 @@
-import { MindNodeModel } from '@/common/interfaces';
+import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import { BaseCommand } from '../../Graph/command/base';
 import { topicCommand } from './topic';
 
 interface SubtopicCommandParams {
   id: string;
-  model: MindNodeModel;
+  model: MindData;
 }
 
 const subtopicCommand: BaseCommand<SubtopicCommandParams, G6.TreeGraph> = {

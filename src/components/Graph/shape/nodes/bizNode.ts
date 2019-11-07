@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { LABEL_DEFAULT_MAX_WIDTH, ShapeClassName } from '@/common/constants';
 import { G } from '@antv/g6/types/g';
-import { NodeModel, CustomNode, MindNodeModel } from '@/common/interfaces';
+import { NodeModel, CustomNode, MindData } from '@/common/interfaces';
 import Util from './util';
 
 export interface BizNode extends CustomNode {
@@ -187,7 +187,7 @@ export const bizOption: BizNode = {
     }
   },
 
-  adjustLabel({ keyShapeSize, label, model }: { keyShapeSize: any; label: G.Shape; model: MindNodeModel }) {
+  adjustLabel({ keyShapeSize, label, model }: { keyShapeSize: any; label: G.Shape; model: MindData }) {
     const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
     const labelWidth = label.getBBox().width;
     if (model.x > 0) {
