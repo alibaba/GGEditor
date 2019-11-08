@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow, RegisterNode } from '../../../src';
+import GGEditor, { Flow, RegisterNode } from '../../../lib';
 import styles from './index.less';
 
 const data = {
