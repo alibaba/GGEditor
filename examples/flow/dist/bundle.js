@@ -1909,6 +1909,7 @@
 	    ShapeClassName["Appendix"] = "node-appendix";
 	    ShapeClassName["Anchor"] = "Anchor";
 	    ShapeClassName["CollapseExpandButton"] = "CollapseExpandButton";
+	    ShapeClassName["FreshIcon"] = "FreshIcon";
 	})(ShapeClassName || (ShapeClassName = {}));
 	var ItemType;
 	(function (ItemType) {
@@ -5104,11 +5105,38 @@
 	                fill: '#fff',
 	            },
 	        });
+	        this.drawMenuIcon(model, group);
+	        this.drawFreshIcon(model, group);
 	        this.drawLabel(model, group);
 	        return keyShape;
 	    },
 	    afterDraw(model, group) {
 	        this.alignLabel(group.findByClassName(ShapeClassName.Label));
+	        this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
+	    },
+	    /* 绘制菜单按钮 */
+	    drawMenuIcon(model, group) {
+	        return group.addShape('image', {
+	            className: ShapeClassName.Appendix,
+	            attrs: {
+	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
+	                x: 0,
+	                y: 0,
+	                width: 20,
+	                cursor: 'pointer',
+	            },
+	        });
+	    },
+	    /* 绘制新节点标志 */
+	    drawFreshIcon(model, group) {
+	        return group.addShape('image', {
+	            className: ShapeClassName.FreshIcon,
+	            attrs: {
+	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTQgMCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg4YTYgNiAwIDAxNiA2djhINmE2IDYgMCAwMS02LTZWMHoiIGZpbGw9IiNGNEY2RjgiLz48Y2lyY2xlIGZpbGw9IiM2NTgwRUIiIHRyYW5zZm9ybT0icm90YXRlKDkwIDYuNSA3LjUpIiBjeD0iNi41IiBjeT0iNy41IiByPSIyLjUiLz48L2c+PC9zdmc+',
+	                x: 0,
+	                y: 0,
+	            },
+	        });
 	    },
 	    /* 绘制文本 */
 	    drawLabel(model, group) {
@@ -5178,6 +5206,10 @@
 	    alignLabel(label) {
 	        label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
 	        label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
+	    },
+	    /* 调整menuIcon位置 */
+	    alignMenuIcon(icon) {
+	        icon.attr('x', keyShapeSize.width - icon.getBBox().width);
 	    },
 	    /* 绘制包围层 */
 	    drawWrapper(model, group) {
