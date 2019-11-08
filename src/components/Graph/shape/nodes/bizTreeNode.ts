@@ -9,7 +9,23 @@ const keyShapeSize = {
   height: 54,
 };
 
-const options: CustomShape<Node, NodeModel> & { [property: string]: any } = {
+/* 继承节点时的可用配置 */
+export interface BizTreeNodeExtendableConfig {
+  /* menuIcon展示 */
+  showMenuIcon?: boolean;
+  /* 节点背景颜色 */
+  wrapperColor?: string;
+  /* 判断新增节点的model字段 */
+  freshFlag?: string;
+}
+
+const extendableConfig: BizTreeNodeExtendableConfig = {
+  showMenuIcon: true,
+};
+
+const options: CustomShape<Node, NodeModel> & { [property: string]: any } & BizTreeNodeExtendableConfig = {
+  ...extendableConfig,
+
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = group.addShape('rect', {
@@ -23,8 +39,11 @@ const options: CustomShape<Node, NodeModel> & { [property: string]: any } = {
         fill: '#fff',
       },
     });
-    this.drawMenuIcon(model, group);
-    this.drawFreshIcon(model, group);
+    this.showMenuIcon && this.drawMenuIcon(model, group);
+
+    if (typeof this.freshFlag === 'string') {
+      model[this.freshFlag] && this.drawFreshIcon(model, group);
+    }
     this.drawLabel(model, group);
 
     return keyShape;
@@ -176,7 +195,7 @@ const options: CustomShape<Node, NodeModel> & { [property: string]: any } = {
       height: keyShapeSize.height,
       x: 0,
       y: -4,
-      fill: '#6580EB',
+      fill: this.wrapperColor || '#6580EB',
       radius: 8,
       shadowBlur: 25,
       shadowColor: '#ccc',
@@ -189,7 +208,7 @@ const options: CustomShape<Node, NodeModel> & { [property: string]: any } = {
       height: keyShapeSize.height + 6,
       x: -2,
       y: -4,
-      fill: '#6580EB',
+      fill: this.wrapperColor || '#6580EB',
       radius: 8,
       shadowBlur: 25,
       shadowColor: '#ccc',

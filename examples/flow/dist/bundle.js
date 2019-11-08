@@ -5091,7 +5091,11 @@
 	    width: 114,
 	    height: 54,
 	};
+	const extendableConfig = {
+	    showMenuIcon: true,
+	};
 	const options = {
+	    ...extendableConfig,
 	    draw(model, group) {
 	        this.drawWrapper(model, group);
 	        const keyShape = group.addShape('rect', {
@@ -5105,8 +5109,10 @@
 	                fill: '#fff',
 	            },
 	        });
-	        this.drawMenuIcon(model, group);
-	        this.drawFreshIcon(model, group);
+	        this.showMenuIcon && this.drawMenuIcon(model, group);
+	        if (typeof this.freshFlag === 'string') {
+	            model[this.freshFlag] && this.drawFreshIcon(model, group);
+	        }
 	        this.drawLabel(model, group);
 	        return keyShape;
 	    },
@@ -5236,7 +5242,7 @@
 	            height: keyShapeSize.height,
 	            x: 0,
 	            y: -4,
-	            fill: '#6580EB',
+	            fill: this.wrapperColor || '#6580EB',
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
@@ -5248,7 +5254,7 @@
 	            height: keyShapeSize.height + 6,
 	            x: -2,
 	            y: -4,
-	            fill: '#6580EB',
+	            fill: this.wrapperColor || '#6580EB',
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
@@ -8343,6 +8349,7 @@
 	            label: '起止节点',
 	            x: 55,
 	            y: 55,
+	            fresh: true,
 	        },
 	        {
 	            id: '1',
@@ -8366,10 +8373,17 @@
 	        },
 	    ],
 	};
+	/* 自定义节点shape配置 */
+	const nodeShapeConfig = {
+	    wrapperColor: 'brown',
+	    showMenuIcon: true,
+	    freshFlag: 'fresh',
+	};
 	class Index extends React.Component {
 	    render() {
 	        return (React.createElement(GGEditor, { className: styles.editor },
-	            React.createElement(Flow$1, { className: styles.editorBd, data: data, graphConfig: { defaultNode: { shape: 'bizTreeNode' } } })));
+	            React.createElement(Flow$1, { className: styles.editorBd, data: data, graphConfig: { defaultNode: { shape: 'customFlowNode' } } }),
+	            React.createElement(RegisterNode, { name: "customFlowNode", extend: "bizTreeNode", config: nodeShapeConfig })));
 	    }
 	}
 	ReactDOM.render(React.createElement(Index, null), document.getElementById('root'));
