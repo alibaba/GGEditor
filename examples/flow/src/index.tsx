@@ -10,6 +10,7 @@ const data = {
       label: '起止节点',
       x: 55,
       y: 55,
+      fresh: true,
     },
     {
       id: '1',
@@ -34,11 +35,19 @@ const data = {
   ],
 };
 
+/* 自定义节点shape配置 */
+const nodeShapeConfig = {
+  wrapperColor: 'brown',
+  showMenuIcon: true,
+  freshFlag: 'fresh',
+};
+
 class Index extends React.Component {
   render() {
     return (
       <GGEditor className={styles.editor}>
-        <Flow className={styles.editorBd} data={data} />
+        <Flow className={styles.editorBd} data={data} graphConfig={{ defaultNode: { shape: 'customFlowNode' } }} />
+        <RegisterNode name="customFlowNode" extend="bizTreeNode" config={nodeShapeConfig} />
       </GGEditor>
     );
   }

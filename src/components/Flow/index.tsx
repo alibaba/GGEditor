@@ -10,6 +10,7 @@ import Graph from '@/components/Graph';
 
 import './shape';
 import './behavior';
+import '@/components/Graph/shape/nodes/bizTreeNode';
 
 interface FlowProps extends FlowAndMindCommonProps {
   data: FlowData;
