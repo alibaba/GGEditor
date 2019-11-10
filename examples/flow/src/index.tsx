@@ -37,7 +37,7 @@ const data = {
 
 /* 自定义节点shape配置 */
 const nodeShapeConfig = {
-  wrapperColor: 'brown',
+  themeColor: 'brown',
   showMenuIcon: true,
   freshFlag: 'fresh',
 };

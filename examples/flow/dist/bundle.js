@@ -3790,6 +3790,8 @@
 	    width: 114,
 	    height: 54,
 	};
+	/* 默认颜色 */
+	const defaultColor = '#6580EB';
 	const extendableConfig = {
 	    showMenuIcon: true,
 	};
@@ -3818,6 +3820,7 @@
 	    afterDraw(model, group) {
 	        this.alignLabel(group.findByClassName(ShapeClassName.Label));
 	        this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
+	        this.drawAnchors(model, group);
 	    },
 	    /* 绘制菜单按钮 */
 	    drawMenuIcon(model, group) {
@@ -3858,6 +3861,28 @@
 	        });
 	        label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
 	        return label;
+	    },
+	    /* 绘制锚点 */
+	    drawAnchors(model, group) {
+	        const anchorPoses = this.getAnchorPoints(model);
+	        anchorPoses.map(pos => {
+	            group.addShape('circle', {
+	                className: ShapeClassName.Anchor,
+	                visible: false,
+	                attrs: {
+	                    x: pos[0] * keyShapeSize.width,
+	                    y: pos[1] * keyShapeSize.height,
+	                    ...this[`get${ShapeClassName.Anchor}defaultStyle`](),
+	                },
+	            });
+	        });
+	    },
+	    /* 判断是否展示锚点 */
+	    toggleAnchorsVisibility(item) {
+	        const isVisible = item.getStates().includes(ItemState.Active);
+	        const group = item.getContainer();
+	        const anchors = group.findAll((shape) => shape.get('className') === ShapeClassName.Anchor);
+	        anchors.map(anchor => anchor.set('visible', isVisible));
 	    },
 	    /* 更新 */
 	    update(model, item) {
@@ -3930,6 +3955,8 @@
 	    /* 设置状态 */
 	    setState(name, value, item) {
 	        const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
+	        /* hover时展示anchors */
+	        this.toggleAnchorsVisibility(item);
 	        if (item.getStates().includes(ItemState.Selected)) {
 	            return this.setWrapperStateStyle(ItemState.Selected, wrapper);
 	        }
@@ -3937,6 +3964,9 @@
 	    },
 	    /* 锚点 */
 	    getAnchorPoints(model) {
+	        if (Array.isArray(model.anchorPoints)) {
+	            return model.anchorPoints;
+	        }
 	        return [[0, 0.5], [1, 0.5], [0.5, 0], [0.5, 1]];
 	    },
 	    [`get${ShapeClassName.Wrapper}defaultStyle`]() {
@@ -3945,7 +3975,7 @@
 	            height: keyShapeSize.height,
 	            x: 0,
 	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
+	            fill: this.themeColor || defaultColor,
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
@@ -3957,10 +3987,18 @@
 	            height: keyShapeSize.height + 6,
 	            x: -2,
 	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
+	            fill: this.themeColor || defaultColor,
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
+	        };
+	    },
+	    [`get${ShapeClassName.Anchor}defaultStyle`]() {
+	        return {
+	            stroke: this.themeColor || defaultColor,
+	            lineWidth: 2,
+	            fill: '#fff',
+	            r: 4,
 	        };
 	    },
 	};
@@ -6562,7 +6600,7 @@
 	};
 	/* 自定义节点shape配置 */
 	const nodeShapeConfig = {
-	    wrapperColor: 'brown',
+	    themeColor: 'brown',
 	    showMenuIcon: true,
 	    freshFlag: 'fresh',
 	};

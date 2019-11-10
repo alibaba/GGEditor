@@ -10,12 +10,15 @@ const keyShapeSize = {
   height: 54,
 };
 
+/* 默认颜色 */
+const defaultColor = '#6580EB';
+
 /* 继承节点时的可用配置 */
 export interface BizTreeNodeExtendableConfig {
   /* menuIcon展示 */
   showMenuIcon?: boolean;
-  /* 节点背景颜色 */
-  wrapperColor?: string;
+  /* 节点颜色主题 */
+  themeColor?: string;
   /* 判断新增节点的model字段 */
   freshFlag?: string;
 }
@@ -53,6 +56,7 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   afterDraw(model, group) {
     this.alignLabel(group.findByClassName(ShapeClassName.Label));
     this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
+    this.drawAnchors(model, group);
   },
 
   /* 绘制菜单按钮 */
@@ -98,6 +102,30 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     });
     label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
     return label;
+  },
+
+  /* 绘制锚点 */
+  drawAnchors(model: NodeModel, group: G.Group) {
+    const anchorPoses: number[][] = this.getAnchorPoints(model);
+    anchorPoses.map(pos => {
+      group.addShape('circle', {
+        className: ShapeClassName.Anchor,
+        visible: false,
+        attrs: {
+          x: pos[0] * keyShapeSize.width,
+          y: pos[1] * keyShapeSize.height,
+          ...this[`get${ShapeClassName.Anchor}defaultStyle`](),
+        },
+      });
+    });
+  },
+
+  /* 判断是否展示锚点 */
+  toggleAnchorsVisibility(item: G6.Node) {
+    const isVisible = item.getStates().includes(ItemState.Active);
+    const group = item.getContainer();
+    const anchors = group.findAll((shape: G.Shape) => shape.get('className') === ShapeClassName.Anchor);
+    anchors.map(anchor => anchor.set('visible', isVisible));
   },
 
   /* 更新 */
@@ -184,14 +212,21 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   setState(name, value, item) {
     const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
 
+    /* hover时展示anchors */
+    this.toggleAnchorsVisibility(item);
+
     if (item.getStates().includes(ItemState.Selected)) {
       return this.setWrapperStateStyle(ItemState.Selected, wrapper);
     }
+
     this.setWrapperStateStyle('default', wrapper);
   },
 
   /* 锚点 */
   getAnchorPoints(model) {
+    if (Array.isArray(model.anchorPoints)) {
+      return model.anchorPoints;
+    }
     return [[0, 0.5], [1, 0.5], [0.5, 0], [0.5, 1]];
   },
 
@@ -201,7 +236,7 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
       height: keyShapeSize.height,
       x: 0,
       y: -4,
-      fill: this.wrapperColor || '#6580EB',
+      fill: this.themeColor || defaultColor,
       radius: 8,
       shadowBlur: 25,
       shadowColor: '#ccc',
@@ -214,10 +249,19 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
       height: keyShapeSize.height + 6,
       x: -2,
       y: -4,
-      fill: this.wrapperColor || '#6580EB',
+      fill: this.themeColor || defaultColor,
       radius: 8,
       shadowBlur: 25,
       shadowColor: '#ccc',
+    };
+  },
+
+  [`get${ShapeClassName.Anchor}defaultStyle`]() {
+    return {
+      stroke: this.themeColor || defaultColor,
+      lineWidth: 2,
+      fill: '#fff',
+      r: 4,
     };
   },
 };
