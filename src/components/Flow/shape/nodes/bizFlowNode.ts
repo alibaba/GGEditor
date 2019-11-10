@@ -4,7 +4,7 @@ import { handleAnchor } from './anchor';
 import '../../../Graph/shape/nodes/bizNode';
 
 G6.registerNode(
-  'biz-flow-node',
+  'bizFlowNode',
   {
     handleAnchor,
     update(nextModel, item) {
