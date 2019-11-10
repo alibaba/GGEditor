@@ -22,6 +22,7 @@ const data = {
   ],
   edges: [
     {
+      label: '测试文案',
       source: '0',
       target: '1',
     },
