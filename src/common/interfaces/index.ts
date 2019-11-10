@@ -143,6 +143,9 @@ export interface MindData extends Partial<NodeModel> {
  * @see https://www.yuque.com/antv/g6/shape-api
  */
 export interface CustomShape<T, M> {
+  // 配置
+  options?: any;
+
   // 属性
   itemType?: ItemType;
 
