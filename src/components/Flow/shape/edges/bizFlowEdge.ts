@@ -3,6 +3,9 @@ import { G } from '@antv/g6/types/g';
 import { ItemState } from '@/common/constants';
 import { CustomEdge } from '@/common/interfaces';
 
+const EDGE_LABEL_CLASS_NAME = 'edge-label';
+const EDGE_LABEL_WRAPPER_CLASS_NAME = 'edge-label-wrapper-label';
+
 const bizFlowEdge: CustomEdge = {
   options: {
     style: {
@@ -21,7 +24,12 @@ const bizFlowEdge: CustomEdge = {
         d: 6,
       },
     },
-    labelCfg: {},
+    labelCfg: {
+      style: {
+        fill: '#000000',
+        fontSize: 10,
+      },
+    },
     stateStyles: {
       [ItemState.HighLight]: {
         stroke: '#5aaaff',
@@ -29,6 +37,40 @@ const bizFlowEdge: CustomEdge = {
         shadowBlur: 24,
       },
     },
+  },
+
+  afterDraw(model, group) {
+    // Draw label wrapper
+    group.addShape('rect', {
+      className: EDGE_LABEL_WRAPPER_CLASS_NAME,
+      attrs: {
+        fill: '#e1e5e8',
+        radius: 2,
+      },
+    });
+
+    // Set label zIndex
+    group.findByClassName(EDGE_LABEL_CLASS_NAME).set('zIndex', 1);
+
+    // Reorder
+    group.sort();
+  },
+
+  afterUpdate(model, item) {
+    const group = item.getContainer();
+
+    const label = group.findByClassName(EDGE_LABEL_CLASS_NAME);
+    const labelWrapper = group.findByClassName(EDGE_LABEL_WRAPPER_CLASS_NAME);
+
+    const { minX, minY, width, height } = label.getBBox();
+
+    // Set label wrapper attributes
+    labelWrapper.attr({
+      x: minX - 5,
+      y: minY - 3,
+      width: width + 10,
+      height: height + 6,
+    });
   },
 
   setState(name, value, item) {
