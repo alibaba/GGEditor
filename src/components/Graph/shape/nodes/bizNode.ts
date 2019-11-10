@@ -19,17 +19,9 @@ export interface BizTreeNodeExtendableConfig {
   showMenuIcon?: boolean;
   /* 节点颜色主题 */
   themeColor?: string;
-  /* 判断新增节点的model字段 */
-  freshFlag?: string;
 }
 
-const extendableConfig: BizTreeNodeExtendableConfig = {
-  showMenuIcon: true,
-};
-
 const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & BizTreeNodeExtendableConfig = {
-  ...extendableConfig,
-
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = group.addShape('rect', {
@@ -45,9 +37,7 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     });
     this.showMenuIcon && this.drawMenuIcon(model, group);
 
-    if (typeof this.freshFlag === 'string') {
-      model[this.freshFlag] && this.drawFreshIcon(model, group);
-    }
+    this.drawStatusIcon(model, group);
     this.drawLabel(model, group);
 
     return keyShape;
@@ -56,7 +46,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   afterDraw(model, group) {
     this.alignLabel(group.findByClassName(ShapeClassName.Label));
     this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
-    this.drawAnchors(model, group);
   },
 
   /* 绘制菜单按钮 */
@@ -74,17 +63,31 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     });
   },
 
-  /* 绘制新节点标志 */
-  drawFreshIcon(model, group) {
-    return group.addShape('image', {
-      className: ShapeClassName.FreshIcon,
-      attrs: {
-        img:
-          'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTQgMCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg4YTYgNiAwIDAxNiA2djhINmE2IDYgMCAwMS02LTZWMHoiIGZpbGw9IiNGNEY2RjgiLz48Y2lyY2xlIGZpbGw9IiM2NTgwRUIiIHRyYW5zZm9ybT0icm90YXRlKDkwIDYuNSA3LjUpIiBjeD0iNi41IiBjeT0iNy41IiByPSIyLjUiLz48L2c+PC9zdmc+',
-        x: 0,
-        y: 0,
-      },
-    });
+  /* 绘制状态标志 */
+  drawStatusIcon(model, group) {
+    if (model.statusIconColor) {
+      group.addShape('rect', {
+        className: ShapeClassName.StatusIcon,
+        attrs: {
+          width: 14,
+          height: 14,
+          fill: '#F4F6F8',
+          x: 0,
+          y: 0,
+          radius: [6, 0, 6, 0],
+        },
+      });
+
+      group.addShape('circle', {
+        className: ShapeClassName.StatusIcon,
+        attrs: {
+          r: 2.5,
+          x: 7,
+          y: 7,
+          fill: typeof model.statusIconColor === 'string' ? model.statusIconColor : defaultColor,
+        },
+      });
+    }
   },
 
   /* 绘制文本 */
@@ -104,35 +107,15 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     return label;
   },
 
-  /* 绘制锚点 */
-  drawAnchors(model: NodeModel, group: G.Group) {
-    const anchorPoses: number[][] = this.getAnchorPoints(model);
-    anchorPoses.map(pos => {
-      group.addShape('circle', {
-        className: ShapeClassName.Anchor,
-        visible: false,
-        attrs: {
-          x: pos[0] * keyShapeSize.width,
-          y: pos[1] * keyShapeSize.height,
-          ...this[`get${ShapeClassName.Anchor}defaultStyle`](),
-        },
-      });
-    });
-  },
-
-  /* 判断是否展示锚点 */
-  toggleAnchorsVisibility(item: G6.Node) {
-    const isVisible = item.getStates().includes(ItemState.Active);
-    const group = item.getContainer();
-    const anchors = group.findAll((shape: G.Shape) => shape.get('className') === ShapeClassName.Anchor);
-    anchors.map(anchor => anchor.set('visible', isVisible));
-  },
-
   /* 更新 */
   update(model, item) {
     const group = item.getContainer();
     const label = group.findByClassName(ShapeClassName.Label);
-    label.remove(true);
+    const statusIcon = group.findByClassName(ShapeClassName.StatusIcon);
+    label && label.remove(true);
+    statusIcon && statusIcon.remove(true);
+
+    this.drawStatusIcon(model, group);
     const newLabel = this.drawLabel(model, group);
     this.alignLabel(newLabel);
   },
@@ -211,9 +194,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   /* 设置状态 */
   setState(name, value, item) {
     const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
-
-    /* hover时展示anchors */
-    this.toggleAnchorsVisibility(item);
 
     if (item.getStates().includes(ItemState.Selected)) {
       return this.setWrapperStateStyle(ItemState.Selected, wrapper);

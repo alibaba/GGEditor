@@ -10,13 +10,14 @@ const data = {
       label: '起止节点',
       x: 55,
       y: 55,
-      fresh: true,
+      statusIconColor: true,
     },
     {
       id: '1',
       label: '结束节点',
       x: 55,
       y: 255,
+      statusIconColor: 'brown ',
     },
   ],
   edges: [
@@ -39,7 +40,6 @@ const data = {
 const nodeShapeConfig = {
   themeColor: 'brown',
   showMenuIcon: true,
-  freshFlag: 'fresh',
 };
 
 class Index extends React.Component {
