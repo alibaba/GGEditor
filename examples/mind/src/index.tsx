@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Mind } from '../../../lib';
+import GGEditor, { Mind } from '../../../src';
 import styles from './index.less';
 
 const data = {
