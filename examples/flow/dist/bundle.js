@@ -1150,11 +1150,11 @@
 	 * // => '1,2,3'
 	 */
 
-	function toString$1(value) {
+	function toString(value) {
 	  return value == null ? '' : _baseToString(value);
 	}
 
-	var toString_1 = toString$1;
+	var toString_1 = toString;
 
 	/**
 	 * Casts `value` to a path array if it's not one.
@@ -3782,6 +3782,190 @@
 	    return React.forwardRef((props, ref) => (React.createElement(InjectEditorContext, Object.assign({ forwardRef: ref }, props))));
 	};
 
+	const UtilCanvas = document.createElement('canvas');
+	const UtilCanvasContext = UtilCanvas.getContext('2d');
+
+	/* 节点固定宽高 */
+	const keyShapeSize = {
+	    width: 114,
+	    height: 54,
+	};
+	const extendableConfig = {
+	    showMenuIcon: true,
+	};
+	const options = {
+	    ...extendableConfig,
+	    draw(model, group) {
+	        this.drawWrapper(model, group);
+	        const keyShape = group.addShape('rect', {
+	            className: ShapeClassName.KeyShape,
+	            attrs: {
+	                width: keyShapeSize.width,
+	                height: keyShapeSize.height,
+	                x: 0,
+	                y: 0,
+	                radius: 6,
+	                fill: '#fff',
+	            },
+	        });
+	        this.showMenuIcon && this.drawMenuIcon(model, group);
+	        if (typeof this.freshFlag === 'string') {
+	            model[this.freshFlag] && this.drawFreshIcon(model, group);
+	        }
+	        this.drawLabel(model, group);
+	        return keyShape;
+	    },
+	    afterDraw(model, group) {
+	        this.alignLabel(group.findByClassName(ShapeClassName.Label));
+	        this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
+	    },
+	    /* 绘制菜单按钮 */
+	    drawMenuIcon(model, group) {
+	        return group.addShape('image', {
+	            className: ShapeClassName.Appendix,
+	            attrs: {
+	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
+	                x: 0,
+	                y: 0,
+	                width: 20,
+	                cursor: 'pointer',
+	            },
+	        });
+	    },
+	    /* 绘制新节点标志 */
+	    drawFreshIcon(model, group) {
+	        return group.addShape('image', {
+	            className: ShapeClassName.FreshIcon,
+	            attrs: {
+	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTQgMCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg4YTYgNiAwIDAxNiA2djhINmE2IDYgMCAwMS02LTZWMHoiIGZpbGw9IiNGNEY2RjgiLz48Y2lyY2xlIGZpbGw9IiM2NTgwRUIiIHRyYW5zZm9ybT0icm90YXRlKDkwIDYuNSA3LjUpIiBjeD0iNi41IiBjeT0iNy41IiByPSIyLjUiLz48L2c+PC9zdmc+',
+	                x: 0,
+	                y: 0,
+	            },
+	        });
+	    },
+	    /* 绘制文本 */
+	    drawLabel(model, group) {
+	        const label = group.addShape('text', {
+	            className: ShapeClassName.Label,
+	            attrs: {
+	                textAlign: 'left',
+	                textBaseline: 'top',
+	                text: model.label,
+	                fill: 'black',
+	                x: 0,
+	                y: 0,
+	            },
+	        });
+	        label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
+	        return label;
+	    },
+	    /* 更新 */
+	    update(model, item) {
+	        const group = item.getContainer();
+	        const label = group.findByClassName(ShapeClassName.Label);
+	        label.remove(true);
+	        const newLabel = this.drawLabel(model, group);
+	        this.alignLabel(newLabel);
+	    },
+	    /* 根据尺寸重设节点文本 */
+	    resetLabelText(label, maxWidth, maxLine = 2) {
+	        const initialText = label.attr('text');
+	        if (typeof initialText !== 'string' || initialText === '')
+	            return initialText;
+	        const { fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = label.attr();
+	        const initialFont = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
+	        UtilCanvasContext.font = initialFont;
+	        const ellipseWidth = UtilCanvasContext.measureText('...').width;
+	        const lines = [];
+	        let tempStr = '';
+	        for (let i = 0; i < initialText.length; i++) {
+	            const char = initialText[i];
+	            if (/\s/.test(char)) {
+	                continue;
+	            }
+	            tempStr += char;
+	            if (UtilCanvasContext.measureText(tempStr).width > maxWidth || i === initialText.length - 1) {
+	                lines.push(tempStr);
+	                // 超出的字符放在下一行
+	                tempStr = char;
+	            }
+	        }
+	        const lastLine = lines[maxLine - 1];
+	        // 没有最后一行文本或最后一行文本宽度不超，则直接返回
+	        if (!lastLine || UtilCanvasContext.measureText(lastLine).width < maxWidth) {
+	            return lines.join('\n').trim();
+	        }
+	        // 添加省略号
+	        let newLastLine = '';
+	        for (const char of lastLine) {
+	            if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipseWidth) {
+	                newLastLine += char;
+	            }
+	        }
+	        return lines
+	            .slice(0, maxLine - 1)
+	            .concat(`${newLastLine}...`)
+	            .join('\n');
+	    },
+	    /* 调整节点文本的位置 */
+	    alignLabel(label) {
+	        label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
+	        label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
+	    },
+	    /* 调整menuIcon位置 */
+	    alignMenuIcon(icon) {
+	        icon.attr('x', keyShapeSize.width - icon.getBBox().width);
+	    },
+	    /* 绘制包围层 */
+	    drawWrapper(model, group) {
+	        return group.addShape('rect', {
+	            className: ShapeClassName.Wrapper,
+	            attrs: this[`get${ShapeClassName.Wrapper}defaultStyle`](),
+	        });
+	    },
+	    /* 设置包围层状态样式 */
+	    setWrapperStateStyle(state, wrapper) {
+	        return wrapper.attr(this[`get${ShapeClassName.Wrapper}${state}Style`]());
+	    },
+	    /* 设置状态 */
+	    setState(name, value, item) {
+	        const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
+	        if (item.getStates().includes(ItemState.Selected)) {
+	            return this.setWrapperStateStyle(ItemState.Selected, wrapper);
+	        }
+	        this.setWrapperStateStyle('default', wrapper);
+	    },
+	    /* 锚点 */
+	    getAnchorPoints(model) {
+	        return [[0, 0.5], [1, 0.5], [0.5, 0], [0.5, 1]];
+	    },
+	    [`get${ShapeClassName.Wrapper}defaultStyle`]() {
+	        return {
+	            width: keyShapeSize.width,
+	            height: keyShapeSize.height,
+	            x: 0,
+	            y: -4,
+	            fill: this.wrapperColor || '#6580EB',
+	            radius: 8,
+	            shadowBlur: 25,
+	            shadowColor: '#ccc',
+	        };
+	    },
+	    [`get${ShapeClassName.Wrapper}selectedStyle`]() {
+	        return {
+	            width: keyShapeSize.width + 4,
+	            height: keyShapeSize.height + 6,
+	            x: -2,
+	            y: -4,
+	            fill: this.wrapperColor || '#6580EB',
+	            radius: 8,
+	            shadowBlur: 25,
+	            shadowColor: '#ccc',
+	        };
+	    },
+	};
+	G6.registerNode('bizNode', options);
+
 	class GGEditor extends React.Component {
 	    constructor(props) {
 	        super(props);
@@ -4769,6 +4953,45 @@
 	}
 	var Graph = withEditorPrivateContext(EditorGraph);
 
+	const activeEdgeBehavior = {
+	    graphType: GraphType.Flow,
+	    getEvents() {
+	        return {
+	            'edge:mouseenter': 'setAllItemStates',
+	            'edge:mouseleave': 'clearAllItemStates',
+	        };
+	    },
+	    shouldBegin(e) {
+	        // 拖拽过程中没有目标节点，只有 x, y 坐标，不点亮
+	        const edge = e.item;
+	        if (edge.getTarget().x)
+	            return false;
+	        return true;
+	    },
+	    setAllItemStates(e) {
+	        if (!this.shouldBegin(e))
+	            return;
+	        // 1.激活当前选中的边
+	        const { graph } = this;
+	        const edge = e.item;
+	        graph.setItemState(edge, 'active', true);
+	        // 2. 激活边关联的 sourceNode 与 targetNode
+	        graph.setItemState(edge.getTarget(), 'active', true);
+	        graph.setItemState(edge.getSource(), 'active', true);
+	    },
+	    clearAllItemStates(e) {
+	        if (!this.shouldBegin(e))
+	            return;
+	        // 状态还原
+	        const { graph } = this;
+	        const edge = e.item;
+	        graph.setItemState(edge, 'active', false);
+	        graph.setItemState(edge.getTarget(), 'active', false);
+	        graph.setItemState(edge.getSource(), 'active', false);
+	    },
+	};
+	behaviorManager.register('active-edge', activeEdgeBehavior);
+
 	var globalStyle = {
 	    alignLine: {
 	        // lineDash: [5],
@@ -4923,1612 +5146,8 @@
 	    },
 	};
 
-	const { anchorPointStyle, anchorPointHoverStyle, anchorHotsoptActivedStyle, anchorHotsoptStyle, banFlagStyle, zIndex, } = globalStyle;
-	function handleAnchor(name, value, item) {
-	    const model = item.getModel();
-	    // 拿到 group
-	    const group = item.getContainer();
-	    // 拿到所有的锚点
-	    const anchors = group.get('children').filter(e => e.get('className') === 'anchor');
-	    // 非拖拽状态
-	    if (!this.addingEdge && !item.hasState('addingSource')) {
-	        // 进入锚点激活锚点, value 为目标锚点
-	        // 离开锚点则清除所有锚点激活样式
-	        if (name === 'activeAnchor')
-	            value ? value.setActived && value.setActived() : anchors.forEach(a => a.clearActived());
-	        // 进入节点状态和选中状态显示所有锚点
-	        // 离开节点隐藏所有锚点
-	        if (name === 'active')
-	            value ? drawAnchor.call(this, model, group) : !item.hasState('selected') && anchors.forEach(a => a.remove());
-	        if (name === 'selected' && !value)
-	            anchors.forEach(a => a.remove());
-	    }
-	    else {
-	        // 拖拽状态下激活锚点则激活 hotspost 样式
-	        if (name === 'activeAnchor')
-	            value
-	                ? value.setHotspotActived && value.setHotspotActived(true)
-	                : anchors.forEach(a => a.setHotspotActived && a.setHotspotActived(false));
-	    }
-	    // 进入拖拽状态
-	    if (name === 'addingEdge')
-	        if (value) {
-	            this.addingEdge = true;
-	            const anchors = drawAnchor.call(this, model, group);
-	            // 拖拽状态下显示 hotspost
-	            anchors.forEach(a => a.showHotspot());
-	        }
-	        else {
-	            // 结束拖拽时清除所有锚点
-	            item
-	                .getContainer()
-	                .get('children')
-	                .filter(i => i.get('className') === 'anchor')
-	                .forEach(a => a.remove());
-	            this.addingEdge = false;
-	        }
-	    // 限制连入状态的锚点图形绘制
-	    // if (name === 'limitLink' && value) drawBanAnchor.call(this, model, group);
-	}
-	function drawAnchor(model, group) {
-	    const anchorPoints = this.getAnchorPoints();
-	    // 为每个点添加标记
-	    return anchorPoints.map((p, index) => {
-	        const keyShape = group.get('item').getKeyShape();
-	        const width = keyShape.attr('width') || keyShape.attr('r') * 2;
-	        const height = keyShape.attr('height') || keyShape.attr('r') * 2;
-	        const [x, y] = [p[0], p[1]];
-	        let hotspot;
-	        const attrs = {
-	            flowNode: { x: width * x + keyShape.attr('x'), y: height * y + keyShape.attr('y') },
-	            startNode: { x: width * x - width / 2, y: height * y - height / 2 },
-	            endNode: { x: width * x - width / 2, y: height * y - height / 2 },
-	        };
-	        const shape = group.addShape('marker', {
-	            className: 'anchor',
-	            attrs: {
-	                symbol: 'circle',
-	                ...anchorPointStyle,
-	                ...(attrs[keyShape.baseType] || attrs['flowNode']),
-	            },
-	            index,
-	            zIndex: zIndex.anchorPoint,
-	        });
-	        shape.showHotspot = () => {
-	            hotspot = group.addShape('marker', {
-	                className: 'anchor',
-	                attrs: {
-	                    symbol: 'circle',
-	                    ...anchorHotsoptStyle,
-	                    ...(attrs[keyShape.baseType] || attrs['flowNode']),
-	                },
-	                index,
-	                zIndex: zIndex.anchorHotsopt,
-	            });
-	            // 让 hotspot 显示在更上层的图层
-	            hotspot.toFront();
-	            shape.toFront();
-	        };
-	        shape.setActived = () => shape.attr(anchorPointHoverStyle);
-	        shape.clearActived = () => shape.attr(anchorPointStyle);
-	        shape.setHotspotActived = bool => {
-	            if (hotspot) {
-	                if (bool)
-	                    hotspot.attr(anchorHotsoptActivedStyle);
-	                else
-	                    hotspot.attr(anchorHotsoptStyle);
-	            }
-	        };
-	        return shape;
-	    });
-	}
-
-	/**
-	 * The base implementation of `_.slice` without an iteratee call guard.
-	 *
-	 * @private
-	 * @param {Array} array The array to slice.
-	 * @param {number} [start=0] The start position.
-	 * @param {number} [end=array.length] The end position.
-	 * @returns {Array} Returns the slice of `array`.
-	 */
-	function baseSlice(array, start, end) {
-	  var index = -1,
-	      length = array.length;
-
-	  if (start < 0) {
-	    start = -start > length ? 0 : length + start;
-	  }
-
-	  end = end > length ? length : end;
-
-	  if (end < 0) {
-	    end += length;
-	  }
-
-	  length = start > end ? 0 : end - start >>> 0;
-	  start >>>= 0;
-	  var result = Array(length);
-
-	  while (++index < length) {
-	    result[index] = array[index + start];
-	  }
-
-	  return result;
-	}
-
-	var _baseSlice = baseSlice;
-
-	/**
-	 * Casts `array` to a slice if it's needed.
-	 *
-	 * @private
-	 * @param {Array} array The array to inspect.
-	 * @param {number} start The start position.
-	 * @param {number} [end=array.length] The end position.
-	 * @returns {Array} Returns the cast slice.
-	 */
-
-	function castSlice(array, start, end) {
-	  var length = array.length;
-	  end = end === undefined ? length : end;
-	  return !start && end >= length ? array : _baseSlice(array, start, end);
-	}
-
-	var _castSlice = castSlice;
-
-	/** Used to compose unicode character classes. */
-	var rsAstralRange = '\\ud800-\\udfff',
-	    rsComboMarksRange = '\\u0300-\\u036f',
-	    reComboHalfMarksRange = '\\ufe20-\\ufe2f',
-	    rsComboSymbolsRange = '\\u20d0-\\u20ff',
-	    rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange,
-	    rsVarRange = '\\ufe0e\\ufe0f';
-	/** Used to compose unicode capture groups. */
-
-	var rsZWJ = '\\u200d';
-	/** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
-
-	var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange + rsComboRange + rsVarRange + ']');
-	/**
-	 * Checks if `string` contains Unicode symbols.
-	 *
-	 * @private
-	 * @param {string} string The string to inspect.
-	 * @returns {boolean} Returns `true` if a symbol is found, else `false`.
-	 */
-
-	function hasUnicode(string) {
-	  return reHasUnicode.test(string);
-	}
-
-	var _hasUnicode = hasUnicode;
-
-	/**
-	 * Converts an ASCII `string` to an array.
-	 *
-	 * @private
-	 * @param {string} string The string to convert.
-	 * @returns {Array} Returns the converted array.
-	 */
-	function asciiToArray(string) {
-	  return string.split('');
-	}
-
-	var _asciiToArray = asciiToArray;
-
-	/** Used to compose unicode character classes. */
-	var rsAstralRange$1 = '\\ud800-\\udfff',
-	    rsComboMarksRange$1 = '\\u0300-\\u036f',
-	    reComboHalfMarksRange$1 = '\\ufe20-\\ufe2f',
-	    rsComboSymbolsRange$1 = '\\u20d0-\\u20ff',
-	    rsComboRange$1 = rsComboMarksRange$1 + reComboHalfMarksRange$1 + rsComboSymbolsRange$1,
-	    rsVarRange$1 = '\\ufe0e\\ufe0f';
-	/** Used to compose unicode capture groups. */
-
-	var rsAstral = '[' + rsAstralRange$1 + ']',
-	    rsCombo = '[' + rsComboRange$1 + ']',
-	    rsFitz = '\\ud83c[\\udffb-\\udfff]',
-	    rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
-	    rsNonAstral = '[^' + rsAstralRange$1 + ']',
-	    rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
-	    rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
-	    rsZWJ$1 = '\\u200d';
-	/** Used to compose unicode regexes. */
-
-	var reOptMod = rsModifier + '?',
-	    rsOptVar = '[' + rsVarRange$1 + ']?',
-	    rsOptJoin = '(?:' + rsZWJ$1 + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
-	    rsSeq = rsOptVar + reOptMod + rsOptJoin,
-	    rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
-	/** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
-
-	var reUnicode = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
-	/**
-	 * Converts a Unicode `string` to an array.
-	 *
-	 * @private
-	 * @param {string} string The string to convert.
-	 * @returns {Array} Returns the converted array.
-	 */
-
-	function unicodeToArray(string) {
-	  return string.match(reUnicode) || [];
-	}
-
-	var _unicodeToArray = unicodeToArray;
-
-	/**
-	 * Converts `string` to an array.
-	 *
-	 * @private
-	 * @param {string} string The string to convert.
-	 * @returns {Array} Returns the converted array.
-	 */
-
-	function stringToArray(string) {
-	  return _hasUnicode(string) ? _unicodeToArray(string) : _asciiToArray(string);
-	}
-
-	var _stringToArray = stringToArray;
-
-	/**
-	 * Creates a function like `_.lowerFirst`.
-	 *
-	 * @private
-	 * @param {string} methodName The name of the `String` case method to use.
-	 * @returns {Function} Returns the new case function.
-	 */
-
-	function createCaseFirst(methodName) {
-	  return function (string) {
-	    string = toString_1(string);
-	    var strSymbols = _hasUnicode(string) ? _stringToArray(string) : undefined;
-	    var chr = strSymbols ? strSymbols[0] : string.charAt(0);
-	    var trailing = strSymbols ? _castSlice(strSymbols, 1).join('') : string.slice(1);
-	    return chr[methodName]() + trailing;
-	  };
-	}
-
-	var _createCaseFirst = createCaseFirst;
-
-	/**
-	 * Converts the first character of `string` to upper case.
-	 *
-	 * @static
-	 * @memberOf _
-	 * @since 4.0.0
-	 * @category String
-	 * @param {string} [string=''] The string to convert.
-	 * @returns {string} Returns the converted string.
-	 * @example
-	 *
-	 * _.upperFirst('fred');
-	 * // => 'Fred'
-	 *
-	 * _.upperFirst('FRED');
-	 * // => 'FRED'
-	 */
-
-	var upperFirst = _createCaseFirst('toUpperCase');
-	var upperFirst_1 = upperFirst;
-
-	const UtilCanvas = document.createElement('canvas');
-	const UtilCanvasContext = UtilCanvas.getContext('2d');
-	const Util = {
-	    optimizeMultilineText(text, font, maxWidth = 94) {
-	        UtilCanvasContext.font = font;
-	        if (UtilCanvasContext.measureText(text).width <= maxWidth) {
-	            return text;
-	        }
-	        let multilineText = '';
-	        let multilineTextWidth = 0;
-	        for (const char of text) {
-	            const { width } = UtilCanvasContext.measureText(char);
-	            if (multilineTextWidth + width >= maxWidth) {
-	                multilineText += '\n';
-	                multilineTextWidth = 0;
-	            }
-	            multilineText += char;
-	            multilineTextWidth += width;
-	        }
-	        return multilineText;
-	    },
-	    getRectPath(x, y, w, h, r) {
-	        if (r) {
-	            return [
-	                ['M', +x + +r, y],
-	                ['l', w - r * 2, 0],
-	                ['a', r, r, 0, 0, 1, r, r],
-	                ['l', 0, h - r * 2],
-	                ['a', r, r, 0, 0, 1, -r, r],
-	                ['l', r * 2 - w, 0],
-	                ['a', r, r, 0, 0, 1, -r, -r],
-	                ['l', 0, r * 2 - h],
-	                ['a', r, r, 0, 0, 1, r, -r],
-	                ['z'],
-	            ];
-	        }
-	        const res = [['M', x, y], ['l', w, 0], ['l', 0, h], ['l', -w, 0], ['z']];
-	        res.toString = toString;
-	        return res;
-	    },
-	    getCollapseButtonPath({ width, height }) {
-	        const rect = this.getRectPath(0, 0, width, height, 2);
-	        const hp = `M${(width * 3) / 14},${height / 2} L${(width * 11) / 14},${height / 2}`;
-	        const vp = '';
-	        return rect + hp + vp;
-	    },
-	    getExpandButtonPath({ width, height }) {
-	        const rect = this.getRectPath(0, 0, width, height, 2);
-	        const hp = `M${(width * 3) / 14},${height / 2} L${(width * 11) / 14},${height / 2}`;
-	        const vp = `M${width / 2},${(height * 3) / 14} L${width / 2},${(height * 11) / 14}`;
-	        return rect + hp + vp;
-	    },
-	    // called by baseNode.js
-	    itemStates({ item, group }) {
-	        const getCustomInitialStyle = child => {
-	            const { width, height, x, y, textBaseline } = child.attr();
-	            if (typeof this[`get${upperFirst_1(child.get('className'))}Style`] === 'function') {
-	                const customStyle = this[`get${upperFirst_1(child.get('className'))}Style`]({ model: item.getModel() });
-	                return {
-	                    ...child.getDefaultAttrs(),
-	                    ...customStyle,
-	                    // position, size cannot be changed
-	                    width,
-	                    height,
-	                    x,
-	                    y,
-	                    textBaseline,
-	                };
-	            }
-	            return {
-	                ...child.getDefaultAttrs(),
-	            };
-	        };
-	        const dynamicBase = type => {
-	            const newStyleObj = this.getCustomStatesStyle()[type];
-	            Object.keys(newStyleObj).forEach(className => {
-	                const currentChild = group.findByClassName(className);
-	                if (currentChild) {
-	                    currentChild.attr({
-	                        ...getCustomInitialStyle(currentChild),
-	                        ...newStyleObj[className],
-	                    });
-	                }
-	            });
-	            /* this.adjustKeyShape({
-	              updatedKeyShape: group.findByClassName('keyShape'),
-	              updatedLabelShape: group.findByClassName('label'),
-	            });
-	            this.adjustLabelShape({
-	              updatedKeyShape: group.findByClassName('keyShape'),
-	              updatedLabelShape: group.findByClassName('label'),
-	            }); */
-	        };
-	        // active style
-	        const active = () => {
-	            dynamicBase('active');
-	        };
-	        // initial style
-	        const staticState = () => {
-	            // get children of group
-	            const groupChildren = group.get('children');
-	            groupChildren.map(child => {
-	                return child.attr({
-	                    ...getCustomInitialStyle(child),
-	                });
-	            });
-	            /* this.adjustKeyShape({
-	              updatedKeyShape: group.findByClassName('keyShape'),
-	              updatedLabelShape: group.findByClassName('label'),
-	            });
-	            this.adjustLabelShape({
-	              updatedKeyShape: group.findByClassName('keyShape'),
-	              updatedLabelShape: group.findByClassName('label'),
-	            }); */
-	        };
-	        // selected style
-	        const selected = () => {
-	            dynamicBase('selected');
-	        };
-	        return {
-	            active,
-	            selected,
-	            staticState,
-	        };
-	    },
-	};
-
-	const bizOption = {
-	    keyShape: null,
-	    label: null,
-	    wrapper: null,
-	    appendix: null,
-	    showMenuIcon() {
-	        return true;
-	    },
-	    /**
-	     * internal method
-	     * */
-	    draw(model, group) {
-	        this.drawWrapper(model, group);
-	        const keyShape = this.drawKeyShape(model, group);
-	        this.drawLabel(model, group);
-	        if (this.showMenuIcon()) {
-	            this.drawAppendix(model, group);
-	        }
-	        this.adjustPosition({ model, group });
-	        return keyShape;
-	    },
-	    drawAppendix(model, group) {
-	        if (model.x > 0) {
-	            this.appendix = group.addShape('image', {
-	                className: ShapeClassName.Appendix,
-	                attrs: {
-	                    img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
-	                    x: 0,
-	                    y: 0,
-	                    width: 20,
-	                    cursor: 'pointer',
-	                },
-	            });
-	        }
-	        else {
-	            this.appendix = group.addShape('image', {
-	                className: ShapeClassName.Appendix,
-	                attrs: {
-	                    img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0yMCAwSDZhNiA2IDAgMCAwLTYgNnY2aDE0YTYgNiAwIDAgMCA2LTZWMHoiLz48ZyBmaWxsPSIjQUFCNUM1IiB0cmFuc2Zvcm09Im1hdHJpeCgwIDEgMSAwIDMgNCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iMS41IiBjeD0iMS41Ii8+PGNpcmNsZSByPSIxLjUiIGN5PSI2LjUiIGN4PSIxLjUiLz48Y2lyY2xlIHI9IjEuNSIgY3k9IjExLjUiIGN4PSIxLjUiLz48L2c+PC9nPjwvc3ZnPg==',
-	                    x: 0,
-	                    y: 0,
-	                    width: 20,
-	                    cursor: 'pointer',
-	                },
-	            });
-	        }
-	    },
-	    drawKeyShape(model, group) {
-	        const keyShapeType = 'rect';
-	        const keyShapeDefaultStyle = this[`get${ShapeClassName.KeyShape}defaultStyle`]();
-	        this.keyShape = group.addShape(keyShapeType, {
-	            className: ShapeClassName.KeyShape,
-	            attrs: {
-	                x: 0,
-	                y: 0,
-	                width: 0,
-	                height: 0,
-	                ...keyShapeDefaultStyle,
-	            },
-	        });
-	        return this.keyShape;
-	    },
-	    drawWrapper(model, group) {
-	        this.wrapper = group.addShape('rect', {
-	            className: ShapeClassName.Wrapper,
-	            attrs: {
-	                width: 20,
-	                height: 20,
-	                x: 0,
-	                y: 0,
-	                fill: '#6580EB',
-	                radius: [8, 6, 6, 8],
-	                ...this[`get${ShapeClassName.Wrapper}defaultStyle`](),
-	            },
-	        });
-	        return this.wrapper;
-	    },
-	    drawLabel(model, group) {
-	        const labelDefaultStyle = this[`get${ShapeClassName.Label}defaultStyle`]();
-	        // draw label
-	        this.label = group.addShape('text', {
-	            className: ShapeClassName.Label,
-	            attrs: {
-	                text: model.label,
-	                x: 0,
-	                y: 0,
-	                ...labelDefaultStyle,
-	                // textBaseline is static, for the sake of adjusting position
-	                textBaseline: 'middle',
-	            },
-	        });
-	        // change text content according to text line width
-	        const { text, fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = this.label.attr();
-	        const font = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
-	        this.label.attr('text', Util.optimizeMultilineText(text, font, this.getMaxTextLineWidth()));
-	        return this.label;
-	    },
-	    /**
-	     * internal method
-	     * */
-	    update(nextModel, item) {
-	        const group = item.getContainer();
-	        let label = group.findByClassName(ShapeClassName.Label);
-	        // repaint label
-	        label.remove(false);
-	        label = this.drawLabel(nextModel, group);
-	        this.adjustPosition({ group, model: nextModel });
-	    },
-	    /**
-	     * internal method
-	     * */
-	    setState(name, value, item) {
-	        this.setStateStyle(item);
-	        // this.adjustPosition({ item });
-	    },
-	    adjustPosition({ model, group }) {
-	        const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-	        const label = group.findByClassName(ShapeClassName.Label);
-	        const wrapper = group.findByClassName(ShapeClassName.Wrapper);
-	        const appendix = group.findByClassName(ShapeClassName.Appendix);
-	        const keyShapeSize = this.adjustKeyShape({ label, keyShape });
-	        if (wrapper) {
-	            this.adjustWrapper({ keyShapeSize, keyShape, label, wrapper, model });
-	        }
-	        if (label) {
-	            this.adjustLabel({ keyShapeSize, keyShape, label, wrapper, model });
-	        }
-	        if (appendix) {
-	            this.adjustAppendix({ keyShapeSize, appendix, model });
-	        }
-	    },
-	    adjustKeyShape({ label, keyShape }) {
-	        keyShape.attr({
-	            width: label.getBBox().width + 20,
-	            height: label.getBBox().height + 20,
-	        });
-	        return {
-	            width: keyShape.attr('width'),
-	            height: keyShape.attr('height'),
-	        };
-	    },
-	    adjustAppendix({ keyShapeSize, appendix, model }) {
-	        const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-	        if (!model)
-	            return;
-	        if (model.x > 0) {
-	            appendix.attr('x', keyShapeWidth - appendix.attr('width') - 0.5);
-	            appendix.attr('y', 0.5);
-	        }
-	        else {
-	            appendix.attr('x', 0.5);
-	            appendix.attr('y', 0.5);
-	        }
-	    },
-	    adjustLabel({ keyShapeSize, label, model }) {
-	        const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-	        const labelWidth = label.getBBox().width;
-	        if (model.x > 0) {
-	            label.attr('x', (keyShapeWidth - labelWidth) / 2);
-	            label.attr('y', keyShapeHeight / 2);
-	        }
-	        else {
-	            label.attr({
-	                x: (keyShapeWidth - labelWidth) / 2,
-	                y: keyShapeHeight / 2,
-	            });
-	        }
-	    },
-	    adjustWrapper({ model, keyShapeSize, wrapper }) {
-	        const { width: keyShapeWidth, height: keyShapeHeight } = keyShapeSize;
-	        if (!model)
-	            return;
-	        // keyShape has stroke with 1 width, so make wrapper's height plus 1
-	        wrapper.attr('height', keyShapeHeight + 1);
-	        wrapper.attr('width', keyShapeWidth);
-	        wrapper.attr('y', -0.5);
-	        if (model.x > 0) {
-	            wrapper.attr('x', -4);
-	        }
-	        else {
-	            wrapper.attr({
-	                x: 4,
-	            });
-	        }
-	    },
-	    setStateStyle(item) {
-	        const statesArr = item.getStates();
-	        const group = item.getContainer();
-	        const allChildren = group.get('children');
-	        allChildren.forEach((shape) => {
-	            const className = shape.get('className');
-	            let statesStyle = {};
-	            statesArr.forEach(stateName => {
-	                statesStyle = {
-	                    ...statesStyle,
-	                    ...(this[`get${className}${stateName}Style`] && this[`get${className}${stateName}Style`]()),
-	                };
-	            });
-	            shape.attr({
-	                ...(this[`get${className}defaultStyle`] && this[`get${className}defaultStyle`]()),
-	                ...statesStyle,
-	            });
-	        });
-	    },
-	    [`get${ShapeClassName.KeyShape}defaultStyle`]() {
-	        return {
-	            fill: '#fff',
-	            radius: 6,
-	            stroke: '#6580EB',
-	        };
-	    },
-	    [`get${ShapeClassName.KeyShape}activeStyle`]() {
-	        return {
-	            fill: '#e9e5ff',
-	        };
-	    },
-	    [`get${ShapeClassName.KeyShape}errorStyle`]() {
-	        return {
-	            stroke: 'red',
-	        };
-	    },
-	    [`get${ShapeClassName.KeyShape}selectedStyle`]() {
-	        return {
-	            fill: '#e9e5ff',
-	        };
-	    },
-	    [`get${ShapeClassName.Wrapper}defaultStyle`]() {
-	        return {
-	            fill: '#6580EB',
-	        };
-	    },
-	    [`get${ShapeClassName.Wrapper}selectedStyle`]() {
-	        return {
-	            shadowOffsetX: 0,
-	            shadowOffsetY: 4,
-	            shadowBlur: 10,
-	            shadowColor: '#ccc',
-	        };
-	    },
-	    [`get${ShapeClassName.Wrapper}errorStyle`]() {
-	        return {
-	            fill: 'red',
-	        };
-	    },
-	    [`get${ShapeClassName.Label}defaultStyle`]() {
-	        return {
-	            fill: '#000',
-	        };
-	    },
-	    getMaxTextLineWidth() {
-	        return LABEL_DEFAULT_MAX_WIDTH;
-	    },
-	    getAnchorPoints() {
-	        return [[0, 0.5], [1, 0.5]];
-	    },
-	};
-	G6.registerNode('biz-node', bizOption);
-
-	G6.registerNode('biz-flow-node', {
-	    handleAnchor,
-	    update(nextModel, item) {
-	        const group = item.getContainer();
-	        // repaint anchor
-	        const anchor = group.findByClassName(ShapeClassName.Anchor);
-	        if (anchor) {
-	            anchor.remove();
-	        }
-	        // repaint label
-	        let label = group.findByClassName(ShapeClassName.Label);
-	        label.remove();
-	        label = this.drawLabel(nextModel, group);
-	        this.adjustPosition({ item, group });
-	    },
-	    [`get${ShapeClassName.KeyShape}defaultStyle`]() {
-	        return {
-	            stroke: '#dadada',
-	            fill: '#fff',
-	            radius: 5,
-	        };
-	    },
-	    setState(name, value, item) {
-	        this.setStateStyle(item);
-	        this.handleAnchor(name, value, item);
-	    },
-	    getAnchorPoints() {
-	        return [[0, 0.5], [1, 0.5], [0.5, 1], [0.5, 0]];
-	    },
-	}, 'biz-node');
-
-	G6.registerNode('flowNode', {}, 'biz-flow-node');
-
-	const { nodeStyle, nodeActivedStyle, nodeSelectedStyle, startNodeStyle } = globalStyle;
-	// 选中时改变边框颜色
-	function drawActivedNode(name, value, item) {
-	    const revertStyle = () => {
-	        const shape = item.getKeyShape().baseType;
-	        // 恢复原本样式
-	        if (shape == 'startNode' || shape == 'endNode')
-	            item.get('keyShape').attr({ ...startNodeStyle });
-	        else
-	            item.get('keyShape').attr({ ...nodeStyle });
-	    };
-	    // 选中时且鼠标停留时显示样式
-	    if ((name === 'selected' || name === 'active' || name === 'activeAnchor') && value)
-	        item.get('keyShape').attr({ ...nodeActivedStyle });
-	    // 选中时加阴影
-	    if (name === 'selected' && value)
-	        item.get('keyShape').attr({ ...nodeSelectedStyle });
-	    // 取消选中复原
-	    if (name === 'selected' && !value)
-	        revertStyle();
-	    // 离开节点且为非选中状态、非拖拽状态
-	    if (name === 'active' && !value && !item.hasState('selected') && !item.hasState('addingSource'))
-	        revertStyle();
-	}
-
-	const { endNodeStyle1, endNodeStyle2 } = globalStyle;
-	G6.registerNode('endNode', {
-	    drawActivedNode,
-	    handleAnchor,
-	    draw(cfg, group) {
-	        // 外圆
-	        this.keyShape = group.addShape('circle', {
-	            attrs: { ...endNodeStyle1 },
-	        });
-	        // 内圆
-	        group.addShape('circle', { attrs: { ...endNodeStyle2 } });
-	        this.keyShape.baseType = 'endNode';
-	        return this.keyShape;
-	    },
-	    setState(name, value, item) {
-	        this.handleAnchor(name, value, item);
-	        this.drawActivedNode(name, value, item);
-	    },
-	    getAnchorPoints() {
-	        return [[0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5]];
-	    },
-	});
-
-	const { startNodeStyle: startNodeStyle$1 } = globalStyle;
-	G6.registerNode('startNode', {
-	    handleAnchor,
-	    drawActivedNode,
-	    draw(cfg, group) {
-	        // 圆圈
-	        this.keyShape = group.addShape('circle', {
-	            attrs: {
-	                ...startNodeStyle$1,
-	            },
-	        });
-	        this.keyShape.baseType = 'startNode';
-	        return this.keyShape;
-	    },
-	    update(nextModel, item) {
-	        const keyShapeSize = keyShape => ({
-	            width: keyShape.attr('width'),
-	            height: keyShape.attr('height'),
-	        });
-	        this.resetCoordinate({
-	            keyShapeSize: keyShapeSize(this.keyShape),
-	            keyShape: this.keyShape,
-	        });
-	    },
-	    setState(name, value, item) {
-	        this.handleAnchor(name, value, item);
-	        this.drawActivedNode(name, value, item);
-	    },
-	    resetCoordinate({ keyShapeSize, keyShape }) {
-	        keyShape.attr('x', 0 - keyShapeSize.width / 2);
-	        keyShape.attr('y', 0 - keyShapeSize.height / 2);
-	    },
-	    getAnchorPoints() {
-	        return [[0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5]];
-	    },
-	});
-
-	/**
-	 * @author huangtonger@aliyun.com
-	 */
-	const { edgeStyle, arrowRadius } = globalStyle;
-	//  在线上绘制箭头
-	function drawArrow(item, group, keyShape, path) {
-	    const endPoint = { ...item.endPoint };
-	    if (!endPoint)
-	        return;
-	    const segments = keyShape.get('segments');
-	    const l = segments.length;
-	    const lastSegment = segments[l - 1];
-	    if (!lastSegment || !lastSegment.endTangent) {
-	        return;
-	    }
-	    const endTangent = lastSegment.endTangent();
-	    if (endTangent[0] === 0 && endTangent[1] === 0) {
-	        return;
-	    }
-	    const normalizeET = normalize([], endTangent);
-	    const reviseX = arrowRadius * normalizeET[0];
-	    const reviseY = arrowRadius * normalizeET[1];
-	    path = parsePathString(path);
-	    const lastSegmentPath = path[path.length - 1];
-	    lastSegmentPath[lastSegmentPath.length - 2] -= reviseX;
-	    lastSegmentPath[lastSegmentPath.length - 1] -= reviseY;
-	    keyShape.attr('path', path);
-	    endPoint.x -= reviseX;
-	    endPoint.y -= reviseY;
-	    // 画箭头
-	    const arrow = group.addShape('marker', {
-	        attrs: {
-	            symbol: (x, y, r) => {
-	                const diffY = r / 1.6;
-	                return [['M', x, y - diffY], ['L', x + arrowRadius, y], ['L', x, y + diffY], ['z']];
-	            },
-	            radius: arrowRadius,
-	            fill: edgeStyle.stroke,
-	        },
-	    });
-	    // 调整箭头方向
-	    arrowTo(arrow, endPoint.x, endPoint.y, 0, 0, endTangent[0], endTangent[1]);
-	    return arrow;
-	}
-	function arrowTo(element, x, y, x0, y0, x1, y1) {
-	    const v0 = [1, 0];
-	    const v = [x1 - x0, y1 - y0];
-	    const angle = angleTo(v, v0, true);
-	    element.transform([['r', angle], ['t', x, y]]);
-	    return element;
-	}
-	function angleTo(v1, v2, direct) {
-	    const angle = calcAngle(v1, v2);
-	    const angleLargeThanPi = direction(v1, v2) >= 0;
-	    if (direct) {
-	        if (angleLargeThanPi)
-	            return Math.PI * 2 - angle;
-	        else
-	            return angle;
-	    }
-	    else {
-	        if (angleLargeThanPi)
-	            return angle;
-	        else
-	            return Math.PI * 2 - angle;
-	    }
-	}
-	// v1 v2 夹角
-	function calcAngle(v1, v2) {
-	    const theta = dot(v1, v2) / (vlength(v1) * vlength(v2));
-	    return Math.acos(clamp(theta, -1, 1));
-	}
-	// v1 到 v2 夹角的方向
-	function direction(v1, v2) {
-	    // >= 0 顺时针 < 0 逆时针
-	    return v1[0] * v2[1] - v2[0] * v1[1];
-	}
-	function dot(v1, v2) {
-	    return v1[0] * v2[0] + v1[1] * v2[1];
-	}
-	function vlength(v) {
-	    return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
-	}
-	function clamp(a, min, max) {
-	    if (a < min)
-	        return min;
-	    else if (a > max)
-	        return max;
-	    else
-	        return a;
-	}
-	function normalize(out, a) {
-	    const x = a[0], y = a[1];
-	    let len = x * x + y * y;
-	    if (len > 0) {
-	        len = 1 / Math.sqrt(len);
-	        out[0] = a[0] * len;
-	        out[1] = a[1] * len;
-	    }
-	    return out;
-	}
-	// @reference https://github.com/antvis/util/blob/master/src/path/parse-path-string.js
-	// Parses given path string into an array of arrays of path segments
-	function parsePathString(pathString) {
-	    const SPACES = '\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u2028\u2029';
-	    const PATH_COMMAND = new RegExp('([a-z])[' + SPACES + ',]*((-?\\d*\\.?\\d*(?:e[\\-+]?\\d+)?[' + SPACES + ']*,?[' + SPACES + ']*)+)', 'ig');
-	    const PATH_VALUES = new RegExp('(-?\\d*\\.?\\d*(?:e[\\-+]?\\d+)?)[' + SPACES + ']*,?[' + SPACES + ']*', 'ig');
-	    if (!pathString) {
-	        return null;
-	    }
-	    if (typeof pathString === typeof []) {
-	        return pathString;
-	    }
-	    const paramCounts = {
-	        a: 7,
-	        c: 6,
-	        o: 2,
-	        h: 1,
-	        l: 2,
-	        m: 2,
-	        r: 4,
-	        q: 4,
-	        s: 4,
-	        t: 2,
-	        v: 1,
-	        u: 3,
-	        z: 0,
-	    };
-	    const data = [];
-	    String(pathString).replace(PATH_COMMAND, (a, b, c) => {
-	        const params = [];
-	        let name = b.toLowerCase();
-	        c.replace(PATH_VALUES, function (a, b) {
-	            b && params.push(+b);
-	        });
-	        if (name === 'm' && params.length > 2) {
-	            data.push([b].concat(params.splice(0, 2)));
-	            name = 'l';
-	            b = b === 'm' ? 'l' : 'L';
-	        }
-	        if (name === 'o' && params.length === 1) {
-	            data.push([b, params[0]]);
-	        }
-	        if (name === 'r') {
-	            data.push([b].concat(params));
-	        }
-	        else {
-	            while (params.length >= paramCounts[name]) {
-	                data.push([b].concat(params.splice(0, paramCounts[name])));
-	                if (!paramCounts[name]) {
-	                    break;
-	                }
-	            }
-	        }
-	        return pathString;
-	    });
-	    return data;
-	}
-
-	const { edgeLabelStyle, edgeLabelRectStyle, edgeLabelRectPadding } = globalStyle;
-	function drawLabel(item, group, keyShape) {
-	    const center = keyShape.getPoint(0.5);
-	    const label = item.label;
-	    if (!center || !label)
-	        return;
-	    const attrs = { ...edgeLabelStyle, ...center, text: label };
-	    // 绘制 Label
-	    const labelShape = group.addShape('text', { attrs });
-	    const padding = edgeLabelRectPadding;
-	    const textBox = labelShape.getBBox();
-	    // 绘制 Label 背后的框
-	    group.addShape('rect', {
-	        attrs: {
-	            ...edgeLabelRectStyle,
-	            x: textBox.minX - padding,
-	            y: textBox.minY - padding,
-	            width: textBox.maxX - textBox.minX + padding + padding,
-	            height: textBox.maxY - textBox.minY + padding + padding,
-	        },
-	    });
-	    labelShape.toFront();
-	    return labelShape;
-	}
-
-	const { edgeActivedStyle, edgeStyle: edgeStyle$1, edgeDragStyle } = globalStyle;
-	// 选中时改变边框颜色
-	function drawActivedEdges(name, value, item) {
-	    const keyShape = item.getKeyShape();
-	    const revertStyle = () => {
-	        keyShape.attr({ ...edgeStyle$1 });
-	        keyShape.endArrow && keyShape.endArrow.attr({ fill: edgeStyle$1.stroke });
-	    };
-	    // 选中时且鼠标停留时显示样式
-	    if ((name === 'selected' || name === 'active') && value) {
-	        if (keyShape.endArrow)
-	            keyShape.endArrow.attr({ fill: edgeActivedStyle.stroke });
-	        keyShape.attr({ ...edgeActivedStyle, ...(name === 'selected' ? { lineWidth: 2 } : {}) });
-	    }
-	    // 取消选中复原
-	    if (name === 'selected' && !value)
-	        revertStyle();
-	    // 离开节点且为非选中状态、非拖拽状态
-	    if (name === 'active' && !value && !item.hasState('selected'))
-	        revertStyle();
-	    // 线条拖拽过程中问题
-	    if (name === 'drag' && value) {
-	        keyShape.attr({ ...edgeDragStyle });
-	        keyShape.endArrow && keyShape.endArrow.attr({ fill: edgeDragStyle.stroke });
-	    }
-	    if (name === 'onAnchor' && value)
-	        revertStyle();
-	    if (name === 'onAnchor' && !value)
-	        keyShape.attr({ ...edgeDragStyle });
-	    if (name === 'drag' && !value)
-	        revertStyle();
-	}
-
-	/**
-	 * @fileOverview auto polyline
-	 * @author huangtonger@aliyun.com
-	 */
-	const { edgeStyle: edgeStyle$2 } = globalStyle;
-	function isHorizontalPort(port, bbox) {
-	    const dx = Math.abs(port.x - bbox.centerX);
-	    const dy = Math.abs(port.y - bbox.centerY);
-	    return dx / bbox.width > dy / bbox.height;
-	}
-	function pointsToPolygon(points) {
-	    const path = [['M', points[0].x, points[0].y]];
-	    for (let index = 1; index < points.length; index++) {
-	        const point = points[index];
-	        path.push(['L', point.x, point.y]);
-	    }
-	    return path;
-	}
-	/**
-	 * BBox Utils
-	 * BBox:
-	 * { centerX, centerY, height, maxX, maxY, minX, minY, width }
-	 **/
-	function mergeBBox(b1, b2) {
-	    const minX = Math.min(b1.minX, b2.minX);
-	    const minY = Math.min(b1.minY, b2.minY);
-	    const maxX = Math.max(b1.maxX, b2.maxX);
-	    const maxY = Math.max(b1.maxY, b2.maxY);
-	    return {
-	        centerX: (minX + maxX) / 2,
-	        centerY: (minY + maxY) / 2,
-	        minX,
-	        minY,
-	        maxX,
-	        maxY,
-	        height: maxY - minY,
-	        width: maxX - minX,
-	    };
-	}
-	function isBBoxesOverlapping(b1, b2) {
-	    return (Math.abs(b1.centerX - b2.centerX) * 2 < b1.width + b2.width &&
-	        Math.abs(b1.centerY - b2.centerY) * 2 < b1.height + b2.height);
-	}
-	function getBBoxFromPoint(point) {
-	    const { x, y } = point;
-	    return {
-	        centerX: x,
-	        centerY: y,
-	        minX: x,
-	        minY: y,
-	        maxX: x,
-	        maxY: y,
-	        height: 0,
-	        width: 0,
-	    };
-	}
-	function getBBoxFromPoints(points = []) {
-	    const xs = [];
-	    const ys = [];
-	    points.forEach(p => {
-	        xs.push(p.x);
-	        ys.push(p.y);
-	    });
-	    const minX = Math.min.apply(Math, xs);
-	    const maxX = Math.max.apply(Math, xs);
-	    const minY = Math.min.apply(Math, ys);
-	    const maxY = Math.max.apply(Math, ys);
-	    return {
-	        centerX: (minX + maxX) / 2,
-	        centerY: (minY + maxY) / 2,
-	        maxX,
-	        maxY,
-	        minX,
-	        minY,
-	        height: maxY - minY,
-	        width: maxX - minX,
-	    };
-	}
-	function getExpandedBBox(bbox, offset) {
-	    if (bbox.width === 0 && bbox.height === 0) {
-	        // when it is a point
-	        return bbox;
-	    }
-	    return {
-	        centerX: bbox.centerX,
-	        centerY: bbox.centerY,
-	        minX: bbox.minX - offset,
-	        minY: bbox.minY - offset,
-	        maxX: bbox.maxX + offset,
-	        maxY: bbox.maxY + offset,
-	        height: bbox.height + 2 * offset,
-	        width: bbox.width + 2 * offset,
-	    };
-	}
-	function getExpandedBBoxPoint(bbox, point) {
-	    const isHorizontal = isHorizontalPort(point, bbox);
-	    if (isHorizontal) {
-	        return { x: point.x > bbox.centerX ? bbox.maxX : bbox.minX, y: point.y };
-	    }
-	    return { x: point.x, y: point.y > bbox.centerY ? bbox.maxY : bbox.minY };
-	}
-	function getPointsFromBBox(bbox) {
-	    // anticlockwise
-	    const { minX, minY, maxX, maxY } = bbox;
-	    return [{ x: minX, y: minY }, { x: maxX, y: minY }, { x: maxX, y: maxY }, { x: minX, y: maxY }];
-	}
-	// function isPointInsideBBox(point, bbox) {
-	//   const { x, y } = point;
-	//   return x > bbox.minX && x < bbox.maxX && y > bbox.minY && y < bbox.maxY;
-	// }
-	function isPointOutsideBBox(point, bbox) {
-	    const { x, y } = point;
-	    return x < bbox.minX || x > bbox.maxX || y < bbox.minY || y > bbox.maxY;
-	}
-	// function isPointIntersectBBox(point, bbox) {
-	//   return !isPointInsideBBox(point, bbox) && !isPointOutsideBBox(point, bbox);
-	// }
-	function getBBoxXCrossPoints(bbox, x) {
-	    if (x < bbox.minX || x > bbox.maxX) {
-	        return [];
-	    }
-	    return [{ x, y: bbox.minY }, { x, y: bbox.maxY }];
-	}
-	function getBBoxYCrossPoints(bbox, y) {
-	    if (y < bbox.minY || y > bbox.maxY) {
-	        return [];
-	    }
-	    return [{ x: bbox.minX, y }, { x: bbox.maxX, y }];
-	}
-	function getBBoxCrossPointsByPoint(bbox, point) {
-	    return getBBoxXCrossPoints(bbox, point.x).concat(getBBoxYCrossPoints(bbox, point.y));
-	}
-	function isSegmentsIntersected(p0, p1, p2, p3) {
-	    const s1_x = p1.x - p0.x;
-	    const s1_y = p1.y - p0.y;
-	    const s2_x = p3.x - p2.x;
-	    const s2_y = p3.y - p2.y;
-	    const s = (-s1_y * (p0.x - p2.x) + s1_x * (p0.y - p2.y)) / (-s2_x * s1_y + s1_x * s2_y);
-	    const t = (s2_x * (p0.y - p2.y) - s2_y * (p0.x - p2.x)) / (-s2_x * s1_y + s1_x * s2_y);
-	    return s >= 0 && s <= 1 && t >= 0 && t <= 1;
-	}
-	function isSegmentCrossingBBox(p1, p2, bbox) {
-	    if (bbox.height === 0 && bbox.width === 0)
-	        return false;
-	    const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
-	    return (isSegmentsIntersected(p1, p2, pa, pb) ||
-	        isSegmentsIntersected(p1, p2, pa, pd) ||
-	        isSegmentsIntersected(p1, p2, pb, pc) ||
-	        isSegmentsIntersected(p1, p2, pc, pd));
-	}
-	function filterHVPoints(points) {
-	    const rst = [points[0]];
-	    for (let index = 1; index < points.length; index++) {
-	        const point = points[index];
-	        const next = points[index + 1];
-	        const last = points[index - 1];
-	        if (next && last && ((next.x === point.x && last.x === point.x) || (next.y === point.y && last.y === point.y))) {
-	            continue;
-	        }
-	        rst.push(point);
-	    }
-	    return rst;
-	}
-	/**
-	 * Polyline Utils
-	 * Polyline:
-	 * [ p1, p2, p3, ..., pn ]
-	 **/
-	function simplifyPolyline(points) {
-	    points = filterConnectPoints(points);
-	    points = filterHVPoints(points);
-	    return points;
-	}
-	function getSimplePolyline(sPoint, tPoint) {
-	    return [sPoint, { x: sPoint.x, y: tPoint.y }, tPoint];
-	}
-	function filterConnectPoints(points) {
-	    // pre-process: remove duplicated points
-	    const result = [];
-	    const pointsMap = {};
-	    points.forEach(p => {
-	        const id = (p.id = `${p.x}-${p.y}`);
-	        pointsMap[id] = p;
-	    });
-	    Object.keys(pointsMap).forEach(k => result.push(pointsMap[k]));
-	    // Util.each(pointsMap, p => {
-	    //     result.push(p);
-	    // });
-	    return result;
-	}
-	function distance(p1, p2) {
-	    return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
-	}
-	function _costByPoints(p, points) {
-	    const offset = -2;
-	    let result = 0;
-	    points.forEach(point => {
-	        if (point) {
-	            if (p.x === point.x)
-	                result += offset;
-	            if (p.y === point.y)
-	                result += offset;
-	        }
-	    });
-	    return result;
-	}
-	function heuristicCostEstimate(p, ps, pt, source = undefined, target = undefined) {
-	    return distance(p, ps) + distance(p, pt) + _costByPoints(p, [ps, pt, source, target]);
-	}
-	function removeFrom(arr, item) {
-	    const index = arr.indexOf(item);
-	    if (index > -1) {
-	        arr.splice(index, 1);
-	    }
-	}
-	function getNeighborPoints(points, point, bbox1, bbox2) {
-	    const neighbors = [];
-	    points.forEach(p => {
-	        if (p !== point) {
-	            if (p.x === point.x || p.y === point.y) {
-	                if (!isSegmentCrossingBBox(p, point, bbox1) && !isSegmentCrossingBBox(p, point, bbox2)) {
-	                    neighbors.push(p);
-	                }
-	            }
-	        }
-	    });
-	    return filterConnectPoints(neighbors);
-	}
-	function reconstructPath(pathPoints, pointById, cameFrom, currentId, iterator = 0) {
-	    pathPoints.unshift(pointById[currentId]);
-	    if (cameFrom[currentId] && cameFrom[currentId] !== currentId && iterator <= 100) {
-	        reconstructPath(pathPoints, pointById, cameFrom, cameFrom[currentId], iterator + 1);
-	    }
-	}
-	function pathFinder(points, start, goal, sBBox, tBBox, os, ot) {
-	    // A-Star Algorithm
-	    const closedSet = [];
-	    const openSet = [start];
-	    const cameFrom = {};
-	    const gScore = {}; // all default values are Infinity
-	    const fScore = {}; // all default values are Infinity
-	    gScore[start.id] = 0;
-	    fScore[start.id] = heuristicCostEstimate(start, goal, start);
-	    const pointById = {};
-	    points.forEach(p => {
-	        pointById[p.id] = p;
-	    });
-	    while (openSet.length) {
-	        let current;
-	        let lowestFScore = Infinity;
-	        openSet.forEach(p => {
-	            if (fScore[p.id] < lowestFScore) {
-	                lowestFScore = fScore[p.id];
-	                current = p;
-	            }
-	        });
-	        if (current === goal) {
-	            // ending condition
-	            const pathPoints = [];
-	            reconstructPath(pathPoints, pointById, cameFrom, goal.id);
-	            return pathPoints;
-	        }
-	        removeFrom(openSet, current);
-	        closedSet.push(current);
-	        getNeighborPoints(points, current, sBBox, tBBox).forEach(neighbor => {
-	            if (closedSet.indexOf(neighbor) !== -1)
-	                return;
-	            if (openSet.indexOf(neighbor) === -1) {
-	                openSet.push(neighbor);
-	            }
-	            const tentativeGScore = fScore[current.id] + distance(current, neighbor); // + distance(neighbor, goal);
-	            if (gScore[neighbor.id] && tentativeGScore >= gScore[neighbor.id])
-	                return;
-	            cameFrom[neighbor.id] = current.id;
-	            gScore[neighbor.id] = tentativeGScore;
-	            fScore[neighbor.id] = gScore[neighbor.id] + heuristicCostEstimate(neighbor, goal, start, os, ot);
-	        });
-	    }
-	    // throw new Error('Cannot find path');
-	    console.error('cannot find path: ', points, start, goal);
-	    return [start, goal];
-	}
-	function getPolylinePoints(start, end, sNode, tNode, offset) {
-	    const sBBox = sNode && sNode.getBBox ? sNode.getBBox() : getBBoxFromPoint(start);
-	    const tBBox = tNode && tNode.getBBox ? tNode.getBBox() : getBBoxFromPoint(end);
-	    if (isBBoxesOverlapping(sBBox, tBBox)) {
-	        // source and target nodes are overlapping
-	        return simplifyPolyline(getSimplePolyline(start, end));
-	    }
-	    const sxBBox = getExpandedBBox(sBBox, offset);
-	    const txBBox = getExpandedBBox(tBBox, offset);
-	    if (isBBoxesOverlapping(sxBBox, txBBox)) {
-	        // the expanded bounding boxes of source and target nodes are overlapping
-	        return simplifyPolyline(getSimplePolyline(start, end));
-	    }
-	    const sPoint = getExpandedBBoxPoint(sxBBox, start);
-	    const tPoint = getExpandedBBoxPoint(txBBox, end);
-	    const lineBBox = getBBoxFromPoints([sPoint, tPoint]);
-	    const outerBBox = mergeBBox(sxBBox, txBBox);
-	    const sMixBBox = mergeBBox(sxBBox, lineBBox);
-	    const tMixBBox = mergeBBox(txBBox, lineBBox);
-	    let connectPoints = [];
-	    connectPoints = connectPoints.concat(getPointsFromBBox(sMixBBox));
-	    connectPoints = connectPoints.concat(getPointsFromBBox(tMixBBox));
-	    const centerPoint = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
-	    [lineBBox, sMixBBox, tMixBBox].forEach(bbox => {
-	        connectPoints = connectPoints.concat(getBBoxCrossPointsByPoint(bbox, centerPoint).filter(p => isPointOutsideBBox(p, sxBBox) && isPointOutsideBBox(p, txBBox)));
-	    });
-	    [{ x: sPoint.x, y: tPoint.y }, { x: tPoint.x, y: sPoint.y }].forEach(p => {
-	        if (isPointOutsideBBox(p, sxBBox) &&
-	            isPointOutsideBBox(p, txBBox) // &&
-	        // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
-	        ) {
-	            connectPoints.push(p);
-	        }
-	    });
-	    connectPoints.unshift(sPoint);
-	    connectPoints.push(tPoint);
-	    connectPoints = filterConnectPoints(connectPoints);
-	    const pathPoints = pathFinder(connectPoints, sPoint, tPoint, sBBox, tBBox, start, end);
-	    pathPoints.unshift(start);
-	    pathPoints.push(end);
-	    return simplifyPolyline(pathPoints);
-	}
-	function isBending(p0, p1, p2) {
-	    return !((p0.x === p1.x) === p2.x || (p0.y === p1.y) === p2.y);
-	}
-	function getBorderRadiusPoints(p0, p1, p2, r) {
-	    const d0 = distance(p0, p1);
-	    const d1 = distance(p2, p1);
-	    if (d0 < r) {
-	        r = d0;
-	    }
-	    if (d1 < r) {
-	        r = d1;
-	    }
-	    const ps = {
-	        x: p1.x - (r / d0) * (p1.x - p0.x),
-	        y: p1.y - (r / d0) * (p1.y - p0.y),
-	    };
-	    const pt = {
-	        x: p1.x - (r / d1) * (p1.x - p2.x),
-	        y: p1.y - (r / d1) * (p1.y - p2.y),
-	    };
-	    return [ps, pt];
-	}
-	function getPathWithBorderRadiusByPolyline(points, borderRadius) {
-	    // TODO
-	    const pathSegments = [];
-	    const startPoint = points[0];
-	    pathSegments.push(['M', startPoint.x, startPoint.y]);
-	    points.forEach((p, i) => {
-	        const p1 = points[i + 1];
-	        const p2 = points[i + 2];
-	        if (p1 && p2) {
-	            if (isBending(p, p1, p2)) {
-	                const [ps, pt] = getBorderRadiusPoints(p, p1, p2, borderRadius);
-	                pathSegments.push(['L', ps.x, ps.y]);
-	                pathSegments.push(['Q', p1.x, p1.y, pt.x, pt.y]);
-	                pathSegments.push(['L', pt.x, pt.y]);
-	            }
-	            else {
-	                pathSegments.push(['L', p1.x, p1.y]);
-	            }
-	        }
-	        else if (p1) {
-	            pathSegments.push(['L', p1.x, p1.y]);
-	        }
-	    });
-	    return pathSegments;
-	}
-	G6.registerEdge('polyline', {
-	    offset: 10,
-	    draw(item, group) {
-	        const path = this.getPath(item);
-	        const keyShape = group.addShape('path', {
-	            attrs: { path, ...edgeStyle$2 },
-	        });
-	        // 画箭头
-	        keyShape.endArrow = drawArrow(item, group, keyShape, path);
-	        // 画 Label
-	        drawLabel(item, group, keyShape);
-	        return keyShape;
-	    },
-	    getPath(item) {
-	        const points = [item.startPoint, item.endPoint];
-	        const source = item.sourceNode;
-	        const target = item.targetNode;
-	        return this.getPathByPoints(points, source, target);
-	    },
-	    getPathByPoints(points, source, target) {
-	        const polylinePoints = getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset);
-	        // FIXME default
-	        return pointsToPolygon(polylinePoints);
-	    },
-	    setState(name, value, item) {
-	        // 线条激活状态
-	        drawActivedEdges.call(this, name, value, item);
-	    },
-	});
-
-	G6.registerEdge('polylineRound', {
-	    offset: 10,
-	    borderRadius: 9,
-	    getPathByPoints(points, source, target) {
-	        const polylinePoints = simplifyPolyline(getPolylinePoints(points[0], points[points.length - 1], source, target, this.offset));
-	        // FIXME default
-	        return getPathWithBorderRadiusByPolyline(polylinePoints, this.borderRadius);
-	    },
-	}, 'polyline');
-
-	// 选中时改变边框颜色
-	function drawHighlightEdge(name, value, item) {
-	    const keyShape = item.getKeyShape();
-	    if (item.hasState(ItemState.HighLight)) {
-	        keyShape.attr({
-	            lineWidth: 2,
-	            stroke: '#1890FF',
-	        });
-	        keyShape.endArrow && keyShape.endArrow.attr({ fill: '#1890FF' });
-	    }
-	}
-
-	/**
-	 * @fileOverview smooth edges
-	 * @author leungwensen@gmail.com
-	 * @reference https://lark.alipay.com/antv/blog/an-approach-to-draw-smooth-cubic-bezier-curves-in-graphs
-	 **/
-	const { edgeStyle: edgeStyle$3 } = globalStyle;
-	function _isHorizontal(port, bbox) {
-	    const dx = Math.abs(port.x - bbox.centerX);
-	    const dy = Math.abs(port.y - bbox.centerY);
-	    return dx / bbox.width > dy / bbox.height;
-	}
-	function _getOffset(cx, sx, tx, offset) {
-	    const minOffset = offset ? offset / 2 : 30;
-	    const maxOffset = offset;
-	    if ((cx <= sx && sx <= tx) || (cx >= sx && sx >= tx)) {
-	        const dx = (tx - sx) / 2;
-	        const abs = Math.abs(dx);
-	        if (dx === 0) {
-	            if (cx === sx) {
-	                return 0;
-	            }
-	            return ((sx - cx) / Math.abs(sx - cx)) * minOffset;
-	        }
-	        if (abs > maxOffset) {
-	            const temp = (dx / abs) * maxOffset;
-	            return Math.abs(temp) < minOffset ? (dx / abs) * minOffset : temp;
-	        }
-	        if (abs < minOffset) {
-	            return (dx / abs) * minOffset;
-	        }
-	        return dx;
-	    }
-	    let dx = minOffset;
-	    if (Math.abs(sx - tx) < 2 * Math.abs(sx - cx)) {
-	        dx = (offset * Math.abs(sx - tx)) / (2 * Math.abs(sx - cx));
-	    }
-	    else {
-	        dx = offset;
-	    }
-	    if (dx > maxOffset) {
-	        dx = maxOffset;
-	    }
-	    if (dx < minOffset) {
-	        dx = minOffset;
-	    }
-	    return sx > cx ? dx : -dx;
-	}
-	function _getOffsetPoint(node, port, targetPort, anotherNode) {
-	    const bbox = node.getBBox();
-	    const isHorizontal = _isHorizontal(port, bbox);
-	    let dx;
-	    let dy;
-	    dx = dy = 0;
-	    let offset = Math.min(bbox.height, bbox.width);
-	    if (anotherNode && anotherNode.bbox) {
-	        offset = Math.min(offset, anotherNode.bbox.height, anotherNode.bbox.width);
-	    }
-	    if (isHorizontal) {
-	        dx = _getOffset(bbox.centerX, port.x, targetPort.x, offset);
-	    }
-	    else {
-	        dy = _getOffset(bbox.centerY, port.y, targetPort.y, offset);
-	    }
-	    return {
-	        x: port.x + dx,
-	        y: port.y + dy,
-	    };
-	}
-	const TINY_OFFSET_SCALE = 0.1;
-	function _getStraightOffsetPoint(start, end) {
-	    // to get a tiny offset to provide angle for arrows
-	    const x0 = start.x;
-	    const y0 = start.y;
-	    const x1 = end.x;
-	    const y1 = end.y;
-	    return {
-	        x: x0 + (x1 - x0) * TINY_OFFSET_SCALE,
-	        y: y0 + (y1 - y0) * TINY_OFFSET_SCALE,
-	    };
-	}
-	function getCubicControlPoints(from, to, source, target) {
-	    return [
-	        source && source.getBBox() ? _getOffsetPoint(source, from, to, target) : _getStraightOffsetPoint(from, to),
-	        target && target.getBBox() ? _getOffsetPoint(target, to, from, source) : _getStraightOffsetPoint(to, from),
-	    ];
-	}
-	/**
-	 * get cubic bezier curve
-	 * @param {array}    points set of points
-	 * @param {Node}     source source node
-	 * @param {Node}     target target node
-	 * @return {array}   path   path segments
-	 **/
-	function getCubicBezierCurve(points, source, target) {
-	    const start = points[0];
-	    const end = points[points.length - 1];
-	    const M = ['M', start.x, start.y];
-	    // automatically get the rest two control points
-	    const controlPoints = getCubicControlPoints(start, end, source, target);
-	    const sub = ['C'];
-	    const path = [M];
-	    controlPoints.forEach(point => sub.push(point.x, point.y));
-	    sub.push(end.x, end.y);
-	    path.push(sub);
-	    return path;
-	}
-	G6.registerEdge('flowSmooth', {
-	    draw(item, group) {
-	        const path = this.getPath(item);
-	        // 绘制线条
-	        const keyShape = group.addShape('path', {
-	            attrs: { path, ...edgeStyle$3 },
-	        });
-	        // 绘上箭头
-	        keyShape.endArrow = drawArrow(item, group, keyShape, path);
-	        drawLabel(item, group, keyShape);
-	        return keyShape;
-	    },
-	    getPath(item) {
-	        const points = [item.startPoint, item.endPoint];
-	        const source = item.sourceNode;
-	        const target = item.targetNode;
-	        return getCubicBezierCurve(points, source, target);
-	    },
-	    setState(name, value, item) {
-	        // 线条激活状态
-	        drawActivedEdges.call(this, name, value, item);
-	        // 线条高亮态
-	        drawHighlightEdge.call(this, name, value, item);
-	    },
-	});
-
-	const activeEdgeBehavior = {
-	    graphType: GraphType.Flow,
-	    getEvents() {
-	        return {
-	            'edge:mouseenter': 'setAllItemStates',
-	            'edge:mouseleave': 'clearAllItemStates',
-	        };
-	    },
-	    shouldBegin(e) {
-	        // 拖拽过程中没有目标节点，只有 x, y 坐标，不点亮
-	        const edge = e.item;
-	        if (edge.getTarget().x)
-	            return false;
-	        return true;
-	    },
-	    setAllItemStates(e) {
-	        if (!this.shouldBegin(e))
-	            return;
-	        // 1.激活当前选中的边
-	        const { graph } = this;
-	        const edge = e.item;
-	        graph.setItemState(edge, 'active', true);
-	        // 2. 激活边关联的 sourceNode 与 targetNode
-	        graph.setItemState(edge.getTarget(), 'active', true);
-	        graph.setItemState(edge.getSource(), 'active', true);
-	    },
-	    clearAllItemStates(e) {
-	        if (!this.shouldBegin(e))
-	            return;
-	        // 状态还原
-	        const { graph } = this;
-	        const edge = e.item;
-	        graph.setItemState(edge, 'active', false);
-	        graph.setItemState(edge.getTarget(), 'active', false);
-	        graph.setItemState(edge.getSource(), 'active', false);
-	    },
-	};
-	behaviorManager.register('active-edge', activeEdgeBehavior);
-
 	const { alignLine } = globalStyle;
-	function normalize$1(out, a) {
+	function normalize(out, a) {
 	    const x = a[0];
 	    const y = a[1];
 	    let len = x * x + y * y;
@@ -6539,7 +5158,7 @@
 	    }
 	    return out;
 	}
-	function dot$1(a, b) {
+	function dot(a, b) {
 	    return a[0] * b[0] + a[1] * b[1];
 	}
 	function pointLineDistance(line, point) {
@@ -6549,9 +5168,9 @@
 	    if (d.every(p => p === 0))
 	        return NaN;
 	    const u = [-d[1], d[0]];
-	    normalize$1(u, u);
+	    normalize(u, u);
 	    const a = [x - x1, y - y1];
-	    return dot$1(a, u);
+	    return dot(a, u);
 	}
 	const alignBehavior = {
 	    graphType: GraphType.Flow,
@@ -7242,187 +5861,6 @@
 	};
 	behaviorManager.register('brush-select', brushSelect);
 
-	/* 节点固定宽高 */
-	const keyShapeSize = {
-	    width: 114,
-	    height: 54,
-	};
-	const extendableConfig = {
-	    showMenuIcon: true,
-	};
-	const options = {
-	    ...extendableConfig,
-	    draw(model, group) {
-	        this.drawWrapper(model, group);
-	        const keyShape = group.addShape('rect', {
-	            className: ShapeClassName.KeyShape,
-	            attrs: {
-	                width: keyShapeSize.width,
-	                height: keyShapeSize.height,
-	                x: 0,
-	                y: 0,
-	                radius: 6,
-	                fill: '#fff',
-	            },
-	        });
-	        this.showMenuIcon && this.drawMenuIcon(model, group);
-	        if (typeof this.freshFlag === 'string') {
-	            model[this.freshFlag] && this.drawFreshIcon(model, group);
-	        }
-	        this.drawLabel(model, group);
-	        return keyShape;
-	    },
-	    afterDraw(model, group) {
-	        this.alignLabel(group.findByClassName(ShapeClassName.Label));
-	        this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
-	    },
-	    /* 绘制菜单按钮 */
-	    drawMenuIcon(model, group) {
-	        return group.addShape('image', {
-	            className: ShapeClassName.Appendix,
-	            attrs: {
-	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTS0xLTFoNTgydjQwMkgtMXoiLz48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9Im5vbmUiPjxwYXRoIGZpbGw9IiNGNEY2RjgiIGQ9Ik0wIDBoMTRhNiA2IDAgMCAxIDYgNnY2SDZhNiA2IDAgMCAxLTYtNlYweiIvPjxnIGZpbGw9IiNBQUI1QzUiIHRyYW5zZm9ybT0icm90YXRlKDkwIDE0LjUgOCkiPjxjaXJjbGUgcj0iMS41IiBjeT0iNyIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxMiIgY3g9IjEyIi8+PGNpcmNsZSByPSIxLjUiIGN5PSIxNyIgY3g9IjEyIi8+PC9nPjwvZz48L3N2Zz4=',
-	                x: 0,
-	                y: 0,
-	                width: 20,
-	                cursor: 'pointer',
-	            },
-	        });
-	    },
-	    /* 绘制新节点标志 */
-	    drawFreshIcon(model, group) {
-	        return group.addShape('image', {
-	            className: ShapeClassName.FreshIcon,
-	            attrs: {
-	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTQgMCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg4YTYgNiAwIDAxNiA2djhINmE2IDYgMCAwMS02LTZWMHoiIGZpbGw9IiNGNEY2RjgiLz48Y2lyY2xlIGZpbGw9IiM2NTgwRUIiIHRyYW5zZm9ybT0icm90YXRlKDkwIDYuNSA3LjUpIiBjeD0iNi41IiBjeT0iNy41IiByPSIyLjUiLz48L2c+PC9zdmc+',
-	                x: 0,
-	                y: 0,
-	            },
-	        });
-	    },
-	    /* 绘制文本 */
-	    drawLabel(model, group) {
-	        const label = group.addShape('text', {
-	            className: ShapeClassName.Label,
-	            attrs: {
-	                textAlign: 'left',
-	                textBaseline: 'top',
-	                text: model.label,
-	                fill: 'black',
-	                x: 0,
-	                y: 0,
-	            },
-	        });
-	        label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
-	        return label;
-	    },
-	    /* 更新 */
-	    update(model, item) {
-	        const group = item.getContainer();
-	        const label = group.findByClassName(ShapeClassName.Label);
-	        label.remove(true);
-	        const newLabel = this.drawLabel(model, group);
-	        this.alignLabel(newLabel);
-	    },
-	    /* 根据尺寸重设节点文本 */
-	    resetLabelText(label, maxWidth, maxLine = 2) {
-	        const initialText = label.attr('text');
-	        if (typeof initialText !== 'string' || initialText === '')
-	            return initialText;
-	        const { fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = label.attr();
-	        const initialFont = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
-	        UtilCanvasContext.font = initialFont;
-	        const ellipseWidth = UtilCanvasContext.measureText('...').width;
-	        const lines = [];
-	        let tempStr = '';
-	        for (let i = 0; i < initialText.length; i++) {
-	            const char = initialText[i];
-	            if (/\s/.test(char)) {
-	                continue;
-	            }
-	            tempStr += char;
-	            if (UtilCanvasContext.measureText(tempStr).width > maxWidth || i === initialText.length - 1) {
-	                lines.push(tempStr);
-	                // 超出的字符放在下一行
-	                tempStr = char;
-	            }
-	        }
-	        const lastLine = lines[maxLine - 1];
-	        // 没有最后一行文本或最后一行文本宽度不超，则直接返回
-	        if (!lastLine || UtilCanvasContext.measureText(lastLine).width < maxWidth) {
-	            return lines.join('\n').trim();
-	        }
-	        // 添加省略号
-	        let newLastLine = '';
-	        for (const char of lastLine) {
-	            if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipseWidth) {
-	                newLastLine += char;
-	            }
-	        }
-	        return lines
-	            .slice(0, maxLine - 1)
-	            .concat(`${newLastLine}...`)
-	            .join('\n');
-	    },
-	    /* 调整节点文本的位置 */
-	    alignLabel(label) {
-	        label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
-	        label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
-	    },
-	    /* 调整menuIcon位置 */
-	    alignMenuIcon(icon) {
-	        icon.attr('x', keyShapeSize.width - icon.getBBox().width);
-	    },
-	    /* 绘制包围层 */
-	    drawWrapper(model, group) {
-	        return group.addShape('rect', {
-	            className: ShapeClassName.Wrapper,
-	            attrs: this[`get${ShapeClassName.Wrapper}defaultStyle`](),
-	        });
-	    },
-	    /* 设置包围层状态样式 */
-	    setWrapperStateStyle(state, wrapper) {
-	        return wrapper.attr(this[`get${ShapeClassName.Wrapper}${state}Style`]());
-	    },
-	    /* 设置状态 */
-	    setState(name, value, item) {
-	        const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
-	        if (item.getStates().includes(ItemState.Selected)) {
-	            return this.setWrapperStateStyle(ItemState.Selected, wrapper);
-	        }
-	        this.setWrapperStateStyle('default', wrapper);
-	    },
-	    /* 锚点 */
-	    getAnchorPoints(model) {
-	        return [[0, 0.5], [1, 0.5], [0.5, 0], [0.5, 1]];
-	    },
-	    [`get${ShapeClassName.Wrapper}defaultStyle`]() {
-	        return {
-	            width: keyShapeSize.width,
-	            height: keyShapeSize.height,
-	            x: 0,
-	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
-	            radius: 8,
-	            shadowBlur: 25,
-	            shadowColor: '#ccc',
-	        };
-	    },
-	    [`get${ShapeClassName.Wrapper}selectedStyle`]() {
-	        return {
-	            width: keyShapeSize.width + 4,
-	            height: keyShapeSize.height + 6,
-	            x: -2,
-	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
-	            radius: 8,
-	            shadowBlur: 25,
-	            shadowColor: '#ccc',
-	        };
-	    },
-	};
-	G6.registerNode('bizTreeNode', options);
-
 	class Flow extends React.Component {
 	    constructor() {
 	        super(...arguments);
@@ -7494,261 +5932,6 @@
 	    graphConfig: {},
 	};
 	var Flow$1 = withEditorPrivateContext(Flow);
-
-	const options$1 = {
-	    ...bizOption,
-	    /**
-	     * main draw method
-	     * */
-	    draw(model, group) {
-	        this.drawWrapper(model, group);
-	        const keyShape = this.drawKeyShape(model, group);
-	        this.drawLabel(model, group);
-	        if (this.showMenuIcon()) {
-	            this.drawAppendix(model, group);
-	        }
-	        if (!model.isRoot) {
-	            this.drawExpandOrCollapseButton(model, group);
-	        }
-	        return keyShape;
-	    },
-	    update(model, item) {
-	        const group = item.getContainer();
-	        const button = group.findByClassName(ShapeClassName.CollapseExpandButton);
-	        let label = group.findByClassName(ShapeClassName.Label);
-	        // repaint label
-	        label.remove(false);
-	        label = this.drawLabel(model, group);
-	        this.adjustPosition({ group, model });
-	        if (button) {
-	            button.remove(false);
-	            if (model.children && model.children.length > 0 && !model.isRoot) {
-	                this.drawExpandOrCollapseButton(model, group);
-	            }
-	        }
-	    },
-	    drawExpandOrCollapseButton(model, group) {
-	        const keyShape = group.findByClassName(ShapeClassName.KeyShape);
-	        // button width
-	        const width = 17;
-	        // button & item distance
-	        const offset = 5;
-	        if (model.collapsed) {
-	            const button = group.addShape('path', {
-	                className: ShapeClassName.CollapseExpandButton,
-	                attrs: {
-	                    path: Util.getExpandButtonPath({ width, height: width }),
-	                    ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
-	                    cursor: 'pointer',
-	                },
-	            });
-	            button.translate(model.x > 0 ? keyShape.attr('width') + offset : -width - offset, keyShape.attr('height') / 2 - width / 2);
-	            return button;
-	        }
-	        const button = group.addShape('path', {
-	            className: ShapeClassName.CollapseExpandButton,
-	            attrs: {
-	                path: Util.getCollapseButtonPath({ width, height: width }),
-	                ...this[`get${ShapeClassName.CollapseExpandButton}defaultStyle`](),
-	                cursor: 'pointer',
-	            },
-	        });
-	        button.translate(model.x > 0 ? keyShape.attr('width') + offset : -width - offset, keyShape.attr('height') / 2 - width / 2);
-	        return button;
-	    },
-	    /**
-	     * following methods can be overridden by advice
-	     * */
-	    [`get${ShapeClassName.CollapseExpandButton}defaultStyle`]() {
-	        return {
-	            stroke: '#000',
-	            fill: '#fff',
-	        };
-	    },
-	};
-	G6.registerNode('mind-node', options$1, 'biz-node');
-
-	const commonStyle = {
-	    lineWidth: 2,
-	    stroke: '#d8d8d8',
-	    endArrow: {
-	        path: 'M 0.5 0, A 3 3 0 0 1 -6.5 0, A 3 3 0 0 1 0.5 0',
-	    },
-	};
-	/** wrapper and keyShape's offset, determining end point of an edge */
-	const wrapperOffset = 4;
-	const options$2 = {
-	    draw(model, group) {
-	        const startNode = model.source;
-	        const endNode = model.target;
-	        /**
-	         * left side: (x,y) is on the left-top point of a keyShape
-	         * right side: (x,y) is on the right-top point of a keyShape
-	         * */
-	        const { x: startX, y: startY } = model.startPoint;
-	        const { x: endX, y: endY } = model.endPoint;
-	        const sourceWidth = startNode.getBBox().width;
-	        const sourceHeight = startNode.getBBox().height;
-	        const targetHeight = endNode.getBBox().height;
-	        const targetWidth = endNode.getBBox().width;
-	        if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x < 0) {
-	            return group.addShape('path', {
-	                attrs: {
-	                    path: [
-	                        ['M', startX - sourceWidth, startY + sourceHeight / 2],
-	                        ['L', endX + wrapperOffset, endY + targetHeight / 2],
-	                    ],
-	                    ...commonStyle,
-	                },
-	            });
-	        }
-	        if (startNode.getModel().y === endNode.getModel().y && endNode.getModel().x >= 0) {
-	            return group.addShape('path', {
-	                attrs: {
-	                    path: [
-	                        ['M', startX - sourceWidth, startY + sourceHeight / 2],
-	                        ['L', endX - wrapperOffset, endY + targetHeight / 2],
-	                    ],
-	                    ...commonStyle,
-	                },
-	            });
-	        }
-	        if (endNode.getModel().x < 0 && endNode.getModel().y > startNode.getModel().y) {
-	            return this.drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth);
-	        }
-	        if (endNode.getModel().x < 0 && endNode.getModel().y < startNode.getModel().y) {
-	            return this.drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth);
-	        }
-	        if (endNode.getModel().x > 0 && endNode.getModel().y > startNode.getModel().y) {
-	            return this.drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
-	        }
-	        else {
-	            return this.drawRightTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth);
-	        }
-	    },
-	    drawLeftBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth) {
-	        const offset = (startX - endX - sourceWidth) / 2;
-	        const radius = offset / 3;
-	        return group.addShape('path', {
-	            attrs: {
-	                path: [
-	                    ['M', startX - sourceWidth, startY + sourceHeight / 2],
-	                    ['L', startX - sourceWidth - offset + radius, startY + sourceHeight / 2],
-	                    ['A', radius, radius, 0, 0, 0, startX - sourceWidth - offset, startY + sourceHeight / 2 + radius],
-	                    ['L', endX + offset, endY + targetHeight / 2 - radius],
-	                    ['A', radius, radius, 0, 0, 1, endX + offset - radius, endY + targetHeight / 2],
-	                    ['L', endX + wrapperOffset, endY + targetHeight / 2],
-	                ],
-	                ...commonStyle,
-	            },
-	        });
-	    },
-	    drawLeftTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, targetWidth, sourceWidth) {
-	        const offset = (startX - endX - sourceWidth) / 2;
-	        const radius = offset / 3;
-	        return group.addShape('path', {
-	            attrs: {
-	                path: [
-	                    ['M', startX - sourceWidth, startY + sourceHeight / 2],
-	                    ['L', startX - sourceWidth - offset + radius, startY + sourceHeight / 2],
-	                    ['A', radius, radius, 0, 0, 1, startX - sourceWidth - offset, startY + sourceHeight / 2 - radius],
-	                    ['L', endX + offset, endY + targetHeight / 2 + radius],
-	                    ['A', radius, radius, 0, 0, 0, endX + offset - radius, endY + targetHeight / 2],
-	                    ['L', endX + wrapperOffset, endY + targetHeight / 2],
-	                ],
-	                ...commonStyle,
-	            },
-	        });
-	    },
-	    drawRightBottom(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth) {
-	        const offset = (endX - (startX + sourceWidth)) / 2;
-	        const radius = offset / 3;
-	        return group.addShape('path', {
-	            attrs: {
-	                path: [
-	                    ['M', startX, startY + sourceHeight / 2],
-	                    ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
-	                    ['A', radius, radius, 0, 0, 1, startX + sourceWidth + offset, startY + sourceHeight / 2 + radius],
-	                    ['L', endX - offset, endY + targetHeight / 2 - radius],
-	                    ['A', radius, radius, 0, 0, 0, endX - offset + radius, endY + targetHeight / 2],
-	                    ['L', endX - wrapperOffset, endY + targetHeight / 2],
-	                ],
-	                ...commonStyle,
-	            },
-	        });
-	    },
-	    drawRightTop(group, startX, startY, endX, endY, sourceHeight, targetHeight, sourceWidth) {
-	        const offset = (endX - (startX + sourceWidth)) / 2;
-	        const radius = offset / 3;
-	        return group.addShape('path', {
-	            attrs: {
-	                path: [
-	                    ['M', startX, startY + sourceHeight / 2],
-	                    ['L', startX + sourceWidth + offset - radius, startY + sourceHeight / 2],
-	                    ['A', radius, radius, 0, 0, 0, startX + sourceWidth + offset, startY + sourceHeight / 2 - radius],
-	                    ['L', endX - offset, endY + targetHeight / 2 + radius],
-	                    ['A', radius, radius, 0, 0, 1, endX - offset + radius, endY + targetHeight / 2],
-	                    ['L', endX - wrapperOffset, endY + targetHeight / 2],
-	                ],
-	                ...commonStyle,
-	            },
-	        });
-	    },
-	    setState(name, value, edge) {
-	        const shape = edge.getContainer().get('children')[0];
-	        const states = edge.getStates();
-	        if (states.includes(ItemState.HighLight)) {
-	            edge.toFront();
-	            shape.attr({
-	                stroke: '#5AAAFF',
-	                shadowColor: '#5AAAFF',
-	                shadowBlur: 5,
-	            });
-	        }
-	        else {
-	            shape.attr({
-	                stroke: '#d8d8d8',
-	                shadowBlur: 0,
-	            });
-	        }
-	    },
-	};
-	G6.registerEdge('biz-mind-edge', options$2);
-
-	const commonStyle$1 = {
-	    stroke: '#d8d8d8',
-	    lineWidth: 2,
-	};
-	const options$3 = {
-	    afterDraw(model, group) {
-	        const edgeShape = group.get('children')[0];
-	        if (!edgeShape)
-	            return;
-	        edgeShape.attr({ ...commonStyle$1 });
-	    },
-	    afterUpdate(model, item) {
-	        item.getKeyShape().attr({ ...commonStyle$1 });
-	    },
-	    setState(name, value, edge) {
-	        const shape = edge.getContainer().get('children')[0];
-	        const states = edge.getStates();
-	        if (states.includes(ItemState.HighLight)) {
-	            edge.toFront();
-	            shape.attr({
-	                stroke: '#5AAAFF',
-	                shadowColor: '#5AAAFF',
-	                shadowBlur: 5,
-	            });
-	        }
-	        else {
-	            shape.attr({
-	                stroke: '#d8d8d8',
-	                shadowBlur: 0,
-	            });
-	        }
-	    },
-	};
-	G6.registerEdge('biz-cubic', options$3, 'cubic-horizontal');
 
 	const topicCommand = {
 	    ...baseCommand,
@@ -7947,7 +6130,7 @@
 	                },
 	                animate: false,
 	                defaultNode: {
-	                    shape: 'mind-node',
+	                    shape: 'bizNode',
 	                },
 	                defaultEdge: {
 	                    shape: 'biz-cubic',
@@ -8387,7 +6570,7 @@
 	    render() {
 	        return (React.createElement(GGEditor, { className: styles.editor },
 	            React.createElement(Flow$1, { className: styles.editorBd, data: data, graphConfig: { defaultNode: { shape: 'customFlowNode' } } }),
-	            React.createElement(RegisterNode, { name: "customFlowNode", extend: "bizTreeNode", config: nodeShapeConfig })));
+	            React.createElement(RegisterNode, { name: "customFlowNode", extend: "bizNode", config: nodeShapeConfig })));
 	    }
 	}
 	ReactDOM.render(React.createElement(Index, null), document.getElementById('root'));

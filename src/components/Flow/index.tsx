@@ -8,9 +8,7 @@ import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext'
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
-import './shape';
 import './behavior';
-import '@/components/Graph/shape/nodes/bizTreeNode';
 
 interface FlowProps extends FlowAndMindCommonProps {
   data: FlowData;
