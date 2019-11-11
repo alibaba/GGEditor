@@ -7,7 +7,6 @@ const data = {
   nodes: [
     {
       id: '0',
-      shape: 'bizFlowNode',
       label: '开始节点',
       x: 55,
       y: 55,
@@ -15,7 +14,6 @@ const data = {
     },
     {
       id: '1',
-      shape: 'bizFlowNode',
       label: '结束节点',
       x: 55,
       y: 255,

@@ -1909,7 +1909,7 @@
 	    ShapeClassName["Appendix"] = "node-appendix";
 	    ShapeClassName["Anchor"] = "Anchor";
 	    ShapeClassName["CollapseExpandButton"] = "CollapseExpandButton";
-	    ShapeClassName["FreshIcon"] = "FreshIcon";
+	    ShapeClassName["StatusIcon"] = "StatusIcon";
 	})(ShapeClassName || (ShapeClassName = {}));
 	var ItemType;
 	(function (ItemType) {
@@ -3790,11 +3790,9 @@
 	    width: 114,
 	    height: 54,
 	};
-	const extendableConfig = {
-	    showMenuIcon: true,
-	};
+	/* 默认颜色 */
+	const defaultColor = '#6580EB';
 	const options = {
-	    ...extendableConfig,
 	    draw(model, group) {
 	        this.drawWrapper(model, group);
 	        const keyShape = group.addShape('rect', {
@@ -3809,9 +3807,7 @@
 	            },
 	        });
 	        this.showMenuIcon && this.drawMenuIcon(model, group);
-	        if (typeof this.freshFlag === 'string') {
-	            model[this.freshFlag] && this.drawFreshIcon(model, group);
-	        }
+	        this.drawStatusIcon(model, group);
 	        this.drawLabel(model, group);
 	        return keyShape;
 	    },
@@ -3832,16 +3828,30 @@
 	            },
 	        });
 	    },
-	    /* 绘制新节点标志 */
-	    drawFreshIcon(model, group) {
-	        return group.addShape('image', {
-	            className: ShapeClassName.FreshIcon,
-	            attrs: {
-	                img: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTQgMCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg4YTYgNiAwIDAxNiA2djhINmE2IDYgMCAwMS02LTZWMHoiIGZpbGw9IiNGNEY2RjgiLz48Y2lyY2xlIGZpbGw9IiM2NTgwRUIiIHRyYW5zZm9ybT0icm90YXRlKDkwIDYuNSA3LjUpIiBjeD0iNi41IiBjeT0iNy41IiByPSIyLjUiLz48L2c+PC9zdmc+',
-	                x: 0,
-	                y: 0,
-	            },
-	        });
+	    /* 绘制状态标志 */
+	    drawStatusIcon(model, group) {
+	        if (model.statusIconColor) {
+	            group.addShape('rect', {
+	                className: ShapeClassName.StatusIcon,
+	                attrs: {
+	                    width: 14,
+	                    height: 14,
+	                    fill: '#F4F6F8',
+	                    x: 0,
+	                    y: 0,
+	                    radius: [6, 0, 6, 0],
+	                },
+	            });
+	            group.addShape('circle', {
+	                className: ShapeClassName.StatusIcon,
+	                attrs: {
+	                    r: 2.5,
+	                    x: 7,
+	                    y: 7,
+	                    fill: typeof model.statusIconColor === 'string' ? model.statusIconColor : defaultColor,
+	                },
+	            });
+	        }
 	    },
 	    /* 绘制文本 */
 	    drawLabel(model, group) {
@@ -3863,7 +3873,10 @@
 	    update(model, item) {
 	        const group = item.getContainer();
 	        const label = group.findByClassName(ShapeClassName.Label);
-	        label.remove(true);
+	        const statusIcon = group.findByClassName(ShapeClassName.StatusIcon);
+	        label && label.remove(true);
+	        statusIcon && statusIcon.remove(true);
+	        this.drawStatusIcon(model, group);
 	        const newLabel = this.drawLabel(model, group);
 	        this.alignLabel(newLabel);
 	    },
@@ -3909,12 +3922,14 @@
 	    },
 	    /* 调整节点文本的位置 */
 	    alignLabel(label) {
+	        if (!label)
+	            return;
 	        label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
 	        label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
 	    },
 	    /* 调整menuIcon位置 */
 	    alignMenuIcon(icon) {
-	        icon.attr('x', keyShapeSize.width - icon.getBBox().width);
+	        icon && icon.attr('x', keyShapeSize.width - icon.getBBox().width);
 	    },
 	    /* 绘制包围层 */
 	    drawWrapper(model, group) {
@@ -3937,6 +3952,9 @@
 	    },
 	    /* 锚点 */
 	    getAnchorPoints(model) {
+	        if (Array.isArray(model.anchorPoints)) {
+	            return model.anchorPoints;
+	        }
 	        return [[0, 0.5], [1, 0.5], [0.5, 0], [0.5, 1]];
 	    },
 	    [`get${ShapeClassName.Wrapper}defaultStyle`]() {
@@ -3945,7 +3963,7 @@
 	            height: keyShapeSize.height,
 	            x: 0,
 	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
+	            fill: this.themeColor || defaultColor,
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
@@ -3957,10 +3975,18 @@
 	            height: keyShapeSize.height + 6,
 	            x: -2,
 	            y: -4,
-	            fill: this.wrapperColor || '#6580EB',
+	            fill: this.themeColor || defaultColor,
 	            radius: 8,
 	            shadowBlur: 25,
 	            shadowColor: '#ccc',
+	        };
+	    },
+	    [`get${ShapeClassName.Anchor}defaultStyle`]() {
+	        return {
+	            stroke: this.themeColor || defaultColor,
+	            lineWidth: 2,
+	            fill: '#fff',
+	            r: 4,
 	        };
 	    },
 	};
@@ -5462,29 +5488,6 @@
 	    },
 	};
 	behaviorManager.register('hover-anchor', hoverAnchor);
-
-	const hoverNode = {
-	    graphType: GraphType.Flow,
-	    getEvents() {
-	        return {
-	            'node:mouseenter': 'onEnterNode',
-	            'node:mouseleave': 'onLeaveNode',
-	        };
-	    },
-	    onEnterNode(e) {
-	        const graph = this.graph;
-	        const node = e.item;
-	        if (!this.shouldBegin(e))
-	            return;
-	        graph.setItemState(node, 'active', true);
-	    },
-	    onLeaveNode(e) {
-	        const graph = this.graph;
-	        const node = e.item;
-	        graph.setItemState(node, 'active', false);
-	    },
-	};
-	behaviorManager.register('hover-node', hoverNode);
 
 	const { delegateStyle } = globalStyle;
 	const { body } = document;

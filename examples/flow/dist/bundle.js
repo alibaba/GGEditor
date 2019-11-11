@@ -5487,29 +5487,6 @@
 	};
 	behaviorManager.register('hover-anchor', hoverAnchor);
 
-	const hoverNode = {
-	    graphType: GraphType.Flow,
-	    getEvents() {
-	        return {
-	            'node:mouseenter': 'onEnterNode',
-	            'node:mouseleave': 'onLeaveNode',
-	        };
-	    },
-	    onEnterNode(e) {
-	        const graph = this.graph;
-	        const node = e.item;
-	        if (!this.shouldBegin(e))
-	            return;
-	        graph.setItemState(node, 'active', true);
-	    },
-	    onLeaveNode(e) {
-	        const graph = this.graph;
-	        const node = e.item;
-	        graph.setItemState(node, 'active', false);
-	    },
-	};
-	behaviorManager.register('hover-node', hoverNode);
-
 	const { delegateStyle } = globalStyle;
 	const { body } = document;
 	const dragNode = {
@@ -6557,7 +6534,7 @@
 	    nodes: [
 	        {
 	            id: '0',
-	            label: '起止节点',
+	            label: '开始节点',
 	            x: 55,
 	            y: 55,
 	            statusIconColor: true,
@@ -6572,16 +6549,9 @@
 	    ],
 	    edges: [
 	        {
+	            label: '测试文案',
 	            source: '0',
 	            target: '1',
-	            startPoint: {
-	                x: 1,
-	                y: 1,
-	            },
-	            endPoint: {
-	                x: 2,
-	                y: 3,
-	            },
 	        },
 	    ],
 	};
@@ -6593,8 +6563,15 @@
 	class Index extends React.Component {
 	    render() {
 	        return (React.createElement(GGEditor, { className: styles.editor },
-	            React.createElement(Flow$1, { className: styles.editorBd, data: data, graphConfig: { defaultNode: { shape: 'customFlowNode' } } }),
-	            React.createElement(RegisterNode, { name: "customFlowNode", extend: "bizNode", config: nodeShapeConfig })));
+	            React.createElement(RegisterNode, { name: "customFlowNode", extend: "bizNode", config: nodeShapeConfig }),
+	            React.createElement(Flow$1, { className: styles.editorBd, data: data, graphConfig: {
+	                    defaultEdge: {
+	                        shape: 'bizFlowEdge',
+	                    },
+	                    defaultNode: {
+	                        shape: 'customFlowNode',
+	                    },
+	                } })));
 	    }
 	}
 	ReactDOM.render(React.createElement(Index, null), document.getElementById('root'));

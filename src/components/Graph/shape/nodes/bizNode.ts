@@ -169,13 +169,14 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
 
   /* 调整节点文本的位置 */
   alignLabel(label: G.Shape) {
+    if (!label) return;
     label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
     label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
   },
 
   /* 调整menuIcon位置 */
   alignMenuIcon(icon: G.Shape) {
-    icon.attr('x', keyShapeSize.width - icon.getBBox().width);
+    icon && icon.attr('x', keyShapeSize.width - icon.getBBox().width);
   },
 
   /* 绘制包围层 */
