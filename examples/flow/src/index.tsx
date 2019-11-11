@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow, RegisterNode } from '../../../src';
+import GGEditor, { Flow, RegisterNode, ItemPopover } from '../../../src';
 import styles from './index.less';
 
 const data = {
@@ -36,6 +36,10 @@ const nodeShapeConfig = {
 };
 
 class Index extends React.Component {
+  renderContent(/* item: G6.Item */) {
+    return '测试文案';
+  }
+
   render() {
     return (
       <GGEditor className={styles.editor}>
@@ -52,6 +56,7 @@ class Index extends React.Component {
             },
           }}
         />
+        <ItemPopover renderContent={this.renderContent} />
       </GGEditor>
     );
   }

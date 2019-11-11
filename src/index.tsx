@@ -6,7 +6,7 @@ import ItemPanel, { Item } from '@/components/ItemPanel';
 import { NodePanel, EdgePanel, MultiPanel, CanvasPanel } from '@/components/DetailPanel';
 import ContextMenu, { NodeMenu } from '@/components/ContextMenu';
 import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@/components/Register';
-import commandManager from '@/common/commandManager';
+import ItemPopover from '@/plugins/ItemPopover';
 import { withEditorContext } from '@/common/context/EditorContext';
 
 export {
@@ -25,7 +25,7 @@ export {
   RegisterEdge,
   RegisterCommand,
   RegisterBehavior,
-  commandManager,
+  ItemPopover,
   withEditorContext,
 };
 

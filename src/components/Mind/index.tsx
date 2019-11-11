@@ -31,9 +31,9 @@ class Mind extends React.Component<MindProps, MindState> {
   };
 
   canZoomCanvas = () => {
-    const { labelState, contextMenuState, nodePopoverState } = this.props;
+    const { labelState, contextMenuState } = this.props;
 
-    return labelState === LabelState.Hide && !contextMenuState.visible && !nodePopoverState.visible;
+    return labelState === LabelState.Hide && !contextMenuState.visible;
   };
 
   canCollapseExpand = ({ target }) => {
