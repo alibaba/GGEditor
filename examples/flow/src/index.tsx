@@ -17,7 +17,7 @@ const data = {
       label: '结束节点',
       x: 55,
       y: 255,
-      statusIconColor: 'brown ',
+      statusIconColor: 'brown',
     },
   ],
   edges: [
