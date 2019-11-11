@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import { addListener } from '@/utils';
 import Global from '@/common/Global';
 import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@/common/constants';
-import { CommandEvent, ContextMenuEvent, EventHandle, GraphStateEvent, LabelStateEvent } from '@/common/interfaces';
+import { EventHandle, CommandEvent, GraphStateEvent, LabelStateEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
@@ -33,13 +33,11 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graph: null,
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
-      contextMenuState: { visible: false, clientX: 0, clientY: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
-      setContextMenuState: this.setContextMenuState,
     };
 
     this.lastMousedownTarget = null;
@@ -82,14 +80,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
           graphState,
           labelState,
         });
-      },
-    );
-
-    addListener<EventHandle<ContextMenuEvent>>(
-      graph,
-      EditorEvent.onContextMenuStateChange,
-      (param: ContextMenuEvent) => {
-        this.setContextMenuState(param);
       },
     );
   }
@@ -155,13 +145,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   setLabelState = (labelState: LabelState) => {
     this.setState({
       labelState,
-    });
-  };
-
-  setContextMenuState = (param: ContextMenuEvent) => {
-    const { contextMenuState } = param;
-    this.setState({
-      contextMenuState,
     });
   };
 
