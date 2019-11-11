@@ -8,7 +8,6 @@ import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext'
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
-import './shape';
 import './command';
 import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
@@ -143,7 +142,7 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       animate: false,
       defaultNode: {
-        shape: 'mind-node',
+        shape: 'bizNode',
       },
       defaultEdge: {
         shape: 'biz-cubic',
