@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraphState, LabelState } from '@/common/constants';
-import { ContextMenuEvent, ContextMenuState, NodePopoverState } from '@/common/interfaces';
+import { ContextMenuEvent, ContextMenuState } from '@/common/interfaces';
 
 export interface EditorPrivateContextProps {
   graph: G6.Graph | null;
@@ -12,7 +12,6 @@ export interface EditorPrivateContextProps {
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
   contextMenuState: ContextMenuState;
-  nodePopoverState: NodePopoverState;
   setContextMenuState: (contextMenuEvent: ContextMenuEvent) => void;
 }
 
