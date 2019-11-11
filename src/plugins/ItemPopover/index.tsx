@@ -7,6 +7,8 @@ import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/co
 interface ItemPopoverProps extends EditorPrivateContextProps {
   /** 浮层类型 */
   type?: ItemType;
+  /** 浮层标题 */
+  renderTitle?: (item: G6.Item) => React.ReactNode;
   /** 浮层内容 */
   renderContent?: (item: G6.Item) => React.ReactNode;
 }
@@ -15,12 +17,14 @@ interface ItemPopoverState {
   top: number;
   left: number;
   visible: boolean;
+  title: React.ReactNode;
   content: React.ReactNode;
 }
 
 class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   static defaultProps = {
     type: ItemType.Node,
+    renderTitle: () => null,
     renderContent: () => null,
   };
 
@@ -28,6 +32,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
     top: 0,
     left: 0,
     visible: true,
+    title: null,
     content: null,
   };
 
@@ -57,7 +62,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   }
 
   showItemPopover = (item: G6.Item) => {
-    const { graph, renderContent } = this.props;
+    const { graph, renderTitle, renderContent } = this.props;
 
     const { centerX: x, minY: y } = item.getBBox();
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
@@ -66,6 +71,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
       top,
       left,
       visible: true,
+      title: renderTitle(item),
       content: renderContent(item),
     });
   };
@@ -77,10 +83,10 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   };
 
   render() {
-    const { top, left, visible, content } = this.state;
+    const { top, left, visible, title, content } = this.state;
 
     return (
-      <Popover visible={visible} content={content}>
+      <Popover visible={visible} title={title} content={content}>
         <div style={{ position: 'absolute', top, left }} />
       </Popover>
     );

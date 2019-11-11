@@ -39,6 +39,10 @@ const nodeShapeConfig = {
 };
 
 class Index extends React.Component {
+  renderItemPopoverTitle(/* item: G6.Item */) {
+    return 'Title';
+  }
+
   renderItemPopoverContent(/* item: G6.Item */) {
     return 'Content';
   }
@@ -69,7 +73,7 @@ class Index extends React.Component {
             },
           }}
         />
-        <ItemPopover renderContent={this.renderItemPopoverContent} />
+        <ItemPopover renderTitle={this.renderItemPopoverTitle} renderContent={this.renderItemPopoverContent} />
         <ContextMenu renderContent={this.renderContextMenuContent} />
       </GGEditor>
     );
