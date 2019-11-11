@@ -28,7 +28,6 @@ import EditableLabel from '@/components/EditableLabel';
 
 import './command';
 import './behavior';
-import NodePopover from '../NodePopover';
 
 const FIT_VIEW_PADDING = 200;
 
@@ -178,7 +177,6 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
         <EditableLabel />
-        <NodePopover />
       </div>
     );
   }

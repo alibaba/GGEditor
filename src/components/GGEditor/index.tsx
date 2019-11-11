@@ -4,14 +4,7 @@ import pick from 'lodash/pick';
 import { addListener } from '@/utils';
 import Global from '@/common/Global';
 import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@/common/constants';
-import {
-  CommandEvent,
-  ContextMenuEvent,
-  EventHandle,
-  GraphStateEvent,
-  LabelStateEvent,
-  NodePopoverEvent,
-} from '@/common/interfaces';
+import { CommandEvent, ContextMenuEvent, EventHandle, GraphStateEvent, LabelStateEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
@@ -41,7 +34,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       graphState: GraphState.CanvasSelected,
       labelState: LabelState.Hide,
       contextMenuState: { visible: false, clientX: 0, clientY: 0 },
-      nodePopoverState: { visible: false, x: 0, y: 0 },
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,
@@ -98,14 +90,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
       EditorEvent.onContextMenuStateChange,
       (param: ContextMenuEvent) => {
         this.setContextMenuState(param);
-      },
-    );
-
-    addListener<EventHandle<NodePopoverEvent>>(
-      graph,
-      EditorEvent.onNodePopoverStateChange,
-      (param: NodePopoverEvent) => {
-        this.setNodePopoverState(param);
       },
     );
   }
@@ -179,12 +163,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.setState({
       contextMenuState,
     });
-  };
-
-  setNodePopoverState = (param: NodePopoverEvent) => {
-    const { nodePopoverState } = param;
-
-    this.setState({ nodePopoverState });
   };
 
   canExecuteCommand = (name: string) => {

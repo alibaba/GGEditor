@@ -270,19 +270,8 @@ export interface ContextMenuState {
   clientY: number;
 }
 
-export interface NodePopoverState {
-  visible: boolean;
-  x: number;
-  y: number;
-  text?: string;
-}
-
 export interface ContextMenuEvent {
   contextMenuState: ContextMenuState;
-}
-
-export interface NodePopoverEvent {
-  nodePopoverState: NodePopoverState;
 }
 
 export type EventHandle<T> = (e: T) => void;
