@@ -15,6 +15,7 @@ import {
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
+import '@/components/Graph/shape/nodes/bizNode';
 
 interface GGEditorProps {
   className?: string;
