@@ -7,13 +7,15 @@ const data = {
   nodes: [
     {
       id: '0',
-      label: '起止节点',
+      shape: 'bizFlowNode',
+      label: '开始节点',
       x: 55,
       y: 55,
       statusIconColor: true,
     },
     {
       id: '1',
+      shape: 'bizFlowNode',
       label: '结束节点',
       x: 55,
       y: 255,
@@ -22,16 +24,9 @@ const data = {
   ],
   edges: [
     {
+      label: '测试文案',
       source: '0',
       target: '1',
-      startPoint: {
-        x: 1,
-        y: 1,
-      },
-      endPoint: {
-        x: 2,
-        y: 3,
-      },
     },
   ],
 };
@@ -46,8 +41,19 @@ class Index extends React.Component {
   render() {
     return (
       <GGEditor className={styles.editor}>
-        <Flow className={styles.editorBd} data={data} graphConfig={{ defaultNode: { shape: 'customFlowNode' } }} />
         <RegisterNode name="customFlowNode" extend="bizNode" config={nodeShapeConfig} />
+        <Flow
+          className={styles.editorBd}
+          data={data}
+          graphConfig={{
+            defaultEdge: {
+              shape: 'bizFlowEdge',
+            },
+            defaultNode: {
+              shape: 'customFlowNode',
+            },
+          }}
+        />
       </GGEditor>
     );
   }
