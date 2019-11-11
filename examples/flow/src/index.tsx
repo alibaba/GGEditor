@@ -1,20 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow, RegisterNode, ItemPopover } from '../../../src';
+import { Menu } from 'antd';
+import GGEditor, { Flow, RegisterNode } from '../../../src';
+import ItemPopover from '../../../src/plugins/ItemPopover';
+import ContextMenu from '../../../src/plugins/ContextMenu';
 import styles from './index.less';
 
 const data = {
   nodes: [
     {
       id: '0',
-      label: '开始节点',
+      label: 'Node',
       x: 55,
       y: 55,
       statusIconColor: true,
     },
     {
       id: '1',
-      label: '结束节点',
+      label: 'Node',
       x: 55,
       y: 255,
       statusIconColor: 'brown',
@@ -22,7 +25,7 @@ const data = {
   ],
   edges: [
     {
-      label: '测试文案',
+      label: 'Label',
       source: '0',
       target: '1',
     },
@@ -36,8 +39,18 @@ const nodeShapeConfig = {
 };
 
 class Index extends React.Component {
-  renderContent(/* item: G6.Item */) {
-    return '测试文案';
+  renderItemPopoverContent(/* item: G6.Item */) {
+    return 'Content';
+  }
+
+  renderContextMenuContent(item: G6.Item, hide: () => void) {
+    return (
+      <Menu mode="vertical" selectable={false} onClick={hide}>
+        <Menu.Item>Option 1</Menu.Item>
+        <Menu.Item>Option 2</Menu.Item>
+        <Menu.Item>Option 3</Menu.Item>
+      </Menu>
+    );
   }
 
   render() {
@@ -56,7 +69,8 @@ class Index extends React.Component {
             },
           }}
         />
-        <ItemPopover renderContent={this.renderContent} />
+        <ItemPopover renderContent={this.renderItemPopoverContent} />
+        <ContextMenu renderContent={this.renderContextMenuContent} />
       </GGEditor>
     );
   }
