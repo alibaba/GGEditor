@@ -1,13 +1,11 @@
 import React from 'react';
-import { GraphState, LabelState } from '@/common/constants';
+import { GraphState } from '@/common/constants';
 
 export interface EditorPrivateContextProps {
   graph: G6.Graph | null;
   graphState: GraphState;
-  labelState: LabelState;
   setGraph: (graph: G6.Graph) => void;
   setGraphState: (graphState: GraphState) => void;
-  setLabelState: (labelState: LabelState) => void;
   executeCommand: (name: string, params?: object) => void;
   canExecuteCommand: (name: string) => boolean;
 }

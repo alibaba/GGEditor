@@ -26,7 +26,7 @@ export const baseCommand: BaseCommand = {
 
   getSelectedEdges,
 
-  setSelectedNode(graph: G6.Graph, id: string) {
+  setSelectedNode(graph, id) {
     const autoPaint = graph.get('autoPaint');
 
     graph.setAutoPaint(false);
@@ -44,20 +44,10 @@ export const baseCommand: BaseCommand = {
     graph.paint();
   },
 
-  editSelectedNode(graph: G6.Graph) {
-    const modes = graph.get('modes');
-    const mode = graph.getCurrentMode();
-    const behaviors = modes[mode];
-
-    if (
-      behaviors.some((behavior: any) => {
-        return behavior === 'edit-label' || behavior.type === 'edit-label';
-      })
-    ) {
-      graph.emit(EditorEvent.onLabelStateChange, {
-        labelState: LabelState.Show,
-      });
-    }
+  editSelectedNode(graph) {
+    graph.emit(EditorEvent.onLabelStateChange, {
+      labelState: LabelState.Show,
+    });
   },
 };
 
