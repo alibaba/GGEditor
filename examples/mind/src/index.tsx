@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Mind } from '../../../src';
+import GGEditor, { Mind } from '@/index';
+import EditableLabel from '@/plugins/EditableLabel';
 import styles from './index.less';
 
 const data = {
@@ -23,6 +24,7 @@ class Index extends React.Component {
     return (
       <GGEditor className={styles.editor}>
         <Mind className={styles.editorBd} data={data} />
+        <EditableLabel />
       </GGEditor>
     );
   }

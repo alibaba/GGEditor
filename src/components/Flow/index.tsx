@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
-import { FLOW_CONTAINER_ID, GraphType, LabelState } from '@/common/constants';
+import { FLOW_CONTAINER_ID, GraphType } from '@/common/constants';
 import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
@@ -24,17 +24,9 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   containerId = `${FLOW_CONTAINER_ID}_${guid()}`;
 
-  canDragCanvas = () => {
-    const { labelState } = this.props;
+  canDragCanvas = () => {};
 
-    return labelState === LabelState.Hide;
-  };
-
-  canZoomCanvas = () => {
-    const { labelState } = this.props;
-
-    return labelState === LabelState.Hide;
-  };
+  canZoomCanvas = () => {};
 
   parseData = data => {
     const { nodes, edges } = data;

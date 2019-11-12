@@ -24,7 +24,6 @@ import {
   FlowAndMindCommonProps,
 } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
-import EditableLabel from '@/components/EditableLabel';
 
 import './command';
 import './behavior';
@@ -176,7 +175,6 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     return (
       <div id={containerId} {...pick(this.props, ['className', 'style'])}>
         {children}
-        <EditableLabel />
       </div>
     );
   }

@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from 'antd';
-import GGEditor, { Flow, RegisterNode } from '../../../src';
-import ItemPopover from '../../../src/plugins/ItemPopover';
-import ContextMenu from '../../../src/plugins/ContextMenu';
+import GGEditor, { Flow, RegisterNode } from '@/index';
+import ItemPopover from '@/plugins/ItemPopover';
+import ContextMenu from '@/plugins/ContextMenu';
+import EditableLabel from '@/plugins/EditableLabel';
 import styles from './index.less';
 
 const data = {
@@ -75,6 +76,7 @@ class Index extends React.Component {
         />
         <ItemPopover renderTitle={this.renderItemPopoverTitle} renderContent={this.renderItemPopoverContent} />
         <ContextMenu renderContent={this.renderContextMenuContent} />
+        <EditableLabel />
       </GGEditor>
     );
   }
