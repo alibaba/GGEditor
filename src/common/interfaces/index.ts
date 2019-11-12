@@ -260,7 +260,6 @@ export interface GraphStateEvent {
 }
 
 export interface LabelStateEvent {
-  graphState: GraphState;
   labelState: LabelState;
 }
 

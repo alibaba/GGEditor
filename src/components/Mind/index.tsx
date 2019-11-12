@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
-import { MIND_CONTAINER_ID, ShapeClassName, LabelState, GraphType } from '@/common/constants';
+import { MIND_CONTAINER_ID, ShapeClassName, GraphType } from '@/common/constants';
 import { MindData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
@@ -24,17 +24,9 @@ class Mind extends React.Component<MindProps, MindState> {
 
   containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
-  canDragCanvas = () => {
-    const { labelState } = this.props;
+  canDragCanvas = () => {};
 
-    return labelState === LabelState.Hide;
-  };
-
-  canZoomCanvas = () => {
-    const { labelState } = this.props;
-
-    return labelState === LabelState.Hide;
-  };
+  canZoomCanvas = () => {};
 
   canCollapseExpand = ({ target }) => {
     return target && target.get('className') === ShapeClassName.CollapseExpandButton;

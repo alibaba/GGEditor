@@ -3,8 +3,8 @@ import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import { addListener } from '@/utils';
 import Global from '@/common/Global';
-import { EditorEvent, GraphCommonEvent, GraphState, LabelState } from '@/common/constants';
-import { EventHandle, CommandEvent, GraphStateEvent, LabelStateEvent } from '@/common/interfaces';
+import { EditorEvent, GraphCommonEvent, GraphState } from '@/common/constants';
+import { EventHandle, CommandEvent, GraphStateEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
@@ -32,10 +32,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.state = {
       graph: null,
       graphState: GraphState.CanvasSelected,
-      labelState: LabelState.Hide,
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
-      setLabelState: this.setLabelState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
@@ -67,21 +65,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
         graphState,
       });
     });
-
-    addListener<EventHandle<LabelStateEvent>>(
-      graph,
-      EditorEvent.onLabelStateChange,
-      ({ graphState = GraphState.NodeSelected, labelState }) => {
-        if (labelState === this.state.labelState) {
-          return;
-        }
-
-        this.setState({
-          graphState,
-          labelState,
-        });
-      },
-    );
   }
 
   bindShortcut(graph: G6.Graph) {
@@ -117,7 +100,12 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
         if (flag) {
           if (this.canExecuteCommand(name)) {
+            // Prevent default
+            e.preventDefault();
+
+            // Execute command
             this.executeCommand(name);
+
             return true;
           }
         }
@@ -139,12 +127,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   setGraphState = (graphState: GraphState) => {
     this.setState({
       graphState,
-    });
-  };
-
-  setLabelState = (labelState: LabelState) => {
-    this.setState({
-      labelState,
     });
   };
 
