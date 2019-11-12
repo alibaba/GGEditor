@@ -3812,7 +3812,6 @@
 	        return keyShape;
 	    },
 	    afterDraw(model, group) {
-	        this.alignLabel(group.findByClassName(ShapeClassName.Label));
 	        this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
 	    },
 	    /* 绘制菜单按钮 */
@@ -3858,12 +3857,12 @@
 	        const label = group.addShape('text', {
 	            className: ShapeClassName.Label,
 	            attrs: {
-	                textAlign: 'left',
-	                textBaseline: 'top',
+	                textAlign: 'center',
+	                textBaseline: 'middle',
 	                text: model.label,
 	                fill: 'black',
-	                x: 0,
-	                y: 0,
+	                x: keyShapeSize.width / 2,
+	                y: keyShapeSize.height / 2,
 	            },
 	        });
 	        label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
@@ -3878,7 +3877,6 @@
 	        statusIcon && statusIcon.remove(true);
 	        this.drawStatusIcon(model, group);
 	        const newLabel = this.drawLabel(model, group);
-	        this.alignLabel(newLabel);
 	    },
 	    /* 根据尺寸重设节点文本 */
 	    resetLabelText(label, maxWidth, maxLine = 2) {
@@ -3920,14 +3918,9 @@
 	            .concat(`${newLastLine}...`)
 	            .join('\n');
 	    },
-	    /* 调整节点文本的位置 */
-	    alignLabel(label) {
-	        label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
-	        label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
-	    },
 	    /* 调整menuIcon位置 */
 	    alignMenuIcon(icon) {
-	        icon.attr('x', keyShapeSize.width - icon.getBBox().width);
+	        icon && icon.attr('x', keyShapeSize.width - icon.getBBox().width);
 	    },
 	    /* 绘制包围层 */
 	    drawWrapper(model, group) {
@@ -6544,7 +6537,7 @@
 	            label: '结束节点',
 	            x: 55,
 	            y: 255,
-	            statusIconColor: 'brown ',
+	            statusIconColor: 'brown',
 	        },
 	    ],
 	    edges: [

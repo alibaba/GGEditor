@@ -44,7 +44,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   },
 
   afterDraw(model, group) {
-    this.alignLabel(group.findByClassName(ShapeClassName.Label));
     this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
   },
 
@@ -95,12 +94,12 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     const label = group.addShape('text', {
       className: ShapeClassName.Label,
       attrs: {
-        textAlign: 'left',
-        textBaseline: 'top',
+        textAlign: 'center',
+        textBaseline: 'middle',
         text: model.label,
         fill: 'black',
-        x: 0,
-        y: 0,
+        x: keyShapeSize.width / 2,
+        y: keyShapeSize.height / 2,
       },
     });
     label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
@@ -117,7 +116,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
 
     this.drawStatusIcon(model, group);
     const newLabel = this.drawLabel(model, group);
-    this.alignLabel(newLabel);
   },
 
   /* 根据尺寸重设节点文本 */
@@ -165,13 +163,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
       .slice(0, maxLine - 1)
       .concat(`${newLastLine}...`)
       .join('\n');
-  },
-
-  /* 调整节点文本的位置 */
-  alignLabel(label: G.Shape) {
-    if (!label) return;
-    label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
-    label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
   },
 
   /* 调整menuIcon位置 */
