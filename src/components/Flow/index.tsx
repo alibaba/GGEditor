@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
-import { FLOW_CONTAINER_ID, GraphType } from '@/common/constants';
+import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
 import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
@@ -24,9 +24,15 @@ class Flow extends React.Component<FlowProps, FlowState> {
 
   containerId = `${FLOW_CONTAINER_ID}_${guid()}`;
 
-  canDragCanvas = () => {};
+  canZoomCanvas = () => {
+    const { graph } = this.props;
 
-  canZoomCanvas = () => {};
+    return (
+      !graph.get(PlugSignal.ShowItemPopover) &&
+      !graph.get(PlugSignal.ShowContextMenu) &&
+      !graph.get(PlugSignal.ShowEditableLabel)
+    );
+  };
 
   parseData = data => {
     const { nodes, edges } = data;
@@ -59,11 +65,8 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const modes: any = {
       default: {
         ...customBehaviors,
-        'flow-drag-canvas': {
-          type: 'flow-drag-canvas',
-          shouldBegin: this.canDragCanvas,
-          shouldUpdate: this.canDragCanvas,
-          shouldEnd: this.canDragCanvas,
+        'drag-canvas': {
+          type: 'drag-canvas',
         },
         'zoom-canvas': {
           type: 'zoom-canvas',

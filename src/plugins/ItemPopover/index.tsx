@@ -1,12 +1,17 @@
 import React from 'react';
 import { Popover } from 'antd';
 import delay from 'lodash/delay';
-import { ItemType, GraphNodeEvent } from '@/common/constants';
+import { PlugSignal, GraphNodeEvent } from '@/common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+
+export enum ItemPopoverType {
+  Node = 'node',
+  Edge = 'edge',
+}
 
 interface ItemPopoverProps extends EditorPrivateContextProps {
   /** 浮层类型 */
-  type?: ItemType;
+  type?: ItemPopoverType;
   /** 浮层标题 */
   renderTitle?: (item: G6.Item) => React.ReactNode;
   /** 浮层内容 */
@@ -23,7 +28,7 @@ interface ItemPopoverState {
 
 class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   static defaultProps = {
-    type: ItemType.Node,
+    type: ItemPopoverType.Node,
     renderTitle: () => null,
     renderContent: () => null,
   };
@@ -46,7 +51,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
       return;
     }
 
-    if (type === ItemType.Node) {
+    if (type === ItemPopoverType.Node) {
       graph.on(GraphNodeEvent.onNodeMouseEnter, ({ item }) => {
         clearTimeout(this.mouseLeaveTimeoutID);
 
@@ -64,6 +69,8 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   showItemPopover = (item: G6.Item) => {
     const { graph, renderTitle, renderContent } = this.props;
 
+    graph.set(PlugSignal.ShowItemPopover, true);
+
     const { centerX: x, minY: y } = item.getBBox();
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
 
@@ -77,6 +84,10 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   };
 
   hideItemPopover = () => {
+    const { graph } = this.props;
+
+    graph.set(PlugSignal.ShowItemPopover, false);
+
     this.setState({
       visible: false,
     });
@@ -93,4 +104,4 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   }
 }
 
-export default withEditorPrivateContext(ItemPopover);
+export default withEditorPrivateContext<ItemPopoverProps>(ItemPopover);

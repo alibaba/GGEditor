@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
+import { PlugSignal, GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
 export enum ContextMenuType {
@@ -73,6 +73,8 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   showContextMenu = (x: number, y: number, item?: G6.Item) => {
     const { graph, renderContent } = this.props;
 
+    graph.set(PlugSignal.ShowContextMenu, true);
+
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
 
     this.setState({
@@ -84,6 +86,10 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   };
 
   hideContextMenu = () => {
+    const { graph } = this.props;
+
+    graph.set(PlugSignal.ShowContextMenu, false);
+
     this.setState({
       visible: false,
     });
@@ -100,4 +106,4 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   }
 }
 
-export default withEditorPrivateContext(ContextMenu);
+export default withEditorPrivateContext<ContextMenuProps>(ContextMenu);
