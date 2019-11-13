@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
-import { MIND_CONTAINER_ID, ShapeClassName, GraphType } from '@/common/constants';
+import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
 import { MindData, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 import behaviorManager from '@/common/behaviorManager';
@@ -24,9 +24,15 @@ class Mind extends React.Component<MindProps, MindState> {
 
   containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
-  canDragCanvas = () => {};
+  canZoomCanvas = () => {
+    const { graph } = this.props;
 
-  canZoomCanvas = () => {};
+    return (
+      !graph.get(PlugSignal.ShowItemPopover) &&
+      !graph.get(PlugSignal.ShowContextMenu) &&
+      !graph.get(PlugSignal.ShowEditableLabel)
+    );
+  };
 
   canCollapseExpand = ({ target }) => {
     return target && target.get('className') === ShapeClassName.CollapseExpandButton;
@@ -104,9 +110,6 @@ class Mind extends React.Component<MindProps, MindState> {
         },
         'drag-canvas': {
           type: 'drag-canvas',
-          shouldBegin: this.canDragCanvas,
-          shouldUpdate: this.canDragCanvas,
-          shouldEnd: this.canDragCanvas,
         },
         'zoom-canvas': {
           type: 'zoom-canvas',

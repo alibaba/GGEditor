@@ -42,6 +42,12 @@ export enum LabelState {
   Show = 'Show',
 }
 
+export enum PlugSignal {
+  ShowItemPopover = 'ShowItemPopover',
+  ShowContextMenu = 'ShowContextMenu',
+  ShowEditableLabel = 'ShowEditableLabel',
+}
+
 export enum EditorEvent {
   /** 调用命令之前触发 */
   onBeforeExecuteCommand = 'onBeforeExecuteCommand',
