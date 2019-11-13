@@ -1,7 +1,7 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { isMind, getSelectedNodes } from '@/utils';
-import { EditorEvent, GraphNodeEvent, LabelState } from '@/common/constants';
+import { EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
 import { LabelStateEvent } from '@/common/interfaces';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
@@ -21,7 +21,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
 
   static defaultProps = {
     labelClassName: 'node-label',
-    labelMaxWidth: 114,
+    labelMaxWidth: 100,
   };
 
   state = {
@@ -70,6 +70,10 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   };
 
   showEditableLabel = () => {
+    const { graph } = this.props;
+
+    graph.set(PlugSignal.ShowEditableLabel, true);
+
     this.setState(
       {
         visible: true,
@@ -82,6 +86,10 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   };
 
   hideEditableLabel = () => {
+    const { graph } = this.props;
+
+    graph.set(PlugSignal.ShowEditableLabel, false);
+
     this.setState({
       visible: false,
     });
