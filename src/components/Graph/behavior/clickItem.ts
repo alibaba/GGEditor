@@ -1,5 +1,5 @@
-import { isMind, isEdge, getSelectedNodes, getSelectedEdges, executeBatch } from '@/utils';
-import { ItemState } from '@/common/constants';
+import { isMind, isEdge, getSelectedNodes, getSelectedEdges, getGraphState, executeBatch } from '@/utils';
+import { ItemState, GraphState, EditorEvent } from '@/common/constants';
 import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
@@ -79,10 +79,20 @@ const clickItemBehavior: ClickItemBehavior & ThisType<ClickItemBehavior & Defaul
         graph.setItemState(item, ItemState.Selected, true);
       }
     }
+
+    graph.emit(EditorEvent.onGraphStateChange, {
+      graphState: getGraphState(graph),
+    });
   },
 
   handleCanvasClick() {
+    const { graph } = this;
+
     this.clearSelectedState();
+
+    graph.emit(EditorEvent.onGraphStateChange, {
+      graphState: GraphState.CanvasSelected,
+    });
   },
 
   handleKeyDown(e) {
