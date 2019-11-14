@@ -44,7 +44,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   mouseEnterTimeoutID = 0;
   mouseLeaveTimeoutID = 0;
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ItemPopoverProps) {
     const { graph, type } = this.props;
 
     if (graph === prevProps.graph) {
