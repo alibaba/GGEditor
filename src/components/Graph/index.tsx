@@ -1,28 +1,17 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { addListener, getSelectedNodes, getSelectedEdges, isMind } from '@/utils';
+import { isMind } from '@/utils';
 import { track } from '@/helpers';
 import Global from '@/common/Global';
 import {
   GraphType,
-  GraphState,
-  EditorEvent,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
-import {
-  GraphNativeEvent,
-  GraphReactEvent,
-  GraphEvent,
-  CommandEvent,
-  EventHandle,
-  FlowData,
-  MindData,
-  FlowAndMindCommonProps,
-} from '@/common/interfaces';
+import { FlowData, MindData, GraphNativeEvent, GraphReactEvent, FlowAndMindCommonProps } from '@/common/interfaces';
 import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
 
 import './command';
@@ -60,33 +49,6 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
       this.changeData(data);
     }
   }
-
-  getGraphState = () => {
-    const { graph } = this;
-
-    let graphState: GraphState = GraphState.CanvasSelected;
-
-    if (!graph) {
-      return graphState;
-    }
-
-    const selectedNodes = getSelectedNodes(graph);
-    const selectedEdges = getSelectedEdges(graph);
-
-    if (selectedNodes.length === 1 && !selectedEdges.length) {
-      graphState = GraphState.NodeSelected;
-    }
-
-    if (selectedEdges.length === 1 && !selectedNodes.length) {
-      graphState = GraphState.EdgeSelected;
-    }
-
-    if (selectedNodes.length && selectedEdges.length) {
-      graphState = GraphState.MultiSelected;
-    }
-
-    return graphState;
-  };
 
   initGraph() {
     const { containerId, parseData, initGraph, setGraph } = this.props;
@@ -132,26 +94,9 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     };
 
     (Object.keys(events) as GraphReactEvent[]).forEach(event => {
-      addListener<EventHandle<GraphEvent>>(graph, events[event], props[event]);
-    });
-
-    // Add listener for the selected status of the graph
-    const { setGraphState } = this.props;
-
-    addListener<EventHandle<CommandEvent>>(graph, EditorEvent.onAfterExecuteCommand, () => {
-      setGraphState(this.getGraphState());
-    });
-
-    addListener<EventHandle<GraphEvent>>(graph, GraphNodeEvent.onNodeClick, () => {
-      setGraphState(this.getGraphState());
-    });
-
-    addListener<EventHandle<GraphEvent>>(graph, GraphEdgeEvent.onEdgeClick, () => {
-      setGraphState(this.getGraphState());
-    });
-
-    addListener<EventHandle<GraphEvent>>(graph, GraphCanvasEvent.onCanvasClick, () => {
-      setGraphState(GraphState.CanvasSelected);
+      if (typeof props[event] === 'function') {
+        graph.on(events[event], props[event]);
+      }
     });
   }
 
