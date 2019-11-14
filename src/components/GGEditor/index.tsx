@@ -1,10 +1,9 @@
 import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
-import { addListener } from '@/utils';
 import Global from '@/common/Global';
-import { EditorEvent, GraphCommonEvent, GraphState } from '@/common/constants';
-import { EventHandle, CommandEvent, GraphStateEvent } from '@/common/interfaces';
+import { EditorEvent, GraphCommonEvent } from '@/common/constants';
+import { CommandEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import EditorContext from '@/common/context/EditorContext';
 import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
@@ -13,8 +12,8 @@ import '@/components/Graph/shape/nodes/bizNode';
 interface GGEditorProps {
   className?: string;
   style?: React.CSSProperties;
-  [EditorEvent.onBeforeExecuteCommand]?: EventHandle<CommandEvent>;
-  [EditorEvent.onAfterExecuteCommand]?: EventHandle<CommandEvent>;
+  [EditorEvent.onBeforeExecuteCommand]?: (e: CommandEvent) => void;
+  [EditorEvent.onAfterExecuteCommand]?: (e: CommandEvent) => void;
 }
 
 interface GGEditorState extends EditorPrivateContextProps {}
@@ -24,16 +23,19 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     Global.setTrackable(trackable);
   }
 
-  lastMousedownTarget: EventTarget | null;
+  static defaultProps = {
+    [EditorEvent.onBeforeExecuteCommand]: () => {},
+    [EditorEvent.onAfterExecuteCommand]: () => {},
+  };
+
+  lastMousedownTarget: EventTarget | null = null;
 
   constructor(props: GGEditorProps) {
     super(props);
 
     this.state = {
       graph: null,
-      graphState: GraphState.CanvasSelected,
       setGraph: this.setGraph,
-      setGraphState: this.setGraphState,
       canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
@@ -44,27 +46,8 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   bindEvent(graph: G6.Graph) {
     const { props } = this;
 
-    addListener<EventHandle<CommandEvent>>(
-      graph,
-      EditorEvent.onBeforeExecuteCommand,
-      props[EditorEvent.onBeforeExecuteCommand],
-    );
-
-    addListener<EventHandle<CommandEvent>>(
-      graph,
-      EditorEvent.onAfterExecuteCommand,
-      props[EditorEvent.onAfterExecuteCommand],
-    );
-
-    addListener<EventHandle<GraphStateEvent>>(graph, EditorEvent.onGraphStateChange, ({ graphState }) => {
-      if (graphState === this.state.graphState) {
-        return;
-      }
-
-      this.setState({
-        graphState,
-      });
-    });
+    graph.on<CommandEvent>(EditorEvent.onBeforeExecuteCommand, props[EditorEvent.onBeforeExecuteCommand]);
+    graph.on<CommandEvent>(EditorEvent.onAfterExecuteCommand, props[EditorEvent.onAfterExecuteCommand]);
   }
 
   bindShortcut(graph: G6.Graph) {
@@ -122,12 +105,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
     this.bindEvent(graph);
     this.bindShortcut(graph);
-  };
-
-  setGraphState = (graphState: GraphState) => {
-    this.setState({
-      graphState,
-    });
   };
 
   canExecuteCommand = (name: string) => {

@@ -1,6 +1,5 @@
 import G6 from '@antv/g6';
-import { EditorEvent, ItemState, ItemType } from '@/common/constants';
-import { GraphNativeEvent } from '@/common/interfaces';
+import { ItemType, ItemState, GraphState } from '@/common/constants';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -16,13 +15,6 @@ export const toQueryString = (obj: object) =>
   Object.keys(obj)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
     .join('&');
-
-/** 添加事件监听 */
-export function addListener<T>(target: G6.Graph, eventName: EditorEvent | GraphNativeEvent, handler: T | undefined) {
-  if (typeof handler === 'function') {
-    target.on<T>(eventName, handler);
-  }
-}
 
 /** 判断是否脑图 */
 export function isMind(graph: G6.Graph) {
@@ -54,6 +46,28 @@ export function getHighlightEdges(graph: G6.Graph): G6.Edge[] {
   return graph.findAllByState(ItemType.Edge, ItemState.HighLight);
 }
 
+/** 获取图表状态 */
+export function getGraphState(graph: G6.Graph): GraphState {
+  let graphState: GraphState = GraphState.MultiSelected;
+
+  const selectedNodes = getSelectedNodes(graph);
+  const selectedEdges = getSelectedEdges(graph);
+
+  if (selectedNodes.length === 1 && !selectedEdges.length) {
+    graphState = GraphState.NodeSelected;
+  }
+
+  if (selectedEdges.length === 1 && !selectedNodes.length) {
+    graphState = GraphState.EdgeSelected;
+  }
+
+  if (!selectedNodes.length && !selectedEdges.length) {
+    graphState = GraphState.CanvasSelected;
+  }
+
+  return graphState;
+}
+
 /** 执行批量处理 */
 export function executeBatch(graph: G6.Graph, execute: Function) {
   graph.setAutoPaint(false);
@@ -64,6 +78,7 @@ export function executeBatch(graph: G6.Graph, execute: Function) {
   graph.setAutoPaint(true);
 }
 
+/** 执行递归遍历 */
 export function recursiveTraversal(root, callback) {
   if (!root) {
     return;
