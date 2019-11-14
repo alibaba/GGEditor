@@ -35,7 +35,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
     content: null,
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ContextMenuProps) {
     const { graph, type } = this.props;
 
     if (graph === prevProps.graph) {
