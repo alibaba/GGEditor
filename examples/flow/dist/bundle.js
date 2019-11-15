@@ -3876,7 +3876,7 @@
 	        label && label.remove(true);
 	        statusIcon && statusIcon.remove(true);
 	        this.drawStatusIcon(model, group);
-	        const newLabel = this.drawLabel(model, group);
+	        this.drawLabel(model, group);
 	    },
 	    /* 根据尺寸重设节点文本 */
 	    resetLabelText(label, maxWidth, maxLine = 2) {
@@ -3886,30 +3886,40 @@
 	        const { fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = label.attr();
 	        const initialFont = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
 	        UtilCanvasContext.font = initialFont;
-	        const ellipseWidth = UtilCanvasContext.measureText('...').width;
+	        const ellipsisWidth = UtilCanvasContext.measureText('...').width;
+	        // 储存所有文本行
 	        const lines = [];
 	        let tempStr = '';
 	        for (let i = 0; i < initialText.length; i++) {
 	            const char = initialText[i];
-	            if (/\s/.test(char)) {
-	                continue;
-	            }
 	            tempStr += char;
-	            if (UtilCanvasContext.measureText(tempStr).width > maxWidth || i === initialText.length - 1) {
-	                lines.push(tempStr);
-	                // 超出的字符放在下一行
+	            // 匹配到换行符
+	            if (/\n/.test(char) || /\r/.test(char)) {
+	                lines.push(tempStr.trim());
+	                tempStr = '';
+	            }
+	            // 文本超宽
+	            if (UtilCanvasContext.measureText(tempStr).width > maxWidth) {
+	                lines.push(tempStr.substring(0, tempStr.length - 1));
 	                tempStr = char;
+	            }
+	            // 最后一个字符
+	            if (i === initialText.length - 1) {
+	                lines.push(tempStr);
 	            }
 	        }
 	        const lastLine = lines[maxLine - 1];
-	        // 没有最后一行文本或最后一行文本宽度不超，则直接返回
-	        if (!lastLine || UtilCanvasContext.measureText(lastLine).width < maxWidth) {
-	            return lines.join('\n').trim();
+	        // 总行数不大于maxLine，则直接返回
+	        if (lines.length <= maxLine) {
+	            return lines
+	                .slice(0, maxLine)
+	                .join('\n')
+	                .trim();
 	        }
 	        // 添加省略号
 	        let newLastLine = '';
 	        for (const char of lastLine) {
-	            if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipseWidth) {
+	            if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipsisWidth) {
 	                newLastLine += char;
 	            }
 	        }
