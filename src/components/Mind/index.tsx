@@ -4,7 +4,7 @@ import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
 import { MindData, FlowAndMindCommonProps } from '@/common/interfaces';
-import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { withEditorContext } from '@/components/EditorContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
@@ -162,4 +162,4 @@ class Mind extends React.Component<MindProps, MindState> {
   }
 }
 
-export default withEditorPrivateContext<MindProps>(Mind);
+export default withEditorContext<MindProps>(Mind);

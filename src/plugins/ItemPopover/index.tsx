@@ -2,14 +2,14 @@ import React from 'react';
 import { Popover } from 'antd';
 import delay from 'lodash/delay';
 import { PlugSignal, GraphNodeEvent } from '@/common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ItemPopoverType {
   Node = 'node',
   Edge = 'edge',
 }
 
-interface ItemPopoverProps extends EditorPrivateContextProps {
+interface ItemPopoverProps extends EditorContextProps {
   /** 浮层类型 */
   type?: ItemPopoverType;
   /** 浮层标题 */
@@ -104,4 +104,4 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   }
 }
 
-export default withEditorPrivateContext<ItemPopoverProps>(ItemPopover);
+export default withEditorContext<ItemPopoverProps>(ItemPopover);

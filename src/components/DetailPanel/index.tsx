@@ -2,10 +2,10 @@ import React from 'react';
 import pick from 'lodash/pick';
 import { getSelectedNodes, getSelectedEdges } from '@/utils';
 import { GraphState, EditorEvent } from '@/common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 import { GraphStateEvent } from '@/common/interfaces';
 
-interface DetailPanelProps extends EditorPrivateContextProps {
+interface DetailPanelProps extends EditorContextProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -23,7 +23,7 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
       }
     }
 
-    return withEditorPrivateContext<DetailPanelProps>(TypedPanel);
+    return withEditorContext<DetailPanelProps>(TypedPanel);
   };
 
   type: GraphState;

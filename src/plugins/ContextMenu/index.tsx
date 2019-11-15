@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlugSignal, GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ContextMenuType {
   Canvas = 'canvas',
@@ -8,7 +8,7 @@ export enum ContextMenuType {
   Edge = 'edge',
 }
 
-interface ContextMenuProps extends EditorPrivateContextProps {
+interface ContextMenuProps extends EditorContextProps {
   /** 菜单类型 */
   type?: ContextMenuType;
   /** 菜单内容 */
@@ -106,4 +106,4 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   }
 }
 
-export default withEditorPrivateContext<ContextMenuProps>(ContextMenu);
+export default withEditorContext<ContextMenuProps>(ContextMenu);
