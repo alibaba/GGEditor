@@ -12,26 +12,26 @@ import {
   GraphCustomEvent,
 } from '@/common/constants';
 import { FlowData, MindData, GraphNativeEvent, GraphReactEvent, FlowAndMindCommonProps } from '@/common/interfaces';
-import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { withEditorContext } from '@/components/EditorContext';
 
 import './command';
 import './behavior';
 
 const FIT_VIEW_PADDING = 200;
 
-interface EditorGraphProps extends Omit<FlowAndMindCommonProps, 'graphConfig' | 'customModes'> {
+interface GraphProps extends Omit<FlowAndMindCommonProps, 'graphConfig' | 'customModes'> {
   containerId: string;
   data: FlowData | MindData;
   parseData(data: object): void;
   initGraph(width: number, height: number): G6.Graph;
 }
 
-interface EditorGraphState {}
+interface GraphState {}
 
-class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
+class Graph extends React.Component<GraphProps, GraphState> {
   graph: G6.Graph | null;
 
-  constructor(props: EditorGraphProps) {
+  constructor(props: GraphProps) {
     super(props);
 
     this.graph = null;
@@ -42,7 +42,7 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
     this.bindEvent();
   }
 
-  componentDidUpdate(prevProps: EditorGraphProps) {
+  componentDidUpdate(prevProps: GraphProps) {
     const { data } = this.props;
 
     if (data !== prevProps.data) {
@@ -125,4 +125,4 @@ class EditorGraph extends React.Component<EditorGraphProps, EditorGraphState> {
   }
 }
 
-export default withEditorPrivateContext<EditorGraphProps>(EditorGraph);
+export default withEditorContext<GraphProps>(Graph);

@@ -1,7 +1,8 @@
 import React from 'react';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import commandManager from '@/common/commandManager';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
-interface CommandProps extends EditorPrivateContextProps {
+interface CommandProps extends EditorContextProps {
   name: string;
 }
 
@@ -19,18 +20,21 @@ class Command extends React.Component<CommandProps, CommandState> {
   };
 
   render() {
-    const { name, graph, canExecuteCommand, children } = this.props;
+    const { graph, name, children } = this.props;
 
     if (!graph) {
       return null;
     }
 
     return (
-      <div className={`command${canExecuteCommand(name) ? '' : ' command-disabled'}`} onClick={this.handleClick}>
+      <div
+        className={`command${commandManager.canExecute(graph, name) ? '' : ' command-disabled'}`}
+        onClick={this.handleClick}
+      >
         {children}
       </div>
     );
   }
 }
 
-export default withEditorPrivateContext<CommandProps>(Command);
+export default withEditorContext<CommandProps>(Command);

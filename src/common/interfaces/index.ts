@@ -12,7 +12,7 @@ import {
   GraphCustomEvent,
 } from '@/common/constants';
 import { G } from '@antv/g6/types/g';
-import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps } from '@/components/EditorContext';
 
 interface LabelStyle {
   // 文本颜色
@@ -272,9 +272,7 @@ export type GraphReactEvent =
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
 
-export interface FlowAndMindCommonProps
-  extends EditorPrivateContextProps,
-    Partial<Record<GraphReactEvent, () => void>> {
+export interface FlowAndMindCommonProps extends EditorContextProps, Partial<Record<GraphReactEvent, () => void>> {
   className?: string;
   style?: React.CSSProperties;
   graphConfig?: Partial<G6.GraphOptions>;

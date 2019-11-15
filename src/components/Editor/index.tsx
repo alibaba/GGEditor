@@ -5,20 +5,20 @@ import Global from '@/common/Global';
 import { EditorEvent, GraphCommonEvent } from '@/common/constants';
 import { CommandEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import EditorContext from '@/common/context/EditorContext';
-import EditorPrivateContext, { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
+import EditorContext, { EditorContextProps } from '@/components/EditorContext';
+
 import '@/components/Graph/shape/nodes/bizNode';
 
-interface GGEditorProps {
+interface EditorProps {
   className?: string;
   style?: React.CSSProperties;
   [EditorEvent.onBeforeExecuteCommand]?: (e: CommandEvent) => void;
   [EditorEvent.onAfterExecuteCommand]?: (e: CommandEvent) => void;
 }
 
-interface GGEditorState extends EditorPrivateContextProps {}
+interface EditorState extends EditorContextProps {}
 
-class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
+class Editor extends React.Component<EditorProps, EditorState> {
   static setTrackable(trackable: boolean) {
     Global.setTrackable(trackable);
   }
@@ -30,13 +30,12 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
   lastMousedownTarget: EventTarget | null = null;
 
-  constructor(props: GGEditorProps) {
+  constructor(props: EditorProps) {
     super(props);
 
     this.state = {
       graph: null,
       setGraph: this.setGraph,
-      canExecuteCommand: this.canExecuteCommand,
       executeCommand: this.executeCommand,
     };
 
@@ -82,7 +81,7 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
         });
 
         if (flag) {
-          if (this.canExecuteCommand(name)) {
+          if (commandManager.canExecute(graph, name)) {
             // Prevent default
             e.preventDefault();
 
@@ -107,16 +106,6 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
     this.bindShortcut(graph);
   };
 
-  canExecuteCommand = (name: string) => {
-    const { graph } = this.state;
-
-    if (graph) {
-      return commandManager.canExecute(graph, name);
-    }
-
-    return false;
-  };
-
   executeCommand = (name: string, params?: object) => {
     const { graph } = this.state;
 
@@ -127,21 +116,13 @@ class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
 
   render() {
     const { children } = this.props;
-    const { graph, executeCommand } = this.state;
 
     return (
-      <EditorContext.Provider
-        value={{
-          graph,
-          executeCommand,
-        }}
-      >
-        <EditorPrivateContext.Provider value={this.state}>
-          <div {...pick(this.props, ['className', 'style'])}>{children}</div>
-        </EditorPrivateContext.Provider>
+      <EditorContext.Provider value={this.state}>
+        <div {...pick(this.props, ['className', 'style'])}>{children}</div>
       </EditorContext.Provider>
     );
   }
 }
 
-export default GGEditor;
+export default Editor;
