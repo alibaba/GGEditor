@@ -9,7 +9,7 @@ const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const { exec } = require('child_process');
-const { version } = require('../../package.json');
+const { version } = require('../package.json');
 /* eslint-enable */
 
 async function build() {
@@ -38,7 +38,7 @@ async function build() {
           },
         }),
       ],
-      external: ['react'],
+      external: ['react', 'antd'],
     });
 
     await umdBundle.write({
@@ -67,7 +67,7 @@ async function build() {
         commonjs(),
         typescript(),
       ],
-      external: ['react', '@antv/g6', 'lodash'],
+      external: ['react', 'antd', '@antv/g6', 'lodash'],
     });
 
     await cjsBundle.write({
@@ -97,7 +97,7 @@ async function build() {
           },
         }),
       ],
-      external: ['react', '@antv/g6', 'lodash'],
+      external: ['react', 'antd', '@antv/g6', 'lodash'],
     });
 
     await esmBundle.write({

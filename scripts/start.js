@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 /* eslint-disable */
+const fs = require('fs');
 const inquirer = require('inquirer');
 const signale = require('signale');
 const rimraf = require('rimraf');
@@ -11,13 +12,14 @@ const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
+const json = require('rollup-plugin-json');
 const serve = require('rollup-plugin-serve');
 const livereload = require('rollup-plugin-livereload');
-const { version } = require('../../package.json');
+const { version } = require('../package.json');
 /* eslint-enable */
 
 function start(name) {
-  const contentBase = `examples/${name}`;
+  const contentBase = `examples`;
 
   // Clean
   rimraf.sync(`${contentBase}/dist`);
@@ -26,7 +28,7 @@ function start(name) {
 
   // Watch
   const watcher = rollup.watch({
-    input: [`${contentBase}/src/index.tsx`],
+    input: [`${contentBase}/${name}/index.tsx`],
     output: {
       file: `${contentBase}/dist/bundle.js`,
       format: 'umd',
@@ -51,6 +53,7 @@ function start(name) {
         tsconfig: 'examples/tsconfig.json',
       }),
       babel(),
+      json(),
       serve({
         open: true,
         contentBase,
@@ -78,13 +81,17 @@ function start(name) {
   });
 }
 
+const choices = fs.readdirSync('examples').filter(name => {
+  return !['mock', 'dist', 'index.html', 'index.d.ts', 'tsconfig.json', '.DS_Store'].includes(name);
+});
+
 inquirer
   .prompt([
     {
       type: 'list',
       name: 'name',
       message: 'Which example do you want to run?',
-      choices: ['flow', 'mind'],
+      choices,
     },
   ])
   .then(({ name }) => {
