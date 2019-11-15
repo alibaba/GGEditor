@@ -1,19 +1,16 @@
 import React from 'react';
 
-export interface EditorPrivateContextProps {
+export interface EditorContextProps {
   graph: G6.Graph | null;
   setGraph: (graph: G6.Graph) => void;
   executeCommand: (name: string, params?: object) => void;
-  canExecuteCommand: (name: string) => boolean;
 }
 
-const EditorPrivateContext = React.createContext({} as EditorPrivateContextProps);
+const EditorContext = React.createContext({} as EditorContextProps);
 
-export const withEditorPrivateContext = function<P extends EditorPrivateContextProps>(
-  WrappedComponent: React.ComponentClass<P>,
-) {
+export const withEditorContext = function<P extends EditorContextProps>(WrappedComponent: React.ComponentClass<P>) {
   type WrappedComponentInstance = InstanceType<typeof WrappedComponent>;
-  type WrappedComponentProps = Omit<P, keyof EditorPrivateContextProps>;
+  type WrappedComponentProps = Omit<P, keyof EditorContextProps>;
   type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
     forwardRef: React.Ref<WrappedComponentInstance>;
   };
@@ -22,9 +19,9 @@ export const withEditorPrivateContext = function<P extends EditorPrivateContextP
     const { forwardRef, ...rest } = props;
 
     return (
-      <EditorPrivateContext.Consumer>
+      <EditorContext.Consumer>
         {context => <WrappedComponent ref={forwardRef} {...(rest as any)} {...context} />}
-      </EditorPrivateContext.Consumer>
+      </EditorContext.Consumer>
     );
   };
 
@@ -33,4 +30,4 @@ export const withEditorPrivateContext = function<P extends EditorPrivateContextP
   ));
 };
 
-export default EditorPrivateContext;
+export default EditorContext;

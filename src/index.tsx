@@ -1,11 +1,11 @@
-import GGEditor from '@/components/GGEditor';
+import Editor from '@/components/Editor';
 import Flow from '@/components/Flow';
 import Mind from '@/components/Mind';
 import Command from '@/components/Command';
 import ItemPanel, { Item } from '@/components/ItemPanel';
 import { NodePanel, EdgePanel, MultiPanel, CanvasPanel } from '@/components/DetailPanel';
 import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@/components/Register';
-import { withEditorContext } from '@/common/context/EditorContext';
+import { withEditorContext } from '@/components/EditorContext';
 
 export {
   Flow,
@@ -24,4 +24,4 @@ export {
   withEditorContext,
 };
 
-export default GGEditor;
+export default Editor;

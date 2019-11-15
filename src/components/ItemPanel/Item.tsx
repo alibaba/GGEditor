@@ -1,9 +1,9 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import { ItemType } from '@/common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
-interface ItemProps extends EditorPrivateContextProps {
+interface ItemProps extends EditorContextProps {
   /** 预览图资源 */
   src: string;
 
@@ -211,4 +211,4 @@ class Item extends React.PureComponent<ItemProps, ItemState> {
   }
 }
 
-export default withEditorPrivateContext<ItemProps>(Item);
+export default withEditorContext<ItemProps>(Item);

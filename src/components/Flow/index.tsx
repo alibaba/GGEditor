@@ -4,7 +4,7 @@ import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
 import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
-import { withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { withEditorContext } from '@/components/EditorContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
@@ -107,4 +107,4 @@ class Flow extends React.Component<FlowProps, FlowState> {
   }
 }
 
-export default withEditorPrivateContext<FlowProps>(Flow);
+export default withEditorContext<FlowProps>(Flow);

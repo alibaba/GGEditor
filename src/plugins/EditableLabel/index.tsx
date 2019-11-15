@@ -3,9 +3,9 @@ import G6 from '@antv/g6';
 import { isMind, getSelectedNodes } from '@/utils';
 import { EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
 import { LabelStateEvent } from '@/common/interfaces';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
-interface EditableLabelProps extends EditorPrivateContextProps {
+interface EditableLabelProps extends EditorContextProps {
   /** 标签图形类名 */
   labelClassName?: string;
   /** 标签最大宽度 */
@@ -184,4 +184,4 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   }
 }
 
-export default withEditorPrivateContext<EditableLabelProps>(EditableLabel);
+export default withEditorContext<EditableLabelProps>(EditableLabel);
