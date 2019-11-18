@@ -48,7 +48,7 @@
     "react": "^16.8.0"
   },
   "dependencies": {
-    "@antv/g6": "3.1.6",
+    "@antv/g6": "3.1.9",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
