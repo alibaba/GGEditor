@@ -1,22 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Mind } from '../../../src';
+import GGEditor, { Mind } from '@/index';
+import data from '../mock/mind.json';
 import styles from './index.less';
-
-const data = {
-  label: '中心主题',
-  children: [
-    {
-      label: '分支主题 1',
-    },
-    {
-      label: '分支主题 2',
-    },
-    {
-      label: '分支主题 3',
-    },
-  ],
-};
 
 class Index extends React.Component {
   render() {

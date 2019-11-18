@@ -1,16 +1,19 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import { getSelectedNodes, getSelectedEdges } from '@/utils';
-import { GraphState } from '@/common/constants';
-import { EditorPrivateContextProps, withEditorPrivateContext } from '@/common/context/EditorPrivateContext';
+import { GraphState, EditorEvent } from '@/common/constants';
+import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
+import { GraphStateEvent } from '@/common/interfaces';
 
-interface DetailPanelProps extends EditorPrivateContextProps {
+interface DetailPanelProps extends EditorContextProps {
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
 }
 
-interface DetailPanelState {}
+interface DetailPanelState {
+  graphState: GraphState;
+}
 
 class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
   static create = function(type: GraphState) {
@@ -20,10 +23,14 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
       }
     }
 
-    return withEditorPrivateContext<DetailPanelProps>(TypedPanel);
+    return withEditorContext<DetailPanelProps>(TypedPanel);
   };
 
   type: GraphState;
+
+  state = {
+    graphState: GraphState.CanvasSelected,
+  };
 
   constructor(props: DetailPanelProps, type: GraphState) {
     super(props);
@@ -31,8 +38,23 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
     this.type = type;
   }
 
+  componentDidUpdate(prevProps: DetailPanelProps) {
+    const { graph } = this.props;
+
+    if (graph === prevProps.graph) {
+      return;
+    }
+
+    graph.on<GraphStateEvent>(EditorEvent.onGraphStateChange, ({ graphState }) => {
+      this.setState({
+        graphState,
+      });
+    });
+  }
+
   render() {
-    const { graph, graphState, children } = this.props;
+    const { graph, children } = this.props;
+    const { graphState } = this.state;
 
     if (!graph) {
       return null;
@@ -50,6 +72,8 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
               nodes: getSelectedNodes(graph),
               edges: getSelectedEdges(graph),
             });
+          } else {
+            return child;
           }
         })}
       </div>

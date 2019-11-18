@@ -12,7 +12,7 @@ import {
   GraphCustomEvent,
 } from '@/common/constants';
 import { G } from '@antv/g6/types/g';
-import { EditorPrivateContextProps } from '@/common/context/EditorPrivateContext';
+import { EditorContextProps } from '@/components/EditorContext';
 
 interface LabelStyle {
   // 文本颜色
@@ -260,38 +260,8 @@ export interface GraphStateEvent {
 }
 
 export interface LabelStateEvent {
-  graphState: GraphState;
   labelState: LabelState;
 }
-
-export interface ContextMenuState {
-  visible: boolean;
-  clientX: number;
-  clientY: number;
-}
-
-export interface NodePopoverState {
-  visible: boolean;
-  x: number;
-  y: number;
-  text?: string;
-}
-
-export interface ContextMenuEvent {
-  contextMenuState: ContextMenuState;
-}
-
-export interface NodePopoverEvent {
-  nodePopoverState: NodePopoverState;
-}
-
-export type EventHandle<T> = (e: T) => void;
-
-export type GraphCommonEventProps = Partial<Record<keyof typeof GraphCommonEvent, EventHandle<GraphEvent>>>;
-export type GraphNodeEventProps = Partial<Record<keyof typeof GraphNodeEvent, EventHandle<GraphEvent>>>;
-export type GraphEdgeEventProps = Partial<Record<keyof typeof GraphEdgeEvent, EventHandle<GraphEvent>>>;
-export type GraphCanvasEventProps = Partial<Record<keyof typeof GraphCanvasEvent, EventHandle<GraphEvent>>>;
-export type GraphCustomEventProps = Partial<Record<keyof typeof GraphCustomEvent, EventHandle<GraphEvent>>>;
 
 export type GraphNativeEvent = GraphCommonEvent | GraphNodeEvent | GraphEdgeEvent | GraphCanvasEvent | GraphCustomEvent;
 
@@ -302,13 +272,7 @@ export type GraphReactEvent =
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
 
-export interface FlowAndMindCommonProps
-  extends EditorPrivateContextProps,
-    GraphCommonEventProps,
-    GraphNodeEventProps,
-    GraphEdgeEventProps,
-    GraphCanvasEventProps,
-    GraphCustomEventProps {
+export interface FlowAndMindCommonProps extends EditorContextProps, Partial<Record<GraphReactEvent, () => void>> {
   className?: string;
   style?: React.CSSProperties;
   graphConfig?: Partial<G6.GraphOptions>;

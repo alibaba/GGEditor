@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface EditorContextProps {
   graph: G6.Graph | null;
+  setGraph: (graph: G6.Graph) => void;
   executeCommand: (name: string, params?: object) => void;
 }
 

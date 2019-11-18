@@ -2,5 +2,5 @@
 /lib
 /es
 
-/examples/**/dist
+/examples/dist
 /node_modules

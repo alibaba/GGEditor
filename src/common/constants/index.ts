@@ -2,7 +2,6 @@ export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const LABEL_DEFAULT_TEXT = '新建节点';
-export const LABEL_DEFAULT_MAX_WIDTH = 200;
 
 export enum ShapeClassName {
   Label = 'node-label',
@@ -43,6 +42,12 @@ export enum LabelState {
   Show = 'Show',
 }
 
+export enum PlugSignal {
+  ShowItemPopover = 'ShowItemPopover',
+  ShowContextMenu = 'ShowContextMenu',
+  ShowEditableLabel = 'ShowEditableLabel',
+}
+
 export enum EditorEvent {
   /** 调用命令之前触发 */
   onBeforeExecuteCommand = 'onBeforeExecuteCommand',
@@ -52,10 +57,6 @@ export enum EditorEvent {
   onGraphStateChange = 'onGraphStateChange',
   /** 改变标签状态触发 */
   onLabelStateChange = 'onLabelStateChange',
-  /** 改变右键菜单状态触发 */
-  onContextMenuStateChange = 'onContextMenuStateChange',
-  /** 改变nodePopover状态触发 */
-  onNodePopoverStateChange = 'onNodePopoverStateChange',
 }
 
 export enum EditorCommand {
