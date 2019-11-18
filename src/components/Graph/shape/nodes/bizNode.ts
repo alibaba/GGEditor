@@ -44,7 +44,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
   },
 
   afterDraw(model, group) {
-    this.alignLabel(group.findByClassName(ShapeClassName.Label));
     this.alignMenuIcon(group.findByClassName(ShapeClassName.Appendix));
   },
 
@@ -95,12 +94,12 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     const label = group.addShape('text', {
       className: ShapeClassName.Label,
       attrs: {
-        textAlign: 'left',
-        textBaseline: 'top',
+        textAlign: 'center',
+        textBaseline: 'middle',
         text: model.label,
         fill: 'black',
-        x: 0,
-        y: 0,
+        x: keyShapeSize.width / 2,
+        y: keyShapeSize.height / 2,
       },
     });
     label.attr('text', this.resetLabelText(label, keyShapeSize.width - 20));
@@ -116,8 +115,7 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     statusIcon && statusIcon.remove(true);
 
     this.drawStatusIcon(model, group);
-    const newLabel = this.drawLabel(model, group);
-    this.alignLabel(newLabel);
+    this.drawLabel(model, group);
   },
 
   /* 根据尺寸重设节点文本 */
@@ -128,35 +126,46 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
     const { fontWeight, fontFamily, fontSize, fontStyle, fontVariant } = label.attr();
     const initialFont = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${fontFamily}`;
     UtilCanvasContext.font = initialFont;
-    const ellipseWidth = UtilCanvasContext.measureText('...').width;
+    const ellipsisWidth = UtilCanvasContext.measureText('...').width;
 
+    // 储存所有文本行
     const lines = [];
     let tempStr = '';
 
     for (let i = 0; i < initialText.length; i++) {
       const char = initialText[i];
-      if (/\s/.test(char)) {
-        continue;
-      }
       tempStr += char;
 
-      if (UtilCanvasContext.measureText(tempStr).width > maxWidth || i === initialText.length - 1) {
-        lines.push(tempStr);
-        // 超出的字符放在下一行
+      // 匹配到换行符
+      if (/\n/.test(char) || /\r/.test(char)) {
+        lines.push(tempStr.trim());
+        tempStr = '';
+      }
+
+      // 文本超宽
+      if (UtilCanvasContext.measureText(tempStr).width > maxWidth) {
+        lines.push(tempStr.substring(0, tempStr.length - 1));
         tempStr = char;
       }
-    }
 
+      // 最后一个字符
+      if (i === initialText.length - 1) {
+        lines.push(tempStr);
+      }
+    }
     const lastLine = lines[maxLine - 1];
-    // 没有最后一行文本或最后一行文本宽度不超，则直接返回
-    if (!lastLine || UtilCanvasContext.measureText(lastLine).width < maxWidth) {
-      return lines.join('\n').trim();
+    // 总行数不大于maxLine，则直接返回
+    if (lines.length <= maxLine) {
+      return lines
+        .slice(0, maxLine)
+        .join('\n')
+        .trim();
     }
 
     // 添加省略号
     let newLastLine = '';
     for (const char of lastLine) {
-      if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipseWidth) {
+      if (UtilCanvasContext.measureText(newLastLine + char).width < maxWidth - ellipsisWidth) {
         newLastLine += char;
       }
     }
@@ -165,13 +174,6 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
       .slice(0, maxLine - 1)
       .concat(`${newLastLine}...`)
       .join('\n');
-  },
-
-  /* 调整节点文本的位置 */
-  alignLabel(label: G.Shape) {
-    if (!label) return;
-    label.attr('x', (keyShapeSize.width - label.getBBox().width) / 2);
-    label.attr('y', (keyShapeSize.height - label.getBBox().height) / 2);
   },
 
   /* 调整menuIcon位置 */
