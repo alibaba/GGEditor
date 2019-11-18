@@ -10,7 +10,7 @@ const EditorContext = React.createContext({} as EditorContextProps);
 
 export const withEditorContext = function<P extends EditorContextProps>(WrappedComponent: React.ComponentClass<P>) {
   type WrappedComponentInstance = InstanceType<typeof WrappedComponent>;
-  type WrappedComponentProps = Omit<P, keyof EditorContextProps>;
+  type WrappedComponentProps = Omit<React.PropsWithChildren<P>, keyof EditorContextProps>;
   type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
     forwardRef: React.Ref<WrappedComponentInstance>;
   };
