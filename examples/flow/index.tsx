@@ -8,7 +8,6 @@ class Index extends React.Component {
   render() {
     return (
       <GGEditor className={styles.editor}>
-        <RegisterNode name="customFlowNode" extend="bizNode" config={nodeShapeConfig} />
         <Flow
           className={styles.editorBd}
           data={data}
@@ -18,9 +17,6 @@ class Index extends React.Component {
             },
             defaultEdge: {
               shape: 'bizFlowEdge',
-            },
-            defaultNode: {
-              shape: 'customFlowNode',
             },
           }}
         />

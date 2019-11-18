@@ -8,6 +8,7 @@ import { withEditorContext } from '@/components/EditorContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
+import './shape';
 import './behavior';
 
 interface FlowProps extends FlowAndMindCommonProps {
