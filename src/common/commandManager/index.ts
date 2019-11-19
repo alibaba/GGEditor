@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import { getGraphState } from '@/utils';
 import { EditorEvent } from '@/common/constants';
 import { Command } from '@/common/interfaces';
 
@@ -64,15 +65,17 @@ class CommandManager {
       params: command.params,
     });
 
-    if (!command.canUndo(graph)) {
-      return;
+    if (command.canUndo(graph)) {
+      const { commandQueue, commandIndex } = this;
+
+      commandQueue.splice(commandIndex, commandQueue.length - commandIndex, command);
+
+      this.commandIndex += 1;
     }
 
-    const { commandQueue, commandIndex } = this;
-
-    commandQueue.splice(commandIndex, commandQueue.length - commandIndex, command);
-
-    this.commandIndex += 1;
+    graph.emit(EditorEvent.onGraphStateChange, {
+      graphState: getGraphState(graph),
+    });
   }
 
   /** 判断是否可以执行 */
