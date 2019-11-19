@@ -1,11 +1,9 @@
-import { isMind, isEdge, getSelectedNodes, getSelectedEdges, getGraphState, executeBatch } from '@/utils';
+import { isMind, isEdge, getGraphState, clearSelectedState } from '@/utils';
 import { ItemState, GraphState, EditorEvent } from '@/common/constants';
 import { Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ClickItemBehavior extends Behavior {
-  /** 清空选中状态 */
-  clearSelectedState(shouldUpdate?: (item: G6.Item) => boolean): void;
   /** 处理点击事件 */
   handleItemClick({ item }: { item: G6.Item }): void;
   /** 处理画布点击 */
@@ -44,21 +42,6 @@ const clickItemBehavior: ClickItemBehavior & ThisType<ClickItemBehavior & Defaul
     };
   },
 
-  clearSelectedState(shouldUpdate = () => true) {
-    const { graph } = this;
-
-    const selectedNodes = getSelectedNodes(graph);
-    const selectedEdges = getSelectedEdges(graph);
-
-    executeBatch(graph, () => {
-      [...selectedNodes, ...selectedEdges].forEach(item => {
-        if (shouldUpdate(item)) {
-          graph.setItemState(item, ItemState.Selected, false);
-        }
-      });
-    });
-  },
-
   handleItemClick({ item }) {
     const { graph } = this;
 
@@ -71,7 +54,7 @@ const clickItemBehavior: ClickItemBehavior & ThisType<ClickItemBehavior & Defaul
     if (this.multiple && this.keydown) {
       graph.setItemState(item, ItemState.Selected, !isSelected);
     } else {
-      this.clearSelectedState(selectedItem => {
+      clearSelectedState(graph, selectedItem => {
         return selectedItem !== item;
       });
 
@@ -88,7 +71,7 @@ const clickItemBehavior: ClickItemBehavior & ThisType<ClickItemBehavior & Defaul
   handleCanvasClick() {
     const { graph } = this;
 
-    this.clearSelectedState();
+    clearSelectedState(graph);
 
     graph.emit(EditorEvent.onGraphStateChange, {
       graphState: GraphState.CanvasSelected,
