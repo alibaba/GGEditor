@@ -273,8 +273,8 @@ export type GraphReactEvent =
   | keyof typeof GraphCustomEvent;
 
 export interface FlowAndMindCommonProps extends EditorContextProps, Partial<Record<GraphReactEvent, () => void>> {
-  className?: string;
   style?: React.CSSProperties;
+  className?: string;
   graphConfig?: Partial<G6.GraphOptions>;
   customModes?: (mode: string, behaviors: any) => object;
 }
