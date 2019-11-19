@@ -1,14 +1,14 @@
 {
-  "label": "中心主题",
+  "label": "Central Topic",
   "children": [
     {
-      "label": "分支主题 1"
+      "label": "Main Topic 1"
     },
     {
-      "label": "分支主题 2"
+      "label": "Main Topic 2"
     },
     {
-      "label": "分支主题 3"
+      "label": "Main Topic 3"
     }
   ]
 }
