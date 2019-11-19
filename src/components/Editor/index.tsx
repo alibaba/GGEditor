@@ -10,8 +10,8 @@ import EditorContext, { EditorContextProps } from '@/components/EditorContext';
 import '@/components/Graph/shape/nodes/bizNode';
 
 interface EditorProps {
-  className?: string;
   style?: React.CSSProperties;
+  className?: string;
   [EditorEvent.onBeforeExecuteCommand]?: (e: CommandEvent) => void;
   [EditorEvent.onAfterExecuteCommand]?: (e: CommandEvent) => void;
 }

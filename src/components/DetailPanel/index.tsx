@@ -6,9 +6,8 @@ import { EditorContextProps, withEditorContext } from '@/components/EditorContex
 import { GraphStateEvent } from '@/common/interfaces';
 
 interface DetailPanelProps extends EditorContextProps {
-  className?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode;
+  className?: string;
 }
 
 interface DetailPanelState {
