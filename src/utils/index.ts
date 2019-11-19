@@ -16,6 +16,31 @@ export const toQueryString = (obj: object) =>
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
     .join('&');
 
+/** 执行批量处理 */
+export function executeBatch(graph: G6.Graph, execute: Function) {
+  graph.setAutoPaint(false);
+
+  execute();
+
+  graph.paint();
+  graph.setAutoPaint(true);
+}
+
+/** 执行递归遍历 */
+export function recursiveTraversal(root, callback) {
+  if (!root) {
+    return;
+  }
+
+  callback(root);
+
+  if (!root.children) {
+    return;
+  }
+
+  root.children.forEach(item => recursiveTraversal(item, callback));
+}
+
 /** 判断是否脑图 */
 export function isMind(graph: G6.Graph) {
   return graph.constructor === G6.TreeGraph;
@@ -68,27 +93,16 @@ export function getGraphState(graph: G6.Graph): GraphState {
   return graphState;
 }
 
-/** 执行批量处理 */
-export function executeBatch(graph: G6.Graph, execute: Function) {
-  graph.setAutoPaint(false);
+/** 清除选中状态 */
+export function clearSelectedState(graph: G6.Graph, shouldUpdate: (item: G6.Item) => boolean = () => true) {
+  const selectedNodes = getSelectedNodes(graph);
+  const selectedEdges = getSelectedEdges(graph);
 
-  execute();
-
-  graph.paint();
-  graph.setAutoPaint(true);
-}
-
-/** 执行递归遍历 */
-export function recursiveTraversal(root, callback) {
-  if (!root) {
-    return;
-  }
-
-  callback(root);
-
-  if (!root.children) {
-    return;
-  }
-
-  root.children.forEach(item => recursiveTraversal(item, callback));
+  executeBatch(graph, () => {
+    [...selectedNodes, ...selectedEdges].forEach(item => {
+      if (shouldUpdate(item)) {
+        graph.setItemState(item, ItemState.Selected, false);
+      }
+    });
+  });
 }
