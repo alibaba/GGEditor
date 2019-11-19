@@ -1,5 +1,13 @@
 import React from 'react';
-import { PlugSignal, GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
+import { clearSelectedState } from '@/utils';
+import {
+  ItemState,
+  PlugSignal,
+  GraphCommonEvent,
+  GraphNodeEvent,
+  GraphEdgeEvent,
+  GraphCanvasEvent,
+} from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ContextMenuType {
@@ -72,6 +80,12 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
 
   showContextMenu = (x: number, y: number, item?: G6.Item) => {
     const { graph, renderContent } = this.props;
+
+    clearSelectedState(graph);
+
+    if (item) {
+      graph.setItemState(item, ItemState.Selected, true);
+    }
 
     graph.set(PlugSignal.ShowContextMenu, true);
 
