@@ -58,7 +58,6 @@ function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
   const removeAllAnchorSpot = () => !item.hasState('addingEdge') && anchors.forEach(a => a.remove());
 
   const removeAllAnchor = () => {
-    debugger;
     anchors.forEach(a => a.remove());
   };
   const drawBanAnchors = () => drawBanAnchor.call(this, model, group);
