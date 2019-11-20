@@ -1,146 +1,171 @@
 import { guid } from '@/utils';
-import { GraphType, ItemType } from '@/common/constants';
+import { GraphType } from '@/common/constants';
 import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddEdgeBehavior extends Behavior {
   edge?: G6.Edge;
   addingEdge?: boolean;
-  sourceNode?: G6.Node;
+  sourceNode?: G6.Item;
   isAnchor(e: GraphEvent): boolean;
-  notThis(e: GraphEvent): boolean;
+  notSelf(e: GraphEvent): boolean;
+  isOnlyOneEdge(e: G6.Node): boolean;
   onMousedown(e: GraphEvent): void;
   onMousemove(e: GraphEvent): void;
   onMouseup(e: GraphEvent): void;
+  addEdgeCheck(ev: GraphEvent, flag: string): boolean;
 }
 
 interface DefaultConfig {
   edgeType: string;
+  allowMultiEdge: boolean;
 }
 
 const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultConfig> = {
   graphType: GraphType.Flow,
 
   getDefaultCfg(): DefaultConfig {
-    return {
-      edgeType: 'flowSmooth',
-    };
+    return { edgeType: 'bizFlowEdge', allowMultiEdge: true };
   },
 
   getEvents() {
     return {
-      mousedown: 'onMousedown',
+      'node:mousedown': 'onMousedown',
       mousemove: 'onMousemove',
       mouseup: 'onMouseup',
     };
   },
 
-  isAnchor(e: GraphEvent) {
-    const { target } = e;
+  isAnchor(ev) {
+    const { target } = ev;
     const targetName = target.get('className');
     if (targetName == 'anchor') return true;
     else return false;
   },
 
-  notThis(e: GraphEvent) {
-    const node = e.item;
+  notSelf(ev) {
+    const node = ev.item;
     const model = node.getModel();
     if (this.edge.getSource().get('id') === model.id) return false;
     return true;
   },
 
-  shouldBegin(e: GraphEvent) {
-    const { target } = e;
-    const targetName = target.get('className');
-    // 如果点击的不是锚点就结束
-    if (targetName === 'anchor') return true;
-    else return false;
+  // 两个节点之间，相同方向的线条只允许连一条
+  isOnlyOneEdge(node) {
+    if (this.allowMultiEdge) return true;
+    const source = this.edge.getSource().get('id');
+    const target = node.get('id');
+    if (!source || !target) return true;
+    return !node.getEdges().some(edge => {
+      const sourceId = edge.getSource().get('id');
+      const targetId = edge.getTarget().get('id');
+      if (sourceId === source && targetId === target) return true;
+      else false;
+    });
   },
 
-  onMousedown(e) {
+  addEdgeCheck(ev, inFlag = undefined) {
+    // 如果点击的不是锚点就结束
+    if (!this.isAnchor(ev)) return false;
+    // 出入度检查
+    // return this.checkOutAndInEdge(ev.item, inFlag);
+    return true;
+  },
+
+  onMousedown(ev) {
     const { edgeType } = this;
-    if (!this.shouldBegin.call(this, e)) return;
-    const node = e.item as G6.Node;
+    if (!this.addEdgeCheck.call(this, ev, 'out')) return;
+    const node = ev.item;
     const graph = this.graph;
     this.sourceNode = node;
-    graph.getNodes().forEach(node => {
-      if (node.get('id') !== node.get('id')) graph.setItemState(node, 'addingEdge', true);
-      else graph.setItemState(node, 'addingSource', true);
+    graph.getNodes().forEach(n => {
+      if (n.get('id') !== node.get('id')) {
+        // 判断节点是不是 sourceNode 的后继，否则不点亮锚点
+        // if (!this.nextNodeCheck(node, n) || !this.checkOutAndInEdge(n, 'in')) graph.setItemState(n, 'limitLink', true);
+        graph.setItemState(n, 'addingEdge', true);
+      } else graph.setItemState(n, 'addingSource', true);
     });
 
-    const point = { x: e.x, y: e.y };
+    const point = { x: ev.x, y: ev.y };
     const model = node.getModel();
     // 如果在添加边的过程中，再次点击另一个节点，结束边的添加
     // 点击节点，触发增加边
     if (!this.addingEdge && !this.edge) {
       const item = {
         id: guid(),
+        label: 'flowEdge',
         shape: edgeType,
         source: model.id,
         target: point,
-        sourceAnchor: e.target.get('index'),
+        sourceAnchor: ev.target.get('index'),
       };
-      this.edge = graph.addItem(ItemType.Edge, item);
+      this.edge = graph.addItem('edge', item);
       this.addingEdge = true;
     }
   },
-
-  onMousemove(e) {
+  onMousemove(ev) {
+    const { graph } = this;
     if (this.addingEdge && this.edge) {
-      const point = { x: e.x, y: e.y };
-      !this.edge.hasState('drag') && this.graph.setItemState(this.edge, 'drag', true);
-      if (this.isAnchor(e) && this.notThis(e)) {
-        const node = e.item;
+      const point = { x: ev.x, y: ev.y };
+      !this.edge.hasState('drag') && graph.setItemState(this.edge, 'drag', true);
+      if (this.addEdgeCheck.call(this, ev, 'in') && this.notSelf(ev)) {
+        const node = ev.item;
         const model = node.getModel();
+        !this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', true);
         this.graph.updateItem(this.edge, {
-          targetAnchor: e.target.get('index'),
+          targetAnchor: ev.target.get('index'),
           target: model.id,
         });
-        !this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', true);
       } else {
         this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', false);
-        this.graph.updateItem(this.edge, {
-          target: point,
-        });
+        this.graph.updateItem(this.edge, { target: point });
       }
     }
   },
-
-  onMouseup(e) {
+  onMouseup(ev) {
     const { graph, sourceNode } = this;
-    const node = e.item;
+    const node = ev.item as G6.Node;
     // 隐藏所有节点的锚点
     const hideAnchors = () => {
-      graph.getNodes().forEach(node => {
+      graph.setAutoPaint(false);
+      graph.getNodes().forEach(n => {
         // 清楚所有节点状态
-        graph.clearItemStates(node);
+        graph.setItemState(n, 'addingEdge', false);
+        graph.clearItemStates(n, 'limitLink');
       });
-      // 奇怪的问题，结束拖拽后源节点的锚点只能这样清除
-      //    graph.refreshItem(sourceNode) 无效；
-      graph.setItemState(sourceNode, 'addingEdge', true);
-      graph.setItemState(sourceNode, 'addingEdge', false);
+      graph.setItemState(sourceNode, 'addingSource', false);
+      graph.clearItemStates(sourceNode, 'addingSource');
+      graph.setItemState(sourceNode, 'active', false);
+      graph.setItemState(sourceNode, 'selected', false);
+      graph.refreshItem(sourceNode);
+      graph.paint();
+      graph.setAutoPaint(true);
     };
+
     const removEdge = () => {
-      graph.remove(this.edge);
+      graph.removeItem(this.edge);
       this.edge = null;
       this.addingEdge = false;
-      hideAnchors();
     };
-    if (!this.shouldBegin.call(this, e)) {
-      // 拖拽连线时，未在锚点上放开则取消连线过程
-      if (this.edge && this.addingEdge) removEdge();
+    if (!this.addEdgeCheck.call(this, ev, 'in')) {
+      if (this.edge && this.addingEdge) {
+        removEdge();
+        hideAnchors();
+      }
       return;
     }
+
     const model = node.getModel();
     if (this.addingEdge && this.edge) {
       // 禁止自己连自己
-      if (!this.notThis(e)) {
+      if (!this.notSelf(ev) || !this.isOnlyOneEdge(node)) {
         removEdge();
+        hideAnchors();
         return;
       }
-      this.graph.setItemState(this.edge, 'drag', false);
+      graph.setItemState(this.edge, 'drag', false);
       graph.updateItem(this.edge, {
-        targetAnchor: e.target.get('index'),
+        targetAnchor: ev.target.get('index'),
         target: model.id,
       });
       this.edge = null;

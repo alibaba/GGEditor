@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { drawActivedNode } from './activedNode';
-import { handleAnchor } from './anchor';
+import { handleAnchor } from '@/components/Graph/shape/nodes/anchor';
 import globalStyle from '../../common/globalStyle';
 const { endNodeStyle1, endNodeStyle2 } = globalStyle;
 
@@ -22,6 +22,11 @@ G6.registerNode('endNode', {
     this.drawActivedNode(name, value, item);
   },
   getAnchorPoints() {
-    return [[0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5]];
+    return [
+      [0.5, 0],
+      [1, 0.5],
+      [0.5, 1],
+      [0, 0.5],
+    ];
   },
 });

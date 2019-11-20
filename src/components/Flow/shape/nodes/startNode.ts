@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { drawActivedNode } from './activedNode';
-import { handleAnchor } from './anchor';
+import { handleAnchor } from '@/components/Graph/shape/nodes/anchor';
 import globalStyle from '../../common/globalStyle';
 const { startNodeStyle } = globalStyle;
 G6.registerNode('startNode', {
@@ -16,25 +16,20 @@ G6.registerNode('startNode', {
     this.keyShape.baseType = 'startNode';
     return this.keyShape;
   },
-  update(nextModel, item) {
-    const keyShapeSize = keyShape => ({
-      width: keyShape.attr('width'),
-      height: keyShape.attr('height'),
-    });
-    this.resetCoordinate({
-      keyShapeSize: keyShapeSize(this.keyShape),
-      keyShape: this.keyShape,
-    });
-  },
+  stateHandler(name, value, item) {},
   setState(name, value, item) {
-    this.handleAnchor(name, value, item);
-    this.drawActivedNode(name, value, item);
-  },
-  resetCoordinate({ keyShapeSize, keyShape }) {
-    keyShape.attr('x', 0 - keyShapeSize.width / 2);
-    keyShape.attr('y', 0 - keyShapeSize.height / 2);
+    // 根据状态绘制节点选中的样式
+    this.drawActivedNode.call(this, name, value, item);
+    // 根据状态绘制锚点
+    this.handleAnchor.call(this, name, value, item);
+    this.stateHandler(name, value, item);
   },
   getAnchorPoints() {
-    return [[0.5, 0], [1, 0.5], [0.5, 1], [0, 0.5]];
+    return [
+      [0.5, 0],
+      [1, 0.5],
+      [0.5, 1],
+      [0, 0.5],
+    ];
   },
 });
