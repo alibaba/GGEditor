@@ -5,7 +5,12 @@ import Global from '@/common/Global';
 import { EditorEvent, GraphCommonEvent } from '@/common/constants';
 import { CommandEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import EditorContext, { EditorContextProps } from '@/components/EditorContext';
+import {
+  EditorContext,
+  EditorPrivateContext,
+  EditorContextProps,
+  EditorPrivateContextProps,
+} from '@/components/EditorContext';
 
 import '@/components/Graph/shape/nodes/bizNode';
 
@@ -16,7 +21,7 @@ interface EditorProps {
   [EditorEvent.onAfterExecuteCommand]?: (e: CommandEvent) => void;
 }
 
-interface EditorState extends EditorContextProps {}
+interface EditorState extends EditorContextProps, EditorPrivateContextProps {}
 
 class Editor extends React.Component<EditorProps, EditorState> {
   static setTrackable(trackable: boolean) {
@@ -116,10 +121,22 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
   render() {
     const { children } = this.props;
+    const { graph, setGraph, executeCommand } = this.state;
 
     return (
-      <EditorContext.Provider value={this.state}>
-        <div {...pick(this.props, ['className', 'style'])}>{children}</div>
+      <EditorContext.Provider
+        value={{
+          graph,
+          executeCommand,
+        }}
+      >
+        <EditorPrivateContext.Provider
+          value={{
+            setGraph,
+          }}
+        >
+          <div {...pick(this.props, ['className', 'style'])}>{children}</div>
+        </EditorPrivateContext.Provider>
       </EditorContext.Provider>
     );
   }
