@@ -37,12 +37,8 @@ class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
     this.type = type;
   }
 
-  componentDidUpdate(prevProps: DetailPanelProps) {
+  componentDidMount() {
     const { graph } = this.props;
-
-    if (graph === prevProps.graph) {
-      return;
-    }
 
     graph.on<GraphStateEvent>(EditorEvent.onGraphStateChange, ({ graphState }) => {
       this.setState({

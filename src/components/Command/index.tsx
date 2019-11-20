@@ -22,12 +22,8 @@ class Command extends React.Component<CommandProps, CommandState> {
     disabled: false,
   };
 
-  componentDidUpdate(prevProps: CommandProps) {
+  componentDidMount() {
     const { graph, name } = this.props;
-
-    if (graph === prevProps.graph) {
-      return;
-    }
 
     this.setState({
       disabled: !commandManager.canExecute(graph, name),

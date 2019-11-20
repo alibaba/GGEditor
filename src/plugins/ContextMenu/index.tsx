@@ -43,12 +43,8 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
     content: null,
   };
 
-  componentDidUpdate(prevProps: ContextMenuProps) {
+  componentDidMount() {
     const { graph, type } = this.props;
-
-    if (graph === prevProps.graph) {
-      return;
-    }
 
     switch (type) {
       case ContextMenuType.Canvas:

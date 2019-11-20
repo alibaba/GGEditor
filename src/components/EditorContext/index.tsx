@@ -1,33 +1,17 @@
 import React from 'react';
+import withContext from '@/common/withContext';
 
 export interface EditorContextProps {
   graph: G6.Graph | null;
-  setGraph: (graph: G6.Graph) => void;
   executeCommand: (name: string, params?: object) => void;
 }
 
-const EditorContext = React.createContext({} as EditorContextProps);
+export interface EditorPrivateContextProps {
+  setGraph: (graph: G6.Graph) => void;
+}
 
-export const withEditorContext = function<P extends EditorContextProps>(WrappedComponent: React.ComponentClass<P>) {
-  type WrappedComponentInstance = InstanceType<typeof WrappedComponent>;
-  type WrappedComponentProps = Omit<React.PropsWithChildren<P>, keyof EditorContextProps>;
-  type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
-    forwardRef: React.Ref<WrappedComponentInstance>;
-  };
+export const EditorContext = React.createContext({} as EditorContextProps);
+export const EditorPrivateContext = React.createContext({} as EditorPrivateContextProps);
 
-  const InjectEditorContext: React.FC<WrappedComponentPropsWithForwardRef> = props => {
-    const { forwardRef, ...rest } = props;
-
-    return (
-      <EditorContext.Consumer>
-        {context => <WrappedComponent ref={forwardRef} {...(rest as any)} {...context} />}
-      </EditorContext.Consumer>
-    );
-  };
-
-  return React.forwardRef<WrappedComponentInstance, WrappedComponentProps>((props, ref) => (
-    <InjectEditorContext forwardRef={ref} {...props} />
-  ));
-};
-
-export default EditorContext;
+export const withEditorContext = withContext<EditorContextProps>(EditorContext, context => !!context.graph);
+export const withEditorPrivateContext = withContext<EditorPrivateContextProps>(EditorPrivateContext);
