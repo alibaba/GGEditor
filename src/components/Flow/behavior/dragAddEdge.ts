@@ -168,7 +168,6 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
         targetAnchor: ev.target.get('index'),
         target: model.id,
       });
-      graph.emit('cus_edge:add', this.edge);
       this.edge = null;
       this.addingEdge = false;
       hideAnchors();

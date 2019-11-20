@@ -57,8 +57,10 @@ function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
   };
   const removeAllAnchorSpot = () => !item.hasState('addingEdge') && anchors.forEach(a => a.remove());
 
-  const removeAllAnchor = () => anchors.forEach(a => a.remove());
-
+  const removeAllAnchor = () => {
+    debugger;
+    anchors.forEach(a => a.remove());
+  };
   const drawBanAnchors = () => drawBanAnchor.call(this, model, group);
 
   const stateTable: StateTable<Events, States> = [
@@ -82,7 +84,6 @@ function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
 
   fsm.setStateTable(stateTable);
 
-  console.log(name, value);
   // 处于拖拽状态的节点，所有 action 都禁止执行
   if (name === 'addingSource' && value) fsm.canExecAction(false);
   if (name === 'addingSource' && !value) fsm.canExecAction(true);
@@ -90,7 +91,6 @@ function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
   if (name === 'active') value ? fsm.transtion('hoverNode') : fsm.transtion('leaveNode');
 
   if (isActiveAnchor(name)) value ? fsm.transtion('enterAnchor') : fsm.transtion('leaveAnchor');
-
   if (name === 'addingEdge') value ? fsm.transtion('drag') : fsm.transtion('dragEnd');
 }
 

@@ -16,13 +16,13 @@
     },
     {
       "id": "2",
-      "label": "Node",
+      "label": "Node2",
       "x": 155,
       "y": 355
     },
     {
       "id": "3",
-      "label": "Node2",
+      "label": "Node3",
       "x": 155,
       "y": 455
     }
