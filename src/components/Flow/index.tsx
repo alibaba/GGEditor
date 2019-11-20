@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
-import { FlowData, GraphReactEventProps } from '@/common/interfaces';
+import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
@@ -28,6 +28,10 @@ class Flow extends React.Component<FlowProps, FlowState> {
   graph: G6.Graph | null = null;
 
   containerId = `${FLOW_CONTAINER_ID}_${guid()}`;
+
+  canDragNode = (e: GraphEvent) => {
+    return !['anchor', 'banAnchor'].some(item => item === e.target.get('className'));
+  };
 
   canZoomCanvas = () => {
     const { graph } = this;
@@ -74,6 +78,11 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const modes: any = {
       default: {
         ...customBehaviors,
+        'drag-node': {
+          type: 'drag-node',
+          enableDelegate: true,
+          shouldBegin: this.canDragNode,
+        },
         'drag-canvas': {
           type: 'drag-canvas',
         },
@@ -83,15 +92,6 @@ class Flow extends React.Component<FlowProps, FlowState> {
         },
         'recall-edge': 'recall-edge',
         'brush-select': 'brush-select',
-        'drag-node': {
-          type: 'drag-node',
-          enableDelegate: true,
-          shouldBegin: (e: GraphEvent) => {
-            // 锚点上不触发拖拽；
-            if (['anchor', 'banAnchor'].some(a => a === e.target.get('className'))) return false;
-            else return true;
-          },
-        },
       },
     };
 
