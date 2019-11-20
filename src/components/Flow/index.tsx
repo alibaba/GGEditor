@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
-import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
+import { FlowData, FlowAndMindCommonProps, GraphEvent } from '@/common/interfaces';
 import { withEditorContext } from '@/components/EditorContext';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -73,6 +73,16 @@ class Flow extends React.Component<FlowProps, FlowState> {
           shouldUpdate: this.canZoomCanvas,
         },
         'recall-edge': 'recall-edge',
+        'brush-select': 'brush-select',
+        'drag-node': {
+          type: 'drag-node',
+          enableDelegate: true,
+          shouldBegin: (e: GraphEvent) => {
+            // 锚点上不触发拖拽；
+            if (['anchor', 'banAnchor'].some(a => a === e.target.get('className'))) return false;
+            else return true;
+          },
+        },
       },
     };
 
