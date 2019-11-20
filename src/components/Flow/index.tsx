@@ -1,18 +1,21 @@
 import React from 'react';
-import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
-import { FlowData, FlowAndMindCommonProps } from '@/common/interfaces';
-import { withEditorContext } from '@/components/EditorContext';
+import { FlowData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './shape';
 import './behavior';
 
-interface FlowProps extends FlowAndMindCommonProps {
+interface FlowProps extends Partial<GraphReactEventProps> {
+  style?: React.CSSProperties;
+  className?: string;
   data: FlowData;
+  graphConfig?: Partial<G6.GraphOptions>;
+  customModes?: (mode: string, behaviors: any) => object;
 }
 
 interface FlowState {}
@@ -22,10 +25,16 @@ class Flow extends React.Component<FlowProps, FlowState> {
     graphConfig: {},
   };
 
+  graph: G6.Graph | null = null;
+
   containerId = `${FLOW_CONTAINER_ID}_${guid()}`;
 
   canZoomCanvas = () => {
-    const { graph } = this.props;
+    const { graph } = this;
+
+    if (!graph) {
+      return false;
+    }
 
     return (
       !graph.get(PlugSignal.ShowItemPopover) &&
@@ -82,29 +91,29 @@ class Flow extends React.Component<FlowProps, FlowState> {
       modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
     });
 
-    return new G6.Graph({
+    this.graph = new G6.Graph({
       container: containerId,
       width,
       height,
       modes,
       ...graphConfig,
     });
+
+    return this.graph;
   };
 
   render() {
     const { containerId, parseData, initGraph } = this;
-    const { data } = this.props;
 
     return (
       <Graph
         containerId={containerId}
-        data={data}
         parseData={parseData}
         initGraph={initGraph}
-        {...pick(this.props, ['className', 'style'])}
+        {...omit(this.props, ['graphConfig', 'customModes'])}
       />
     );
   }
 }
 
-export default withEditorContext<FlowProps>(Flow);
+export default Flow;

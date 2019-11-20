@@ -28,12 +28,8 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
     visible: false,
   };
 
-  componentDidUpdate(prevProps: EditableLabelProps) {
+  componentDidMount() {
     const { graph } = this.props;
-
-    if (graph === prevProps.graph) {
-      return;
-    }
 
     graph.on<LabelStateEvent>(EditorEvent.onLabelStateChange, ({ labelState }) => {
       if (labelState === LabelState.Show) {

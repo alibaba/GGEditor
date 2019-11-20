@@ -1,18 +1,21 @@
 import React from 'react';
-import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
-import { MindData, FlowAndMindCommonProps } from '@/common/interfaces';
-import { withEditorContext } from '@/components/EditorContext';
+import { MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './command';
 import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
-interface MindProps extends FlowAndMindCommonProps {
+interface MindProps extends Partial<GraphReactEventProps> {
+  style?: React.CSSProperties;
+  className?: string;
   data: MindData;
+  graphConfig?: Partial<G6.GraphOptions>;
+  customModes?: (mode: string, behaviors: any) => object;
 }
 
 interface MindState {}
@@ -22,10 +25,16 @@ class Mind extends React.Component<MindProps, MindState> {
     graphConfig: {},
   };
 
+  graph: G6.Graph | null = null;
+
   containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
   canZoomCanvas = () => {
-    const { graph } = this.props;
+    const { graph } = this;
+
+    if (!graph) {
+      return false;
+    }
 
     return (
       !graph.get(PlugSignal.ShowItemPopover) &&
@@ -124,7 +133,7 @@ class Mind extends React.Component<MindProps, MindState> {
       modes[mode] = Object.values(customModes ? customModes(mode, behaviors) : behaviors);
     });
 
-    return new G6.TreeGraph({
+    this.graph = new G6.TreeGraph({
       container: containerId,
       width,
       height,
@@ -144,6 +153,8 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       ...graphConfig,
     });
+
+    return this.graph;
   };
 
   render() {
@@ -156,10 +167,10 @@ class Mind extends React.Component<MindProps, MindState> {
         data={data}
         parseData={parseData}
         initGraph={initGraph}
-        {...pick(this.props, ['className', 'style'])}
+        {...omit(this.props, ['graphConfig', 'customModes'])}
       />
     );
   }
 }
 
-export default withEditorContext<MindProps>(Mind);
+export default Mind;
