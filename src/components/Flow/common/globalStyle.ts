@@ -67,7 +67,7 @@ export default {
   anchorPointStyle: {
     radius: 4,
     fill: '#fff',
-    stroke: '#1890FF',
+    stroke: '#5AAAFF',
     lineAppendWidth: 12,
   },
   banFlagStyle: {
@@ -78,15 +78,15 @@ export default {
   },
   // 锚点热区样式
   anchorHotsoptStyle: {
-    radius: 12,
-    fill: '#5AAAFF',
+    radius: 10,
+    fill: '#fff',
     shadowBlur: 16,
-    shadowColor: '#5AAAFF',
+    shadowColor: '#0075f1',
     fillOpacity: 0.2,
   },
   // 锚点热区激活样式
   anchorHotsoptActivedStyle: {
-    radius: 16,
+    radius: 14,
   },
   // 锚点鼠标悬浮样式
   anchorPointHoverStyle: {
