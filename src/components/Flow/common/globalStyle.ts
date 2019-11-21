@@ -65,7 +65,7 @@ export default {
   // ********************     锚点      ********************
   // 锚点样式
   anchorPointStyle: {
-    radius: 3.5,
+    radius: 4,
     fill: '#fff',
     stroke: '#1890FF',
     lineAppendWidth: 12,
@@ -79,21 +79,23 @@ export default {
   // 锚点热区样式
   anchorHotsoptStyle: {
     radius: 12,
-    fill: '#1890FF',
-    fillOpacity: 0.25,
+    fill: '#5AAAFF',
+    shadowBlur: 16,
+    shadowColor: '#5AAAFF',
+    fillOpacity: 0.2,
   },
   // 锚点热区激活样式
   anchorHotsoptActivedStyle: {
-    radius: 14,
+    radius: 16,
   },
   // 锚点鼠标悬浮样式
   anchorPointHoverStyle: {
     radius: 4,
-    fill: '#1890FF',
+    fill: '#5AAAFF',
+    lineWidth: 2,
     fillOpacity: 1,
-    stroke: '#1890FF',
+    stroke: '#5AAAFF',
   },
-
   // ********************     节点      ********************
   nodeLogoStyle: {
     img:
