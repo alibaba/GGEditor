@@ -78,7 +78,10 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
     const node = ev.item;
     const graph = this.graph;
     this.sourceNode = node;
+
     graph.getNodes().forEach(n => {
+      // 给其他所有节点加上 addingEdge 标识，
+      // 让其 anchor 激活，表示可以连入
       if (n.get('id') !== node.get('id')) {
         // 判断节点是不是 sourceNode 的后继，否则不点亮锚点
         // if (!this.nextNodeCheck(node, n) || !this.checkOutAndInEdge(n, 'in')) graph.setItemState(n, 'limitLink', true);
@@ -88,7 +91,6 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
 
     const point = { x: ev.x, y: ev.y };
     const model = node.getModel();
-    // 如果在添加边的过程中，再次点击另一个节点，结束边的添加
     // 点击节点，触发增加边
     if (!this.addingEdge && !this.edge) {
       const item = {
@@ -107,19 +109,16 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
     const { graph } = this;
     if (this.addingEdge && this.edge) {
       const point = { x: ev.x, y: ev.y };
-      !this.edge.hasState('drag') && graph.setItemState(this.edge, 'drag', true);
+      // 鼠标放置到一个锚点上时，更新边
+      // 否则只更新线的终点位置
       if (this.addEdgeCheck.call(this, ev, 'in') && this.notSelf(ev)) {
         const node = ev.item;
         const model = node.getModel();
-        !this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', true);
-        this.graph.updateItem(this.edge, {
+        graph.updateItem(this.edge, {
           targetAnchor: ev.target.get('index'),
           target: model.id,
         });
-      } else {
-        this.edge.hasState('onAnchor') && this.graph.setItemState(this.edge, 'onAnchor', false);
-        this.graph.updateItem(this.edge, { target: point });
-      }
+      } else graph.updateItem(this.edge, { target: point });
     }
   },
   onMouseup(ev) {
@@ -130,13 +129,10 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
       graph.setAutoPaint(false);
       graph.getNodes().forEach(n => {
         // 清楚所有节点状态
-        graph.setItemState(n, 'addingEdge', false);
-        graph.clearItemStates(n, 'limitLink');
+        n.clearStates('addingEdge');
+        n.clearStates('limitLink');
+        n.clearStates('addingSource');
       });
-      graph.setItemState(sourceNode, 'addingSource', false);
-      graph.clearItemStates(sourceNode, 'addingSource');
-      graph.setItemState(sourceNode, 'active', false);
-      graph.setItemState(sourceNode, 'selected', false);
       graph.refreshItem(sourceNode);
       graph.paint();
       graph.setAutoPaint(true);
