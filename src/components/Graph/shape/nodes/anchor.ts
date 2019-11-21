@@ -90,7 +90,7 @@ function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
   if (name === 'active') value ? fsm.transtion('hoverNode') : fsm.transtion('leaveNode');
 
   if (isActiveAnchor(name)) value ? fsm.transtion('enterAnchor') : fsm.transtion('leaveAnchor');
-  if (name === 'addingEdge') value ? fsm.transtion('drag') : fsm.transtion('dragEnd');
+  if (name === 'addingEdge' || name === 'addingSource') value ? fsm.transtion('drag') : fsm.transtion('dragEnd');
 }
 
 function drawBanAnchor(this: ThisProps, model: NodeModel, group) {
