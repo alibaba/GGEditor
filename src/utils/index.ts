@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-import { ItemType, ItemState, GraphState } from '@/common/constants';
+import { ItemType, ItemState, GraphState, GraphType } from '@/common/constants';
+import behaviorManager from '@/common/behaviorManager';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -105,4 +106,27 @@ export function clearSelectedState(graph: G6.Graph, shouldUpdate: (item: G6.Item
       }
     });
   });
+}
+
+/** 获取自定义行为 */
+export function getCustomBehaviors(graphType: GraphType) {
+  const customBehaviors = {};
+
+  Object.keys(behaviorManager.behaviors).forEach(name => {
+    const behavior = behaviorManager.behaviors[name];
+
+    if (behavior.graphType && behavior.graphType !== graphType) {
+      return;
+    }
+
+    const { graphMode = 'default' } = behavior;
+
+    if (!customBehaviors[graphMode]) {
+      customBehaviors[graphMode] = {};
+    }
+
+    customBehaviors[graphMode][name] = name;
+  });
+
+  return customBehaviors;
 }
