@@ -1,10 +1,10 @@
 import React from 'react';
 import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import G6 from '@antv/g6';
-import { guid } from '@/utils';
+import { guid, getCustomBehaviors } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
 import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
-import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './shape';
@@ -65,35 +65,27 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const { containerId } = this;
     const { graphConfig, customModes } = this.props;
 
-    const customBehaviors: any = {};
-
-    Object.keys(behaviorManager.behaviors).forEach(name => {
-      const behavior = behaviorManager.behaviors[name];
-
-      if (!behavior.graphType || behavior.graphType === GraphType.Flow) {
-        customBehaviors[name] = name;
-      }
-    });
-
-    const modes: any = {
-      default: {
-        ...customBehaviors,
-        'drag-node': {
-          type: 'drag-node',
-          enableDelegate: true,
-          shouldBegin: this.canDragNode,
+    const modes: any = merge(
+      {
+        default: {
+          'drag-node': {
+            type: 'drag-node',
+            enableDelegate: true,
+            shouldBegin: this.canDragNode,
+          },
+          'drag-canvas': {
+            type: 'drag-canvas',
+          },
+          'zoom-canvas': {
+            type: 'zoom-canvas',
+            shouldUpdate: this.canZoomCanvas,
+          },
+          'recall-edge': 'recall-edge',
+          'brush-select': 'brush-select',
         },
-        'drag-canvas': {
-          type: 'drag-canvas',
-        },
-        'zoom-canvas': {
-          type: 'zoom-canvas',
-          shouldUpdate: this.canZoomCanvas,
-        },
-        'recall-edge': 'recall-edge',
-        'brush-select': 'brush-select',
       },
-    };
+      getCustomBehaviors(GraphType.Flow),
+    );
 
     Object.keys(modes).forEach(mode => {
       const behaviors = modes[mode];

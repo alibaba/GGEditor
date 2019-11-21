@@ -200,6 +200,7 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<G6.Edge, M> {
 export interface Behavior {
   graph?: G6.Graph;
   graphType?: GraphType;
+  graphMode?: string;
   getEvents(): {
     [propName in GraphNativeEvent]?: string;
   };

@@ -1,10 +1,10 @@
 import React from 'react';
 import omit from 'lodash/omit';
+import merge from 'lodash/merge';
 import G6 from '@antv/g6';
-import { guid, recursiveTraversal } from '@/utils';
+import { guid, recursiveTraversal, getCustomBehaviors } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
 import { MindData, GraphReactEventProps } from '@/common/interfaces';
-import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './command';
@@ -96,36 +96,28 @@ class Mind extends React.Component<MindProps, MindState> {
     const { containerId } = this;
     const { graphConfig, customModes } = this.props;
 
-    const customBehaviors: any = {};
-
-    Object.keys(behaviorManager.behaviors).forEach(name => {
-      const behavior = behaviorManager.behaviors[name];
-
-      if (!behavior.graphType || behavior.graphType === GraphType.Mind) {
-        customBehaviors[name] = name;
-      }
-    });
-
-    const modes: any = {
-      default: {
-        ...customBehaviors,
-        'click-item': {
-          type: 'click-item',
-          multiple: false,
-        },
-        'collapse-expand': {
-          type: 'collapse-expand',
-          shouldBegin: this.canCollapseExpand,
-        },
-        'drag-canvas': {
-          type: 'drag-canvas',
-        },
-        'zoom-canvas': {
-          type: 'zoom-canvas',
-          shouldUpdate: this.canZoomCanvas,
+    const modes: any = merge(
+      {
+        default: {
+          'click-item': {
+            type: 'click-item',
+            multiple: false,
+          },
+          'collapse-expand': {
+            type: 'collapse-expand',
+            shouldBegin: this.canCollapseExpand,
+          },
+          'drag-canvas': {
+            type: 'drag-canvas',
+          },
+          'zoom-canvas': {
+            type: 'zoom-canvas',
+            shouldUpdate: this.canZoomCanvas,
+          },
         },
       },
-    };
+      getCustomBehaviors(GraphType.Mind),
+    );
 
     Object.keys(modes).forEach(mode => {
       const behaviors = modes[mode];
