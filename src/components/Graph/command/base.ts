@@ -1,7 +1,6 @@
 import { isMind, getSelectedNodes, getSelectedEdges } from '@/utils';
 import { ItemState, LabelState, EditorEvent } from '@/common/constants';
 import { Command } from '@/common/interfaces';
-import command from '@/common/command';
 import commandManager from '@/common/commandManager';
 
 export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
@@ -18,7 +17,29 @@ export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
 }
 
 export const baseCommand: BaseCommand = {
-  ...command,
+  name: '',
+
+  params: {},
+
+  canExecute() {
+    return true;
+  },
+
+  shouldExecute() {
+    return true;
+  },
+
+  canUndo() {
+    return true;
+  },
+
+  init() {},
+
+  execute() {},
+
+  undo() {},
+
+  shortcuts: [],
 
   isMind,
 

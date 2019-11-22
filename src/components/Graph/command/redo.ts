@@ -1,8 +1,9 @@
-import command from '@/common/command';
 import commandManager from '@/common/commandManager';
 
 commandManager.register('redo', {
-  ...command,
+  name: 'redo',
+
+  params: {},
 
   canExecute() {
     const { commandQueue, commandIndex } = commandManager;
@@ -10,9 +11,15 @@ commandManager.register('redo', {
     return commandIndex < commandQueue.length;
   },
 
+  shouldExecute() {
+    return true;
+  },
+
   canUndo() {
     return false;
   },
+
+  init() {},
 
   execute(graph) {
     const { commandQueue, commandIndex } = commandManager;
@@ -22,5 +29,10 @@ commandManager.register('redo', {
     commandManager.commandIndex += 1;
   },
 
-  shortcuts: [['metaKey', 'shiftKey', 'z'], ['ctrlKey', 'shiftKey', 'z']],
+  undo() {},
+
+  shortcuts: [
+    ['metaKey', 'shiftKey', 'z'],
+    ['ctrlKey', 'shiftKey', 'z'],
+  ],
 });
