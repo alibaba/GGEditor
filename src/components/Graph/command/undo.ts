@@ -1,8 +1,9 @@
-import command from '@/common/command';
 import commandManager from '@/common/commandManager';
 
 commandManager.register('undo', {
-  ...command,
+  name: 'undo',
+
+  params: {},
 
   canExecute() {
     const { commandIndex } = commandManager;
@@ -10,9 +11,15 @@ commandManager.register('undo', {
     return commandIndex > 0;
   },
 
+  shouldExecute() {
+    return true;
+  },
+
   canUndo() {
     return false;
   },
+
+  init() {},
 
   execute(graph) {
     const { commandQueue, commandIndex } = commandManager;
@@ -22,5 +29,10 @@ commandManager.register('undo', {
     commandManager.commandIndex -= 1;
   },
 
-  shortcuts: [['metaKey', 'z'], ['ctrlKey', 'z']],
+  undo() {},
+
+  shortcuts: [
+    ['metaKey', 'z'],
+    ['ctrlKey', 'z'],
+  ],
 });
