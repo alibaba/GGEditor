@@ -50,6 +50,10 @@ interface EdgeLabelCfg {
  */
 export interface NodeModel {
   id: string;
+  x?: number;
+  y?: number;
+  size?: number | number[];
+  anchorPoints?: number[][];
   shape?: string;
   style?: {
     // 节点填充颜色
@@ -71,10 +75,11 @@ export interface NodeModel {
   };
   label?: string;
   labelCfg?: NodeLabelCfg;
-  x?: number;
-  y?: number;
-  size?: number | number[];
-  anchorPoints?: number[][];
+
+  // 节点中心位置
+  center?: 'center' | 'topLeft';
+
+  [propName: string]: any;
 }
 
 /**
@@ -83,6 +88,18 @@ export interface NodeModel {
  */
 export interface EdgeModel {
   id: string;
+  source: string;
+  target: string;
+  sourceAnchor?: number;
+  targetAnchor?: number;
+  startPoint?: {
+    x: number;
+    y: number;
+  };
+  endPoint?: {
+    x: number;
+    y: number;
+  };
   shape?: string;
   style?: {
     // 边线颜色
@@ -106,18 +123,8 @@ export interface EdgeModel {
   };
   label?: string;
   labelCfg?: EdgeLabelCfg;
-  source: string;
-  target: string;
-  sourceAnchor?: number;
-  targetAnchor?: number;
-  startPoint?: {
-    x: number;
-    y: number;
-  };
-  endPoint?: {
-    x: number;
-    y: number;
-  };
+
+  [propName: string]: any;
 }
 
 /**

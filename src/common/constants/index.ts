@@ -1,6 +1,9 @@
 export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
+export const ADD_NODE_MODEL = 'ADD_NODE_MODEL';
+export const ADD_NODE_DELEGATE_SHAPE = 'ADD_NODE_DELEGATE_SHAPE';
+
 export const LABEL_DEFAULT_TEXT = '新建节点';
 
 export enum ShapeClassName {
@@ -28,6 +31,11 @@ export enum ItemState {
 export enum GraphType {
   Flow = 'Flow',
   Mind = 'Mind',
+}
+
+export enum GraphMode {
+  Default = 'default',
+  AddNode = 'addNode',
 }
 
 export enum GraphState {
