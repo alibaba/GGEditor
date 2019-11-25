@@ -85,7 +85,7 @@
     "rollup-plugin-typescript2": "^0.24.3",
     "signale": "^1.4.0",
     "tscpaths": "^0.0.9",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.2"
   },
   "config": {
     "commitizen": {
