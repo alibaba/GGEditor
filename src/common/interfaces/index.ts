@@ -49,7 +49,7 @@ interface EdgeLabelCfg {
  * @see https://www.yuque.com/antv/g6/internal-node
  */
 export interface NodeModel {
-  id: string;
+  id?: string;
   x?: number;
   y?: number;
   size?: number | number[];
@@ -87,7 +87,6 @@ export interface NodeModel {
  * @see https://www.yuque.com/antv/g6/internal-edge
  */
 export interface EdgeModel {
-  id: string;
   source: string;
   target: string;
   sourceAnchor?: number;
@@ -131,14 +130,14 @@ export interface EdgeModel {
  * FlowData
  */
 export interface FlowData {
-  nodes: Partial<NodeModel>[];
-  edges: Partial<EdgeModel>[];
+  nodes: NodeModel[];
+  edges: EdgeModel[];
 }
 
 /**
  * MindData
  */
-export interface MindData extends Partial<NodeModel> {
+export interface MindData extends NodeModel {
   isRoot?: boolean;
   children?: MindData[];
   collapsed?: boolean;
