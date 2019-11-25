@@ -2,9 +2,10 @@ import React from 'react';
 import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import G6 from '@antv/g6';
-import { guid, recursiveTraversal, getCustomBehaviors } from '@/utils';
+import { guid, recursiveTraversal } from '@/utils';
 import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
 import { MindData, GraphReactEventProps } from '@/common/interfaces';
+import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './command';
@@ -116,7 +117,7 @@ class Mind extends React.Component<MindProps, MindState> {
           },
         },
       },
-      getCustomBehaviors(GraphType.Mind),
+      behaviorManager.getRegisteredBehaviors(GraphType.Mind),
     );
 
     Object.keys(modes).forEach(mode => {

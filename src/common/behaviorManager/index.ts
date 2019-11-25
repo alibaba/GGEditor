@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import { isMind } from '@/utils';
 import { GraphType } from '@/common/constants';
-import { Behavior, GraphNativeEvent } from '@/common/interfaces';
+import { Behavior } from '@/common/interfaces';
 
 class BehaviorManager {
   behaviors: {
@@ -12,16 +12,38 @@ class BehaviorManager {
     this.behaviors = {};
   }
 
+  getRegisteredBehaviors(type: GraphType) {
+    const registeredBehaviors = {};
+
+    Object.keys(this.behaviors).forEach(name => {
+      const behavior = this.behaviors[name];
+
+      const { graphType } = behavior;
+
+      if (graphType && graphType !== type) {
+        return;
+      }
+
+      const { graphMode = 'default' } = behavior;
+
+      if (!registeredBehaviors[graphMode]) {
+        registeredBehaviors[graphMode] = {};
+      }
+
+      registeredBehaviors[graphMode][name] = name;
+    });
+
+    return registeredBehaviors;
+  }
+
   wrapEventHandler(type: GraphType, behavior: Behavior): Behavior {
     const events = behavior.getEvents();
 
     Object.keys(events).forEach(event => {
-      const customBehavior: any = behavior;
+      const handlerName = events[event];
+      const handler = behavior[handlerName];
 
-      const handlerName = events[event as GraphNativeEvent];
-      const handler: Function = customBehavior[handlerName];
-
-      customBehavior[handlerName] = function(...params: any[]) {
+      behavior[handlerName] = function(...params: any[]) {
         const { graph } = this;
 
         if (
