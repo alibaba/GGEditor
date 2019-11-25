@@ -48,6 +48,7 @@ async function build() {
       globals: {
         react: 'React',
       },
+      exports: 'named',
     });
 
     signale.success('Build umd success');
@@ -73,6 +74,7 @@ async function build() {
     await cjsBundle.write({
       file: 'lib/index.js',
       format: 'cjs',
+      exports: 'named',
     });
     signale.success('Build cjs success');
   } catch (error) {
