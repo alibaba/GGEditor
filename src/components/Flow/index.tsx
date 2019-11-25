@@ -2,9 +2,10 @@ import React from 'react';
 import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import G6 from '@antv/g6';
-import { guid, getCustomBehaviors } from '@/utils';
+import { guid } from '@/utils';
 import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
 import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
+import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './shape';
@@ -84,7 +85,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
           'brush-select': 'brush-select',
         },
       },
-      getCustomBehaviors(GraphType.Flow),
+      behaviorManager.getRegisteredBehaviors(GraphType.Flow),
     );
 
     Object.keys(modes).forEach(mode => {
