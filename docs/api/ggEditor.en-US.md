@@ -1,6 +1,6 @@
 # GGEditor
 
-An editor conponent for the graph.
+An editor component for the graph.
 
 ## Usage
 
