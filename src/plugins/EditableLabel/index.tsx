@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import G6 from '@antv/g6';
 import { isMind, getSelectedNodes } from '@/utils';
 import { EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
@@ -164,7 +165,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
       transformOrigin: 'left top',
     };
 
-    return (
+    return ReactDOM.createPortal(
       <div
         ref={el => {
           this.el = el;
@@ -175,7 +176,8 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
         onKeyDown={this.handleKeyDown}
       >
         {label}
-      </div>
+      </div>,
+      graph.get('container'),
     );
   }
 }
