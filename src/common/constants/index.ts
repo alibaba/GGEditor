@@ -36,6 +36,7 @@ export enum GraphType {
 export enum GraphMode {
   Default = 'default',
   AddNode = 'addNode',
+  Readonly = 'readonly',
 }
 
 export enum GraphState {
