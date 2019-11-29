@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import G6 from '@antv/g6';
 import { isMind, getSelectedNodes } from '@/utils';
-import { EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
+import { GraphMode, EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
 import { LabelStateEvent } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
@@ -76,8 +76,12 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
         visible: true,
       },
       () => {
-        this.el.focus();
-        document.execCommand('selectAll', false, null);
+        const { el } = this;
+
+        if (el) {
+          el.focus();
+          document.execCommand('selectAll', false, null);
+        }
       },
     );
   };
@@ -113,22 +117,36 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   };
 
   render() {
-    const { visible } = this.state;
+    const { graph, labelClassName, labelMaxWidth } = this.props;
 
-    if (!visible) {
+    const mode = graph.getCurrentMode();
+    const zoom = graph.getZoom();
+
+    if (mode === GraphMode.Readonly) {
       return null;
     }
 
-    const { graph, labelClassName, labelMaxWidth } = this.props;
-
-    const zoom = graph.getZoom();
     const node = getSelectedNodes(graph)[0];
+
+    if (!node) {
+      return null;
+    }
 
     const model = node.getModel();
     const group = node.getContainer();
 
     const label = model.label;
     const labelShape = group.findByClassName(labelClassName);
+
+    if (!labelShape) {
+      return null;
+    }
+
+    const { visible } = this.state;
+
+    if (!visible) {
+      return null;
+    }
 
     // Get the label offset
     const { x: relativeX, y: relativeY } = labelShape.getBBox();
