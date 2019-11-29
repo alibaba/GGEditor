@@ -38,7 +38,7 @@ async function build() {
           },
         }),
       ],
-      external: ['react', 'antd'],
+      external: ['react', 'react-dom', 'antd'],
     });
 
     await umdBundle.write({
@@ -47,6 +47,8 @@ async function build() {
       format: 'umd',
       globals: {
         react: 'React',
+        'react-dom': 'ReactDOM',
+        antd: 'antd',
       },
       exports: 'named',
     });
@@ -68,7 +70,7 @@ async function build() {
         commonjs(),
         typescript(),
       ],
-      external: ['react', 'antd', '@antv/g6', 'lodash'],
+      external: ['react', 'react-dom', 'antd', '@antv/g6', 'lodash'],
     });
 
     await cjsBundle.write({
@@ -99,7 +101,7 @@ async function build() {
           },
         }),
       ],
-      external: ['react', 'antd', '@antv/g6', 'lodash'],
+      external: ['react', 'react-dom', 'antd', '@antv/g6', 'lodash'],
     });
 
     await esmBundle.write({
