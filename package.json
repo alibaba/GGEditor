@@ -45,7 +45,8 @@
   },
   "homepage": "https://github.com/gaoli/GGEditor#readme",
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "dependencies": {
     "@antv/g6": "^3.2.1",

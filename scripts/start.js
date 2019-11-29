@@ -35,6 +35,7 @@ function start(name) {
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        antd: 'antd',
       },
     },
     plugins: [
