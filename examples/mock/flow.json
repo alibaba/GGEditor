@@ -2,29 +2,15 @@
   "nodes": [
     {
       "id": "0",
-      "shape": "startNode",
       "label": "Node",
       "x": 55,
       "y": 55
     },
     {
       "id": "1",
-      "shape": "endNode",
       "label": "Node",
       "x": 55,
       "y": 255
-    },
-    {
-      "id": "2",
-      "label": "Node2",
-      "x": 155,
-      "y": 355
-    },
-    {
-      "id": "3",
-      "label": "Node3",
-      "x": 155,
-      "y": 455
     }
   ],
   "edges": [
