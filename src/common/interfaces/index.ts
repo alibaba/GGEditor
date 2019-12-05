@@ -171,6 +171,8 @@ export interface CustomShape<T, M> {
   getLabelStyle?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
   getLabelStyleByPosition?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
   getShapeStyle?(model: M): React.CSSProperties;
+
+  [propName: string]: any;
 }
 
 /**
