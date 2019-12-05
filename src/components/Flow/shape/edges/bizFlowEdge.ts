@@ -39,8 +39,18 @@ const bizFlowEdge: CustomEdge = {
     },
   },
 
-  afterDraw(model, group) {
-    // Draw label wrapper
+  createLabelWrapper(group: G.Group) {
+    const label = group.findByClassName(EDGE_LABEL_CLASS_NAME);
+    const labelWrapper = group.findByClassName(EDGE_LABEL_WRAPPER_CLASS_NAME);
+
+    if (!label) {
+      return;
+    }
+
+    if (labelWrapper) {
+      return;
+    }
+
     group.addShape('rect', {
       className: EDGE_LABEL_WRAPPER_CLASS_NAME,
       attrs: {
@@ -49,28 +59,46 @@ const bizFlowEdge: CustomEdge = {
       },
     });
 
-    // Set label zIndex
-    group.findByClassName(EDGE_LABEL_CLASS_NAME).set('zIndex', 1);
+    label.set('zIndex', 1);
 
-    // Reorder
     group.sort();
   },
 
-  afterUpdate(model, item) {
-    const group = item.getContainer();
-
+  updateLabelWrapper(group: G.Group) {
     const label = group.findByClassName(EDGE_LABEL_CLASS_NAME);
     const labelWrapper = group.findByClassName(EDGE_LABEL_WRAPPER_CLASS_NAME);
 
+    if (!label) {
+      labelWrapper && labelWrapper.hide();
+      return;
+    } else {
+      labelWrapper && labelWrapper.show();
+    }
+
+    if (!labelWrapper) {
+      return;
+    }
+
     const { minX, minY, width, height } = label.getBBox();
 
-    // Set label wrapper attributes
     labelWrapper.attr({
       x: minX - 5,
       y: minY - 3,
       width: width + 10,
       height: height + 6,
     });
+  },
+
+  afterDraw(model, group) {
+    this.createLabelWrapper(group);
+    this.updateLabelWrapper(group);
+  },
+
+  afterUpdate(model, item) {
+    const group = item.getContainer();
+
+    this.createLabelWrapper(group);
+    this.updateLabelWrapper(group);
   },
 
   setState(name, value, item) {
