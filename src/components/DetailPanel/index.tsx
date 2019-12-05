@@ -1,82 +1,57 @@
 import React from 'react';
-import pick from 'lodash/pick';
+import upperFirst from 'lodash/upperFirst';
 import { getSelectedNodes, getSelectedEdges } from '@/utils';
 import { GraphState, EditorEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 import { GraphStateEvent } from '@/common/interfaces';
 
-interface DetailPanelProps extends EditorContextProps {
-  style?: React.CSSProperties;
-  className?: string;
+type DetailPanelType = 'node' | 'edge' | 'multi' | 'canvas';
+
+export interface DetailPanelComponentProps {
+  type: DetailPanelType;
+  nodes: G6.Node[];
+  edges: G6.Edge[];
 }
 
-interface DetailPanelState {
-  graphState: GraphState;
-}
+class DetailPanel {
+  static create = function<P extends DetailPanelComponentProps>(type: DetailPanelType) {
+    return function(WrappedComponent: React.ComponentType<P>) {
+      type TypedPanelProps = EditorContextProps & Omit<P, keyof DetailPanelComponentProps>;
+      type TypedPanelState = { graphState: GraphState };
 
-class DetailPanel extends React.Component<DetailPanelProps, DetailPanelState> {
-  static create = function(type: GraphState) {
-    class TypedPanel extends DetailPanel {
-      constructor(props: DetailPanelProps) {
-        super(props, type);
-      }
-    }
+      class TypedPanel extends React.Component<TypedPanelProps, TypedPanelState> {
+        state = {
+          graphState: GraphState.CanvasSelected,
+        };
 
-    return withEditorContext<DetailPanelProps>(TypedPanel);
-  };
+        componentDidMount() {
+          const { graph } = this.props;
 
-  type: GraphState;
-
-  state = {
-    graphState: GraphState.CanvasSelected,
-  };
-
-  constructor(props: DetailPanelProps, type: GraphState) {
-    super(props);
-
-    this.type = type;
-  }
-
-  componentDidMount() {
-    const { graph } = this.props;
-
-    graph.on<GraphStateEvent>(EditorEvent.onGraphStateChange, ({ graphState }) => {
-      this.setState({
-        graphState,
-      });
-    });
-  }
-
-  render() {
-    const { graph, children } = this.props;
-    const { graphState } = this.state;
-
-    if (!graph) {
-      return null;
-    }
-
-    if (graphState !== this.type) {
-      return null;
-    }
-
-    return (
-      <div {...pick(this.props, ['style', 'className'])}>
-        {React.Children.toArray(children).map(child => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, {
-              nodes: getSelectedNodes(graph),
-              edges: getSelectedEdges(graph),
+          graph.on<GraphStateEvent>(EditorEvent.onGraphStateChange, ({ graphState }) => {
+            this.setState({
+              graphState,
             });
-          } else {
-            return child;
+          });
+        }
+
+        render() {
+          const { graph } = this.props;
+          const { graphState } = this.state;
+
+          if (graphState !== upperFirst(`${type}Selected`)) {
+            return null;
           }
-        })}
-      </div>
-    );
-  }
+
+          const nodes = getSelectedNodes(graph);
+          const edges = getSelectedEdges(graph);
+
+          return <WrappedComponent type={type} nodes={nodes} edges={edges} {...(this.props as any)} />;
+        }
+      }
+
+      return withEditorContext<TypedPanelProps>(TypedPanel);
+    };
+  };
 }
 
-export const NodePanel = DetailPanel.create(GraphState.NodeSelected);
-export const EdgePanel = DetailPanel.create(GraphState.EdgeSelected);
-export const MultiPanel = DetailPanel.create(GraphState.MultiSelected);
-export const CanvasPanel = DetailPanel.create(GraphState.CanvasSelected);
+export default DetailPanel;
