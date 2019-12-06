@@ -17,7 +17,7 @@
 ### npm
 
 ```sh
-npm install --save gg-editor
+npm install gg-editor --save
 ```
 
 ### umd
@@ -107,13 +107,13 @@ $ npm install
 $ npm start
 ```
 
-| 类型 | 示例                                            |
-| ---- | ----------------------------------------------- |
-| 图表 | [Flow](examples/flow)                           |
-| 图表 | [Mind](examples/mind)                           |
-| 组件 | [Command](examples/component-command)           |
-| 组件 | [ItemPanel](examples/component-item-panel)      |
-| 组件 | [DetailPanel](examples/component-detail-panel)  |
-| 插件 | [EditableLabel](examples/plugin-editable-label) |
-| 插件 | [ItemPopover](examples/plugin-item-popover)     |
-| 插件 | [ContextMenu](examples/plugin-context-menu)     |
+| 类型 | 示例                   | 源码                                      |
+| :--- | :--------------------- | :---------------------------------------- |
+| 图表 | flow                   | [source](examples/flow)                   |
+| 图表 | mind                   | [source](examples/mind)                   |
+| 组件 | component-command      | [source](examples/component-command)      |
+| 组件 | component-item-panel   | [source](examples/component-item-panel)   |
+| 组件 | component-detail-panel | [source](examples/component-detail-panel) |
+| 插件 | plugin-editable-label  | [source](examples/plugin-editable-label)  |
+| 插件 | plugin-item-popover    | [source](examples/plugin-item-popover)    |
+| 插件 | plugin-context-menu    | [source](examples/plugin-context-menu)    |
