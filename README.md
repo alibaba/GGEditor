@@ -30,6 +30,8 @@ npm install gg-editor --save
 
 ### 流程图
 
+[![Edit GGEditor - Flow](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ggeditor-flow-hq64m?fontsize=14&hidenavigation=1&theme=dark)
+
 ```jsx
 import GGEditor, { Flow } from 'gg-editor';
 
@@ -58,11 +60,13 @@ const data = {
 };
 
 <GGEditor>
-  <Flow data={data} />
+  <Flow style={{ width: 500, height: 500 }} data={data} />
 </GGEditor>;
 ```
 
 ### 脑图
+
+[![Edit GGEditor - Mind](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ggeditor-mind-2262q?fontsize=14&hidenavigation=1&theme=dark)
 
 ```jsx
 import GGEditor, { Mind } from 'gg-editor';
@@ -83,7 +87,7 @@ const data = {
 };
 
 <GGEditor>
-  <Mind data={data} />
+  <Mind style={{ width: 500, height: 500 }} data={data} />
 </GGEditor>;
 ```
 
