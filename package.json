@@ -4,9 +4,9 @@
   "description": "A visual graph editor based on G6 and React",
   "keywords": [
     "react",
-    "graphics",
+    "graph",
     "editor",
-    "tree",
+    "flow",
     "mind"
   ],
   "main": "lib/index.js",
