@@ -17,7 +17,7 @@ A visual graph editor based on [G6](https://github.com/antvis/g6) and [React](ht
 ### npm
 
 ```sh
-npm install --save gg-editor
+npm install gg-editor --save
 ```
 
 ### umd
@@ -107,13 +107,13 @@ $ npm install
 $ npm start
 ```
 
-| Type      | Example                                         |
-| --------- | ----------------------------------------------- |
-| Graph     | [Flow](examples/flow)                           |
-| Graph     | [Mind](examples/mind)                           |
-| Component | [Command](examples/component-command)           |
-| Component | [ItemPanel](examples/component-item-panel)      |
-| Component | [DetailPanel](examples/component-detail-panel)  |
-| Plugin    | [EditableLabel](examples/plugin-editable-label) |
-| Plugin    | [ItemPopover](examples/plugin-item-popover)     |
-| Plugin    | [ContextMenu](examples/plugin-context-menu)     |
+| Type      | Example                | Source                                    |
+| :-------- | :--------------------- | :---------------------------------------- |
+| graph     | flow                   | [source](examples/flow)                   |
+| graph     | mind                   | [source](examples/mind)                   |
+| component | component-command      | [source](examples/component-command)      |
+| component | component-item-panel   | [source](examples/component-item-panel)   |
+| component | component-detail-panel | [source](examples/component-detail-panel) |
+| plugin    | plugin-editable-label  | [source](examples/plugin-editable-label)  |
+| plugin    | plugin-item-popover    | [source](examples/plugin-item-popover)    |
+| plugin    | plugin-context-menu    | [source](examples/plugin-context-menu)    |
