@@ -3,7 +3,6 @@ import { CustomShape, NodeModel } from '@/common/interfaces';
 import G6 from '@antv/g6';
 import { G } from '@antv/g6/types/g';
 import { UtilCanvasContext } from './util';
-import { handleAnchor } from './anchor';
 
 /* 节点固定宽高 */
 const keyShapeSize = {
@@ -20,10 +19,11 @@ export interface BizTreeNodeExtendableConfig {
   showMenuIcon?: boolean;
   /* 节点颜色主题 */
   themeColor?: string;
+  /* 设置state样式开始前 */
+  beforeSetState?(name: ItemState, value: boolean, item: G6.Node): void;
 }
 
 const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & BizTreeNodeExtendableConfig = {
-  handleAnchor,
   draw(model, group) {
     this.drawWrapper(model, group);
     const keyShape = group.addShape('rect', {
@@ -198,8 +198,9 @@ const options: CustomShape<G6.Node, NodeModel> & { [property: string]: any } & B
 
   /* 设置状态 */
   setState(name, value, item) {
-    // 根据状态绘制锚点
-    this.handleAnchor.call(this, name, value, item);
+    if (typeof this.beforeSetState === 'function') {
+      this.beforeSetState(name, value, item);
+    }
 
     const wrapper = item.getContainer().findByClassName(ShapeClassName.Wrapper);
 

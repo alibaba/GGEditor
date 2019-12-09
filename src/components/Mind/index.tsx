@@ -9,6 +9,7 @@ import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
 import './command';
+import './shape';
 import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
 interface MindProps extends Partial<GraphReactEventProps> {
@@ -139,7 +140,7 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       animate: false,
       defaultNode: {
-        shape: 'bizNode',
+        shape: 'bizMindNode',
       },
       defaultEdge: {
         shape: 'biz-cubic',
