@@ -95,7 +95,6 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
     if (!this.addingEdge && !this.edge) {
       const item = {
         id: guid(),
-        label: 'flowEdge',
         shape: edgeType,
         source: model.id,
         target: point,
