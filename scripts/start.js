@@ -53,7 +53,10 @@ function start(name) {
       typescript({
         tsconfig: 'examples/tsconfig.json',
       }),
-      babel(),
+      babel({
+        exclude: 'node_modules/**',
+        extensions: ['.ts', '.tsx'],
+      }),
       json(),
       serve({
         open: true,

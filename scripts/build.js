@@ -8,9 +8,20 @@ const resolve = require('rollup-plugin-node-resolve');
 const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
+const babel = require('rollup-plugin-babel');
 const { exec } = require('child_process');
-const { version } = require('../package.json');
+const { version, dependencies = {}, peerDependencies = {} } = require('../package.json');
 /* eslint-enable */
+
+const makeExternalPredicate = externalArray => {
+  if (!externalArray.length) {
+    return () => false;
+  }
+
+  const pattern = new RegExp(`^(${externalArray.join('|')})($|/)`);
+
+  return id => pattern.test(id);
+};
 
 async function build() {
   // Clean
@@ -37,8 +48,12 @@ async function build() {
             },
           },
         }),
+        babel({
+          exclude: 'node_modules/**',
+          extensions: ['.ts', '.tsx'],
+        }),
       ],
-      external: ['react', 'react-dom', 'antd'],
+      external: makeExternalPredicate([...Object.keys(peerDependencies)]),
     });
 
     await umdBundle.write({
@@ -48,7 +63,6 @@ async function build() {
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
-        antd: 'antd',
       },
       exports: 'named',
     });
@@ -69,8 +83,14 @@ async function build() {
         }),
         commonjs(),
         typescript(),
+        babel({
+          exclude: 'node_modules/**',
+          extensions: ['.ts', '.tsx'],
+          plugins: [['@babel/plugin-transform-runtime', { useESModules: false }]],
+          runtimeHelpers: true,
+        }),
       ],
-      external: ['react', 'react-dom', 'antd', '@antv/g6', 'lodash'],
+      external: makeExternalPredicate([...Object.keys(dependencies), ...Object.keys(peerDependencies)]),
     });
 
     await cjsBundle.write({
@@ -100,8 +120,14 @@ async function build() {
             },
           },
         }),
+        babel({
+          exclude: 'node_modules/**',
+          extensions: ['.ts', '.tsx'],
+          plugins: [['@babel/plugin-transform-runtime', { useESModules: true }]],
+          runtimeHelpers: true,
+        }),
       ],
-      external: ['react', 'react-dom', 'antd', '@antv/g6', 'lodash'],
+      external: makeExternalPredicate([...Object.keys(dependencies), ...Object.keys(peerDependencies)]),
     });
 
     await esmBundle.write({
