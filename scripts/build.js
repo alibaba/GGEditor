@@ -9,6 +9,7 @@ const replace = require('rollup-plugin-replace');
 const commonjs = require('rollup-plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
+const { terser } = require('rollup-plugin-terser');
 const { exec } = require('child_process');
 const { version, dependencies = {}, peerDependencies = {} } = require('../package.json');
 /* eslint-enable */
@@ -52,6 +53,7 @@ async function build() {
           exclude: 'node_modules/**',
           extensions: ['.ts', '.tsx'],
         }),
+        terser(),
       ],
       external: makeExternalPredicate([...Object.keys(peerDependencies)]),
     });
