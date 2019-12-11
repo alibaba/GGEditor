@@ -79,6 +79,10 @@ export enum EditorCommand {
   Update = 'update',
   /** 删除 */
   Remove = 'remove',
+  /** 放大 */
+  ZoomIn = 'zoomIn',
+  /** 缩小 */
+  ZoomOut = 'zoomOut',
   /** 插入主题 */
   Topic = 'topic',
   /** 插入子主题 */

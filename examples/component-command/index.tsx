@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Tooltip } from 'antd';
+import { Divider, Tooltip } from 'antd';
 import upperFirst from 'lodash/upperFirst';
 import GGEditor, { Mind, Command } from '@/index';
 import { EditorCommand } from '@/common/constants/index.js';
@@ -17,12 +17,22 @@ class Index extends React.Component {
           {[
             EditorCommand.Undo,
             EditorCommand.Redo,
+            '|',
+            EditorCommand.Remove,
+            '|',
             EditorCommand.Topic,
             EditorCommand.Subtopic,
+            '|',
             EditorCommand.Fold,
             EditorCommand.Unfold,
-            EditorCommand.Remove,
+            '|',
+            EditorCommand.ZoomIn,
+            EditorCommand.ZoomOut,
           ].map(name => {
+            if (name === '|') {
+              return <Divider type="vertical" />;
+            }
+
             return (
               <Command key={name} name={name} className={styles.command} disabledClassName={styles.commandDisabled}>
                 <Tooltip title={upperFirst(name)}>
