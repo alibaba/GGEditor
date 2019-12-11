@@ -2,7 +2,7 @@ import { isMind, executeBatch } from '@/utils';
 import { ItemType } from '@/common/constants';
 import { NodeModel, EdgeModel, MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { baseCommand, BaseCommand } from '@/components/Graph/command/base';
+import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 interface RemoveCommandParams {
   flow: {

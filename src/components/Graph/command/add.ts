@@ -2,7 +2,7 @@ import { guid } from '@/utils';
 import { ItemType } from '@/common/constants';
 import { NodeModel, EdgeModel } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { baseCommand, BaseCommand } from './base';
+import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 interface AddCommandParams {
   type: ItemType;
