@@ -1,6 +1,6 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { ADD_NODE_MODEL, ADD_NODE_DELEGATE_SHAPE, GraphMode } from '@/common/constants';
+import { GraphMode, GraphPropertyKey } from '@/common/constants';
 import { G } from '@antv/g6/types/g';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 import Item from './Item';
@@ -31,14 +31,14 @@ class ItemPanel extends React.Component<ItemPanelProps, ItemPanelState> {
     }
 
     const group: G.Group = graph.get('group');
-    const shape: G.Shape = group.findByClassName(ADD_NODE_DELEGATE_SHAPE) as G.Shape;
+    const shape: G.Shape = group.findByClassName(GraphPropertyKey.AddNodeDelegateShape) as G.Shape;
 
     if (shape) {
       shape.remove(true);
       graph.paint();
     }
 
-    graph.set(ADD_NODE_MODEL, null);
+    graph.set(GraphPropertyKey.AddNodeModel, null);
     graph.setMode(GraphMode.Default);
   };
 

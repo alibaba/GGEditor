@@ -1,6 +1,6 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { ADD_NODE_MODEL, ItemType, GraphMode } from '@/common/constants';
+import { ItemType, GraphMode, GraphPropertyKey } from '@/common/constants';
 import { NodeModel, EdgeModel } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
@@ -22,7 +22,7 @@ class Item extends React.Component<ItemProps, ItemState> {
     const { graph, type, model } = this.props;
 
     if (type === ItemType.Node) {
-      graph.set(ADD_NODE_MODEL, model);
+      graph.set(GraphPropertyKey.AddNodeModel, model);
       graph.setMode(GraphMode.AddNode);
     }
   };
