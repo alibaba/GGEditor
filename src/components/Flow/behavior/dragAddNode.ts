@@ -1,13 +1,6 @@
 import isArray from 'lodash/isArray';
 import { guid } from '@/utils';
-import {
-  ADD_NODE_MODEL,
-  ADD_NODE_DELEGATE_SHAPE,
-  GraphType,
-  GraphMode,
-  EditorCommand,
-  ItemType,
-} from '@/common/constants';
+import { ItemType, GraphType, GraphMode, GraphPropertyKey, EditorCommand } from '@/common/constants';
 import { NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
 import { G } from '@antv/g6/types/g';
 import commandManager from '@/common/commandManager';
@@ -43,7 +36,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     }
 
     const group: G.Group = graph.get('group');
-    const model: NodeModel = graph.get(ADD_NODE_MODEL);
+    const model: NodeModel = graph.get(GraphPropertyKey.AddNodeModel);
 
     const { size = 100 } = model;
 
@@ -62,7 +55,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     const y = e.y - height / 2;
 
     this.shape = group.addShape('rect', {
-      className: ADD_NODE_DELEGATE_SHAPE,
+      className: GraphPropertyKey.AddNodeDelegateShape,
       attrs: {
         x,
         y,
@@ -101,7 +94,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     let x = e.x;
     let y = e.y;
 
-    const model: NodeModel = graph.get(ADD_NODE_MODEL);
+    const model: NodeModel = graph.get(GraphPropertyKey.AddNodeModel);
 
     if (model.center === 'topLeft') {
       x -= width / 2;

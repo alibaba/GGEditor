@@ -1,9 +1,6 @@
 export const FLOW_CONTAINER_ID = 'J_FlowContainer';
 export const MIND_CONTAINER_ID = 'J_MindContainer';
 
-export const ADD_NODE_MODEL = 'ADD_NODE_MODEL';
-export const ADD_NODE_DELEGATE_SHAPE = 'ADD_NODE_DELEGATE_SHAPE';
-
 export const LABEL_DEFAULT_TEXT = '新建节点';
 
 export enum ShapeClassName {
@@ -44,6 +41,13 @@ export enum GraphState {
   EdgeSelected = 'EdgeSelected',
   MultiSelected = 'MultiSelected',
   CanvasSelected = 'CanvasSelected',
+}
+
+export enum GraphPropertyKey {
+  /** 拖拽添加节点模型 */
+  AddNodeModel = 'addNodeModel',
+  /** 拖拽添加节点代理图形 */
+  AddNodeDelegateShape = 'addNodeDelegateShape',
 }
 
 export enum LabelState {
