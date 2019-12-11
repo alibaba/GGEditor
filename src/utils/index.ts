@@ -18,12 +18,14 @@ export const toQueryString = (obj: object) =>
 
 /** 执行批量处理 */
 export function executeBatch(graph: G6.Graph, execute: Function) {
+  const autoPaint = graph.get('autoPaint');
+
   graph.setAutoPaint(false);
 
   execute();
 
   graph.paint();
-  graph.setAutoPaint(true);
+  graph.setAutoPaint(autoPaint);
 }
 
 /** 执行递归遍历 */
