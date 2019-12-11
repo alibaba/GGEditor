@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { clearSelectedState } from '@/utils';
+import global from '@/common/global';
 import {
   ItemState,
   GraphPropertyKey,
@@ -84,6 +85,11 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
       graph.setItemState(item, ItemState.Selected, true);
     }
 
+    global.clipboard.point = {
+      x,
+      y,
+    };
+
     graph.set(GraphPropertyKey.ShowContextMenu, true);
 
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
@@ -98,6 +104,11 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
 
   hideContextMenu = () => {
     const { graph } = this.props;
+
+    global.clipboard.point = {
+      x: 0,
+      y: 0,
+    };
 
     graph.set(GraphPropertyKey.ShowContextMenu, false);
 
