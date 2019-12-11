@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import { isMind } from '@/utils';
 import { track } from '@/helpers';
-import Global from '@/common/Global';
+import global from '@/common/global';
 import {
   GraphType,
   GraphCommonEvent,
@@ -65,7 +65,7 @@ class Graph extends React.Component<GraphProps, GraphState> {
     setGraph(this.graph);
 
     // 发送埋点
-    if (Global.getTrackable()) {
+    if (global.trackable) {
       const graphType = isMind(this.graph) ? GraphType.Mind : GraphType.Flow;
 
       track(graphType);

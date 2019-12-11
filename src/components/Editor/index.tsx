@@ -1,7 +1,7 @@
 import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
-import Global from '@/common/Global';
+import global from '@/common/global';
 import { EditorEvent, GraphCommonEvent } from '@/common/constants';
 import { CommandEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
@@ -25,7 +25,7 @@ interface EditorState extends EditorContextProps, EditorPrivateContextProps {}
 
 class Editor extends React.Component<EditorProps, EditorState> {
   static setTrackable(trackable: boolean) {
-    Global.setTrackable(trackable);
+    global.trackable = trackable;
   }
 
   static defaultProps = {
