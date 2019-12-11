@@ -1,6 +1,6 @@
 import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { baseCommand, BaseCommand } from '../../Graph/command/base';
+import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 interface FoldCommandParams {
   id: string;
@@ -57,7 +57,10 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
     this.execute(graph);
   },
 
-  shortcuts: [['metaKey', '/'], ['ctrlKey', '/']],
+  shortcuts: [
+    ['metaKey', '/'],
+    ['ctrlKey', '/'],
+  ],
 };
 
 commandManager.register('fold', foldCommand);

@@ -1,6 +1,6 @@
 import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { BaseCommand } from '../../Graph/command/base';
+import { BaseCommand } from '@/components/Graph/command/base';
 import { foldCommand } from './fold';
 
 interface UnfoldCommandParams {
@@ -31,7 +31,10 @@ const unfoldCommand: BaseCommand<UnfoldCommandParams> = {
     return true;
   },
 
-  shortcuts: [['metaKey', '/'], ['ctrlKey', '/']],
+  shortcuts: [
+    ['metaKey', '/'],
+    ['ctrlKey', '/'],
+  ],
 };
 
 commandManager.register('unfold', unfoldCommand);

@@ -8,8 +8,8 @@ import { MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
-import './command';
 import './shape';
+import './command';
 import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
 interface MindProps extends Partial<GraphReactEventProps> {

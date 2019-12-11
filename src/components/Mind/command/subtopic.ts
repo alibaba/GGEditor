@@ -1,6 +1,6 @@
 import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { BaseCommand } from '../../Graph/command/base';
+import { BaseCommand } from '@/components/Graph/command/base';
 import { topicCommand } from './topic';
 
 interface SubtopicCommandParams {

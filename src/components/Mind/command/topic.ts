@@ -2,7 +2,7 @@ import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
 import { MindData } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
-import { baseCommand, BaseCommand } from '../../Graph/command/base';
+import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 interface TopicCommandParams {
   id: string;
