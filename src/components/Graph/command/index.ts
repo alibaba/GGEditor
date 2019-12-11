@@ -4,3 +4,5 @@ import './undo';
 import './add';
 import './remove';
 import './update';
+import './zoomIn';
+import './zoomOut';
