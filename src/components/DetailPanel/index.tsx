@@ -1,5 +1,4 @@
 import React from 'react';
-import upperFirst from 'lodash/upperFirst';
 import { getSelectedNodes, getSelectedEdges } from '@/utils';
 import { GraphState, EditorEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
@@ -38,7 +37,7 @@ class DetailPanel {
           const { graph } = this.props;
           const { graphState } = this.state;
 
-          if (graphState !== upperFirst(`${type}Selected`)) {
+          if (graphState !== `${type}Selected`) {
             return null;
           }
 
