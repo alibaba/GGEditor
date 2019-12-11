@@ -1,15 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Divider, Tooltip } from 'antd';
 import upperFirst from 'lodash/upperFirst';
-import GGEditor, { Mind, Command } from '@/index';
+import { Divider, Tooltip, Menu } from 'antd';
+import GGEditor, { Flow, Mind, Command } from '@/index';
+import ContextMenu from '@/plugins/ContextMenu';
 import { EditorCommand } from '@/common/constants/index.js';
 import EditableLabel from '@/plugins/EditableLabel';
-import data from '../mock/mind.json';
+import flowData from '../mock/flow.json';
+import mindData from '../mock/mind.json';
 import IconFont from './IconFont';
 import styles from './index.less';
 
 class Index extends React.Component {
+  renderContent(item: G6.Item, hide: () => void) {
+    return (
+      <Menu mode="vertical" selectable={false} onClick={hide}>
+        <Menu.Item>
+          <Command name="pasteHere">Paste</Command>
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
   render() {
     return (
       <GGEditor className={styles.editor}>
@@ -18,14 +30,16 @@ class Index extends React.Component {
             EditorCommand.Undo,
             EditorCommand.Redo,
             '|',
+            EditorCommand.Copy,
+            EditorCommand.Paste,
             EditorCommand.Remove,
             '|',
-            EditorCommand.Topic,
-            EditorCommand.Subtopic,
-            '|',
-            EditorCommand.Fold,
-            EditorCommand.Unfold,
-            '|',
+            // EditorCommand.Topic,
+            // EditorCommand.Subtopic,
+            // '|',
+            // EditorCommand.Fold,
+            // EditorCommand.Unfold,
+            // '|',
             EditorCommand.ZoomIn,
             EditorCommand.ZoomOut,
           ].map(name => {
@@ -42,8 +56,21 @@ class Index extends React.Component {
             );
           })}
         </div>
-        <Mind className={styles.editorBd} data={data} />
+        <Flow
+          className={styles.editorBd}
+          data={flowData}
+          graphConfig={{
+            defaultNode: {
+              shape: 'bizFlowNode',
+            },
+            defaultEdge: {
+              shape: 'bizFlowEdge',
+            },
+          }}
+        />
+        {/* <Mind className={styles.editorBd} data={mindData} /> */}
         <EditableLabel />
+        <ContextMenu renderContent={this.renderContent} />
       </GGEditor>
     );
   }

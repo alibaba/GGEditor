@@ -83,6 +83,10 @@ export enum EditorCommand {
   Update = 'update',
   /** 删除 */
   Remove = 'remove',
+  /** 复制 */
+  Copy = 'copy',
+  /** 粘贴 */
+  Paste = 'paste',
   /** 放大 */
   ZoomIn = 'zoomIn',
   /** 缩小 */
