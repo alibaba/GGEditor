@@ -2,6 +2,15 @@ import { guid } from '@/utils';
 import { GraphType } from '@/common/constants';
 import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
+import { Item, Node } from '@antv/g6';
+
+type LinkRule = {
+  [key: string]: {
+    in?: number;
+    out?: number;
+    next?: [string];
+  };
+};
 
 interface DragAddEdgeBehavior extends Behavior {
   edge?: G6.Edge;
@@ -19,6 +28,31 @@ interface DragAddEdgeBehavior extends Behavior {
 interface DefaultConfig {
   edgeType: string;
   allowMultiEdge: boolean;
+}
+
+function checkOutAndInEdge(item: Node, type: String, linkRule: LinkRule) {
+  if (!linkRule) return true;
+  const outEdge = item.getOutEdges().length;
+  const inEdge = item.getInEdges().length;
+  const { shape } = item.getModel();
+  const config = linkRule[shape];
+  if (!config) return true;
+  config.in = config.in || Infinity;
+  config.out = config.out || Infinity;
+  if (type === 'in' && inEdge < config.in) return true;
+  if (type === 'out' && outEdge < config.out) return true;
+  if (inEdge < config.in && outEdge < config.out) return true;
+  else return false;
+}
+
+function nextNodeCheck(source: Item, item: Item, linkRule: LinkRule) {
+  if (!linkRule) return true;
+  const sourceNodeShape = source.getModel().shape;
+  const { shape } = item.getModel();
+  const config = linkRule[sourceNodeShape];
+  if (!config || !config.next) return true;
+  if (config.next.find(s => s === shape)) return true;
+  else return false;
 }
 
 const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultConfig> = {
@@ -65,11 +99,12 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
   },
 
   addEdgeCheck(ev, inFlag = undefined) {
+    const { graph, isAnchor } = this;
+    const linkRule = graph.get('defaultEdge').linkRule;
     // 如果点击的不是锚点就结束
-    if (!this.isAnchor(ev)) return false;
+    if (!isAnchor(ev)) return false;
     // 出入度检查
-    // return this.checkOutAndInEdge(ev.item, inFlag);
-    return true;
+    return checkOutAndInEdge(ev.item as Node, inFlag, linkRule);
   },
 
   onMousedown(ev) {
@@ -77,14 +112,15 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
     if (!this.addEdgeCheck.call(this, ev, 'out')) return;
     const node = ev.item;
     const graph = this.graph;
+    const linkRule = graph.get('defaultEdge').linkRule;
     this.sourceNode = node;
-
     graph.getNodes().forEach(n => {
       // 给其他所有节点加上 addingEdge 标识，
       // 让其 anchor 激活，表示可以连入
       if (n.get('id') !== node.get('id')) {
         // 判断节点是不是 sourceNode 的后继，否则不点亮锚点
-        // if (!this.nextNodeCheck(node, n) || !this.checkOutAndInEdge(n, 'in')) graph.setItemState(n, 'limitLink', true);
+        if (!nextNodeCheck(node, n as Item, linkRule) || !checkOutAndInEdge(n as Node, 'in', linkRule))
+          graph.setItemState(n, 'limitLink', true);
         graph.setItemState(n, 'addingEdge', true);
       } else graph.setItemState(n, 'addingSource', true);
     });
