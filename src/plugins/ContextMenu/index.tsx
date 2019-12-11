@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { clearSelectedState } from '@/utils';
 import {
   ItemState,
@@ -106,13 +107,17 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   };
 
   render() {
+    const { graph } = this.props;
     const { top, left, visible, content } = this.state;
 
     if (!visible) {
       return null;
     }
 
-    return <div style={{ position: 'absolute', top, left }}>{content}</div>;
+    return ReactDOM.createPortal(
+      <div style={{ position: 'absolute', top, left }}>{content}</div>,
+      graph.get('container'),
+    );
   }
 }
 
