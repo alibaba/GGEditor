@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popover } from 'antd';
 import delay from 'lodash/delay';
-import { PlugSignal, GraphNodeEvent } from '@/common/constants';
+import { GraphPropertyKey, GraphNodeEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ItemPopoverType {
@@ -65,7 +65,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   showItemPopover = (item: G6.Item) => {
     const { graph, renderTitle, renderContent } = this.props;
 
-    graph.set(PlugSignal.ShowItemPopover, true);
+    graph.set(GraphPropertyKey.ShowItemPopover, true);
 
     const { centerX: x, minY: y } = item.getBBox();
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
@@ -82,7 +82,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   hideItemPopover = () => {
     const { graph } = this.props;
 
-    graph.set(PlugSignal.ShowItemPopover, false);
+    graph.set(GraphPropertyKey.ShowItemPopover, false);
 
     this.setState({
       visible: false,

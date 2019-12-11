@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
-import { MIND_CONTAINER_ID, ShapeClassName, GraphType, PlugSignal } from '@/common/constants';
+import { MIND_CONTAINER_ID, ShapeClassName, GraphType, GraphPropertyKey } from '@/common/constants';
 import { MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -39,9 +39,9 @@ class Mind extends React.Component<MindProps, MindState> {
     }
 
     return (
-      !graph.get(PlugSignal.ShowItemPopover) &&
-      !graph.get(PlugSignal.ShowContextMenu) &&
-      !graph.get(PlugSignal.ShowEditableLabel)
+      !graph.get(GraphPropertyKey.ShowItemPopover) &&
+      !graph.get(GraphPropertyKey.ShowContextMenu) &&
+      !graph.get(GraphPropertyKey.ShowEditableLabel)
     );
   };
 

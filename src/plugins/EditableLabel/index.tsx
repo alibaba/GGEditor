@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import G6 from '@antv/g6';
 import { isMind, getSelectedNodes } from '@/utils';
-import { GraphMode, EditorEvent, GraphNodeEvent, LabelState, PlugSignal } from '@/common/constants';
+import { GraphMode, EditorEvent, GraphNodeEvent, LabelState, GraphPropertyKey } from '@/common/constants';
 import { LabelStateEvent } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
@@ -69,7 +69,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   showEditableLabel = () => {
     const { graph } = this.props;
 
-    graph.set(PlugSignal.ShowEditableLabel, true);
+    graph.set(GraphPropertyKey.ShowEditableLabel, true);
 
     this.setState(
       {
@@ -89,7 +89,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   hideEditableLabel = () => {
     const { graph } = this.props;
 
-    graph.set(PlugSignal.ShowEditableLabel, false);
+    graph.set(GraphPropertyKey.ShowEditableLabel, false);
 
     this.setState({
       visible: false,

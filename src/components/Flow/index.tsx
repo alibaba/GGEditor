@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import G6 from '@antv/g6';
 import { guid } from '@/utils';
-import { FLOW_CONTAINER_ID, GraphType, PlugSignal } from '@/common/constants';
+import { FLOW_CONTAINER_ID, GraphType, GraphPropertyKey } from '@/common/constants';
 import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -42,9 +42,9 @@ class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     return (
-      !graph.get(PlugSignal.ShowItemPopover) &&
-      !graph.get(PlugSignal.ShowContextMenu) &&
-      !graph.get(PlugSignal.ShowEditableLabel)
+      !graph.get(GraphPropertyKey.ShowItemPopover) &&
+      !graph.get(GraphPropertyKey.ShowContextMenu) &&
+      !graph.get(GraphPropertyKey.ShowEditableLabel)
     );
   };
 

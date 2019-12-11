@@ -2,7 +2,7 @@ import React from 'react';
 import { clearSelectedState } from '@/utils';
 import {
   ItemState,
-  PlugSignal,
+  GraphPropertyKey,
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
@@ -83,7 +83,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
       graph.setItemState(item, ItemState.Selected, true);
     }
 
-    graph.set(PlugSignal.ShowContextMenu, true);
+    graph.set(GraphPropertyKey.ShowContextMenu, true);
 
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
 
@@ -98,7 +98,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   hideContextMenu = () => {
     const { graph } = this.props;
 
-    graph.set(PlugSignal.ShowContextMenu, false);
+    graph.set(GraphPropertyKey.ShowContextMenu, false);
 
     this.setState({
       visible: false,
