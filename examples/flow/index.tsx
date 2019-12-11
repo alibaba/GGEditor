@@ -17,6 +17,15 @@ class Index extends React.Component {
             },
             defaultEdge: {
               shape: 'bizFlowEdge',
+              linkRule: {
+                entry: { out: 1, next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                slot: { in: 1, out: 1, next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                switch: { next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                assignment: { out: 1, next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                invocation: { out: 1, next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                function: { next: ['function', 'slot', 'response', 'assignment', 'invocation', 'switch'] },
+                response: { next: ['entry'] },
+              },
             },
           }}
         />
