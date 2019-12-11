@@ -26,8 +26,8 @@ export enum ItemState {
 }
 
 export enum GraphType {
-  Flow = 'Flow',
-  Mind = 'Mind',
+  Flow = 'flow',
+  Mind = 'mind',
 }
 
 export enum GraphMode {
@@ -37,10 +37,10 @@ export enum GraphMode {
 }
 
 export enum GraphState {
-  NodeSelected = 'NodeSelected',
-  EdgeSelected = 'EdgeSelected',
-  MultiSelected = 'MultiSelected',
-  CanvasSelected = 'CanvasSelected',
+  NodeSelected = 'nodeSelected',
+  EdgeSelected = 'edgeSelected',
+  MultiSelected = 'multiSelected',
+  CanvasSelected = 'canvasSelected',
 }
 
 export enum GraphPropertyKey {
@@ -57,8 +57,8 @@ export enum GraphPropertyKey {
 }
 
 export enum LabelState {
-  Hide = 'Hide',
-  Show = 'Show',
+  Hide = 'hide',
+  Show = 'show',
 }
 
 export enum EditorEvent {
