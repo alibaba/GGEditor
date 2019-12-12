@@ -95,7 +95,7 @@ export function getGraphState(graph: G6.Graph): GraphState {
   return graphState;
 }
 
-/** 设置选中节点 */
+/** 设置选中元素 */
 export function setSelectedItems(graph: G6.Graph, items: G6.Item[] | string[]) {
   executeBatch(graph, () => {
     const selectedNodes = getSelectedNodes(graph);
