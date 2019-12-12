@@ -48,12 +48,6 @@ export enum GraphPropertyKey {
   AddNodeModel = 'addNodeModel',
   /** 拖拽添加节点代理图形 */
   AddNodeDelegateShape = 'addNodeDelegateShape',
-  /** 显示元素浮层插件标识*/
-  ShowItemPopover = 'showItemPopover',
-  /** 显示右键菜单插件标识 */
-  ShowContextMenu = 'showContextMenu',
-  /** 显示标签编辑插件标识 */
-  ShowEditableLabel = 'showEditableLabel',
 }
 
 export enum LabelState {

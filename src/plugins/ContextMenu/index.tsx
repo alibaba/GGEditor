@@ -2,14 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { clearSelectedState } from '@/utils';
 import global from '@/common/global';
-import {
-  ItemState,
-  GraphPropertyKey,
-  GraphCommonEvent,
-  GraphNodeEvent,
-  GraphEdgeEvent,
-  GraphCanvasEvent,
-} from '@/common/constants';
+import { ItemState, GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ContextMenuType {
@@ -85,12 +78,11 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
       graph.setItemState(item, ItemState.Selected, true);
     }
 
+    global.contextMenuState = 'show';
     global.clipboard.point = {
       x,
       y,
     };
-
-    graph.set(GraphPropertyKey.ShowContextMenu, true);
 
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
 
@@ -103,14 +95,11 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   };
 
   hideContextMenu = () => {
-    const { graph } = this.props;
-
+    global.contextMenuState = 'hide';
     global.clipboard.point = {
       x: 0,
       y: 0,
     };
-
-    graph.set(GraphPropertyKey.ShowContextMenu, false);
 
     this.setState({
       visible: false,
