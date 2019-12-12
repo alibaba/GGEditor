@@ -23,13 +23,13 @@ class Global {
   };
 
   /** 元素浮层插件状态 */
-  itemPopoverState: 'show' | 'hide';
+  itemPopoverState: 'show' | 'hide' = 'hide';
 
   /** 右键菜单插件状态 */
-  contextMenuState: 'show' | 'hide';
+  contextMenuState: 'show' | 'hide' = 'hide';
 
   /** 标签编辑插件状态 */
-  editableLabelState: 'show' | 'hide';
+  editableLabelState: 'show' | 'hide' = 'hide';
 }
 
 export default new Global();
