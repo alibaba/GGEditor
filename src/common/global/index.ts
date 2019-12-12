@@ -1,3 +1,4 @@
+import { guid } from '@/utils';
 import { NodeModel } from '@/common/interfaces';
 
 class Global {
@@ -20,6 +21,19 @@ class Global {
       y: 0,
     },
     models: [],
+  };
+
+  /** 组件数据 */
+  component: {
+    itemPanel: {
+      model: NodeModel;
+      delegateShapeClassName: string;
+    };
+  } = {
+    itemPanel: {
+      model: null,
+      delegateShapeClassName: `delegateShape_${guid()}`,
+    },
   };
 
   /** 插件数据 */
