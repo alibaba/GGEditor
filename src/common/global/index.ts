@@ -21,6 +21,15 @@ class Global {
     },
     models: [],
   };
+
+  /** 元素浮层插件状态 */
+  itemPopoverState: 'show' | 'hide';
+
+  /** 右键菜单插件状态 */
+  contextMenuState: 'show' | 'hide';
+
+  /** 标签编辑插件状态 */
+  editableLabelState: 'show' | 'hide';
 }
 
 export default new Global();
