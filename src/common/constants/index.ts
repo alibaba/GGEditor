@@ -43,13 +43,6 @@ export enum GraphState {
   CanvasSelected = 'canvasSelected',
 }
 
-export enum GraphPropertyKey {
-  /** 拖拽添加节点数据模型 */
-  AddNodeModel = 'addNodeModel',
-  /** 拖拽添加节点代理图形 */
-  AddNodeDelegateShape = 'addNodeDelegateShape',
-}
-
 export enum LabelState {
   Hide = 'hide',
   Show = 'show',

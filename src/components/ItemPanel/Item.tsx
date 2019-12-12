@@ -1,14 +1,15 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import { ItemType, GraphMode, GraphPropertyKey } from '@/common/constants';
-import { NodeModel, EdgeModel } from '@/common/interfaces';
+import global from '@/common/global';
+import { ItemType, GraphMode } from '@/common/constants';
+import { NodeModel } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export interface ItemProps extends EditorContextProps {
   style?: React.CSSProperties;
   className?: string;
   type?: ItemType;
-  model: NodeModel | EdgeModel;
+  model: NodeModel;
 }
 
 export interface ItemState {}
@@ -22,7 +23,7 @@ class Item extends React.Component<ItemProps, ItemState> {
     const { graph, type, model } = this.props;
 
     if (type === ItemType.Node) {
-      graph.set(GraphPropertyKey.AddNodeModel, model);
+      global.component.itemPanel.model = model;
       graph.setMode(GraphMode.AddNode);
     }
   };
