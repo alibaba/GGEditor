@@ -68,7 +68,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   };
 
   showEditableLabel = () => {
-    global.editableLabelState = 'show';
+    global.plugin.editableLabel.state = 'show';
 
     this.setState(
       {
@@ -86,7 +86,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
   };
 
   hideEditableLabel = () => {
-    global.editableLabelState = 'hide';
+    global.plugin.editableLabel.state = 'hide';
 
     this.setState({
       visible: false,

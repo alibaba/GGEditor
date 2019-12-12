@@ -22,14 +22,28 @@ class Global {
     models: [],
   };
 
-  /** 元素浮层插件状态 */
-  itemPopoverState: 'show' | 'hide' = 'hide';
-
-  /** 右键菜单插件状态 */
-  contextMenuState: 'show' | 'hide' = 'hide';
-
-  /** 标签编辑插件状态 */
-  editableLabelState: 'show' | 'hide' = 'hide';
+  /** 插件数据 */
+  plugin: {
+    itemPopover: {
+      state: 'show' | 'hide';
+    };
+    contextMenu: {
+      state: 'show' | 'hide';
+    };
+    editableLabel: {
+      state: 'show' | 'hide';
+    };
+  } = {
+    itemPopover: {
+      state: 'hide',
+    },
+    contextMenu: {
+      state: 'hide',
+    },
+    editableLabel: {
+      state: 'hide',
+    },
+  };
 }
 
 export default new Global();

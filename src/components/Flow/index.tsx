@@ -43,7 +43,9 @@ class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     return (
-      global.itemPopoverState === 'hide' && global.contextMenuState === 'hide' && global.editableLabelState === 'hide'
+      global.plugin.itemPopover.state === 'hide' &&
+      global.plugin.contextMenu.state === 'hide' &&
+      global.plugin.editableLabel.state === 'hide'
     );
   };
 
