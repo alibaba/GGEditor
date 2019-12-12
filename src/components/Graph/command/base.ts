@@ -10,7 +10,7 @@ export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
   getSelectedNodes(graph: G): G6.Node[];
   /** 获取选中连线 */
   getSelectedEdges(graph: G): G6.Edge[];
-  /** 设置选中节点 */
+  /** 设置选中元素 */
   setSelectedItems(graph: G, items: G6.Item[] | string[]): void;
   /** 编辑选中节点 */
   editSelectedNode(graph: G): void;
