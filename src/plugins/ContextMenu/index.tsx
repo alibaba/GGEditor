@@ -78,7 +78,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
       graph.setItemState(item, ItemState.Selected, true);
     }
 
-    global.contextMenuState = 'show';
+    global.plugin.contextMenu.state = 'show';
     global.clipboard.point = {
       x,
       y,
@@ -95,7 +95,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   };
 
   hideContextMenu = () => {
-    global.contextMenuState = 'hide';
+    global.plugin.contextMenu.state = 'hide';
     global.clipboard.point = {
       x: 0,
       y: 0,

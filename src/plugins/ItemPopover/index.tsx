@@ -66,7 +66,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   showItemPopover = (item: G6.Item) => {
     const { graph, renderTitle, renderContent } = this.props;
 
-    global.itemPopoverState = 'show';
+    global.plugin.itemPopover.state = 'show';
 
     const { centerX: x, minY: y } = item.getBBox();
     const { x: left, y: top } = graph.getCanvasByPoint(x, y);
@@ -81,7 +81,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   };
 
   hideItemPopover = () => {
-    global.itemPopoverState = 'hide';
+    global.plugin.itemPopover.state = 'hide';
 
     this.setState({
       visible: false,

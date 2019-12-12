@@ -40,7 +40,9 @@ class Mind extends React.Component<MindProps, MindState> {
     }
 
     return (
-      global.itemPopoverState === 'hide' && global.contextMenuState === 'hide' && global.editableLabelState === 'hide'
+      global.plugin.itemPopover.state === 'hide' &&
+      global.plugin.contextMenu.state === 'hide' &&
+      global.plugin.editableLabel.state === 'hide'
     );
   };
 
