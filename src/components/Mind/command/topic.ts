@@ -50,7 +50,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
     graph.addChild(model, parent);
 
     // 选中节点
-    this.setSelectedNodes(graph, [model.id]);
+    this.setSelectedItems(graph, [model.id]);
 
     // 编辑节点
     this.editSelectedNode(graph);
@@ -59,7 +59,7 @@ export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
   undo(graph) {
     const { id, model } = this.params;
 
-    this.setSelectedNodes(graph, [id]);
+    this.setSelectedItems(graph, [id]);
 
     graph.removeChild(model.id);
   },

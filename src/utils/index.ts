@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import { ItemType, ItemState, GraphState } from '@/common/constants';
+import { ItemType, ItemState, GraphState, EditorEvent } from '@/common/constants';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -93,6 +93,26 @@ export function getGraphState(graph: G6.Graph): GraphState {
   }
 
   return graphState;
+}
+
+/** 设置选中节点 */
+export function setSelectedItems(graph: G6.Graph, items: G6.Item[] | string[]) {
+  executeBatch(graph, () => {
+    const selectedNodes = getSelectedNodes(graph);
+    const selectedEdges = getSelectedEdges(graph);
+
+    [...selectedNodes, ...selectedEdges].forEach(node => {
+      graph.setItemState(node, ItemState.Selected, false);
+    });
+
+    items.forEach(item => {
+      graph.setItemState(item, ItemState.Selected, true);
+    });
+  });
+
+  graph.emit(EditorEvent.onGraphStateChange, {
+    graphState: getGraphState(graph),
+  });
 }
 
 /** 清除选中状态 */

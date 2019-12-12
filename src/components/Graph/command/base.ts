@@ -1,5 +1,5 @@
-import { executeBatch, isMind, getSelectedNodes, getSelectedEdges } from '@/utils';
-import { ItemState, LabelState, EditorEvent } from '@/common/constants';
+import { isMind, getSelectedNodes, getSelectedEdges, setSelectedItems } from '@/utils';
+import { LabelState, EditorEvent } from '@/common/constants';
 import { Command } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 
@@ -11,7 +11,7 @@ export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
   /** 获取选中连线 */
   getSelectedEdges(graph: G): G6.Edge[];
   /** 设置选中节点 */
-  setSelectedNodes(graph: G, ids: string[]): void;
+  setSelectedItems(graph: G, items: G6.Item[] | string[]): void;
   /** 编辑选中节点 */
   editSelectedNode(graph: G): void;
 }
@@ -47,21 +47,7 @@ export const baseCommand: BaseCommand = {
 
   getSelectedEdges,
 
-  setSelectedNodes(graph, ids) {
-    executeBatch(graph, () => {
-      const selectedNodes = this.getSelectedNodes(graph);
-
-      selectedNodes.forEach(node => {
-        if (node.hasState(ItemState.Selected)) {
-          graph.setItemState(node, ItemState.Selected, false);
-        }
-      });
-
-      ids.forEach(id => {
-        graph.setItemState(id, ItemState.Selected, true);
-      });
-    });
-  },
+  setSelectedItems,
 
   editSelectedNode(graph) {
     graph.emit(EditorEvent.onLabelStateChange, {

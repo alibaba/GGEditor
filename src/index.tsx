@@ -6,6 +6,7 @@ import ItemPanel, { Item } from '@/components/ItemPanel';
 import DetailPanel from '@/components/DetailPanel';
 import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@/components/Register';
 import { withEditorContext } from '@/components/EditorContext';
+import * as Util from '@/utils';
 
 export {
   Flow,
@@ -19,6 +20,7 @@ export {
   RegisterCommand,
   RegisterBehavior,
   withEditorContext,
+  Util,
 };
 
 export default Editor;
