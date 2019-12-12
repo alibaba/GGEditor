@@ -22,7 +22,7 @@ const subtopicCommand: BaseCommand<SubtopicCommandParams, G6.TreeGraph> = {
     graph.addChild(model, id);
 
     // 选中节点
-    this.setSelectedNodes(graph, [model.id]);
+    this.setSelectedItems(graph, [model.id]);
 
     // 编辑节点
     this.editSelectedNode(graph);

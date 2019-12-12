@@ -49,7 +49,7 @@ export const pasteCommand: BaseCommand<PasteCommandParams> = {
       });
     });
 
-    this.setSelectedNodes(
+    this.setSelectedItems(
       graph,
       models.map(model => model.id),
     );
