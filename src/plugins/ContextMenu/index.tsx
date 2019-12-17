@@ -89,10 +89,6 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
 
   hideContextMenu = () => {
     global.plugin.contextMenu.state = 'hide';
-    global.clipboard.point = {
-      x: 0,
-      y: 0,
-    };
 
     this.setState({
       visible: false,
