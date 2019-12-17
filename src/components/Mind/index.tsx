@@ -32,7 +32,7 @@ class Mind extends React.Component<MindProps, MindState> {
 
   containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
-  canZoomCanvas = () => {
+  canDragOrZoomCanvas = () => {
     const { graph } = this;
 
     if (!graph) {
@@ -112,10 +112,12 @@ class Mind extends React.Component<MindProps, MindState> {
           },
           'drag-canvas': {
             type: 'drag-canvas',
+            shouldBegin: this.canDragOrZoomCanvas,
+            shouldUpdate: this.canDragOrZoomCanvas,
           },
           'zoom-canvas': {
             type: 'zoom-canvas',
-            shouldUpdate: this.canZoomCanvas,
+            shouldUpdate: this.canDragOrZoomCanvas,
           },
         },
       },

@@ -35,7 +35,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
     return !['anchor', 'banAnchor'].some(item => item === e.target.get('className'));
   };
 
-  canZoomCanvas = () => {
+  canDragOrZoomCanvas = () => {
     const { graph } = this;
 
     if (!graph) {
@@ -77,10 +77,12 @@ class Flow extends React.Component<FlowProps, FlowState> {
           },
           'drag-canvas': {
             type: 'drag-canvas',
+            shouldBegin: this.canDragOrZoomCanvas,
+            shouldUpdate: this.canDragOrZoomCanvas,
           },
           'zoom-canvas': {
             type: 'zoom-canvas',
-            shouldUpdate: this.canZoomCanvas,
+            shouldUpdate: this.canDragOrZoomCanvas,
           },
           'recall-edge': 'recall-edge',
           'brush-select': 'brush-select',
