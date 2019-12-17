@@ -12,15 +12,24 @@ import IconFont from './IconFont';
 import styles from './index.less';
 
 class Index extends React.Component {
-  renderContent(item: G6.Item, hide: () => void) {
+  renderContent = (item: G6.Item, position: { x: number; y: number }, hide: () => void) => {
+    const { x: left, y: top } = position;
+
     return (
-      <Menu mode="vertical" selectable={false} onClick={hide}>
-        <Menu.Item>
-          <Command name="pasteHere">Paste</Command>
-        </Menu.Item>
-      </Menu>
+      <div className={styles.contextMenu} style={{ position: 'absolute', top, left }}>
+        {[EditorCommand.Undo, EditorCommand.Redo, EditorCommand.PasteHere].map(name => {
+          return (
+            <Command key={name} name={name} className={styles.command} disabledClassName={styles.commandDisabled}>
+              <div onClick={hide}>
+                <IconFont type={`icon-${name}`} />
+                <span>{upperFirst(name)}</span>
+              </div>
+            </Command>
+          );
+        })}
+      </div>
     );
-  }
+  };
 
   render() {
     return (
