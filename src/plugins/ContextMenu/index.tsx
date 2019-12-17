@@ -15,12 +15,10 @@ interface ContextMenuProps extends EditorContextProps {
   /** 菜单类型 */
   type?: ContextMenuType;
   /** 菜单内容 */
-  renderContent?: (item: G6.Item, hide: () => void) => React.ReactNode;
+  renderContent: (item: G6.Item, position: { x: number; y: number }, hide: () => void) => React.ReactNode;
 }
 
 interface ContextMenuState {
-  top: number;
-  left: number;
   visible: boolean;
   content: React.ReactNode;
 }
@@ -28,12 +26,9 @@ interface ContextMenuState {
 class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
   static defaultProps = {
     type: ContextMenuType.Canvas,
-    renderContent: () => null,
   };
 
   state = {
-    top: 0,
-    left: 0,
     visible: false,
     content: null,
   };
@@ -84,13 +79,11 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
       y,
     };
 
-    const { x: left, y: top } = graph.getCanvasByPoint(x, y);
+    const position = graph.getCanvasByPoint(x, y);
 
     this.setState({
-      top,
-      left,
       visible: true,
-      content: renderContent(item, this.hideContextMenu),
+      content: renderContent(item, position, this.hideContextMenu),
     });
   };
 
@@ -103,21 +96,19 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
 
     this.setState({
       visible: false,
+      content: null,
     });
   };
 
   render() {
     const { graph } = this.props;
-    const { top, left, visible, content } = this.state;
+    const { visible, content } = this.state;
 
     if (!visible) {
       return null;
     }
 
-    return ReactDOM.createPortal(
-      <div style={{ position: 'absolute', top, left }}>{content}</div>,
-      graph.get('container'),
-    );
+    return ReactDOM.createPortal(content, graph.get('container'));
   }
 }
 
