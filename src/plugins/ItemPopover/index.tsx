@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popover } from 'antd';
+import ReactDOM from 'react-dom';
 import delay from 'lodash/delay';
 import global from '@/common/global';
 import { GraphNodeEvent } from '@/common/constants';
@@ -13,32 +13,25 @@ export enum ItemPopoverType {
 interface ItemPopoverProps extends EditorContextProps {
   /** 浮层类型 */
   type?: ItemPopoverType;
-  /** 浮层标题 */
-  renderTitle?: (item: G6.Item) => React.ReactNode;
   /** 浮层内容 */
-  renderContent?: (item: G6.Item) => React.ReactNode;
+  renderContent: (
+    item: G6.Item,
+    position: { minX: number; minY: number; maxX: number; maxY: number; centerX: number; centerY: number },
+  ) => React.ReactNode;
 }
 
 interface ItemPopoverState {
-  top: number;
-  left: number;
   visible: boolean;
-  title: React.ReactNode;
   content: React.ReactNode;
 }
 
 class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   static defaultProps = {
     type: ItemPopoverType.Node,
-    renderTitle: () => null,
-    renderContent: () => null,
   };
 
   state = {
-    top: 0,
-    left: 0,
-    visible: true,
-    title: null,
+    visible: false,
     content: null,
   };
 
@@ -64,19 +57,28 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
   }
 
   showItemPopover = (item: G6.Item) => {
-    const { graph, renderTitle, renderContent } = this.props;
+    const { graph, renderContent } = this.props;
 
     global.plugin.itemPopover.state = 'show';
 
-    const { centerX: x, minY: y } = item.getBBox();
-    const { x: left, y: top } = graph.getCanvasByPoint(x, y);
+    const { minX, minY, maxX, maxY, centerX, centerY } = item.getBBox();
+
+    const { x: itemMinX, y: itemMinY } = graph.getCanvasByPoint(minX, minY);
+    const { x: itemMaxX, y: itemMaxY } = graph.getCanvasByPoint(maxX, maxY);
+    const { x: itemCenterX, y: itemCenterY } = graph.getCanvasByPoint(centerX, centerY);
+
+    const position = {
+      minX: itemMinX,
+      minY: itemMinY,
+      maxX: itemMaxX,
+      maxY: itemMaxY,
+      centerX: itemCenterX,
+      centerY: itemCenterY,
+    };
 
     this.setState({
-      top,
-      left,
       visible: true,
-      title: renderTitle(item),
-      content: renderContent(item),
+      content: renderContent(item, position),
     });
   };
 
@@ -85,17 +87,19 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
 
     this.setState({
       visible: false,
+      content: null,
     });
   };
 
   render() {
-    const { top, left, visible, title, content } = this.state;
+    const { graph } = this.props;
+    const { visible, content } = this.state;
 
-    return (
-      <Popover visible={visible} title={title} content={content}>
-        <div style={{ position: 'absolute', top, left }} />
-      </Popover>
-    );
+    if (!visible) {
+      return null;
+    }
+
+    return ReactDOM.createPortal(content, graph.get('container'));
   }
 }
 

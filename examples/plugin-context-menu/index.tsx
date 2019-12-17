@@ -6,16 +6,6 @@ import data from '../mock/flow.json';
 import styles from './index.less';
 
 class Index extends React.Component {
-  renderContent(item: G6.Item, hide: () => void) {
-    return (
-      <Menu mode="vertical" selectable={false} onClick={hide}>
-        <Menu.Item>Option 1</Menu.Item>
-        <Menu.Item>Option 2</Menu.Item>
-        <Menu.Item>Option 3</Menu.Item>
-      </Menu>
-    );
-  }
-
   render() {
     return (
       <GGEditor className={styles.editor}>
@@ -31,7 +21,21 @@ class Index extends React.Component {
             },
           }}
         />
-        <ContextMenu renderContent={this.renderContent} />
+        <ContextMenu
+          renderContent={(item, position, hide) => {
+            const { x: left, y: top } = position;
+
+            return (
+              <div style={{ position: 'absolute', top, left }}>
+                <Menu mode="vertical" selectable={false} onClick={hide}>
+                  <Menu.Item>Option 1</Menu.Item>
+                  <Menu.Item>Option 2</Menu.Item>
+                  <Menu.Item>Option 3</Menu.Item>
+                </Menu>
+              </div>
+            );
+          }}
+        />
       </GGEditor>
     );
   }
