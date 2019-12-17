@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from 'antd';
-import GGEditor, { Flow } from '@/index';
-import ContextMenu from '@/plugins/ContextMenu';
+import GGEditor, { Flow, ContextMenu } from '@/index';
 import data from '../mock/flow.json';
 import styles from './index.less';
 

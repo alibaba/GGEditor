@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow } from '@/index';
-import ItemPopover from '@/plugins/ItemPopover';
+import GGEditor, { Flow, ItemPopover } from '@/index';
 import data from '../mock/flow.json';
 import styles from './index.less';
 
