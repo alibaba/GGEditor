@@ -74,6 +74,8 @@ export enum EditorCommand {
   Copy = 'copy',
   /** 粘贴 */
   Paste = 'paste',
+  /** 粘贴到这里 */
+  PasteHere = 'pasteHere',
   /** 放大 */
   ZoomIn = 'zoomIn',
   /** 缩小 */
