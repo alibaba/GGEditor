@@ -4,7 +4,7 @@ import upperFirst from 'lodash/upperFirst';
 import { Divider, Tooltip, Menu } from 'antd';
 import GGEditor, { Flow, Mind, Command } from '@/index';
 import ContextMenu from '@/plugins/ContextMenu';
-import { EditorCommand } from '@/common/constants/index.js';
+import { GraphMode, EditorCommand } from '@/common/constants/index.js';
 import EditableLabel from '@/plugins/EditableLabel';
 import flowData from '../mock/flow.json';
 import mindData from '../mock/mind.json';
@@ -75,6 +75,21 @@ class Index extends React.Component {
             defaultEdge: {
               shape: 'bizFlowEdge',
             },
+          }}
+          customModes={(mode, behaviors) => {
+            if (mode === GraphMode.Default) {
+              return {
+                ...behaviors,
+                ...{
+                  'drag-canvas': {
+                    ...behaviors['drag-canvas'],
+                    allowKeyCode: [32],
+                  },
+                },
+              };
+            }
+
+            return behaviors;
           }}
         />
         {/* <Mind className={styles.editorBd} data={mindData} /> */}
