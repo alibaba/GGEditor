@@ -280,4 +280,4 @@ export type GraphReactEvent =
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
 
-export type GraphReactEventProps = Record<GraphReactEvent, () => void>;
+export type GraphReactEventProps = Record<GraphReactEvent, (e: any) => void>;

@@ -1,5 +1,5 @@
 import { guid } from '@/utils';
-import { GraphType } from '@/common/constants';
+import { GraphType, GraphCustomEvent } from '@/common/constants';
 import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import { Item, Node } from '@antv/g6';
@@ -30,7 +30,7 @@ interface DefaultConfig {
   allowMultiEdge: boolean;
 }
 
-function checkOutAndInEdge(item: Node, type: String, linkRule: LinkRule) {
+function checkOutAndInEdge(item: Node, type: string, linkRule: LinkRule) {
   if (!linkRule) return true;
   const outEdge = item.getOutEdges().length;
   const inEdge = item.getInEdges().length;
@@ -194,10 +194,16 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
         hideAnchors();
         return;
       }
+      graph.emit(GraphCustomEvent.onBeforeConnect, {
+        edge: this.edge,
+      });
       graph.setItemState(this.edge, 'drag', false);
       graph.updateItem(this.edge, {
         targetAnchor: ev.target.get('index'),
         target: model.id,
+      });
+      graph.emit(GraphCustomEvent.onAfterConnect, {
+        edge: this.edge,
       });
       this.edge = null;
       this.addingEdge = false;
