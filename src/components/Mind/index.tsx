@@ -99,30 +99,27 @@ class Mind extends React.Component<MindProps, MindState> {
     const { containerId } = this;
     const { graphConfig, customModes } = this.props;
 
-    const modes: any = merge(
-      {
-        default: {
-          'click-item': {
-            type: 'click-item',
-            multiple: false,
-          },
-          'collapse-expand': {
-            type: 'collapse-expand',
-            shouldBegin: this.canCollapseExpand,
-          },
-          'drag-canvas': {
-            type: 'drag-canvas',
-            shouldBegin: this.canDragOrZoomCanvas,
-            shouldUpdate: this.canDragOrZoomCanvas,
-          },
-          'zoom-canvas': {
-            type: 'zoom-canvas',
-            shouldUpdate: this.canDragOrZoomCanvas,
-          },
+    const modes: any = merge(behaviorManager.getRegisteredBehaviors(GraphType.Mind), {
+      default: {
+        'click-item': {
+          type: 'click-item',
+          multiple: false,
+        },
+        'collapse-expand': {
+          type: 'collapse-expand',
+          shouldBegin: this.canCollapseExpand,
+        },
+        'drag-canvas': {
+          type: 'drag-canvas',
+          shouldBegin: this.canDragOrZoomCanvas,
+          shouldUpdate: this.canDragOrZoomCanvas,
+        },
+        'zoom-canvas': {
+          type: 'zoom-canvas',
+          shouldUpdate: this.canDragOrZoomCanvas,
         },
       },
-      behaviorManager.getRegisteredBehaviors(GraphType.Mind),
-    );
+    });
 
     Object.keys(modes).forEach(mode => {
       const behaviors = modes[mode];

@@ -67,29 +67,26 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const { containerId } = this;
     const { graphConfig, customModes } = this.props;
 
-    const modes: any = merge(
-      {
-        default: {
-          'drag-node': {
-            type: 'drag-node',
-            enableDelegate: true,
-            shouldBegin: this.canDragNode,
-          },
-          'drag-canvas': {
-            type: 'drag-canvas',
-            shouldBegin: this.canDragOrZoomCanvas,
-            shouldUpdate: this.canDragOrZoomCanvas,
-          },
-          'zoom-canvas': {
-            type: 'zoom-canvas',
-            shouldUpdate: this.canDragOrZoomCanvas,
-          },
-          'recall-edge': 'recall-edge',
-          'brush-select': 'brush-select',
+    const modes: any = merge(behaviorManager.getRegisteredBehaviors(GraphType.Flow), {
+      default: {
+        'drag-node': {
+          type: 'drag-node',
+          enableDelegate: true,
+          shouldBegin: this.canDragNode,
         },
+        'drag-canvas': {
+          type: 'drag-canvas',
+          shouldBegin: this.canDragOrZoomCanvas,
+          shouldUpdate: this.canDragOrZoomCanvas,
+        },
+        'zoom-canvas': {
+          type: 'zoom-canvas',
+          shouldUpdate: this.canDragOrZoomCanvas,
+        },
+        'recall-edge': 'recall-edge',
+        'brush-select': 'brush-select',
       },
-      behaviorManager.getRegisteredBehaviors(GraphType.Flow),
-    );
+    });
 
     Object.keys(modes).forEach(mode => {
       const behaviors = modes[mode];
