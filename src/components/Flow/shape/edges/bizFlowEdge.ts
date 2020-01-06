@@ -31,6 +31,11 @@ const bizFlowEdge: CustomEdge = {
       },
     },
     stateStyles: {
+      [ItemState.Selected]: {
+        stroke: '#5aaaff',
+        shadowColor: '#5aaaff',
+        shadowBlur: 24,
+      },
       [ItemState.HighLight]: {
         stroke: '#5aaaff',
         shadowColor: '#5aaaff',
