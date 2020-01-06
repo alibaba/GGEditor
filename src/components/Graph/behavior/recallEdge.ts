@@ -1,119 +1,82 @@
-import { getHighlightEdges, executeBatch, isMind } from '@/utils';
-import { ItemState, GraphNodeEvent, GraphCanvasEvent, GraphEdgeEvent } from '@/common/constants';
-import { Behavior } from '@/common/interfaces';
+import { isFlow, isMind, getFlowRecallEdges, getMindRecallEdges, executeBatch } from '@/utils';
+import { ItemState } from '@/common/constants';
+import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
-  /** 清空高亮状态 */
-  clearHighlightState(shouldUpdate?: (item: G6.Item) => boolean): void;
-  /** 处理点击事件 */
-  handleNodeClick({ item }: { item: G6.Item }): void;
+  /** 当前高亮边线 */
+  edges: G6.Edge[];
+  /** 设置高亮状态 */
+  setHighLightState(edges: G6.Edge[]): void;
+  /** 清除高亮状态 */
+  clearHighLightState(): void;
+  /** 处理节点点击 */
+  handleNodeClick(e: GraphEvent): void;
   /** 处理边线点击 */
-  handleEdgeClick({ item }: { item: G6.Item }): void;
+  handleEdgeClick(e: GraphEvent): void;
   /** 处理画布点击 */
-  handleCanvasClick(): void;
-  /** 高亮 */
-  highlightParentEdges(item: G6.Item): void;
-  /** 查找脑图父级边线 */
-  findMindParentEdges(item: G6.Item, edges?: G6.Edge[]): G6.Edge[];
-  /** 查找流程图回溯边线 */
-  findFlowRecallEdges(item: G6.Item): G6.Edge[];
+  handleCanvasClick(e: GraphEvent): void;
 }
 
 const recallEdgeBehavior: RecallEdgeBehavior = {
+  edges: [],
+
   getEvents() {
     return {
-      [`${GraphNodeEvent.onNodeClick}`]: 'handleNodeClick',
-      [`${GraphCanvasEvent.onCanvasClick}`]: 'handleCanvasClick',
-      [`${GraphEdgeEvent.onEdgeClick}`]: 'handleEdgeClick',
+      'node:click': 'handleNodeClick',
+      'edge:click': 'handleEdgeClick',
+      'canvas:click': 'handleCanvasClick',
     };
   },
 
-  clearHighlightState(shouldUpdate: Function = () => true) {
+  setHighLightState(edges: G6.Edge[]) {
     const { graph } = this;
 
-    const selectedEdges = getHighlightEdges(graph);
+    this.clearHighLightState();
 
     executeBatch(graph, () => {
-      [...selectedEdges].forEach(item => {
-        if (shouldUpdate(item)) {
-          graph.setItemState(item, ItemState.HighLight, false);
-        }
+      edges.forEach(item => {
+        graph.setItemState(item, ItemState.HighLight, true);
       });
     });
+
+    this.edges = edges;
+  },
+
+  clearHighLightState() {
+    const { graph } = this;
+
+    executeBatch(graph, () => {
+      this.edges.forEach(item => {
+        graph.setItemState(item, ItemState.HighLight, false);
+      });
+    });
+
+    this.edges = [];
   },
 
   handleNodeClick({ item }) {
     const { graph } = this;
 
-    const isSelected = item.hasState(ItemState.Selected);
+    let edges: G6.Edge[] = [];
 
-    this.clearHighlightState(selectedItem => {
-      return selectedItem !== item;
-    });
-
-    if (!isSelected) {
-      graph.setItemState(item, ItemState.Selected, true);
+    if (isFlow(graph)) {
+      edges = getFlowRecallEdges(graph, item as G6.Node);
     }
-
-    this.highlightParentEdges(item);
-  },
-
-  handleEdgeClick({ item }) {
-    const { graph } = this;
-
-    const isHighlight = item.hasState(ItemState.HighLight);
-
-    if (isHighlight) {
-      graph.setItemState(item, ItemState.HighLight, false);
-    }
-  },
-
-  highlightParentEdges(item) {
-    const { graph } = this;
-
-    this.clearHighlightState();
-
-    let edges = [];
 
     if (isMind(graph)) {
-      edges = this.findMindParentEdges(item);
+      edges = getMindRecallEdges(graph as G6.TreeGraph, item as G6.Node);
     }
 
-    if (!isMind(graph)) {
-      edges = this.findFlowRecallEdges(item);
-    }
-
-    if (edges.length > 0) {
-      edges.forEach(edge => graph.setItemState(edge, ItemState.HighLight, true));
-    }
+    this.setHighLightState(edges);
   },
 
-  findMindParentEdges(item, edges = []) {
-    const parentNode = item.get('parent');
-
-    if (!parentNode) {
-      return edges;
-    }
-
-    const foundEdge = (item as G6.Node).getEdges().find(edge => edge.getModel().source === parentNode.getModel().id);
-
-    if (foundEdge) {
-      edges.push(foundEdge);
-    }
-
-    return this.findMindParentEdges(item.get('parent'), edges);
-  },
-
-  /**
-   * 暂时支持返回直接连到节点的边
-   * */
-  findFlowRecallEdges(item) {
-    return (item as G6.Node).getEdges();
+  handleEdgeClick() {
+    this.clearHighLightState();
   },
 
   handleCanvasClick() {
-    this.clearHighlightState();
+    this.clearHighLightState();
   },
 };
 

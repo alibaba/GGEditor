@@ -43,6 +43,11 @@ export function recursiveTraversal(root, callback) {
   root.children.forEach(item => recursiveTraversal(item, callback));
 }
 
+/** 判断是否流程图 */
+export function isFlow(graph: G6.Graph) {
+  return graph.constructor === G6.Graph;
+}
+
 /** 判断是否脑图 */
 export function isMind(graph: G6.Graph) {
   return graph.constructor === G6.TreeGraph;
@@ -127,4 +132,49 @@ export function clearSelectedState(graph: G6.Graph, shouldUpdate: (item: G6.Item
       }
     });
   });
+}
+
+/** 获取回溯路径 - Flow */
+export function getFlowRecallEdges(graph: G6.Graph, node: G6.Node, targetIds: string[] = [], edges: G6.Edge[] = []) {
+  const inEdges: G6.Edge[] = node.getInEdges();
+
+  if (!inEdges.length) {
+    return [];
+  }
+
+  inEdges.map(edge => {
+    const sourceId = edge.getModel().source;
+    const sourceNode = graph.findById(sourceId);
+
+    edges.push(edge);
+
+    const targetId = node.get('id');
+
+    targetIds.push(targetId);
+
+    if (!targetIds.includes(sourceId)) {
+      getFlowRecallEdges(graph, sourceNode, targetIds, edges);
+    }
+  });
+
+  return edges;
+}
+
+/** 获取回溯路径 - Mind */
+export function getMindRecallEdges(graph: G6.TreeGraph, node: G6.Node, edges: G6.Edge[] = []) {
+  const parentNode = node.get('parent');
+
+  if (!parentNode) {
+    return edges;
+  }
+
+  node.getEdges().forEach(edge => {
+    const sourceId = edge.getModel().source;
+
+    if (sourceId === parentNode.get('id')) {
+      edges.push(edge);
+    }
+  });
+
+  return getMindRecallEdges(graph, parentNode, edges);
 }
