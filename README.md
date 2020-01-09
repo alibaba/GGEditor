@@ -99,7 +99,7 @@ const data = {
 
 ```sh
 # 克隆仓库
-$ git clone https://github.com/gaoli/GGEditor.git
+$ git clone https://github.com/alibaba/GGEditor.git
 
 # 切换目录
 $ cd gg-editor
