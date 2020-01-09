@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Mind } from '@/index';
+import GGEditor, { Mind, EditableLabel } from '@/index';
 import data from '../mock/mind.json';
 import styles from './index.less';
 
@@ -9,6 +9,7 @@ class Index extends React.Component {
     return (
       <GGEditor className={styles.editor}>
         <Mind className={styles.editorBd} data={data} />
+        <EditableLabel />
       </GGEditor>
     );
   }

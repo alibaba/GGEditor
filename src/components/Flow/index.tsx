@@ -9,7 +9,6 @@ import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces'
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
-import './shape';
 import './behavior';
 
 interface FlowProps extends Partial<GraphReactEventProps> {
@@ -99,6 +98,12 @@ class Flow extends React.Component<FlowProps, FlowState> {
       width,
       height,
       modes,
+      defaultNode: {
+        shape: 'bizFlowNode',
+      },
+      defaultEdge: {
+        shape: 'bizFlowEdge',
+      },
       ...graphConfig,
     });
 

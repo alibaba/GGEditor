@@ -183,8 +183,8 @@ export interface CustomNode<M = NodeModel> extends CustomShape<G6.Node, M> {
   labelPosition?: 'center' | 'top' | 'right' | 'bottom' | 'left';
 
   // 通用
-  getAnchorPoints?(): number[][];
-  getSize?: number[];
+  getAnchorPoints?(model: M): number[][];
+  getSize?(model: M): number[];
 }
 
 /**

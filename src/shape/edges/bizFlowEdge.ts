@@ -17,11 +17,11 @@ const bizFlowEdge: CustomEdge = {
       offset: 24,
       startArrow: {
         path: [['M', 3, 0], ['A', 3, 3, 0, 1, 1, -3, 0], ['A', 3, 3, 0, 1, 1, 3, 0], ['Z']],
-        d: 6,
+        d: 7,
       },
       endArrow: {
         path: [['M', 3, 0], ['L', -3, -3], ['L', -3, 3], ['Z']],
-        d: 6,
+        d: 5,
       },
     },
     labelCfg: {

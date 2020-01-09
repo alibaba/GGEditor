@@ -9,9 +9,7 @@ import { MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
 
-import './shape';
 import './command';
-import { UtilCanvasContext } from '../Graph/shape/nodes/util';
 
 interface MindProps extends Partial<GraphReactEventProps> {
   style?: React.CSSProperties;
@@ -62,39 +60,6 @@ class Mind extends React.Component<MindProps, MindState> {
     });
   };
 
-  getHGap(model: MindData) {
-    let totalTextWidth = 0;
-
-    if (typeof model.label !== 'string' || !UtilCanvasContext) return 40;
-
-    for (const char of model.label) {
-      totalTextWidth += UtilCanvasContext.measureText(char).width;
-    }
-
-    // 达到节点最大宽度
-    if (totalTextWidth >= 120) return 120;
-
-    // 节点最小宽度
-    if (totalTextWidth < 40) return 40;
-
-    return totalTextWidth + 10;
-  }
-
-  getVGap(model: MindData) {
-    let totalTextWidth = 0;
-
-    if (typeof model.label !== 'string' || !UtilCanvasContext) return 5;
-
-    for (const char of model.label) {
-      totalTextWidth += UtilCanvasContext.measureText(char).width;
-    }
-
-    // 没有换行
-    if (totalTextWidth <= 120) return 5;
-
-    return (totalTextWidth / 120) * 5;
-  }
-
   initGraph = (width: number, height: number) => {
     const { containerId } = this;
     const { graphConfig, customModes } = this.props;
@@ -135,15 +100,17 @@ class Mind extends React.Component<MindProps, MindState> {
       layout: {
         type: 'mindmap',
         direction: 'H',
-        getHGap: this.getHGap,
-        getVGap: this.getVGap,
+        getWidth: () => 120,
+        getHeight: () => 60,
+        getHGap: () => 100,
+        getVGap: () => 50,
       },
       animate: false,
       defaultNode: {
         shape: 'bizMindNode',
       },
       defaultEdge: {
-        shape: 'biz-cubic',
+        shape: 'bizMindEdge',
       },
       ...graphConfig,
     });

@@ -10,18 +10,7 @@ class Index extends React.Component {
   render() {
     return (
       <GGEditor className={styles.editor}>
-        <Flow
-          className={styles.editorBd}
-          data={data}
-          graphConfig={{
-            defaultNode: {
-              shape: 'bizFlowNode',
-            },
-            defaultEdge: {
-              shape: 'bizFlowEdge',
-            },
-          }}
-        />
+        <Flow className={styles.editorBd} data={data} />
         <div className={styles.editorFt}>
           <NodePanel />
           <EdgePanel />

@@ -1,5 +1,7 @@
 import * as Util from '@/utils';
 
+import '@/shape';
+
 import Editor from '@/components/Editor';
 import Flow from '@/components/Flow';
 import Mind from '@/components/Mind';
