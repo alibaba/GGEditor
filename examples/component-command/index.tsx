@@ -65,33 +65,7 @@ class Index extends React.Component {
             );
           })}
         </div>
-        <Flow
-          className={styles.editorBd}
-          data={flowData}
-          graphConfig={{
-            defaultNode: {
-              shape: 'bizFlowNode',
-            },
-            defaultEdge: {
-              shape: 'bizFlowEdge',
-            },
-          }}
-          customModes={(mode, behaviors) => {
-            if (mode === GraphMode.Default) {
-              return {
-                ...behaviors,
-                ...{
-                  'drag-canvas': {
-                    ...behaviors['drag-canvas'],
-                    allowKeyCode: [32],
-                  },
-                },
-              };
-            }
-
-            return behaviors;
-          }}
-        />
+        <Flow className={styles.editorBd} data={flowData} />
         {/* <Mind className={styles.editorBd} data={mindData} /> */}
         <EditableLabel />
         <ContextMenu renderContent={this.renderContent} />

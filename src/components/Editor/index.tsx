@@ -12,8 +12,6 @@ import {
   EditorPrivateContextProps,
 } from '@/components/EditorContext';
 
-import '@/components/Graph/shape/nodes/bizNode';
-
 interface EditorProps {
   style?: React.CSSProperties;
   className?: string;
