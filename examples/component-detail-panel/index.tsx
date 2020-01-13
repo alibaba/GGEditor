@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GGEditor, { Flow } from '@/index';
-import EditableLabel from '@/plugins/EditableLabel';
+import GGEditor, { Flow, EditableLabel } from '@/index';
 import data from '../mock/flow.json';
 import { NodePanel, EdgePanel, MultiPanel, CanvasPanel } from './Panel';
 import styles from './index.less';
