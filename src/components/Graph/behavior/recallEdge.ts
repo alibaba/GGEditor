@@ -48,7 +48,9 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
 
     executeBatch(graph, () => {
       this.edges.forEach(item => {
-        graph.setItemState(item, ItemState.HighLight, false);
+        if (!item.destroyed) {
+          graph.setItemState(item, ItemState.HighLight, false);
+        }
       });
     });
 
