@@ -2,12 +2,15 @@
   "label": "Central Topic",
   "children": [
     {
+      "side": "left",
       "label": "Main Topic 1"
     },
     {
+      "side": "right",
       "label": "Main Topic 2"
     },
     {
+      "side": "right",
       "label": "Main Topic 3"
     }
   ]
