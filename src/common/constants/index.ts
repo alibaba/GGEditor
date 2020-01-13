@@ -3,16 +3,6 @@ export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const LABEL_DEFAULT_TEXT = '新建节点';
 
-export enum ShapeClassName {
-  Label = 'node-label',
-  KeyShape = 'node-shape',
-  Wrapper = 'node-wrapper',
-  Appendix = 'node-appendix',
-  Anchor = 'Anchor',
-  CollapseExpandButton = 'CollapseExpandButton',
-  StatusIcon = 'StatusIcon',
-}
-
 export enum ItemType {
   Node = 'node',
   Edge = 'edge',

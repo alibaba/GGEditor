@@ -116,6 +116,10 @@ const bizNode: CustomNode = {
     return labelShape;
   },
 
+  update() {},
+
+  afterUpdate() {},
+
   setState(name, value, item) {
     if (this.beforeSetState) {
       this.beforeSetState(name, value, item);

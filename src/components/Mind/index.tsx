@@ -4,7 +4,8 @@ import merge from 'lodash/merge';
 import G6 from '@antv/g6';
 import { guid, recursiveTraversal } from '@/utils';
 import global from '@/common/global';
-import { MIND_CONTAINER_ID, ShapeClassName, GraphType } from '@/common/constants';
+import { MIND_CONTAINER_ID, GraphType } from '@/common/constants';
+import { FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME } from '@/shape/nodes/bizMindNode';
 import { MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 import Graph from '@/components/Graph';
@@ -45,7 +46,7 @@ class Mind extends React.Component<MindProps, MindState> {
   };
 
   canCollapseExpand = ({ target }) => {
-    return target && target.get('className') === ShapeClassName.CollapseExpandButton;
+    return target && [FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME].includes(target.get('className'));
   };
 
   parseData = data => {
@@ -104,6 +105,13 @@ class Mind extends React.Component<MindProps, MindState> {
         getHeight: () => 60,
         getHGap: () => 100,
         getVGap: () => 50,
+        getSide: ({ data }) => {
+          if (data.side) {
+            return data.side;
+          }
+
+          return 'right';
+        },
       },
       animate: false,
       defaultNode: {
