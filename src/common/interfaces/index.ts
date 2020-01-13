@@ -138,7 +138,7 @@ export interface FlowData {
  * MindData
  */
 export interface MindData extends NodeModel {
-  isRoot?: boolean;
+  side?: 'left' | 'right';
   children?: MindData[];
   collapsed?: boolean;
 }
