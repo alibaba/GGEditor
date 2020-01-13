@@ -60,7 +60,7 @@ const bizNode: CustomNode = {
     const [width, height] = this.getSize(model);
     const { wrapperStyle } = this.getOptions(model);
 
-    const wrapperShape = group.addShape('rect', {
+    const shape = group.addShape('rect', {
       className: WRAPPER_CLASS_NAME,
       attrs: {
         x: 0,
@@ -71,14 +71,14 @@ const bizNode: CustomNode = {
       },
     });
 
-    return wrapperShape;
+    return shape;
   },
 
   drawContent(model: NodeModel, group: G.Group) {
     const [width, height] = this.getSize(model);
     const { contentStyle } = this.getOptions(model);
 
-    const contentShape = group.addShape('rect', {
+    const shape = group.addShape('rect', {
       className: CONTENT_CLASS_NAME,
       attrs: {
         x: 0,
@@ -89,14 +89,14 @@ const bizNode: CustomNode = {
       },
     });
 
-    return contentShape;
+    return shape;
   },
 
   drawLabel(model: NodeModel, group: G.Group) {
     const [width, height] = this.getSize(model);
     const { labelStyle } = this.getOptions(model);
 
-    const labelShape = group.addShape('text', {
+    const shape = group.addShape('text', {
       className: LABEL_CLASS_NAME,
       attrs: {
         x: width / 2,
@@ -106,19 +106,30 @@ const bizNode: CustomNode = {
       },
     });
 
-    const { fontStyle, fontWeight, fontSize, fontFamily } = labelShape.attr();
-
-    const text = labelShape.attr('text');
-    const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
-
-    labelShape.attr('text', optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2));
-
-    return labelShape;
+    return shape;
   },
 
-  update() {},
+  setLabelText(model: NodeModel, group: G.Group) {
+    const shape = group.findByClassName(LABEL_CLASS_NAME);
 
-  afterUpdate() {},
+    if (!shape) {
+      return;
+    }
+
+    const [width] = this.getSize(model);
+    const { fontStyle, fontWeight, fontSize, fontFamily } = shape.attr();
+
+    const text = model.label;
+    const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
+
+    shape.attr('text', optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2));
+  },
+
+  update(model, item) {
+    const group = item.getContainer();
+
+    this.setLabelText(model, group);
+  },
 
   setState(name, value, item) {
     if (this.beforeSetState) {
