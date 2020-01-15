@@ -37,6 +37,7 @@ function start(name) {
         'react-dom': 'ReactDOM',
         antd: 'antd',
       },
+      sourcemap: true,
     },
     plugins: [
       postcss({
