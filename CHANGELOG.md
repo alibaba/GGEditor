@@ -1,8 +1,18 @@
+## [3.0.1](https://github.com/alibaba/GGEditor/compare/3.0.0...3.0.1) (2020-01-15)
+
+### Bug Fixes
+
+- check if edge is destroyed ([e6c2e06](https://github.com/alibaba/GGEditor/commit/e6c2e06e2d20486c5708de5d9b4416debe55a357))
+
+### Features
+
+- add `fold` and `unfold` buttons for mind graph ([86a9067](https://github.com/alibaba/GGEditor/commit/86a90673d05831d07987c2bec69913663dc35ac3))
+
 # [3.0.0](https://github.com/alibaba/GGEditor/compare/2.0.4...3.0.0) (2020-01-09)
 
 ### Features
 
-- upgrade to G6 3.x ([6f94f09](https://github.com/alibaba/GGEditor/commit/6f94f09f4ebf3563689ab6d2e93ede8b1fa33366))
+- upgrade to G6 3.x ([a5e574d](https://github.com/alibaba/GGEditor/commit/a5e574dd4dc04a64801fe877b8df172707132f01))
 
 ## [2.0.4](https://github.com/alibaba/GGEditor/compare/2.0.3...2.0.4) (2019-04-24)
 
