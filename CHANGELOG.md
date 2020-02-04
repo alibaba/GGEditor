@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/alibaba/GGEditor/compare/3.0.1...3.0.2) (2020-02-04)
+
+### Features
+
+- export `commandManager` and `behaviorManager` ([a67fb0a](https://github.com/alibaba/GGEditor/commit/a67fb0a110e6ea49fad9aec5ae41879e137d67f0))
+
 ## [3.0.1](https://github.com/alibaba/GGEditor/compare/3.0.0...3.0.1) (2020-01-15)
 
 ### Bug Fixes
