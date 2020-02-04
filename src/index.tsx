@@ -15,6 +15,9 @@ import ItemPopover from '@/plugins/ItemPopover';
 import ContextMenu from '@/plugins/ContextMenu';
 import EditableLabel from '@/plugins/EditableLabel';
 
+import commandManager from '@/common/commandManager';
+import behaviorManager from '@/common/behaviorManager';
+
 export {
   Util,
   Flow,
@@ -31,6 +34,8 @@ export {
   ItemPopover,
   ContextMenu,
   EditableLabel,
+  commandManager,
+  behaviorManager,
 };
 
 export default Editor;
