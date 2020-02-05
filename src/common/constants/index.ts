@@ -3,6 +3,11 @@ export const MIND_CONTAINER_ID = 'J_MindContainer';
 
 export const LABEL_DEFAULT_TEXT = '新建节点';
 
+export enum RendererType {
+  Canvas = 'canvas',
+  Svg = 'svg',
+}
+
 export enum ItemType {
   Node = 'node',
   Edge = 'edge',
