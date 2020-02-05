@@ -2,7 +2,7 @@ import React from 'react';
 import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import global from '@/common/global';
-import { EditorEvent, GraphCommonEvent } from '@/common/constants';
+import { RendererType, EditorEvent, GraphCommonEvent } from '@/common/constants';
 import { CommandEvent } from '@/common/interfaces';
 import commandManager from '@/common/commandManager';
 import {
@@ -31,7 +31,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
     [EditorEvent.onAfterExecuteCommand]: () => {},
   };
 
-  lastMousedownTarget: EventTarget | null = null;
+  lastMousedownTarget: HTMLElement | null = null;
 
   constructor(props: EditorProps) {
     super(props);
@@ -45,6 +45,37 @@ class Editor extends React.Component<EditorProps, EditorState> {
     this.lastMousedownTarget = null;
   }
 
+  shouldTriggerShortcut(graph: G6.Graph, target: HTMLElement | null) {
+    const renderer: RendererType = graph.get('renderer');
+    const canvasElement = graph.get('canvas').get('el');
+
+    if (!target) {
+      return false;
+    }
+
+    if (target === canvasElement) {
+      return true;
+    }
+
+    if (renderer === RendererType.Svg) {
+      if (target.nodeName === 'foreignObject') {
+        return true;
+      }
+
+      let parentNode = target.parentNode;
+
+      while (parentNode.nodeName !== 'BODY') {
+        if (parentNode.nodeName === 'foreignObject') {
+          return true;
+        } else {
+          parentNode = parentNode.parentNode;
+        }
+      }
+
+      return false;
+    }
+  }
+
   bindEvent(graph: G6.Graph) {
     const { props } = this;
 
@@ -54,13 +85,11 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
   bindShortcut(graph: G6.Graph) {
     window.addEventListener(GraphCommonEvent.onMouseDown, e => {
-      this.lastMousedownTarget = e.target;
+      this.lastMousedownTarget = e.target as HTMLElement;
     });
 
     graph.on(GraphCommonEvent.onKeyDown, (e: any) => {
-      const canvasElement = graph.get('canvas').get('el');
-
-      if (this.lastMousedownTarget !== canvasElement) {
+      if (!this.shouldTriggerShortcut(graph, this.lastMousedownTarget)) {
         return;
       }
 
