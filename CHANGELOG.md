@@ -1,3 +1,13 @@
+## [3.0.3](https://github.com/alibaba/GGEditor/compare/3.0.2...3.0.3) (2020-02-06)
+
+### Bug Fixes
+
+- add `shouldTriggerShortcut` method ([3880958](https://github.com/alibaba/GGEditor/commit/3880958396900ec44a6b6dfe4209b33ba4f93ffa))
+
+### Features
+
+- export `G6` and `baseCommand` ([eb103c7](https://github.com/alibaba/GGEditor/commit/eb103c722b2a075ecb04c302507fcbb9e0d27a57))
+
 ## [3.0.2](https://github.com/alibaba/GGEditor/compare/3.0.1...3.0.2) (2020-02-04)
 
 ### Features
