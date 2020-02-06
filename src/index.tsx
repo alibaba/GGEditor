@@ -1,3 +1,4 @@
+import G6 from '@antv/g6';
 import * as Util from '@/utils';
 
 import '@/shape';
@@ -15,10 +16,12 @@ import ItemPopover from '@/plugins/ItemPopover';
 import ContextMenu from '@/plugins/ContextMenu';
 import EditableLabel from '@/plugins/EditableLabel';
 
+import { baseCommand } from '@/components/Graph/command/base';
 import commandManager from '@/common/commandManager';
 import behaviorManager from '@/common/behaviorManager';
 
 export {
+  G6,
   Util,
   Flow,
   Mind,
@@ -34,6 +37,7 @@ export {
   ItemPopover,
   ContextMenu,
   EditableLabel,
+  baseCommand,
   commandManager,
   behaviorManager,
 };
