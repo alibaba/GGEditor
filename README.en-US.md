@@ -121,3 +121,4 @@ $ npm start
 | plugin    | plugin-editable-label  | [source](examples/plugin-editable-label)  |
 | plugin    | plugin-item-popover    | [source](examples/plugin-item-popover)    |
 | plugin    | plugin-context-menu    | [source](examples/plugin-context-menu)    |
+| register  | register-dom-node      | [source](examples/register-dom-node)      |

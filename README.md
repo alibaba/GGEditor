@@ -121,3 +121,4 @@ $ npm start
 | 插件 | plugin-editable-label  | [source](examples/plugin-editable-label)  |
 | 插件 | plugin-item-popover    | [source](examples/plugin-item-popover)    |
 | 插件 | plugin-context-menu    | [source](examples/plugin-context-menu)    |
+| 注册 | register-dom-node      | [source](examples/register-dom-node)      |
