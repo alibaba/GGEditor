@@ -58,14 +58,14 @@ class Editor extends React.Component<EditorProps, EditorState> {
     }
 
     if (renderer === RendererType.Svg) {
-      if (target.nodeName === 'foreignObject') {
+      if (target.nodeName === 'svg') {
         return true;
       }
 
       let parentNode = target.parentNode;
 
       while (parentNode.nodeName !== 'BODY') {
-        if (parentNode.nodeName === 'foreignObject') {
+        if (parentNode.nodeName === 'svg') {
           return true;
         } else {
           parentNode = parentNode.parentNode;
