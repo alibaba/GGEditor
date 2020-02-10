@@ -19,15 +19,28 @@ class Index extends React.Component {
             draw(model, group) {
               const { label } = model;
 
-              return group.addShape('dom', {
+              const keyShape = group.addShape('rect', {
                 attrs: {
                   x: 0,
                   y: 0,
-                  width: 70,
+                  width: 100,
                   height: 50,
-                  html: `<h1>${label}</h1>`,
+                  fill: '#5487ea',
+                  radius: 8,
                 },
               });
+
+              group.addShape('dom', {
+                attrs: {
+                  x: 15,
+                  y: 0,
+                  width: 70,
+                  height: 50,
+                  html: `<h1 style="color: #ffffff; line-height: 50px"}>${label}</h1>`,
+                },
+              });
+
+              return keyShape;
             },
             getAnchorPoints() {
               return [
