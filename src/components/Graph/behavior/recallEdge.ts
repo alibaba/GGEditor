@@ -4,8 +4,8 @@ import { Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
-  /** 当前高亮边线 */
-  edges: G6.Edge[];
+  /** 当前高亮边线 Id */
+  edgeIds: string[];
   /** 设置高亮状态 */
   setHighLightState(edges: G6.Edge[]): void;
   /** 清除高亮状态 */
@@ -19,7 +19,7 @@ interface RecallEdgeBehavior extends Behavior {
 }
 
 const recallEdgeBehavior: RecallEdgeBehavior = {
-  edges: [],
+  edgeIds: [],
 
   getEvents() {
     return {
@@ -40,21 +40,23 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
       });
     });
 
-    this.edges = edges;
+    this.edgeIds = edges.map(edge => edge.get('id'));
   },
 
   clearHighLightState() {
     const { graph } = this;
 
     executeBatch(graph, () => {
-      this.edges.forEach(item => {
-        if (!item.destroyed) {
+      this.edgeIds.forEach(id => {
+        const item = graph.findById(id);
+
+        if (item && !item.destroyed) {
           graph.setItemState(item, ItemState.HighLight, false);
         }
       });
     });
 
-    this.edges = [];
+    this.edgeIds = [];
   },
 
   handleNodeClick({ item }) {
