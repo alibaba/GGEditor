@@ -64,7 +64,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
       let parentNode = target.parentNode;
 
-      while (parentNode.nodeName !== 'BODY') {
+      while (parentNode && parentNode.nodeName !== 'BODY') {
         if (parentNode.nodeName === 'svg') {
           return true;
         } else {
