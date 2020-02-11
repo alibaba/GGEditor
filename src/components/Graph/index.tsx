@@ -17,8 +17,6 @@ import { EditorPrivateContextProps, withEditorPrivateContext } from '@/component
 import './command';
 import './behavior';
 
-const FIT_VIEW_PADDING = 200;
-
 interface GraphProps extends Partial<GraphReactEventProps>, EditorPrivateContextProps {
   style?: React.CSSProperties;
   className?: string;
@@ -46,6 +44,16 @@ class Graph extends React.Component<GraphProps, GraphState> {
     }
   }
 
+  focusRootNode(graph: G6.Graph, data: FlowData | MindData) {
+    if (!isMind(graph)) {
+      return;
+    }
+
+    const { id } = data as MindData;
+
+    graph.focusItem(id);
+  }
+
   initGraph() {
     const { containerId, parseData, initGraph, setGraph } = this.props;
     const { clientWidth = 0, clientHeight = 0 } = document.getElementById(containerId) || {};
@@ -59,7 +67,7 @@ class Graph extends React.Component<GraphProps, GraphState> {
     this.graph = initGraph(clientWidth, clientHeight);
 
     this.graph.read(data);
-    this.graph.fitView(FIT_VIEW_PADDING);
+    this.focusRootNode(this.graph, data);
     this.graph.setMode('default');
 
     setGraph(this.graph);
@@ -107,7 +115,7 @@ class Graph extends React.Component<GraphProps, GraphState> {
     parseData(data);
 
     graph.changeData(data);
-    graph.fitView(FIT_VIEW_PADDING);
+    this.focusRootNode(graph, data);
   }
 
   render() {
