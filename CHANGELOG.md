@@ -1,3 +1,15 @@
+## [3.0.4](https://github.com/alibaba/GGEditor/compare/3.0.3...3.0.4) (2020-02-11)
+
+### Bug Fixes
+
+- optimize the `shouldTriggerShortcut` method ([9fd1db9](https://github.com/alibaba/GGEditor/commit/9fd1db9a8370b713219d280786760de43d29310f))
+- the edges may have been removed ([63045b5](https://github.com/alibaba/GGEditor/commit/63045b5e2c4c0f7b926c8bb521c664f0ac10e2c0))
+
+### Features
+
+- export the `global` instance ([c1ff342](https://github.com/alibaba/GGEditor/commit/c1ff3426c3b34f27e7ecf467d581faae806bc4c7))
+- focus on the root node of the mind graph ([3025a2d](https://github.com/alibaba/GGEditor/commit/3025a2d7d149b45185b5e5d29b2dca88a81cbeab))
+
 ## [3.0.3](https://github.com/alibaba/GGEditor/compare/3.0.2...3.0.3) (2020-02-06)
 
 ### Bug Fixes
