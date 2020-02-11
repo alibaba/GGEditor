@@ -22,6 +22,29 @@ class Index extends React.Component {
           }}
           extend="bizFlowNode"
         />
+        <RegisterNode
+          name="customStartNode"
+          config={{
+            getCustomConfig(model) {
+              return {
+                size: [80, 40],
+                wrapperStyle: {
+                  fill: '#5E6A7D',
+                },
+                contentStyle: {
+                  fill: '#5E6A7D',
+                },
+                labelStyle: {
+                  fill: '#FFFFFF',
+                },
+              };
+            },
+            getAnchorPoints() {
+              return [[0.5, 1]];
+            },
+          }}
+          extend="bizFlowNode"
+        />
         <EditableLabel />
       </GGEditor>
     );
