@@ -1,3 +1,9 @@
+## [3.0.5](https://github.com/alibaba/GGEditor/compare/3.0.4...3.0.5) (2020-02-11)
+
+### Bug Fixes
+
+- maybe parent node is undefined ([3d3c3a4](https://github.com/alibaba/GGEditor/commit/3d3c3a42bd99944bd68b140c2d657ce428e76536))
+
 ## [3.0.4](https://github.com/alibaba/GGEditor/compare/3.0.3...3.0.4) (2020-02-11)
 
 ### Bug Fixes
