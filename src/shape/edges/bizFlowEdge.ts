@@ -1,7 +1,6 @@
 import G6 from '@antv/g6';
-import { G } from '@antv/g6/types/g';
 import { ItemState } from '@/common/constants';
-import { CustomEdge } from '@/common/interfaces';
+import { GShape, GGroup, CustomEdge } from '@/common/interfaces';
 
 const EDGE_LABEL_CLASS_NAME = 'edge-label';
 const EDGE_LABEL_WRAPPER_CLASS_NAME = 'edge-label-wrapper-label';
@@ -16,11 +15,11 @@ const bizFlowEdge: CustomEdge = {
       radius: 8,
       offset: 24,
       startArrow: {
-        path: [['M', 3, 0], ['A', 3, 3, 0, 1, 1, -3, 0], ['A', 3, 3, 0, 1, 1, 3, 0], ['Z']],
+        path: 'M 3,0 A 3,3,0,1,1,-3,0 A 3,3,0,1,1,3,0 Z',
         d: 7,
       },
       endArrow: {
-        path: [['M', 3, 0], ['L', -3, -3], ['L', -3, 3], ['Z']],
+        path: 'M 3,0 L -3,-3 L -3,3 Z',
         d: 5,
       },
     },
@@ -44,7 +43,7 @@ const bizFlowEdge: CustomEdge = {
     },
   },
 
-  createLabelWrapper(group: G.Group) {
+  createLabelWrapper(group: GGroup) {
     const label = group.findByClassName(EDGE_LABEL_CLASS_NAME);
     const labelWrapper = group.findByClassName(EDGE_LABEL_WRAPPER_CLASS_NAME);
 
@@ -69,7 +68,7 @@ const bizFlowEdge: CustomEdge = {
     group.sort();
   },
 
-  updateLabelWrapper(group: G.Group) {
+  updateLabelWrapper(group: GGroup) {
     const label = group.findByClassName(EDGE_LABEL_CLASS_NAME);
     const labelWrapper = group.findByClassName(EDGE_LABEL_WRAPPER_CLASS_NAME);
 
@@ -107,7 +106,7 @@ const bizFlowEdge: CustomEdge = {
   },
 
   setState(name, value, item) {
-    const shape: G.Shape = item.get('keyShape');
+    const shape: GShape = item.get('keyShape');
 
     if (!shape) {
       return;

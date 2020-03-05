@@ -1,8 +1,7 @@
 import { guid } from '@/utils';
 import { GraphType, GraphCustomEvent } from '@/common/constants';
-import { Behavior, GraphEvent } from '@/common/interfaces';
+import { Item, Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
-import { Item, Node } from '@antv/g6';
 
 type LinkRule = {
   [key: string]: {
@@ -13,12 +12,12 @@ type LinkRule = {
 };
 
 interface DragAddEdgeBehavior extends Behavior {
-  edge?: G6.Edge;
+  edge?: Edge;
   addingEdge?: boolean;
-  sourceNode?: G6.Item;
+  sourceNode?: Item;
   isAnchor(e: GraphEvent): boolean;
   notSelf(e: GraphEvent): boolean;
-  isOnlyOneEdge(e: G6.Node): boolean;
+  isOnlyOneEdge(e: Node): boolean;
   onMousedown(e: GraphEvent): void;
   onMousemove(e: GraphEvent): void;
   onMouseup(e: GraphEvent): void;
@@ -158,7 +157,7 @@ const dragAddEdge: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultC
   },
   onMouseup(ev) {
     const { graph, sourceNode } = this;
-    const node = ev.item as G6.Node;
+    const node = ev.item as Node;
     // 隐藏所有节点的锚点
     const hideAnchors = () => {
       graph.setAutoPaint(false);

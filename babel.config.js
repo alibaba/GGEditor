@@ -12,7 +12,10 @@ module.exports = function(api) {
     '@babel/preset-react',
   ];
 
+  const plugins = ['lodash'];
+
   return {
     presets,
+    plugins,
   };
 };

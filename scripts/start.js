@@ -7,12 +7,12 @@ const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
 const postcss = require('rollup-plugin-postcss');
-const resolve = require('rollup-plugin-node-resolve');
-const replace = require('rollup-plugin-replace');
-const commonjs = require('rollup-plugin-commonjs');
+const resolve = require('@rollup/plugin-node-resolve');
+const replace = require('@rollup/plugin-replace');
+const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
-const json = require('rollup-plugin-json');
+const json = require('@rollup/plugin-json');
 const serve = require('rollup-plugin-serve');
 const livereload = require('rollup-plugin-livereload');
 const { version } = require('../package.json');
@@ -46,7 +46,9 @@ function start(name) {
           generateScopedName: '[local]--[hash:base64:5]',
         },
       }),
-      resolve(),
+      resolve({
+        browser: true,
+      }),
       replace({
         'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
       }),
@@ -55,8 +57,7 @@ function start(name) {
         tsconfig: 'examples/tsconfig.json',
       }),
       babel({
-        exclude: 'node_modules/**',
-        extensions: ['.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       }),
       json(),
       serve({

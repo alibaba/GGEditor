@@ -2,7 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import global from '@/common/global';
 import { GraphMode } from '@/common/constants';
-import { G } from '@antv/g6/types/g';
+import { GShape, GGroup } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 import Item from './Item';
 
@@ -31,8 +31,8 @@ class ItemPanel extends React.Component<ItemPanelProps, ItemPanelState> {
       return;
     }
 
-    const group: G.Group = graph.get('group');
-    const shape: G.Shape = group.findByClassName(global.component.itemPanel.delegateShapeClassName) as G.Shape;
+    const group: GGroup = graph.get('group');
+    const shape: GShape = group.findByClassName(global.component.itemPanel.delegateShapeClassName) as GShape;
 
     if (shape) {
       shape.remove(true);

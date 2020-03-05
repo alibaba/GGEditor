@@ -1,6 +1,4 @@
 import {
-  ItemType,
-  ItemState,
   GraphType,
   GraphState,
   LabelState,
@@ -11,194 +9,55 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
-import { G } from '@antv/g6/types/g';
+import IGGroup from '@antv/g-canvas/lib/group';
+import { IShape as IGShape } from '@antv/g-canvas/lib/interfaces';
+import { Graph as IGraph, TreeGraph as ITreeGraph } from '@antv/g6';
+import {
+  GraphData as IGraphData,
+  TreeGraphData as ITreeGraphData,
+  NodeConfig as INodeConfig,
+  EdgeConfig as IEdgeConfig,
+  IG6GraphEvent as IGraphEvent,
+} from '@antv/g6/lib/types';
+import { GraphOptions as IGraphOptions } from '@antv/g6/lib/interface/graph';
+import { ShapeOptions as IShapeOptions } from '@antv/g6/lib/interface/shape';
+import { INode, IEdge } from '@antv/g6/lib/interface/item';
 
-interface LabelStyle {
-  // 文本颜色
-  fill?: string;
-  // 文本描边颜色
-  stroke?: string;
-  // 文本描边宽度
-  lineWidth?: number;
-  // 文本透明度
-  opacity?: number;
-  // 文本字体属性
-  font?: string;
-  // 文本字体大小
-  fontSize?: number;
+export interface GShape extends IGShape {}
+export interface GGroup extends IGGroup {}
 
-  [propName: string]: any;
+export interface Graph extends IGraph {
+  updateItem(item: Item | string, cfg: Partial<INodeConfig> | Partial<IEdgeConfig>): void;
+}
+export interface TreeGraph extends ITreeGraph {
+  findDataById(id: string, parent?: MindData | undefined): MindData | null;
 }
 
-interface NodeLabelCfg {
-  position?: 'center' | 'top' | 'right' | 'bottom' | 'left';
-  offset?: number;
-  style?: LabelStyle;
-}
-
-interface EdgeLabelCfg {
-  position?: 'start' | 'end' | 'center';
-  refX?: number;
-  refY?: number;
-  style?: LabelStyle;
-  autoRotate?: boolean;
-}
-
-/**
- * G6 内置节点
- * @see https://www.yuque.com/antv/g6/internal-node
- */
-export interface NodeModel {
-  id?: string;
-  x?: number;
-  y?: number;
-  size?: number | number[];
-  anchorPoints?: number[][];
-  shape?: string;
-  style?: {
-    // 节点填充颜色
-    fill?: string;
-    // 节点描边颜色
-    stroke?: string;
-    // 节点描边宽度
-    lineWidth?: number;
-    // 节点阴影颜色
-    shadowColor?: string;
-    // 节点阴影范围
-    shadowBlur?: number;
-    // 节点阴影 x 方向偏移量
-    shadowOffsetX?: number;
-    // 节点阴影 y 方向偏移量
-    shadowOffsetY?: number;
-
-    [propName: string]: any;
-  };
-  label?: string;
-  labelCfg?: NodeLabelCfg;
-
-  // 节点中心位置
-  center?: 'center' | 'topLeft';
-
-  [propName: string]: any;
-}
-
-/**
- * G6 内置边线
- * @see https://www.yuque.com/antv/g6/internal-edge
- */
-export interface EdgeModel {
-  source: string;
-  target: string;
-  sourceAnchor?: number;
-  targetAnchor?: number;
-  startPoint?: {
-    x: number;
-    y: number;
-  };
-  endPoint?: {
-    x: number;
-    y: number;
-  };
-  shape?: string;
-  style?: {
-    // 边线颜色
-    stroke?: string;
-    // 边线宽度
-    lineWidth?: number;
-    // 边线响应宽度
-    lineAppendWidth?: number;
-    // 边线结束箭头
-    endArrow: boolean;
-    // 边线透明度
-    strokeOpacity: number;
-    // 边线阴影颜色
-    shadowColor?: string;
-    // 边线阴影范围
-    shadowBlur?: number;
-    // 边线阴影 x 方向偏移量
-    shadowOffsetX?: number;
-    // 边线阴影 y 方向偏移量
-    shadowOffsetY?: number;
-  };
-  label?: string;
-  labelCfg?: EdgeLabelCfg;
-
-  [propName: string]: any;
-}
-
-/**
- * FlowData
- */
-export interface FlowData {
-  nodes: NodeModel[];
-  edges: EdgeModel[];
-}
-
-/**
- * MindData
- */
-export interface MindData extends NodeModel {
+export interface FlowData extends IGraphData {}
+export interface MindData extends ITreeGraphData {
   side?: 'left' | 'right';
   children?: MindData[];
   collapsed?: boolean;
 }
 
-/**
- * G6 自定义形状
- * @see https://www.yuque.com/antv/g6/shape-api
- */
-export interface CustomShape<T, M> {
-  // 配置
-  options?: any;
+export interface NodeModel extends INodeConfig {}
+export interface EdgeModel extends IEdgeConfig {}
+export interface GraphEvent extends IGraphEvent {}
 
-  // 属性
-  itemType?: ItemType;
-
-  // 绘制
-  draw?(model: M, group: G.Group): G.Shape;
-  drawShape?(model: M, group: G.Group): void;
-  drawLabel?(model: M, group: G.Group): G.Shape;
-  afterDraw?(model: M, group: G.Group): void;
-
-  // 更新
-  update?(model: M, item: T): void;
-  afterUpdate?(model: M, item: T): void;
-  shouldUpdate?(type: ItemType): boolean;
-  setState?(name: ItemState, value: boolean, item: T): void;
-
-  // 通用
-  getShape?(type: ItemType): CustomNode | CustomEdge;
-  getLabelStyle?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
-  getLabelStyleByPosition?(model: M, labelConfig: NodeLabelCfg | EdgeLabelCfg, group: G.Group): React.CSSProperties;
-  getShapeStyle?(model: M): React.CSSProperties;
-
+export interface GraphOptions extends IGraphOptions {}
+export interface CustomShape extends IShapeOptions {
   [propName: string]: any;
 }
+export interface CustomNode extends CustomShape {}
+export interface CustomEdge extends CustomShape {}
 
-/**
- * G6 自定义节点
- */
-export interface CustomNode<M = NodeModel> extends CustomShape<G6.Node, M> {
-  // 属性
-  labelPosition?: 'center' | 'top' | 'right' | 'bottom' | 'left';
-
-  // 通用
-  getAnchorPoints?(model: M): number[][];
-  getSize?(model: M): number[];
+export type Item = Node | Edge;
+export interface Node extends INode {
+  getModel(): NodeModel;
+  getEdges(): Edge[];
 }
-
-/**
- * G6 自定义边线
- */
-export interface CustomEdge<M = EdgeModel> extends CustomShape<G6.Edge, M> {
-  // 属性
-  labelPosition?: 'start' | 'end' | 'center';
-  labelAutoRotate?: boolean;
-
-  // 通用
-  getControlPoints?: number[][];
-  getPath?(points: { x: number; y: number }[]): [];
-  getPathPoints?(model: M): any;
+export interface Edge extends IEdge {
+  getModel(): EdgeModel;
 }
 
 /**
@@ -206,7 +65,7 @@ export interface CustomEdge<M = EdgeModel> extends CustomShape<G6.Edge, M> {
  * @see https://www.yuque.com/antv/g6/behavior-api
  */
 export interface Behavior {
-  graph?: G6.Graph;
+  graph?: Graph;
   graphType?: GraphType;
   graphMode?: string;
   getEvents(): {
@@ -218,26 +77,7 @@ export interface Behavior {
   shouldEnd?(e?: GraphEvent): boolean;
 }
 
-export interface GraphEvent {
-  x: number;
-  y: number;
-  canvasX: number;
-  canvasY: number;
-  clientX: number;
-  clientY: number;
-  event: MouseEvent;
-  target: G.Shape;
-  type: string;
-  currentTarget: object;
-  item: G6.Item;
-  removed: boolean;
-  timeStamp: number;
-  bubbles: boolean;
-  defaultPrevented: boolean;
-  cancelable: boolean;
-}
-
-export interface Command<P = object, G = G6.Graph> {
+export interface Command<P = object, G = Graph> {
   /** 命令名称 */
   name: string;
   /** 命令参数 */

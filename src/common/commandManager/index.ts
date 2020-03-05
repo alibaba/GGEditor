@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { getGraphState } from '@/utils';
 import { EditorEvent } from '@/common/constants';
-import { Command } from '@/common/interfaces';
+import { Graph, Command } from '@/common/interfaces';
 
 class CommandManager {
   command: {
@@ -25,7 +25,7 @@ class CommandManager {
   }
 
   /** 执行命令 */
-  execute(graph: G6.Graph, name: string, params?: object) {
+  execute(graph: Graph, name: string, params?: object) {
     const Command = this.command[name];
 
     if (!Command) {
@@ -79,12 +79,12 @@ class CommandManager {
   }
 
   /** 判断是否可以执行 */
-  canExecute(graph: G6.Graph, name: string) {
+  canExecute(graph: Graph, name: string) {
     return this.command[name].canExecute(graph);
   }
 
   /** 注入是否应该执行 */
-  injectShouldExecute(name: string, shouldExecute: (graph: G6.Graph) => boolean) {
+  injectShouldExecute(name: string, shouldExecute: (graph: Graph) => boolean) {
     this.command[name].shouldExecute = shouldExecute;
   }
 }

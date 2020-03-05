@@ -15,12 +15,12 @@ interface DragCanvasBehavior extends Behavior {
   canDrag(): boolean;
   /** 更新当前窗口 */
   updateViewport(e: GraphEvent): void;
-  /** 处理画布鼠标按下 */
-  handleCanvasMouseDown(e: GraphEvent): void;
-  /** 处理画布鼠标移动 */
-  handleCanvasMouseMove(e: GraphEvent): void;
-  /** 处理画布鼠标弹起 */
-  handleCanvasMouseUp(e: MouseEvent): void;
+  /** 处理画布拖拽开始 */
+  handleCanvasDragStart(e: GraphEvent): void;
+  /** 处理画布拖拽 */
+  handleCanvasDrag(e: GraphEvent): void;
+  /** 处理画布拖拽结束 */
+  handleCanvasDragEnd(e: MouseEvent): void;
   /** 处理窗口鼠标弹起 */
   handleWindowMouseUp: (e: MouseEvent) => void | null;
   /** 处理鼠标移出画布 */
@@ -58,9 +58,9 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
 
   getEvents() {
     return {
-      'canvas:mousedown': 'handleCanvasMouseDown',
-      'canvas:mousemove': 'handleCanvasMouseMove',
-      'canvas:mouseup': 'handleCanvasMouseUp',
+      'canvas:dragstart': 'handleCanvasDragStart',
+      'canvas:drag': 'handleCanvasDrag',
+      'canvas:dragend': 'handleCanvasDragEnd',
       'canvas:mouseleave': 'handleCanvasMouseLeave',
       'canvas:contextmenu': 'handleCanvasContextMenu',
       keydown: 'handleKeyDown',
@@ -103,7 +103,7 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
     this.graph.paint();
   },
 
-  handleCanvasMouseDown(e) {
+  handleCanvasDragStart(e) {
     if (!this.shouldBegin.call(this, e)) {
       return;
     }
@@ -120,7 +120,7 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
     this.dragging = false;
   },
 
-  handleCanvasMouseMove(e) {
+  handleCanvasDrag(e) {
     if (!this.shouldUpdate.call(this, e)) {
       return;
     }
@@ -134,23 +134,13 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
     }
 
     if (!this.dragging) {
-      this.graph.emit('canvas:dragstart', {
-        type: 'dragstart',
-        ...e,
-      });
-
       this.dragging = true;
     } else {
-      this.graph.emit('canvas:drag', {
-        type: 'drag',
-        ...e,
-      });
-
       this.updateViewport(e);
     }
   },
 
-  handleCanvasMouseUp(e) {
+  handleCanvasDragEnd(e) {
     if (!this.shouldEnd.call(this, e)) {
       return;
     }
@@ -158,11 +148,6 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
     if (!this.canDrag()) {
       return;
     }
-
-    this.graph.emit('canvas:dragend', {
-      type: 'dragend',
-      ...e,
-    });
 
     this.origin = null;
     this.dragging = false;
@@ -182,7 +167,7 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
 
     this.handleWindowMouseUp = e => {
       if (e.target !== canvasElement) {
-        this.handleCanvasMouseUp(e);
+        this.handleCanvasDragEnd(e);
       }
     };
 

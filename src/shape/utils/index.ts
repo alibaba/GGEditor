@@ -1,13 +1,13 @@
-import { MindData } from '@/common/interfaces';
+import { Node } from '@/common/interfaces';
 
 const canvas = document.createElement('canvas');
 const canvasContext = canvas.getContext('2d');
 
-export function getNodeSide(item: G6.Node): 'left' | 'right' {
-  const model = item.getModel<MindData>();
+export function getNodeSide(item: Node): 'left' | 'right' {
+  const model = item.getModel();
 
   if (model.side) {
-    return model.side;
+    return model.side as 'left' | 'right';
   }
 
   const parent = item.get('parent');

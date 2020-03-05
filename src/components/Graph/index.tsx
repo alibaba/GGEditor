@@ -11,7 +11,14 @@ import {
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
-import { FlowData, MindData, GraphNativeEvent, GraphReactEvent, GraphReactEventProps } from '@/common/interfaces';
+import {
+  Graph,
+  FlowData,
+  MindData,
+  GraphNativeEvent,
+  GraphReactEvent,
+  GraphReactEventProps,
+} from '@/common/interfaces';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/components/EditorContext';
 
 import baseCommands from './command';
@@ -25,13 +32,13 @@ interface GraphProps extends Partial<GraphReactEventProps>, EditorPrivateContext
   containerId: string;
   data: FlowData | MindData;
   parseData(data: object): void;
-  initGraph(width: number, height: number): G6.Graph;
+  initGraph(width: number, height: number): Graph;
 }
 
 interface GraphState {}
 
-class Graph extends React.Component<GraphProps, GraphState> {
-  graph: G6.Graph | null = null;
+class GraphComponent extends React.Component<GraphProps, GraphState> {
+  graph: Graph | null = null;
 
   componentDidMount() {
     this.initGraph();
@@ -46,7 +53,7 @@ class Graph extends React.Component<GraphProps, GraphState> {
     }
   }
 
-  focusRootNode(graph: G6.Graph, data: FlowData | MindData) {
+  focusRootNode(graph: Graph, data: FlowData | MindData) {
     if (!isMind(graph)) {
       return;
     }
@@ -68,7 +75,8 @@ class Graph extends React.Component<GraphProps, GraphState> {
     // 初始画布
     this.graph = initGraph(clientWidth, clientHeight);
 
-    this.graph.read(data);
+    this.graph.data(data);
+    this.graph.render();
     this.focusRootNode(this.graph, data);
     this.graph.setMode('default');
 
@@ -148,4 +156,4 @@ class Graph extends React.Component<GraphProps, GraphState> {
   }
 }
 
-export default withEditorPrivateContext(Graph);
+export default withEditorPrivateContext(GraphComponent);

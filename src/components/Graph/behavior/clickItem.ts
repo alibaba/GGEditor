@@ -1,11 +1,11 @@
 import { isMind, isEdge, getGraphState, clearSelectedState } from '@/utils';
 import { ItemState, GraphState, EditorEvent } from '@/common/constants';
-import { Behavior } from '@/common/interfaces';
+import { Item, Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ClickItemBehavior extends Behavior {
   /** 处理点击事件 */
-  handleItemClick({ item }: { item: G6.Item }): void;
+  handleItemClick({ item }: { item: Item }): void;
   /** 处理画布点击 */
   handleCanvasClick(): void;
   /** 处理按键按下 */

@@ -1,6 +1,6 @@
 import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
-import { MindData } from '@/common/interfaces';
+import { TreeGraph, MindData } from '@/common/interfaces';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 export interface TopicCommandParams {
@@ -8,7 +8,7 @@ export interface TopicCommandParams {
   model: MindData;
 }
 
-const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
+export const topicCommand: BaseCommand<TopicCommandParams, TreeGraph> = {
   ...baseCommand,
 
   params: {

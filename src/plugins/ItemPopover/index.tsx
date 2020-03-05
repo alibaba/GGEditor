@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import delay from 'lodash/delay';
 import global from '@/common/global';
 import { GraphNodeEvent } from '@/common/constants';
+import { Item } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ItemPopoverType {
@@ -15,7 +16,7 @@ interface ItemPopoverProps extends EditorContextProps {
   type?: ItemPopoverType;
   /** 浮层内容 */
   renderContent: (
-    item: G6.Item,
+    item: Item,
     position: { minX: number; minY: number; maxX: number; maxY: number; centerX: number; centerY: number },
   ) => React.ReactNode;
 }
@@ -56,7 +57,7 @@ class ItemPopover extends React.Component<ItemPopoverProps, ItemPopoverState> {
     }
   }
 
-  showItemPopover = (item: G6.Item) => {
+  showItemPopover = (item: Item) => {
     const { graph, renderContent } = this.props;
 
     global.plugin.itemPopover.state = 'show';

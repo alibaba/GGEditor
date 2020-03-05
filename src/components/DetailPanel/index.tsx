@@ -2,14 +2,14 @@ import React from 'react';
 import { getSelectedNodes, getSelectedEdges } from '@/utils';
 import { GraphState, EditorEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
-import { GraphStateEvent } from '@/common/interfaces';
+import { Node, Edge, GraphStateEvent } from '@/common/interfaces';
 
 type DetailPanelType = 'node' | 'edge' | 'multi' | 'canvas';
 
 export interface DetailPanelComponentProps {
   type: DetailPanelType;
-  nodes: G6.Node[];
-  edges: G6.Edge[];
+  nodes: Node[];
+  edges: Edge[];
 }
 
 class DetailPanel {
@@ -26,7 +26,7 @@ class DetailPanel {
         componentDidMount() {
           const { graph } = this.props;
 
-          graph.on<GraphStateEvent>(EditorEvent.onGraphStateChange, ({ graphState }) => {
+          graph.on(EditorEvent.onGraphStateChange, ({ graphState }: GraphStateEvent) => {
             this.setState({
               graphState,
             });
