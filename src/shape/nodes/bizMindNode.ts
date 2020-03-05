@@ -1,12 +1,11 @@
 import G6 from '@antv/g6';
-import { G } from '@antv/g6/types/g';
-import { CustomNode, MindData } from '@/common/interfaces';
+import { GGroup, Node, NodeModel, CustomNode } from '@/common/interfaces';
 import { getNodeSide, getFoldButtonPath, getUnfoldButtonPath } from '../utils';
 
 export const FOLD_BUTTON_CLASS_NAME = 'node-fold-button';
 export const UNFOLD_BUTTON_CLASS_NAME = 'node-unfold-button';
 
-const bizMindNode: CustomNode<MindData> = {
+const bizMindNode: CustomNode = {
   afterDraw(model, group) {
     this.drawButton(model, group);
   },
@@ -18,7 +17,7 @@ const bizMindNode: CustomNode<MindData> = {
     this.adjustButton(model, item);
   },
 
-  drawButton(model: MindData, group: G.Group) {
+  drawButton(model: NodeModel, group: GGroup) {
     const { children, collapsed } = model;
 
     [FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME].forEach(className => {
@@ -54,7 +53,7 @@ const bizMindNode: CustomNode<MindData> = {
     }
   },
 
-  adjustButton(model: MindData, item: G6.Node) {
+  adjustButton(model: NodeModel, item: Node) {
     const { children, collapsed } = model;
 
     if (!children || !children.length) {

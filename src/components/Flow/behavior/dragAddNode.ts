@@ -2,13 +2,12 @@ import isArray from 'lodash/isArray';
 import { guid } from '@/utils';
 import global from '@/common/global';
 import { ItemType, GraphType, GraphMode, EditorCommand } from '@/common/constants';
-import { NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
-import { G } from '@antv/g6/types/g';
+import { GShape, GGroup, NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
 import CommandManager from '@/common/CommandManager';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddNodeBehavior extends Behavior {
-  shape: G.Shape | null;
+  shape: GShape | null;
   handleCanvasMouseEnter(e: GraphEvent): void;
   handleMouseMove(e: GraphEvent): void;
   handleMouseUp(e: GraphEvent): void;
@@ -36,7 +35,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
       return;
     }
 
-    const group: G.Group = graph.get('group');
+    const group: GGroup = graph.get('group');
     const model: NodeModel = global.component.itemPanel.model;
 
     const { size = 100 } = model;

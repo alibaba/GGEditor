@@ -1,16 +1,16 @@
 import { isMind, getSelectedNodes, getSelectedEdges, setSelectedItems } from '@/utils';
 import { LabelState, EditorEvent } from '@/common/constants';
-import { Command } from '@/common/interfaces';
+import { Graph, Item, Node, Edge, Command } from '@/common/interfaces';
 
-export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
+export interface BaseCommand<P = object, G = Graph> extends Command<P, G> {
   /** 判断是否脑图 */
   isMind(graph: G): boolean;
   /** 获取选中节点 */
-  getSelectedNodes(graph: G): G6.Node[];
+  getSelectedNodes(graph: G): Node[];
   /** 获取选中连线 */
-  getSelectedEdges(graph: G): G6.Edge[];
+  getSelectedEdges(graph: G): Edge[];
   /** 设置选中元素 */
-  setSelectedItems(graph: G, items: G6.Item[] | string[]): void;
+  setSelectedItems(graph: G, items: Item[] | string[]): void;
   /** 编辑选中节点 */
   editSelectedNode(graph: G): void;
 }

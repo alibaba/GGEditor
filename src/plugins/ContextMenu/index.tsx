@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { clearSelectedState } from '@/utils';
 import global from '@/common/global';
 import { ItemState, GraphCommonEvent, GraphNodeEvent, GraphEdgeEvent, GraphCanvasEvent } from '@/common/constants';
+import { GraphEvent, Item, Node, Edge } from '@/common/interfaces';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 export enum ContextMenuType {
@@ -15,7 +16,7 @@ interface ContextMenuProps extends EditorContextProps {
   /** 菜单类型 */
   type?: ContextMenuType;
   /** 菜单内容 */
-  renderContent: (item: G6.Item, position: { x: number; y: number }, hide: () => void) => React.ReactNode;
+  renderContent: (item: Item, position: { x: number; y: number }, hide: () => void) => React.ReactNode;
 }
 
 interface ContextMenuState {
@@ -38,20 +39,32 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
 
     switch (type) {
       case ContextMenuType.Canvas:
-        graph.on(GraphCanvasEvent.onCanvasContextMenu, ({ x, y }) => {
+        graph.on(GraphCanvasEvent.onCanvasContextMenu, (e: GraphEvent) => {
+          e.preventDefault();
+
+          const { x, y } = e;
+
           this.showContextMenu(x, y);
         });
         break;
 
       case ContextMenuType.Node:
-        graph.on(GraphNodeEvent.onNodeContextMenu, ({ x, y, item }) => {
-          this.showContextMenu(x, y, item);
+        graph.on(GraphNodeEvent.onNodeContextMenu, (e: GraphEvent) => {
+          e.preventDefault();
+
+          const { x, y, item } = e;
+
+          this.showContextMenu(x, y, item as Node);
         });
         break;
 
       case ContextMenuType.Edge:
-        graph.on(GraphEdgeEvent.onEdgeContextMenu, ({ x, y, item }) => {
-          this.showContextMenu(x, y, item);
+        graph.on(GraphEdgeEvent.onEdgeContextMenu, (e: GraphEvent) => {
+          e.preventDefault();
+
+          const { x, y, item } = e;
+
+          this.showContextMenu(x, y, item as Edge);
         });
         break;
 
@@ -64,7 +77,7 @@ class ContextMenu extends React.Component<ContextMenuProps, ContextMenuState> {
     });
   }
 
-  showContextMenu = (x: number, y: number, item?: G6.Item) => {
+  showContextMenu = (x: number, y: number, item?: Item) => {
     const { graph, renderContent } = this.props;
 
     clearSelectedState(graph);

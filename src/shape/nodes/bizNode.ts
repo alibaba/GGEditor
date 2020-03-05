@@ -1,9 +1,8 @@
 import G6 from '@antv/g6';
-import { G } from '@antv/g6/types/g';
 import merge from 'lodash/merge';
 import isArray from 'lodash/isArray';
 import { ItemState } from '@/common/constants';
-import { NodeModel, CustomNode } from '@/common/interfaces';
+import { GGroup, NodeModel, CustomNode } from '@/common/interfaces';
 import { optimizeMultilineText } from '../utils';
 
 const WRAPPER_BORDER_WIDTH = 2;
@@ -34,12 +33,12 @@ const bizNode: CustomNode = {
         wrapperStyle: {},
         contentStyle: {},
         labelStyle: {},
-      },
+      } as any,
       [ItemState.Selected]: {
         wrapperStyle: {},
         contentStyle: {},
         labelStyle: {},
-      },
+      } as any,
     },
   },
 
@@ -56,12 +55,13 @@ const bizNode: CustomNode = {
     return keyShape;
   },
 
-  drawWrapper(model: NodeModel, group: G.Group) {
+  drawWrapper(model: NodeModel, group: GGroup) {
     const [width, height] = this.getSize(model);
     const { wrapperStyle } = this.getOptions(model);
 
     const shape = group.addShape('rect', {
       className: WRAPPER_CLASS_NAME,
+      draggable: true,
       attrs: {
         x: 0,
         y: -WRAPPER_BORDER_WIDTH * 2,
@@ -74,12 +74,13 @@ const bizNode: CustomNode = {
     return shape;
   },
 
-  drawContent(model: NodeModel, group: G.Group) {
+  drawContent(model: NodeModel, group: GGroup) {
     const [width, height] = this.getSize(model);
     const { contentStyle } = this.getOptions(model);
 
     const shape = group.addShape('rect', {
       className: CONTENT_CLASS_NAME,
+      draggable: true,
       attrs: {
         x: 0,
         y: 0,
@@ -92,12 +93,13 @@ const bizNode: CustomNode = {
     return shape;
   },
 
-  drawLabel(model: NodeModel, group: G.Group) {
+  drawLabel(model: NodeModel, group: GGroup) {
     const [width, height] = this.getSize(model);
     const { labelStyle } = this.getOptions(model);
 
     const shape = group.addShape('text', {
       className: LABEL_CLASS_NAME,
+      draggable: true,
       attrs: {
         x: width / 2,
         y: height / 2,
@@ -109,7 +111,7 @@ const bizNode: CustomNode = {
     return shape;
   },
 
-  setLabelText(model: NodeModel, group: G.Group) {
+  setLabelText(model: NodeModel, group: GGroup) {
     const shape = group.findByClassName(LABEL_CLASS_NAME);
 
     if (!shape) {
@@ -190,6 +192,10 @@ const bizNode: CustomNode = {
     }
 
     return size;
+  },
+
+  getCustomConfig() {
+    return {};
   },
 
   getAnchorPoints() {

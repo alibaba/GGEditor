@@ -1,4 +1,4 @@
-import { MindData } from '@/common/interfaces';
+import { TreeGraph } from '@/common/interfaces';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 export interface FoldCommandParams {
@@ -12,7 +12,7 @@ const foldCommand: BaseCommand<FoldCommandParams> = {
     id: '',
   },
 
-  canExecute(graph: G6.TreeGraph) {
+  canExecute(graph: TreeGraph) {
     const selectedNodes = this.getSelectedNodes(graph);
 
     if (!selectedNodes.length) {
@@ -20,7 +20,7 @@ const foldCommand: BaseCommand<FoldCommandParams> = {
     }
 
     const selectedNode = selectedNodes[0];
-    const selectedNodeModel = selectedNode.getModel<MindData>();
+    const selectedNodeModel = selectedNode.getModel();
 
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;
@@ -35,14 +35,14 @@ const foldCommand: BaseCommand<FoldCommandParams> = {
 
   init(graph) {
     const selectedNode = this.getSelectedNodes(graph)[0];
-    const selectedNodeModel = selectedNode.getModel<MindData>();
+    const selectedNodeModel = selectedNode.getModel();
 
     this.params = {
       id: selectedNodeModel.id,
     };
   },
 
-  execute(graph: G6.TreeGraph) {
+  execute(graph: TreeGraph) {
     const { id } = this.params;
 
     const sourceData = graph.findDataById(id);

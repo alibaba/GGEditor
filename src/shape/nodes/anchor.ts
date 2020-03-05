@@ -1,6 +1,6 @@
 import globalStyle from '@/components/Flow/common/globalStyle';
 import FSM, { StateTable } from '@/components/Flow/common/stateMachine';
-import { NodeModel } from '@/common/interfaces';
+import { Item, NodeModel } from '@/common/interfaces';
 
 type Events = 'hoverNode' | 'leaveNode' | 'enterAnchor' | 'leaveAnchor' | 'drag' | 'dragEnd';
 
@@ -12,13 +12,9 @@ interface ThisProps {
 }
 const { anchorPointStyle, anchorPointHoverStyle, anchorHotsoptActivedStyle, anchorHotsoptStyle, zIndex } = globalStyle;
 
-interface Item extends G6.Item {
-  _anchorFSM: FSM<States, Events>;
-}
-
 function handleAnchor(this: ThisProps, name: string, value: any, item: Item) {
-  if (!item._anchorFSM) item._anchorFSM = FSM<States, Events>('none');
-  const fsm: FSM<States, Events> = item._anchorFSM;
+  if (!(item as any)._anchorFSM) (item as any)._anchorFSM = FSM<States, Events>('none');
+  const fsm: FSM<States, Events> = (item as any)._anchorFSM;
   const model = item.getModel();
   // 拿到 group
   const group = item.getContainer();

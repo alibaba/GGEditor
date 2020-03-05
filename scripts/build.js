@@ -4,9 +4,9 @@
 const signale = require('signale');
 const rimraf = require('rimraf');
 const rollup = require('rollup');
-const resolve = require('rollup-plugin-node-resolve');
-const replace = require('rollup-plugin-replace');
-const commonjs = require('rollup-plugin-commonjs');
+const resolve = require('@rollup/plugin-node-resolve');
+const replace = require('@rollup/plugin-replace');
+const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
 const { terser } = require('rollup-plugin-terser');
@@ -37,7 +37,9 @@ async function build() {
     const umdBundle = await rollup.rollup({
       input: 'src/index.tsx',
       plugins: [
-        resolve(),
+        resolve({
+          browser: true,
+        }),
         replace({
           'process.env.GG_EDITOR_VERSION': JSON.stringify(version),
         }),
@@ -50,8 +52,7 @@ async function build() {
           },
         }),
         babel({
-          exclude: 'node_modules/**',
-          extensions: ['.ts', '.tsx'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
         }),
         terser(),
       ],

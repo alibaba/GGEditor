@@ -1,12 +1,12 @@
 import { ItemState } from '@/common/constants';
-import { Behavior } from '@/common/interfaces';
+import { Item, Behavior } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface HoverItemBehavior extends Behavior {
   /** 处理鼠标进入 */
-  handleItemMouseenter({ item }: { item: G6.Item }): void;
+  handleItemMouseenter({ item }: { item: Item }): void;
   /** 处理鼠标移出 */
-  handleItemMouseleave({ item }: { item: G6.Item }): void;
+  handleItemMouseleave({ item }: { item: Item }): void;
 }
 
 const hoverItemBehavior: HoverItemBehavior = {

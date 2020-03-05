@@ -4,6 +4,7 @@ import upperFirst from 'lodash/upperFirst';
 import { Divider, Tooltip } from 'antd';
 import { EditorCommand } from '@/common/constants/index.js';
 import GGEditor, { Flow, Mind, Command, ContextMenu, EditableLabel } from '@/index';
+import { Item } from '@/common/interfaces';
 import flowData from '../mock/flow.json';
 import mindData from '../mock/mind.json';
 import IconFont from './IconFont';
@@ -40,7 +41,7 @@ const MIND_COMMAND_LIST = [
 ];
 
 class Index extends React.Component {
-  renderContent = (item: G6.Item, position: { x: number; y: number }, hide: () => void) => {
+  renderContent = (item: Item, position: { x: number; y: number }, hide: () => void) => {
     const { x: left, y: top } = position;
 
     return (

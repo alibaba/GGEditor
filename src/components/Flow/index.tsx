@@ -5,9 +5,9 @@ import G6 from '@antv/g6';
 import { guid } from '@/utils';
 import global from '@/common/global';
 import { FLOW_CONTAINER_ID, GraphType } from '@/common/constants';
-import { FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
+import { Graph, GraphOptions, FlowData, GraphEvent, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
-import Graph from '@/components/Graph';
+import GraphComponent from '@/components/Graph';
 
 import './behavior';
 
@@ -15,7 +15,7 @@ interface FlowProps extends Partial<GraphReactEventProps> {
   style?: React.CSSProperties;
   className?: string;
   data: FlowData;
-  graphConfig?: Partial<G6.GraphOptions>;
+  graphConfig?: Partial<GraphOptions>;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
@@ -26,7 +26,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
     graphConfig: {},
   };
 
-  graph: G6.Graph | null = null;
+  graph: Graph | null = null;
 
   containerId = `${FLOW_CONTAINER_ID}_${guid()}`;
 
@@ -114,7 +114,7 @@ class Flow extends React.Component<FlowProps, FlowState> {
     const { containerId, parseData, initGraph } = this;
 
     return (
-      <Graph
+      <GraphComponent
         containerId={containerId}
         parseData={parseData}
         initGraph={initGraph}

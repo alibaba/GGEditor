@@ -6,9 +6,9 @@ import { guid, recursiveTraversal } from '@/utils';
 import global from '@/common/global';
 import { MIND_CONTAINER_ID, GraphType } from '@/common/constants';
 import { FOLD_BUTTON_CLASS_NAME, UNFOLD_BUTTON_CLASS_NAME } from '@/shape/nodes/bizMindNode';
-import { MindData, GraphReactEventProps } from '@/common/interfaces';
+import { Graph, GraphOptions, MindData, GraphReactEventProps } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
-import Graph from '@/components/Graph';
+import GraphComponent from '@/components/Graph';
 
 import './command';
 
@@ -16,7 +16,7 @@ interface MindProps extends Partial<GraphReactEventProps> {
   style?: React.CSSProperties;
   className?: string;
   data: MindData;
-  graphConfig?: Partial<G6.GraphOptions>;
+  graphConfig?: Partial<GraphOptions>;
   customModes?: (mode: string, behaviors: any) => object;
 }
 
@@ -27,7 +27,7 @@ class Mind extends React.Component<MindProps, MindState> {
     graphConfig: {},
   };
 
-  graph: G6.Graph | null = null;
+  graph: Graph | null = null;
 
   containerId = `${MIND_CONTAINER_ID}_${guid()}`;
 
@@ -131,7 +131,7 @@ class Mind extends React.Component<MindProps, MindState> {
     const { data } = this.props;
 
     return (
-      <Graph
+      <GraphComponent
         containerId={containerId}
         data={data}
         parseData={parseData}

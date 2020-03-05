@@ -1,5 +1,5 @@
 import { GraphType } from '@/common/constants';
-import { Behavior, GraphEvent } from '@/common/interfaces';
+import { Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface ActiveEdgeBehavior extends Behavior {
@@ -19,8 +19,8 @@ const activeEdgeBehavior: ActiveEdgeBehavior = {
 
   shouldBegin(e: GraphEvent) {
     // 拖拽过程中没有目标节点，只有 x, y 坐标，不点亮
-    const edge = e.item as G6.Edge;
-    if (edge.getTarget().x) return false;
+    const edge = e.item as Edge;
+    if (edge.getTarget()) return false;
     return true;
   },
 
@@ -28,7 +28,7 @@ const activeEdgeBehavior: ActiveEdgeBehavior = {
     if (!this.shouldBegin(e)) return;
     // 1.激活当前选中的边
     const { graph } = this;
-    const edge = e.item as G6.Edge;
+    const edge = e.item as Edge;
     graph.setItemState(edge, 'active', true);
 
     // 2. 激活边关联的 sourceNode 与 targetNode
@@ -40,7 +40,7 @@ const activeEdgeBehavior: ActiveEdgeBehavior = {
     if (!this.shouldBegin(e)) return;
     // 状态还原
     const { graph } = this;
-    const edge = e.item as G6.Edge;
+    const edge = e.item as Edge;
     graph.setItemState(edge, 'active', false);
     graph.setItemState(edge.getTarget(), 'active', false);
     graph.setItemState(edge.getSource(), 'active', false);

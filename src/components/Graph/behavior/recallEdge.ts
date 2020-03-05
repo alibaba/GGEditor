@@ -1,13 +1,13 @@
 import { isFlow, isMind, getFlowRecallEdges, getMindRecallEdges, executeBatch } from '@/utils';
 import { ItemState } from '@/common/constants';
-import { Behavior, GraphEvent } from '@/common/interfaces';
+import { TreeGraph, Node, Edge, Behavior, GraphEvent } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface RecallEdgeBehavior extends Behavior {
   /** 当前高亮边线 Id */
   edgeIds: string[];
   /** 设置高亮状态 */
-  setHighLightState(edges: G6.Edge[]): void;
+  setHighLightState(edges: Edge[]): void;
   /** 清除高亮状态 */
   clearHighLightState(): void;
   /** 处理节点点击 */
@@ -29,7 +29,7 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
     };
   },
 
-  setHighLightState(edges: G6.Edge[]) {
+  setHighLightState(edges: Edge[]) {
     const { graph } = this;
 
     this.clearHighLightState();
@@ -62,14 +62,14 @@ const recallEdgeBehavior: RecallEdgeBehavior = {
   handleNodeClick({ item }) {
     const { graph } = this;
 
-    let edges: G6.Edge[] = [];
+    let edges: Edge[] = [];
 
     if (isFlow(graph)) {
-      edges = getFlowRecallEdges(graph, item as G6.Node);
+      edges = getFlowRecallEdges(graph, item as Node);
     }
 
     if (isMind(graph)) {
-      edges = getMindRecallEdges(graph as G6.TreeGraph, item as G6.Node);
+      edges = getMindRecallEdges(graph as TreeGraph, item as Node);
     }
 
     this.setHighLightState(edges);

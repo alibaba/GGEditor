@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray';
 import pick from 'lodash/pick';
 import global from '@/common/global';
 import { RendererType, EditorEvent, GraphCommonEvent } from '@/common/constants';
-import { CommandEvent } from '@/common/interfaces';
+import { Graph, CommandEvent } from '@/common/interfaces';
 import CommandManager from '@/common/CommandManager';
 import {
   EditorContext,
@@ -46,7 +46,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
     this.lastMousedownTarget = null;
   }
 
-  shouldTriggerShortcut(graph: G6.Graph, target: HTMLElement | null) {
+  shouldTriggerShortcut(graph: Graph, target: HTMLElement | null) {
     const renderer: RendererType = graph.get('renderer');
     const canvasElement = graph.get('canvas').get('el');
 
@@ -77,14 +77,14 @@ class Editor extends React.Component<EditorProps, EditorState> {
     }
   }
 
-  bindEvent(graph: G6.Graph) {
+  bindEvent(graph: Graph) {
     const { props } = this;
 
-    graph.on<CommandEvent>(EditorEvent.onBeforeExecuteCommand, props[EditorEvent.onBeforeExecuteCommand]);
-    graph.on<CommandEvent>(EditorEvent.onAfterExecuteCommand, props[EditorEvent.onAfterExecuteCommand]);
+    graph.on(EditorEvent.onBeforeExecuteCommand, props[EditorEvent.onBeforeExecuteCommand]);
+    graph.on(EditorEvent.onAfterExecuteCommand, props[EditorEvent.onAfterExecuteCommand]);
   }
 
-  bindShortcut(graph: G6.Graph) {
+  bindShortcut(graph: Graph) {
     const { commandManager } = this.state;
 
     window.addEventListener(GraphCommonEvent.onMouseDown, e => {
@@ -132,7 +132,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
     });
   }
 
-  setGraph = (graph: G6.Graph) => {
+  setGraph = (graph: Graph) => {
     this.setState({
       graph,
     });
