@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { ItemType, ItemState, GraphState, EditorEvent } from '@/common/constants';
-import { Graph, TreeGraph, Item, Node, Edge } from '@/common/interfaces';
+import { Graph, TreeGraph, EdgeModel, Item, Node, Edge } from '@/common/interfaces';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -144,7 +144,7 @@ export function getFlowRecallEdges(graph: Graph, node: Node, targetIds: string[]
   }
 
   inEdges.map(edge => {
-    const sourceId = edge.getModel().source;
+    const sourceId = (edge.getModel() as EdgeModel).source;
     const sourceNode = graph.findById(sourceId) as Node;
 
     edges.push(edge);

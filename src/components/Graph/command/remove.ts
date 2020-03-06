@@ -45,7 +45,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
 
     if (isMind(graph)) {
       const selectedNode = selectedNodes[0];
-      const selectedNodeModel = selectedNode.getModel();
+      const selectedNodeModel = selectedNode.getModel() as NodeModel;
 
       const selectedNodeParent = selectedNode.get('parent');
       const selectedNodeParentModel = selectedNodeParent ? selectedNodeParent.getModel() : {};
@@ -58,7 +58,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
       const { nodes, edges } = this.params.flow;
 
       selectedNodes.forEach(node => {
-        const nodeModel = node.getModel();
+        const nodeModel = node.getModel() as NodeModel;
         const nodeEdges = node.getEdges();
 
         nodes[nodeModel.id] = nodeModel;

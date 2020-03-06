@@ -1,5 +1,6 @@
 import global from '@/common/global';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
+import { NodeModel } from '@/common/interfaces';
 
 const copyCommand: BaseCommand = {
   ...baseCommand,
@@ -15,7 +16,7 @@ const copyCommand: BaseCommand = {
   execute(graph) {
     const selectedNodes = this.getSelectedNodes(graph);
 
-    global.clipboard.models = selectedNodes.map(node => node.getModel());
+    global.clipboard.models = selectedNodes.map(node => node.getModel() as NodeModel);
   },
 
   shortcuts: [

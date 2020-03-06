@@ -65,15 +65,15 @@ class BehaviorManager {
 
     switch (graphType) {
       case GraphType.Flow:
-        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Flow, behavior) as any);
+        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Flow, behavior));
         break;
 
       case GraphType.Mind:
-        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Mind, behavior) as any);
+        G6.registerBehavior(name, this.wrapEventHandler(GraphType.Mind, behavior));
         break;
 
       default:
-        G6.registerBehavior(name, behavior as any);
+        G6.registerBehavior(name, behavior);
         break;
     }
   }
