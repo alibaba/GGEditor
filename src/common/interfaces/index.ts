@@ -17,6 +17,7 @@ import {
   TreeGraphData as ITreeGraphData,
   NodeConfig as INodeConfig,
   EdgeConfig as IEdgeConfig,
+  BehaviorOption as IBehaviorOption,
   IG6GraphEvent as IGraphEvent,
 } from '@antv/g6/lib/types';
 import { GraphOptions as IGraphOptions } from '@antv/g6/lib/interface/graph';
@@ -26,55 +27,29 @@ import { INode, IEdge } from '@antv/g6/lib/interface/item';
 export interface GShape extends IGShape {}
 export interface GGroup extends IGGroup {}
 
-export interface Graph extends IGraph {
-  updateItem(item: Item | string, cfg: Partial<INodeConfig> | Partial<IEdgeConfig>): void;
-}
-export interface TreeGraph extends ITreeGraph {
-  findDataById(id: string, parent?: MindData | undefined): MindData | null;
-}
+export interface Graph extends IGraph {}
+export interface TreeGraph extends ITreeGraph {}
 
 export interface FlowData extends IGraphData {}
-export interface MindData extends ITreeGraphData {
-  side?: 'left' | 'right';
-  children?: MindData[];
-  collapsed?: boolean;
-}
+export interface MindData extends ITreeGraphData {}
 
 export interface NodeModel extends INodeConfig {}
 export interface EdgeModel extends IEdgeConfig {}
 export interface GraphEvent extends IGraphEvent {}
 
 export interface GraphOptions extends IGraphOptions {}
-export interface CustomShape extends IShapeOptions {
-  [propName: string]: any;
-}
+export interface CustomShape extends IShapeOptions {}
 export interface CustomNode extends CustomShape {}
 export interface CustomEdge extends CustomShape {}
 
 export type Item = Node | Edge;
-export interface Node extends INode {
-  getModel(): NodeModel;
-  getEdges(): Edge[];
-}
-export interface Edge extends IEdge {
-  getModel(): EdgeModel;
-}
+export interface Node extends INode {}
+export interface Edge extends IEdge {}
 
-/**
- * G6 自定义行为
- * @see https://www.yuque.com/antv/g6/behavior-api
- */
-export interface Behavior {
+export interface Behavior extends IBehaviorOption {
   graph?: Graph;
   graphType?: GraphType;
   graphMode?: string;
-  getEvents(): {
-    [propName in GraphNativeEvent]?: string;
-  };
-  getDefaultCfg?(): object;
-  shouldBegin?(e?: GraphEvent): boolean;
-  shouldUpdate?(e?: GraphEvent): boolean;
-  shouldEnd?(e?: GraphEvent): boolean;
 }
 
 export interface Command<P = object, G = Graph> {

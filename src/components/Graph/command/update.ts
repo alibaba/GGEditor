@@ -1,11 +1,11 @@
 import pick from 'lodash/pick';
-import { Graph, TreeGraph } from '@/common/interfaces';
+import { Graph, TreeGraph, NodeModel, EdgeModel } from '@/common/interfaces';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 export interface UpdateCommandParams {
   id: string;
-  originModel: object;
-  updateModel: object;
+  originModel: Partial<NodeModel> | EdgeModel;
+  updateModel: Partial<NodeModel> | EdgeModel;
   forceRefreshLayout: boolean;
 }
 
