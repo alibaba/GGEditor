@@ -50,6 +50,7 @@ export interface Behavior extends IBehaviorOption {
   graph?: Graph;
   graphType?: GraphType;
   graphMode?: string;
+  [propName: string]: any;
 }
 
 export interface Command<P = object, G = Graph> {
