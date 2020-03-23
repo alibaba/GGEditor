@@ -1,8 +1,7 @@
 import pick from 'lodash/pick';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface UpdateCommandParams {
+export interface UpdateCommandParams {
   id: string;
   originModel: object;
   updateModel: object;
@@ -53,4 +52,4 @@ const updateCommand: BaseCommand<UpdateCommandParams, G6.Graph & G6.TreeGraph> =
   },
 };
 
-commandManager.register('update', updateCommand);
+export default updateCommand;

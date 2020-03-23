@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import global from '@/common/global';
 import { RendererType, EditorEvent, GraphCommonEvent } from '@/common/constants';
 import { CommandEvent } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
+import CommandManager from '@/common/CommandManager';
 import {
   EditorContext,
   EditorPrivateContext,
@@ -40,6 +40,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
       graph: null,
       setGraph: this.setGraph,
       executeCommand: this.executeCommand,
+      commandManager: new CommandManager(),
     };
 
     this.lastMousedownTarget = null;
@@ -84,6 +85,8 @@ class Editor extends React.Component<EditorProps, EditorState> {
   }
 
   bindShortcut(graph: G6.Graph) {
+    const { commandManager } = this.state;
+
     window.addEventListener(GraphCommonEvent.onMouseDown, e => {
       this.lastMousedownTarget = e.target as HTMLElement;
     });
@@ -139,7 +142,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
   };
 
   executeCommand = (name: string, params?: object) => {
-    const { graph } = this.state;
+    const { graph, commandManager } = this.state;
 
     if (graph) {
       commandManager.execute(graph, name, params);
@@ -148,18 +151,20 @@ class Editor extends React.Component<EditorProps, EditorState> {
 
   render() {
     const { children } = this.props;
-    const { graph, setGraph, executeCommand } = this.state;
+    const { graph, setGraph, executeCommand, commandManager } = this.state;
 
     return (
       <EditorContext.Provider
         value={{
           graph,
           executeCommand,
+          commandManager,
         }}
       >
         <EditorPrivateContext.Provider
           value={{
             setGraph,
+            commandManager,
           }}
         >
           <div {...pick(this.props, ['className', 'style'])}>{children}</div>

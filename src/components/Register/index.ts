@@ -1,10 +1,10 @@
 import React from 'react';
 import G6 from '@antv/g6';
 import { Command, Behavior } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import behaviorManager from '@/common/behaviorManager';
+import { EditorPrivateContextProps, withEditorPrivateContext } from '@/components/EditorContext';
 
-interface RegisterProps {
+interface RegisterProps extends EditorPrivateContextProps {
   name: string;
   config: object;
   extend?: string;
@@ -13,17 +13,19 @@ interface RegisterState {}
 
 class Register extends React.Component<RegisterProps, RegisterState> {
   static create = function(type: string) {
-    return class extends Register {
+    class TypedRegister extends Register {
       constructor(props: RegisterProps) {
         super(props, type);
       }
-    };
+    }
+
+    return withEditorPrivateContext(TypedRegister);
   };
 
   constructor(props: RegisterProps, type: string) {
     super(props);
 
-    const { name, config, extend } = props;
+    const { name, config, extend, commandManager } = props;
 
     switch (type) {
       case 'node':

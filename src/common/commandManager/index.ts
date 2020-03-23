@@ -89,4 +89,4 @@ class CommandManager {
   }
 }
 
-export default new CommandManager();
+export default CommandManager;

@@ -1,9 +1,8 @@
 import { MindData } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand } from '@/components/Graph/command/base';
-import { topicCommand } from './topic';
+import topicCommand from './topic';
 
-interface SubtopicCommandParams {
+export interface SubtopicCommandParams {
   id: string;
   model: MindData;
 }
@@ -31,4 +30,4 @@ const subtopicCommand: BaseCommand<SubtopicCommandParams, G6.TreeGraph> = {
   shortcuts: ['Tab'],
 };
 
-commandManager.register('subtopic', subtopicCommand);
+export default subtopicCommand;

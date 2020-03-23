@@ -19,7 +19,7 @@ import ContextMenu from '@/plugins/ContextMenu';
 import EditableLabel from '@/plugins/EditableLabel';
 
 import global from '@/common/global';
-import commandManager from '@/common/commandManager';
+import CommandManager from '@/common/CommandManager';
 import behaviorManager from '@/common/behaviorManager';
 
 export {
@@ -41,7 +41,7 @@ export {
   ContextMenu,
   EditableLabel,
   global,
-  commandManager,
+  CommandManager,
   behaviorManager,
 };
 

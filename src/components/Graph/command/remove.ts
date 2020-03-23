@@ -1,10 +1,9 @@
 import { isMind, executeBatch } from '@/utils';
 import { ItemType } from '@/common/constants';
 import { NodeModel, EdgeModel, MindData } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface RemoveCommandParams {
+export interface RemoveCommandParams {
   flow: {
     nodes: {
       [id: string]: NodeModel;
@@ -130,4 +129,4 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
   shortcuts: ['Delete', 'Backspace'],
 };
 
-commandManager.register('remove', removeCommand);
+export default removeCommand;

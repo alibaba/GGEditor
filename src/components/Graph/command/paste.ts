@@ -2,14 +2,13 @@ import { guid, executeBatch } from '@/utils';
 import global from '@/common/global';
 import { ItemType } from '@/common/constants';
 import { NodeModel } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface PasteCommandParams {
+export interface PasteCommandParams {
   models: NodeModel[];
 }
 
-export const pasteCommand: BaseCommand<PasteCommandParams> = {
+const pasteCommand: BaseCommand<PasteCommandParams> = {
   ...baseCommand,
 
   params: {
@@ -71,4 +70,4 @@ export const pasteCommand: BaseCommand<PasteCommandParams> = {
   ],
 };
 
-commandManager.register('paste', pasteCommand);
+export default pasteCommand;
