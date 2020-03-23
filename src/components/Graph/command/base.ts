@@ -1,7 +1,6 @@
 import { isMind, getSelectedNodes, getSelectedEdges, setSelectedItems } from '@/utils';
 import { LabelState, EditorEvent } from '@/common/constants';
 import { Command } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 
 export interface BaseCommand<P = object, G = G6.Graph> extends Command<P, G> {
   /** 判断是否脑图 */
@@ -55,5 +54,3 @@ export const baseCommand: BaseCommand = {
     });
   },
 };
-
-commandManager.register('base', baseCommand);

@@ -1,15 +1,14 @@
 import { guid } from '@/utils';
 import { LABEL_DEFAULT_TEXT } from '@/common/constants';
 import { MindData } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface TopicCommandParams {
+export interface TopicCommandParams {
   id: string;
   model: MindData;
 }
 
-export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
+const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
   ...baseCommand,
 
   params: {
@@ -67,4 +66,4 @@ export const topicCommand: BaseCommand<TopicCommandParams, G6.TreeGraph> = {
   shortcuts: ['Enter'],
 };
 
-commandManager.register('topic', topicCommand);
+export default topicCommand;

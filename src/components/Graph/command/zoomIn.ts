@@ -1,4 +1,3 @@
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 const DELTA = 0.05;
@@ -29,4 +28,4 @@ const zoomInCommand: BaseCommand = {
   ],
 };
 
-commandManager.register('zoomIn', zoomInCommand);
+export default zoomInCommand;

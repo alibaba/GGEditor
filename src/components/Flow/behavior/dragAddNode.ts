@@ -4,7 +4,7 @@ import global from '@/common/global';
 import { ItemType, GraphType, GraphMode, EditorCommand } from '@/common/constants';
 import { NodeModel, Behavior, GraphEvent } from '@/common/interfaces';
 import { G } from '@antv/g6/types/g';
-import commandManager from '@/common/commandManager';
+import CommandManager from '@/common/CommandManager';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddNodeBehavior extends Behavior {
@@ -103,6 +103,8 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     }
 
     this.shape.remove(true);
+
+    const commandManager: CommandManager = graph.get('commandManager');
 
     commandManager.execute(graph, EditorCommand.Add, {
       type: ItemType.Node,

@@ -1,5 +1,4 @@
 import global from '@/common/global';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 const copyCommand: BaseCommand = {
@@ -25,4 +24,4 @@ const copyCommand: BaseCommand = {
   ],
 };
 
-commandManager.register('copy', copyCommand);
+export default copyCommand;

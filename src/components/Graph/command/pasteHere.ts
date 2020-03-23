@@ -1,11 +1,10 @@
 import { guid } from '@/utils';
 import global from '@/common/global';
 import { NodeModel } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand } from '@/components/Graph/command/base';
-import { pasteCommand } from './paste';
+import pasteCommand from './paste';
 
-interface PasteHereCommandParams {
+export interface PasteHereCommandParams {
   models: NodeModel[];
 }
 
@@ -39,4 +38,4 @@ const pasteHereCommand: BaseCommand<PasteHereCommandParams> = {
   shortcuts: [],
 };
 
-commandManager.register('pasteHere', pasteHereCommand);
+export default pasteHereCommand;

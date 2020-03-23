@@ -1,9 +1,8 @@
 import { MindData } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand } from '@/components/Graph/command/base';
-import { foldCommand } from './fold';
+import foldCommand from './fold';
 
-interface UnfoldCommandParams {
+export interface UnfoldCommandParams {
   id: string;
 }
 
@@ -37,4 +36,4 @@ const unfoldCommand: BaseCommand<UnfoldCommandParams> = {
   ],
 };
 
-commandManager.register('unfold', unfoldCommand);
+export default unfoldCommand;

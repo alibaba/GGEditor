@@ -1,12 +1,11 @@
 import { MindData } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface FoldCommandParams {
+export interface FoldCommandParams {
   id: string;
 }
 
-export const foldCommand: BaseCommand<FoldCommandParams> = {
+const foldCommand: BaseCommand<FoldCommandParams> = {
   ...baseCommand,
 
   params: {
@@ -63,4 +62,4 @@ export const foldCommand: BaseCommand<FoldCommandParams> = {
   ],
 };
 
-commandManager.register('fold', foldCommand);
+export default foldCommand;

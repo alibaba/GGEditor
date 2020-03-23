@@ -1,10 +1,9 @@
 import { guid } from '@/utils';
 import { ItemType } from '@/common/constants';
 import { NodeModel, EdgeModel } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
-interface AddCommandParams {
+export interface AddCommandParams {
   type: ItemType;
   model: NodeModel | EdgeModel;
 }
@@ -44,4 +43,4 @@ const addCommand: BaseCommand<AddCommandParams> = {
   },
 };
 
-commandManager.register('add', addCommand);
+export default addCommand;

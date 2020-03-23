@@ -1,7 +1,7 @@
 import React from 'react';
 import { EditorEvent } from '@/common/constants';
 import { GraphStateEvent } from '@/common/interfaces';
-import commandManager from '@/common/commandManager';
+import CommandManager from '@/common/CommandManager';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
 
 interface CommandProps extends EditorContextProps {
@@ -24,6 +24,8 @@ class Command extends React.Component<CommandProps, CommandState> {
 
   componentDidMount() {
     const { graph, name } = this.props;
+
+    const commandManager: CommandManager = graph.get('commandManager');
 
     this.setState({
       disabled: !commandManager.canExecute(graph, name),

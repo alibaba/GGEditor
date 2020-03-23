@@ -14,7 +14,9 @@ import {
 import { FlowData, MindData, GraphNativeEvent, GraphReactEvent, GraphReactEventProps } from '@/common/interfaces';
 import { EditorPrivateContextProps, withEditorPrivateContext } from '@/components/EditorContext';
 
-import './command';
+import baseCommands from './command';
+import mindCommands from '@/components/Mind/command';
+
 import './behavior';
 
 interface GraphProps extends Partial<GraphReactEventProps>, EditorPrivateContextProps {
@@ -55,7 +57,7 @@ class Graph extends React.Component<GraphProps, GraphState> {
   }
 
   initGraph() {
-    const { containerId, parseData, initGraph, setGraph } = this.props;
+    const { containerId, parseData, initGraph, setGraph, commandManager } = this.props;
     const { clientWidth = 0, clientHeight = 0 } = document.getElementById(containerId) || {};
 
     // 解析数据
@@ -71,6 +73,23 @@ class Graph extends React.Component<GraphProps, GraphState> {
     this.graph.setMode('default');
 
     setGraph(this.graph);
+
+    // 设置命令管理器
+    this.graph.set('commandManager', commandManager);
+
+    // 注册命令
+    let commands = baseCommands;
+
+    if (isMind(this.graph)) {
+      commands = {
+        ...commands,
+        ...mindCommands,
+      };
+    }
+
+    Object.keys(commands).forEach(name => {
+      commandManager.register(name, commands[name]);
+    });
 
     // 发送埋点
     if (global.trackable) {
