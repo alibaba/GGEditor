@@ -1,36 +1,19 @@
-## [3.0.5](https://github.com/alibaba/GGEditor/compare/3.0.4...3.0.5) (2020-02-11)
+## [3.0.6](https://github.com/alibaba/GGEditor/compare/3.0.1...3.0.6) (2020-03-24)
 
 ### Bug Fixes
 
+- add `shouldTriggerShortcut` method ([3880958](https://github.com/alibaba/GGEditor/commit/3880958396900ec44a6b6dfe4209b33ba4f93ffa))
 - maybe parent node is undefined ([3d3c3a4](https://github.com/alibaba/GGEditor/commit/3d3c3a42bd99944bd68b140c2d657ce428e76536))
-
-## [3.0.4](https://github.com/alibaba/GGEditor/compare/3.0.3...3.0.4) (2020-02-11)
-
-### Bug Fixes
-
 - optimize the `shouldTriggerShortcut` method ([9fd1db9](https://github.com/alibaba/GGEditor/commit/9fd1db9a8370b713219d280786760de43d29310f))
 - the edges may have been removed ([63045b5](https://github.com/alibaba/GGEditor/commit/63045b5e2c4c0f7b926c8bb521c664f0ac10e2c0))
 
 ### Features
 
+- command manager is not singleton ([962779a](https://github.com/alibaba/GGEditor/commit/962779a573570db46529615416ca5c295a8c868f))
+- export `commandManager` and `behaviorManager` ([a67fb0a](https://github.com/alibaba/GGEditor/commit/a67fb0a110e6ea49fad9aec5ae41879e137d67f0))
+- export `G6` and `baseCommand` ([eb103c7](https://github.com/alibaba/GGEditor/commit/eb103c722b2a075ecb04c302507fcbb9e0d27a57))
 - export the `global` instance ([c1ff342](https://github.com/alibaba/GGEditor/commit/c1ff3426c3b34f27e7ecf467d581faae806bc4c7))
 - focus on the root node of the mind graph ([3025a2d](https://github.com/alibaba/GGEditor/commit/3025a2d7d149b45185b5e5d29b2dca88a81cbeab))
-
-## [3.0.3](https://github.com/alibaba/GGEditor/compare/3.0.2...3.0.3) (2020-02-06)
-
-### Bug Fixes
-
-- add `shouldTriggerShortcut` method ([3880958](https://github.com/alibaba/GGEditor/commit/3880958396900ec44a6b6dfe4209b33ba4f93ffa))
-
-### Features
-
-- export `G6` and `baseCommand` ([eb103c7](https://github.com/alibaba/GGEditor/commit/eb103c722b2a075ecb04c302507fcbb9e0d27a57))
-
-## [3.0.2](https://github.com/alibaba/GGEditor/compare/3.0.1...3.0.2) (2020-02-04)
-
-### Features
-
-- export `commandManager` and `behaviorManager` ([a67fb0a](https://github.com/alibaba/GGEditor/commit/a67fb0a110e6ea49fad9aec5ae41879e137d67f0))
 
 ## [3.0.1](https://github.com/alibaba/GGEditor/compare/3.0.0...3.0.1) (2020-01-15)
 
