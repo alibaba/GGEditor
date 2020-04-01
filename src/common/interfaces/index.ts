@@ -13,6 +13,8 @@ import IGGroup from '@antv/g-canvas/lib/group';
 import { IShape as IGShape } from '@antv/g-canvas/lib/interfaces';
 import { Graph as IGraph, TreeGraph as ITreeGraph } from '@antv/g6';
 import {
+  IPoint,
+  ShapeStyle as IShapeStyle,
   GraphData as IGraphData,
   TreeGraphData as ITreeGraphData,
   NodeConfig as INodeConfig,
@@ -29,6 +31,12 @@ export interface GGroup extends IGGroup {}
 
 export interface Graph extends IGraph {}
 export interface TreeGraph extends ITreeGraph {}
+
+export interface AnchorPoint extends IPoint {
+  index: number;
+}
+
+export interface ShapeStyle extends IShapeStyle {}
 
 export interface FlowData extends IGraphData {}
 export interface MindData extends ITreeGraphData {}

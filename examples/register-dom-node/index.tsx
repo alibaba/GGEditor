@@ -11,7 +11,7 @@ class Index extends React.Component {
         <Flow
           className={styles.editorBd}
           data={data}
-          graphConfig={{ renderer: 'svg', defaultNode: { shape: 'customDomNode' } }}
+          graphConfig={{ renderer: 'svg', defaultNode: { type: 'customDomNode' } }}
         />
         <RegisterNode
           name="customDomNode"
@@ -44,10 +44,10 @@ class Index extends React.Component {
             },
             getAnchorPoints() {
               return [
-                [0, 0.5],
-                [1, 0.5],
                 [0.5, 0],
                 [0.5, 1],
+                [0, 0.5],
+                [1, 0.5],
               ];
             },
           }}

@@ -15,6 +15,7 @@ export enum ItemType {
 
 export enum ItemState {
   Active = 'active',
+  ActiveAnchorPoints = 'activeAnchorPoints',
   Selected = 'selected',
   HighLight = 'highLight',
   Error = 'error',
@@ -41,6 +42,11 @@ export enum GraphState {
 export enum LabelState {
   Hide = 'hide',
   Show = 'show',
+}
+
+export enum AnchorPointState {
+  Enabled = 'enabled',
+  Disabled = 'disabled',
 }
 
 export enum EditorEvent {

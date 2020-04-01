@@ -26,7 +26,7 @@ class Global {
   /** 组件数据 */
   component: {
     itemPanel: {
-      model: NodeModel;
+      model: Partial<NodeModel>;
       delegateShapeClassName: string;
     };
   } = {

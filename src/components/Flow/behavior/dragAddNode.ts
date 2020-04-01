@@ -36,7 +36,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     }
 
     const group: GGroup = graph.get('group');
-    const model: NodeModel = global.component.itemPanel.model;
+    const model: Partial<NodeModel> = global.component.itemPanel.model;
 
     const { size = 100 } = model;
 
@@ -94,7 +94,7 @@ const dragAddNodeBehavior: DragAddNodeBehavior = {
     let x = e.x;
     let y = e.y;
 
-    const model: NodeModel = global.component.itemPanel.model;
+    const model: Partial<NodeModel> = global.component.itemPanel.model;
 
     if (model.center === 'topLeft') {
       x -= width / 2;

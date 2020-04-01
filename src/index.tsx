@@ -22,6 +22,8 @@ import global from '@/common/global';
 import CommandManager from '@/common/CommandManager';
 import behaviorManager from '@/common/behaviorManager';
 
+import { setAnchorPointsState } from '@/shape/common/anchor';
+
 export {
   G6,
   Util,
@@ -43,6 +45,7 @@ export {
   global,
   CommandManager,
   behaviorManager,
+  setAnchorPointsState,
 };
 
 export default Editor;

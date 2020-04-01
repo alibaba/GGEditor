@@ -13,10 +13,10 @@ class Index extends React.Component {
           data={data}
           graphConfig={{
             defaultNode: {
-              shape: 'bizNode',
+              type: 'bizNode',
             },
             defaultEdge: {
-              shape: 'bizFlowEdge',
+              type: 'bizFlowEdge',
             },
           }}
         />

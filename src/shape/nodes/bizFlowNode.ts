@@ -1,14 +1,20 @@
 import G6 from '@antv/g6';
-import { ItemState } from '@/common/constants';
-import { Node, CustomNode } from '@/common/interfaces';
-import { handleAnchor } from './anchor';
+import { CustomNode } from '@/common/interfaces';
+import { setAnchorPointsState } from '../common/anchor';
 
 const bizFlowNode: CustomNode = {
-  handleAnchor,
+  setState(name, value, item) {
+    setAnchorPointsState.call(this, name, value, item);
+  },
 
-  beforeSetState(name: ItemState, value: boolean, item: Node) {
-    this.handleAnchor.call(this, name, value, item);
+  getAnchorPoints() {
+    return [
+      [0.5, 0],
+      [0.5, 1],
+      [0, 0.5],
+      [1, 0.5],
+    ];
   },
 };
 
-G6.registerNode('bizFlowNode', {}, 'bizNode');
+G6.registerNode('bizFlowNode', bizFlowNode, 'bizNode');
