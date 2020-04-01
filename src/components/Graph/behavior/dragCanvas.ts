@@ -20,7 +20,7 @@ interface DragCanvasBehavior extends Behavior {
   /** 处理画布拖拽 */
   handleCanvasDrag(e: GraphEvent): void;
   /** 处理画布拖拽结束 */
-  handleCanvasDragEnd(e: MouseEvent): void;
+  handleCanvasDragEnd(e?: GraphEvent): void;
   /** 处理窗口鼠标弹起 */
   handleWindowMouseUp: (e: MouseEvent) => void | null;
   /** 处理鼠标移出画布 */
@@ -167,7 +167,7 @@ const dragCanvasBehavior: DragCanvasBehavior & ThisType<DragCanvasBehavior & Def
 
     this.handleWindowMouseUp = e => {
       if (e.target !== canvasElement) {
-        this.handleCanvasDragEnd(e);
+        this.handleCanvasDragEnd();
       }
     };
 
