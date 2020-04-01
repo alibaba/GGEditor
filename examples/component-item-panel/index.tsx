@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import GGEditor, { Flow, Item, ItemPanel } from '@/index';
+import { GraphMode, AnchorPointState } from '@/common/constants';
 import data from '../mock/flow.json';
 import styles from './index.less';
 
@@ -12,7 +13,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'circle',
+              type: 'circle',
               size: 100,
               label: 'circle',
             }}
@@ -27,7 +28,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'rect',
+              type: 'rect',
               size: [100, 50],
               label: 'rect',
             }}
@@ -42,7 +43,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'ellipse',
+              type: 'ellipse',
               size: [100, 50],
               label: 'ellipse',
             }}
@@ -57,7 +58,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'diamond',
+              type: 'diamond',
               size: 100,
               label: 'diamond',
             }}
@@ -72,7 +73,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'triangle',
+              type: 'triangle',
               size: 100,
               label: 'triangle',
             }}
@@ -87,7 +88,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'star',
+              type: 'star',
               size: 100,
               label: 'star',
             }}
@@ -102,7 +103,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'image',
+              type: 'image',
               size: 100,
               label: 'image',
             }}
@@ -117,7 +118,7 @@ class Index extends React.Component {
           <Item
             className={styles.item}
             model={{
-              shape: 'bizNode',
+              type: 'bizNode',
               size: [112, 66],
               label: 'bizNode',
               center: 'topLeft',
@@ -136,11 +137,26 @@ class Index extends React.Component {
           data={data}
           graphConfig={{
             defaultNode: {
-              shape: 'bizNode',
+              type: 'bizFlowNode',
             },
             defaultEdge: {
-              shape: 'bizFlowEdge',
+              type: 'bizFlowEdge',
             },
+          }}
+          customModes={(mode, behaviors) => {
+            if (mode === GraphMode.Default) {
+              behaviors['drag-add-edge'] = {
+                type: 'drag-add-edge',
+                getAnchorPointStateOfSourceNode: (sourceNode, sourceAnchorPoint) => {
+                  return AnchorPointState.Enabled;
+                },
+                getAnchorPointStateOfTargetNode: (sourceNode, sourceAnchorPoint, targetNode, targetAnchorPoint) => {
+                  return AnchorPointState.Enabled;
+                },
+              };
+            }
+
+            return behaviors;
           }}
         />
       </GGEditor>

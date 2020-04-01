@@ -6,6 +6,7 @@
     "target": "esnext",
     "jsx": "react",
     "noImplicitThis": true,
+    "strictBindCallApply": true,
     "baseUrl": "../",
     "paths": {
       "@/*": ["src/*"]

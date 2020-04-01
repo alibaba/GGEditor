@@ -17,7 +17,9 @@
     {
       "label": "Label",
       "source": "0",
-      "target": "1"
+      "sourceAnchor": 1,
+      "target": "1",
+      "targetAnchor": 0
     }
   ]
 }

@@ -131,4 +131,4 @@ const bizFlowEdge: CustomEdge = {
   },
 };
 
-G6.registerEdge('bizFlowEdge', bizFlowEdge, 'polyline');
+G6.registerEdge('bizFlowEdge', {}, 'polyline');

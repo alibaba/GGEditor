@@ -9,7 +9,7 @@ export interface ItemProps extends EditorContextProps {
   style?: React.CSSProperties;
   className?: string;
   type?: ItemType;
-  model: NodeModel;
+  model: Partial<NodeModel>;
 }
 
 export interface ItemState {}
