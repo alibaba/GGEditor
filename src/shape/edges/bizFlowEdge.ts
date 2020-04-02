@@ -14,13 +14,16 @@ const bizFlowEdge: CustomEdge = {
       shadowBlur: 0,
       radius: 8,
       offset: 24,
-      startArrow: {
-        path: 'M 3,0 A 3,3,0,1,1,-3,0 A 3,3,0,1,1,3,0 Z',
-        d: 7,
-      },
+      // startArrow: {
+      //   path: 'M 3,0 A 3,3,0,1,1,-3,0 A 3,3,0,1,1,3,0 Z',
+      //   d: 7,
+      // },
+      // endArrow: {
+      //   path: 'M 3,0 L -3,-3 L -3,3 Z',
+      //   d: 5,
+      // },
       endArrow: {
-        path: 'M 3,0 L -3,-3 L -3,3 Z',
-        d: 5,
+        path: 'M 0,0 L 4,3 L 4,-3 Z',
       },
     },
     labelCfg: {
@@ -131,4 +134,4 @@ const bizFlowEdge: CustomEdge = {
   },
 };
 
-G6.registerEdge('bizFlowEdge', {}, 'polyline');
+G6.registerEdge('bizFlowEdge', bizFlowEdge, 'polyline');
