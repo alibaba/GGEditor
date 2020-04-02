@@ -20,7 +20,7 @@ interface DragAddEdgeBehavior extends Behavior {
 
 interface DefaultConfig {
   /** 边线类型 */
-  type: string;
+  edgeType: string;
   /** 获取来源节点锚点状态 */
   getAnchorPointStateOfSourceNode(sourceNode: Node, sourceAnchorPoint: AnchorPoint): AnchorPointState;
   /** 获取目标节点锚点状态 */
@@ -39,7 +39,7 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
 
   getDefaultCfg(): DefaultConfig {
     return {
-      type: 'bizFlowEdge',
+      edgeType: 'bizFlowEdge',
       getAnchorPointStateOfSourceNode: () => AnchorPointState.Enabled,
       getAnchorPointStateOfTargetNode: () => AnchorPointState.Enabled,
     };
@@ -123,7 +123,7 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
       return;
     }
 
-    const { graph, type, getAnchorPointStateOfTargetNode } = this;
+    const { graph, edgeType, getAnchorPointStateOfTargetNode } = this;
     const { target } = e;
 
     const sourceNode = e.item as Node;
@@ -133,7 +133,7 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
 
     const model: EdgeModel = {
       id: guid(),
-      type,
+      type: edgeType,
       source: sourceNodeId,
       sourceAnchor: sourceAnchorPointIndex,
       target: {
