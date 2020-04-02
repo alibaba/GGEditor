@@ -1,9 +1,9 @@
 import G6 from '@antv/g6';
-import { CustomNode } from '@/common/interfaces';
+import { CustomNode, Item } from '@/common/interfaces';
 import { setAnchorPointsState } from '../common/anchor';
 
 const bizFlowNode: CustomNode = {
-  setState(name, value, item) {
+  afterSetState(name: string, value: string | boolean, item: Item) {
     setAnchorPointsState.call(this, name, value, item);
   },
 

@@ -134,10 +134,6 @@ const bizNode: CustomNode = {
   },
 
   setState(name, value, item) {
-    if (this.beforeSetState) {
-      this.beforeSetState(name, value, item);
-    }
-
     const group = item.getContainer();
     const model = item.getModel();
     const states = item.getStates() as ItemState[];
@@ -181,6 +177,10 @@ const bizNode: CustomNode = {
           height: height + WRAPPER_BORDER_WIDTH * 2,
         });
       }
+    }
+
+    if (this.afterSetState) {
+      this.afterSetState(name, value, item);
     }
   },
 
