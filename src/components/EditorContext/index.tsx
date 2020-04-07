@@ -3,15 +3,17 @@ import { Graph } from '@/common/interfaces';
 import withContext from '@/common/withContext';
 import CommandManager from '@/common/CommandManager';
 
-export interface EditorContextProps {
+export interface EditorContextProps<T = unknown> {
   graph: Graph | null;
   executeCommand: (name: string, params?: object) => void;
   commandManager: CommandManager;
+  forwardRef: React.Ref<T>;
 }
 
-export interface EditorPrivateContextProps {
+export interface EditorPrivateContextProps<T = unknown> {
   setGraph: (graph: Graph) => void;
   commandManager: CommandManager;
+  forwardRef: React.Ref<T>;
 }
 
 export const EditorContext = React.createContext({} as EditorContextProps);

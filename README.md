@@ -111,15 +111,16 @@ $ npm install
 $ npm start
 ```
 
-| 类型 | 示例                   | 源码                                      |
-| :--- | :--------------------- | :---------------------------------------- |
-| 图表 | flow                   | [source](examples/flow)                   |
-| 图表 | mind                   | [source](examples/mind)                   |
-| 组件 | component-command      | [source](examples/component-command)      |
-| 组件 | component-item-panel   | [source](examples/component-item-panel)   |
-| 组件 | component-detail-panel | [source](examples/component-detail-panel) |
-| 插件 | plugin-editable-label  | [source](examples/plugin-editable-label)  |
-| 插件 | plugin-item-popover    | [source](examples/plugin-item-popover)    |
-| 插件 | plugin-context-menu    | [source](examples/plugin-context-menu)    |
-| 注册 | register-node          | [source](examples/register-node)          |
-| 注册 | register-dom-node      | [source](examples/register-dom-node)      |
+| 类型   | 示例                   | 源码                                      |
+| :----- | :--------------------- | :---------------------------------------- |
+| 编辑器 | editor-context         | [source](examples/editor-context)         |
+| 图表   | flow                   | [source](examples/flow)                   |
+| 图表   | mind                   | [source](examples/mind)                   |
+| 组件   | component-command      | [source](examples/component-command)      |
+| 组件   | component-item-panel   | [source](examples/component-item-panel)   |
+| 组件   | component-detail-panel | [source](examples/component-detail-panel) |
+| 插件   | plugin-editable-label  | [source](examples/plugin-editable-label)  |
+| 插件   | plugin-item-popover    | [source](examples/plugin-item-popover)    |
+| 插件   | plugin-context-menu    | [source](examples/plugin-context-menu)    |
+| 注册   | register-node          | [source](examples/register-node)          |
+| 注册   | register-dom-node      | [source](examples/register-dom-node)      |
