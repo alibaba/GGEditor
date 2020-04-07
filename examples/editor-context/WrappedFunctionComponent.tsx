@@ -2,7 +2,9 @@ import React from 'react';
 import { withEditorContext } from '@/index';
 import { EditorContextProps } from '@/components/EditorContext';
 
-interface WrappedFunctionComponentProps extends EditorContextProps<HTMLDivElement> {}
+interface WrappedFunctionComponentProps extends EditorContextProps {
+  forwardRef?: React.Ref<HTMLDivElement>;
+}
 
 const WrappedFunctionComponent: React.FC<WrappedFunctionComponentProps> = props => {
   console.log('wrappedFunctionComponentProps:', props);

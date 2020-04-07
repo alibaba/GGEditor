@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function<CP>(Context: React.Context<CP>, shouldRender: (context: CP) => boolean = () => true) {
-  return function<P extends CP, T>(WrappedComponent: React.ComponentType<P>) {
+  return function<P extends CP, T = unknown>(WrappedComponent: React.ComponentType<P>) {
     type WrappedComponentProps = Omit<React.PropsWithChildren<P>, keyof CP>;
     type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
       forwardRef: React.Ref<T>;
