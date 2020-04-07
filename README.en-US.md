@@ -113,6 +113,7 @@ $ npm start
 
 | Type      | Example                | Source                                    |
 | :-------- | :--------------------- | :---------------------------------------- |
+| editor    | editor-context         | [source](examples/editor-context)         |
 | graph     | flow                   | [source](examples/flow)                   |
 | graph     | mind                   | [source](examples/mind)                   |
 | component | component-command      | [source](examples/component-command)      |

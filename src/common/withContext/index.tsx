@@ -1,11 +1,10 @@
 import React from 'react';
 
 export default function<CP>(Context: React.Context<CP>, shouldRender: (context: CP) => boolean = () => true) {
-  return function<P extends CP>(WrappedComponent: React.ComponentClass<P>) {
-    type WrappedComponentInstance = InstanceType<typeof WrappedComponent>;
+  return function<P extends CP, T>(WrappedComponent: React.ComponentType<P>) {
     type WrappedComponentProps = Omit<React.PropsWithChildren<P>, keyof CP>;
     type WrappedComponentPropsWithForwardRef = WrappedComponentProps & {
-      forwardRef: React.Ref<WrappedComponentInstance>;
+      forwardRef: React.Ref<T>;
     };
 
     const InjectContext: React.FC<WrappedComponentPropsWithForwardRef> = props => {
@@ -14,14 +13,14 @@ export default function<CP>(Context: React.Context<CP>, shouldRender: (context: 
       return (
         <Context.Consumer>
           {context =>
-            shouldRender(context) ? <WrappedComponent ref={forwardRef} {...(rest as any)} {...context} /> : null
+            shouldRender(context) ? (
+              <WrappedComponent ref={forwardRef} forwardRef={forwardRef} {...(rest as any)} {...context} />
+            ) : null
           }
         </Context.Consumer>
       );
     };
 
-    return React.forwardRef<WrappedComponentInstance, WrappedComponentProps>((props, ref) => (
-      <InjectContext forwardRef={ref} {...props} />
-    ));
+    return React.forwardRef<T, WrappedComponentProps>((props, ref) => <InjectContext forwardRef={ref} {...props} />);
   };
 }
