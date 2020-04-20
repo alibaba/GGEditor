@@ -1,28 +1,21 @@
-[English](README.en-US.md) | 简体中文
-
-<h1 align="center">GGEditor</h1>
-
-<div align="center">
-
-基于 [G6](https://github.com/antvis/g6) 和 [React](https://github.com/facebook/react) 的可视化图编辑器
-
-[![GitHub](https://img.shields.io/github/license/alibaba/GGEditor)](LICENSE)
-[![npm](https://img.shields.io/npm/v/gg-editor)](https://www.npmjs.com/package/gg-editor)
-[![npm](https://img.shields.io/npm/dm/gg-editor)](https://www.npmjs.com/package/gg-editor)
-
-</div>
+---
+title: 快速上手
+group:
+  title: 指南
+  order: 0
+---
 
 ## 安装
 
 ### npm
 
-```bash
+```bash | pure
 npm install gg-editor --save
 ```
 
 ### umd
 
-```html
+```html | pure
 <script src="https://unpkg.com/gg-editor@${version}/dist/index.js"></script>
 ```
 
@@ -32,7 +25,7 @@ npm install gg-editor --save
 
 [![Edit GGEditor - Flow](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ggeditor-flow-hq64m?fontsize=14&hidenavigation=1&theme=dark)
 
-```jsx
+```jsx | pure
 import GGEditor, { Flow } from 'gg-editor';
 
 const data = {
@@ -68,7 +61,7 @@ const data = {
 
 [![Edit GGEditor - Mind](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ggeditor-mind-2262q?fontsize=14&hidenavigation=1&theme=dark)
 
-```jsx
+```jsx | pure
 import GGEditor, { Mind } from 'gg-editor';
 
 const data = {
@@ -93,7 +86,7 @@ const data = {
 
 ## 示例
 
-```bash
+```bash | pure
 # 克隆仓库
 $ git clone https://github.com/alibaba/GGEditor.git
 

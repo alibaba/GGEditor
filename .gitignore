@@ -1,7 +1,14 @@
+.DS_Store
+
+/node_modules
+
 /dist
 /lib
 /es
 
-/examples/dist
-/node_modules
+.umi
+.umi-production
+.env.local
+
 .eslintcache
+/examples/dist

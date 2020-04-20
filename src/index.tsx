@@ -19,6 +19,7 @@ import ContextMenu from '@/plugins/ContextMenu';
 import EditableLabel from '@/plugins/EditableLabel';
 
 import global from '@/common/global';
+import * as constants from '@/common/constants';
 import CommandManager from '@/common/CommandManager';
 import behaviorManager from '@/common/behaviorManager';
 
@@ -43,6 +44,7 @@ export {
   ContextMenu,
   EditableLabel,
   global,
+  constants,
   CommandManager,
   behaviorManager,
   setAnchorPointsState,
