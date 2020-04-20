@@ -16,7 +16,7 @@ A visual graph editor based on [G6](https://github.com/antvis/g6) and [React](ht
 
 ### npm
 
-```sh
+```bash
 npm install gg-editor --save
 ```
 
@@ -91,13 +91,9 @@ const data = {
 </GGEditor>;
 ```
 
-## Documentation
-
-- [API documents](https://www.yuque.com/ggeditor/api-en)
-
 ## Examples
 
-```sh
+```bash
 # Clone the repository
 $ git clone https://github.com/alibaba/GGEditor.git
 
@@ -108,19 +104,5 @@ $ cd gg-editor
 $ npm install
 
 # Run examples
-$ npm start
+$ npm doc:start
 ```
-
-| Type      | Example                | Source                                    |
-| :-------- | :--------------------- | :---------------------------------------- |
-| editor    | editor-context         | [source](examples/editor-context)         |
-| graph     | flow                   | [source](examples/flow)                   |
-| graph     | mind                   | [source](examples/mind)                   |
-| component | component-command      | [source](examples/component-command)      |
-| component | component-item-panel   | [source](examples/component-item-panel)   |
-| component | component-detail-panel | [source](examples/component-detail-panel) |
-| plugin    | plugin-editable-label  | [source](examples/plugin-editable-label)  |
-| plugin    | plugin-item-popover    | [source](examples/plugin-item-popover)    |
-| plugin    | plugin-context-menu    | [source](examples/plugin-context-menu)    |
-| register  | register-node          | [source](examples/register-node)          |
-| register  | register-dom-node      | [source](examples/register-dom-node)      |
