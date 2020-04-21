@@ -115,10 +115,10 @@ class Mind extends React.Component<MindProps, MindState> {
       },
       animate: false,
       defaultNode: {
-        shape: 'bizMindNode',
+        type: 'bizMindNode',
       },
       defaultEdge: {
-        shape: 'bizMindEdge',
+        type: 'bizMindEdge',
       },
       ...graphConfig,
     });

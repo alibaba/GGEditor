@@ -14,7 +14,7 @@ function App() {
         <Item
           className={styles.item}
           model={{
-            shape: 'circle',
+            type: 'circle',
             size: 50,
             label: 'circle',
           }}
@@ -29,7 +29,7 @@ function App() {
         <Item
           className={styles.item}
           model={{
-            shape: 'rect',
+            type: 'rect',
             size: [80, 24],
             label: 'rect',
           }}
@@ -44,7 +44,7 @@ function App() {
         <Item
           className={styles.item}
           model={{
-            shape: 'ellipse',
+            type: 'ellipse',
             size: [100, 50],
             label: 'ellipse',
           }}
@@ -59,7 +59,7 @@ function App() {
         <Item
           className={styles.item}
           model={{
-            shape: 'diamond',
+            type: 'diamond',
             size: [80, 80],
             label: 'diamond',
           }}
@@ -74,7 +74,7 @@ function App() {
         <Item
           className={styles.item}
           model={{
-            shape: 'triangle',
+            type: 'triangle',
             size: [30, 30],
             label: 'triangle',
           }}

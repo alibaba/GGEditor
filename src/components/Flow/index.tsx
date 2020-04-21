@@ -99,10 +99,10 @@ class Flow extends React.Component<FlowProps, FlowState> {
       height,
       modes,
       defaultNode: {
-        shape: 'bizFlowNode',
+        type: 'bizFlowNode',
       },
       defaultEdge: {
-        shape: 'bizFlowEdge',
+        type: 'bizFlowEdge',
       },
       ...graphConfig,
     });
