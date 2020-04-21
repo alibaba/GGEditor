@@ -189,6 +189,7 @@ class EditableLabel extends React.Component<EditableLabelProps, EditableLabelSta
         contentEditable
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
+        suppressContentEditableWarning
       >
         {label}
       </div>,
