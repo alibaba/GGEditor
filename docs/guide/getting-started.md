@@ -3,6 +3,8 @@ title: Getting Started
 group:
   title: Guide
   order: 0
+nav:
+  title: Guide
 ---
 
 ## Installation
