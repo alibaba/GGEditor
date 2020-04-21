@@ -10,12 +10,22 @@ export default function<CP>(Context: React.Context<CP>, shouldRender: (context: 
     const InjectContext: React.FC<WrappedComponentPropsWithForwardRef> = props => {
       const { forwardRef, ...rest } = props;
 
+      let refProp = {};
+
+      if (WrappedComponent.prototype.isReactComponent) {
+        refProp = {
+          ref: forwardRef,
+        };
+      } else {
+        refProp = {
+          forwardRef,
+        };
+      }
+
       return (
         <Context.Consumer>
           {context =>
-            shouldRender(context) ? (
-              <WrappedComponent ref={forwardRef} forwardRef={forwardRef} {...(rest as any)} {...context} />
-            ) : null
+            shouldRender(context) ? <WrappedComponent {...refProp} {...(rest as any)} {...context} /> : null
           }
         </Context.Consumer>
       );
