@@ -2,6 +2,7 @@ import React from 'react';
 import upperFirst from 'lodash/upperFirst';
 import { Icon, Divider, Tooltip } from 'antd';
 import GGEditor, { Flow, Mind, Command, ContextMenu, constants } from 'gg-editor';
+import { MindData } from 'gg-editor/lib/common/interfaces';
 import styles from './index.less';
 
 const { EditorCommand } = constants;
@@ -66,18 +67,22 @@ const flowData = {
   ],
 };
 
-const mindData = {
+const mindData: MindData = {
+  id: '0',
   label: 'Central Topic',
   children: [
     {
+      id: '1',
       side: 'left',
       label: 'Main Topic 1',
     },
     {
+      id: '2',
       side: 'right',
       label: 'Main Topic 2',
     },
     {
+      id: '3',
       side: 'right',
       label: 'Main Topic 3',
     },
