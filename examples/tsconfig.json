@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "jsx": "react",
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "baseUrl": ".",
+    "sourceMap": true
+  }
+}
