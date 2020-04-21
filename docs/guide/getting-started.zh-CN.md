@@ -3,6 +3,8 @@ title: 快速上手
 group:
   title: 指南
   order: 0
+nav:
+  title: 指南
 ---
 
 ## 安装
