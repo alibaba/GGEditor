@@ -13,7 +13,7 @@ about: 报告一个可以复现的错误
 
 ## 重现链接
 
-> 最小化重现错误以便精准定位问题，例如：[Flow](https://codesandbox.io/s/m2v96ok1p) / [Mind](https://codesandbox.io/s/1z6vp25xz3)
+> 最小化重现错误以便精准定位问题，例如：[Flow](https://codesandbox.io/s/ggeditor-flow-hq64m) / [Mind](https://codesandbox.io/s/ggeditor-mind-2262q)
 
 ## 重现步骤
 
