@@ -30,6 +30,7 @@ export default defineConfig({
     ],
   },
   exportStatic: {},
+  styles: ['https://g.alicdn.com/code/lib/antd/3.23.6/antd.min.css'],
   scripts: [
     'https://g.alicdn.com/code/lib/react/16.8.6/umd/react.production.min.js',
     'https://g.alicdn.com/code/lib/react-dom/16.8.6/umd/react-dom.production.min.js',
@@ -41,14 +42,4 @@ export default defineConfig({
     'react-dom': 'ReactDOM',
     antd: 'antd',
   },
-  extraBabelPlugins: [
-    [
-      'import',
-      {
-        libraryName: 'antd',
-        libraryDirectory: 'es',
-        style: 'css',
-      },
-    ],
-  ],
 });
