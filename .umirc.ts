@@ -29,6 +29,18 @@ export default defineConfig({
       },
     ],
   },
+  exportStatic: {},
+  scripts: [
+    'https://g.alicdn.com/code/lib/react/16.8.6/umd/react.production.min.js',
+    'https://g.alicdn.com/code/lib/react-dom/16.8.6/umd/react-dom.production.min.js',
+    'https://g.alicdn.com/code/lib/moment.js/2.24.0/moment.min.js',
+    'https://g.alicdn.com/code/lib/antd/3.23.6/antd.min.js',
+  ],
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    antd: 'antd',
+  },
   extraBabelPlugins: [
     [
       'import',
