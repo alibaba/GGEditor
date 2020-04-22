@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/alibaba/GGEditor/compare/3.1.0...3.1.1) (2020-04-22)
+
+### Bug Fixes
+
+- distinguish class component and function component ([565159f](https://github.com/alibaba/GGEditor/commit/565159ffa6acc13ccb41425a084be7984c03d528))
+- suppress content editable warning ([5f4135c](https://github.com/alibaba/GGEditor/commit/5f4135c2ddddb16a116d00ed95bef208d82144f2))
+
 # [3.1.0](https://github.com/alibaba/GGEditor/compare/3.0.6...3.1.0) (2020-04-07)
 
 ### Bug Fixes
