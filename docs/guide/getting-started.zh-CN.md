@@ -99,5 +99,5 @@ $ cd gg-editor
 $ npm install
 
 # 运行示例
-$ npm doc:start
+$ npm start
 ```

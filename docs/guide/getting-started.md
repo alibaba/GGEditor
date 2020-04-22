@@ -99,5 +99,5 @@ $ cd gg-editor
 $ npm install
 
 # Run examples
-$ npm doc:start
+$ npm start
 ```

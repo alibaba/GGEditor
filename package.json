@@ -20,9 +20,10 @@
     "src"
   ],
   "scripts": {
+    "start": "npm run docs:start",
     "build": "node ./scripts/build.js",
-    "doc:start": "dumi dev",
-    "doc:build": "dumi build",
+    "docs:start": "dumi dev",
+    "docs:build": "dumi build",
     "lint": "eslint --cache --ext .ts,.tsx ./src",
     "lint:fix": "npm run lint -- --fix",
     "pretty-quick": "pretty-quick",
