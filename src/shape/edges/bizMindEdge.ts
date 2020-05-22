@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { ItemState } from '@/common/constants';
-import { CustomEdge } from '@/common/interfaces';
+import { GShape, CustomEdge } from '@/common/interfaces';
 
 const bizMindEdge: CustomEdge = {
   options: {
@@ -22,6 +22,31 @@ const bizMindEdge: CustomEdge = {
         shadowBlur: 24,
       },
     },
+  },
+
+  setState(name, value, item) {
+    const shape: GShape = item.get('keyShape');
+
+    if (!shape) {
+      return;
+    }
+
+    const { style, stateStyles } = this.options;
+
+    const stateStyle = stateStyles[name];
+
+    if (!stateStyle) {
+      return;
+    }
+
+    if (value) {
+      shape.attr({
+        ...style,
+        ...stateStyle,
+      });
+    } else {
+      shape.attr(style);
+    }
   },
 };
 
