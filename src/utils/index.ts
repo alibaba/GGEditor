@@ -170,9 +170,9 @@ export function getMindRecallEdges(graph: TreeGraph, node: Node, edges: Edge[] =
   }
 
   node.getEdges().forEach(edge => {
-    const sourceId = edge.getModel().source;
+    const source = edge.getModel().source as Edge;
 
-    if (sourceId === parentNode.get('id')) {
+    if (source.get('id') === parentNode.get('id')) {
       edges.push(edge);
     }
   });
