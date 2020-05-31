@@ -22,6 +22,7 @@ const foldCommand: BaseCommand<FoldCommandParams> = {
     const selectedNode = selectedNodes[0];
     const selectedNodeModel = selectedNode.getModel();
 
+    //@ts-ignore
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;
     }
