@@ -23,10 +23,11 @@
   "scripts": {
     "start": "npm run docs:start",
     "build:old": "node ./scripts/build.js",
-    "build": "npm run clean && father-build && npm run replace:cjs && npm run build:umd",
+    "build": "npm run clean && father-build && npm run replace:cjs && npm run replace:es && npm run build:umd",
     "build:umd": "webpack --config webpack.config.js --mode production",
     "clean": "rimraf es esm lib dist",
     "replace:cjs": "node ./scripts/cjs-replace.js",
+    "replace:es": "node ./scripts/es-replace.js",
     "docs:start": "dumi dev",
     "docs:build": "dumi build",
     "lint": "eslint --cache --ext .ts,.tsx ./src",
