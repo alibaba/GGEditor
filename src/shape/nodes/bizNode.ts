@@ -124,7 +124,8 @@ const bizNode: CustomNode = {
     const text = model.label;
     const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
 
-    shape.attr('text', optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2));
+    //@ts-ignore
+    shape.attr(text, optimizeMultilineText(text, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2));
   },
 
   update(model, item) {

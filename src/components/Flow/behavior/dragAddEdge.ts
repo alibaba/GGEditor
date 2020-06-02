@@ -1,11 +1,14 @@
-import isPlainObject from 'lodash/isPlainObject';
+import { isPlainObject, merge } from 'lodash';
 import { guid } from '@/utils';
 import { ItemType, ItemState, GraphType, AnchorPointState } from '@/common/constants';
-import { Node, Edge, Behavior, GraphEvent, EdgeModel, AnchorPoint } from '@/common/interfaces';
+import { Node, Edge, Behavior, GraphEvent, EdgeModel, AnchorPoint, ShapeStyle, Graph } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
 interface DragAddEdgeBehavior extends Behavior {
   edge: Edge | null;
+  animateAnchor: Node | null;
+  targetId: string | null;
+  targetAnchorIndex: number | null;
   isEnabledAnchorPoint(e: GraphEvent): boolean;
   isNotSelf(e: GraphEvent): boolean;
   canFindTargetAnchorPoint(e: GraphEvent): boolean;
@@ -32,8 +35,28 @@ interface DefaultConfig {
   ): AnchorPointState;
 }
 
+type GetAnchorPointStyle = (item: Node, anchorPoint: number[]) => ShapeStyle;
+
+const getAnchorPointDefaultStyle: GetAnchorPointStyle = (item, anchorPoint) => {
+  const { width, height } = item.getKeyShape().getBBox();
+
+  const [x, y] = anchorPoint;
+
+  return {
+    x: width * x,
+    y: height * y - 3,
+    r: 3,
+    lineWidth: 2,
+    fill: '#FFFFFF',
+    stroke: '#5AAAFF',
+  };
+};
+
 const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & DefaultConfig> = {
   edge: null,
+  animateAnchor: null,
+  targetId: null,
+  targetAnchorIndex: null,
 
   graphType: GraphType.Flow,
 
@@ -136,10 +159,13 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
       type: edgeType,
       source: sourceNodeId,
       sourceAnchor: sourceAnchorPointIndex,
+      target: sourceNodeId,
+      /*
       target: {
         x: e.x,
         y: e.y,
       } as any,
+      */
     };
 
     this.edge = graph.addItem(ItemType.Edge, model);
@@ -167,36 +193,86 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
   handleMouseMove(e) {
     const { graph, edge } = this;
 
-    if (!edge) {
+    if (edge === null) {
       return;
+    }
+
+    if (this.targetId && this.targetAnchorIndex !== null) {
+      const item = (graph as Graph).findById(this.targetId);
+      if (item) {
+        const targetAnchor = (item as Node).getLinkPointByAnchor(this.targetAnchorIndex);
+        if (targetAnchor && Math.abs(targetAnchor.x - e.x) < 5 && Math.abs(targetAnchor.y - e.y) < 5) return;
+      }
     }
 
     if (this.canFindTargetAnchorPoint(e)) {
       const { item, target } = e;
 
-      const targetId = item.getModel().id;
-      const targetAnchor = target.get('anchorPointIndex');
+      this.targetId = (item as Node).getModel().id as string;
+      this.targetAnchorIndex = target.get('anchorPointIndex') as number;
+      const targetAnchor = (item as Node).getLinkPointByAnchor(this.targetAnchorIndex);
 
+      if (!!this.animateAnchorCfg && !this.animateAnchor) {
+        this.animateAnchor = graph.addItem(
+          'node',
+          merge(this.animateAnchorCfg, {
+            id: guid(),
+            x: targetAnchor.x,
+            y: targetAnchor.y,
+          }),
+        );
+      }
+
+      /*
       graph.updateItem(edge, {
         target: targetId,
         targetAnchor,
       });
+      */
     } else {
-      graph.updateItem(edge, {
-        target: {
-          x: e.x,
-          y: e.y,
-        } as any,
-        targetAnchor: undefined,
-      });
+      if (this.animateAnchor !== null) {
+        setTimeout(() => {
+          if (this.animateAnchor !== null) graph.removeItem(this.animateAnchor);
+          this.animateAnchor = null;
+        }, 1000);
+      }
+
+      this.targetId = null;
+      this.targetAnchorIndex = null;
+
+      try {
+        graph.updateItem(edge, {
+          target: {
+            x: e.x,
+            y: e.y,
+          } as any,
+          targetAnchor: undefined,
+        });
+      } catch (err) {
+        //ignore
+      }
     }
   },
 
   handleMouseUp() {
     const { graph, edge } = this;
 
-    if (!edge) {
+    if (edge === null) {
       return;
+    }
+
+    if (this.animateAnchor !== null) {
+      graph.removeItem(this.animateAnchor);
+      this.animateAnchor = null;
+    }
+
+    if (this.targetId !== null && this.targetAnchorIndex !== null) {
+      graph.updateItem(edge, {
+        target: this.targetId,
+        targetAnchor: this.targetAnchorIndex,
+      });
+      this.targetId = null;
+      this.targetAnchorIndex = null;
     }
 
     if (!this.shouldAddRealEdge()) {

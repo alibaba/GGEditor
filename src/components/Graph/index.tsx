@@ -45,6 +45,10 @@ class GraphComponent extends React.Component<GraphProps, GraphState> {
     this.bindEvent();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.changeWidth);
+  }
+
   componentDidUpdate(prevProps: GraphProps) {
     const { data } = this.props;
 
@@ -62,6 +66,15 @@ class GraphComponent extends React.Component<GraphProps, GraphState> {
 
     graph.focusItem(id);
   }
+
+  changeWidth = () => {
+    setTimeout(() => {
+      const { containerId } = this.props;
+      const { clientWidth = 0, clientHeight = 0 } = document.getElementById(containerId) || {};
+
+      this.graph.changeSize(clientWidth, clientHeight);
+    }, 200);
+  };
 
   initGraph() {
     const { containerId, parseData, initGraph, setGraph, commandManager } = this.props;
@@ -98,6 +111,10 @@ class GraphComponent extends React.Component<GraphProps, GraphState> {
     Object.keys(commands).forEach(name => {
       commandManager.register(name, commands[name]);
     });
+
+    window.addEventListener('resize', this.changeWidth);
+
+    this.changeWidth();
 
     // 发送埋点
     if (global.trackable) {

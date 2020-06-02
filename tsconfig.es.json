@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "outDir": "es",
+    "paths": {
+      "@/*": ["es/*"]
+    }
+  }
+}

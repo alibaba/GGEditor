@@ -106,6 +106,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
         return;
       }
 
+      //@ts-ignore
       (graph as TreeGraph).addChild(model, parent);
     } else {
       const { nodes, edges } = this.params.flow;

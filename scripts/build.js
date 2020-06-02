@@ -7,12 +7,16 @@ const rollup = require('rollup');
 const resolve = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
 const typescript = require('rollup-plugin-typescript2');
 const babel = require('rollup-plugin-babel');
 const { terser } = require('rollup-plugin-terser');
 const { exec } = require('child_process');
 const { version, dependencies = {}, peerDependencies = {} } = require('../package.json');
 /* eslint-enable */
+
+console.log(version);
+console.log(JSON.stringify(dependencies));
 
 const makeExternalPredicate = externalArray => {
   if (!externalArray.length) {
@@ -52,12 +56,18 @@ async function build() {
           },
         }),
         babel({
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          exclude: 'node_modules/**',
+          extensions: ['.ts', '.tsx'],
+          plugins: [['@babel/plugin-transform-runtime', { useESModules: false }]],
+          runtimeHelpers: true,
         }),
         terser(),
+        json(),
       ],
-      external: makeExternalPredicate([...Object.keys(peerDependencies)]),
+      external: makeExternalPredicate([...Object.keys(dependencies), ...Object.keys(peerDependencies)]),
     });
+
+    console.log('umd done');
 
     await umdBundle.write({
       name: 'GGEditor',
@@ -73,10 +83,12 @@ async function build() {
     signale.success('Build umd success');
   } catch (error) {
     signale.error(error);
+    console.log(error);
   }
 
   // Build cjs
   try {
+    console.log('do cjs');
     const cjsBundle = await rollup.rollup({
       input: 'src/index.tsx',
       plugins: [

@@ -22,7 +22,7 @@ import {
   BehaviorOption as IBehaviorOption,
   IG6GraphEvent as IGraphEvent,
 } from '@antv/g6/lib/types';
-import { GraphOptions as IGraphOptions } from '@antv/g6/lib/interface/graph';
+import { GraphOptions as IGraphOptions } from '@antv/g6/lib/types';
 import { ShapeOptions as IShapeOptions } from '@antv/g6/lib/interface/shape';
 import { INode, IEdge } from '@antv/g6/lib/interface/item';
 
