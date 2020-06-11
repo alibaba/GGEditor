@@ -52,7 +52,7 @@
     "react-dom": "^16.8.0"
   },
   "dependencies": {
-    "@antv/g6": "^3.5.0",
+    "@antv/g6": "3.5.2",
     "@babel/runtime": "^7.7.6",
     "lodash": "^4.17.15"
   },
