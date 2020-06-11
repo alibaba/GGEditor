@@ -1,4 +1,4 @@
-import { TreeGraph } from '@/common/interfaces';
+import { TreeGraph, NodeModel } from '@/common/interfaces';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 export interface FoldCommandParams {
@@ -20,7 +20,7 @@ const foldCommand: BaseCommand<FoldCommandParams> = {
     }
 
     const selectedNode = selectedNodes[0];
-    const selectedNodeModel = selectedNode.getModel();
+    const selectedNodeModel = selectedNode.getModel() as NodeModel;
 
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;

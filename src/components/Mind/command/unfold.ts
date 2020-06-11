@@ -1,4 +1,4 @@
-import { TreeGraph } from '@/common/interfaces';
+import { TreeGraph, NodeModel } from '@/common/interfaces';
 import { BaseCommand } from '@/components/Graph/command/base';
 import foldCommand from './fold';
 
@@ -17,7 +17,7 @@ const unfoldCommand: BaseCommand<UnfoldCommandParams> = {
     }
 
     const selectedNode = selectedNodes[0];
-    const selectedNodeModel = selectedNode.getModel();
+    const selectedNodeModel = selectedNode.getModel() as NodeModel;
 
     if (!selectedNodeModel.children || !selectedNodeModel.children.length) {
       return false;

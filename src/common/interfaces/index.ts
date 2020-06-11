@@ -15,6 +15,7 @@ import { Graph as IGraph, TreeGraph as ITreeGraph } from '@antv/g6';
 import {
   IPoint,
   ShapeStyle as IShapeStyle,
+  GraphOptions as IGraphOptions,
   GraphData as IGraphData,
   TreeGraphData as ITreeGraphData,
   NodeConfig as INodeConfig,
@@ -22,7 +23,6 @@ import {
   BehaviorOption as IBehaviorOption,
   IG6GraphEvent as IGraphEvent,
 } from '@antv/g6/lib/types';
-import { GraphOptions as IGraphOptions } from '@antv/g6/lib/interface/graph';
 import { ShapeOptions as IShapeOptions } from '@antv/g6/lib/interface/shape';
 import { INode, IEdge } from '@antv/g6/lib/interface/item';
 

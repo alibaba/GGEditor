@@ -1,6 +1,6 @@
 import { isMind, executeBatch } from '@/utils';
 import { ItemType } from '@/common/constants';
-import { TreeGraph, NodeModel, EdgeModel } from '@/common/interfaces';
+import { TreeGraph, MindData, NodeModel, EdgeModel } from '@/common/interfaces';
 import { BaseCommand, baseCommand } from '@/components/Graph/command/base';
 
 export interface RemoveCommandParams {
@@ -13,7 +13,7 @@ export interface RemoveCommandParams {
     };
   };
   mind: {
-    model: NodeModel | null;
+    model: MindData | null;
     parent: string;
   };
 }
@@ -45,7 +45,7 @@ const removeCommand: BaseCommand<RemoveCommandParams> = {
 
     if (isMind(graph)) {
       const selectedNode = selectedNodes[0];
-      const selectedNodeModel = selectedNode.getModel() as NodeModel;
+      const selectedNodeModel = selectedNode.getModel() as MindData;
 
       const selectedNodeParent = selectedNode.get('parent');
       const selectedNodeParentModel = selectedNodeParent ? selectedNodeParent.getModel() : {};
