@@ -1,3 +1,9 @@
+## [3.1.3](https://github.com/alibaba/GGEditor/compare/3.1.2...3.1.3) (2020-07-10)
+
+### Bug Fixes
+
+- fix `onAfterConnect` event ([a704aec](https://github.com/alibaba/GGEditor/commit/a704aec5a115020980f88231b1dd3c6442380fdb))
+
 ## [3.1.2](https://github.com/alibaba/GGEditor/compare/3.1.1...3.1.2) (2020-06-11)
 
 ### Bug Fixes
