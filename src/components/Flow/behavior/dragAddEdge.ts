@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject';
 import { guid } from '@/utils';
-import { ItemType, ItemState, GraphType, AnchorPointState } from '@/common/constants';
+import { ItemType, ItemState, GraphType, AnchorPointState, GraphCustomEvent } from '@/common/constants';
 import { Node, Edge, Behavior, GraphEvent, EdgeModel, AnchorPoint } from '@/common/interfaces';
 import behaviorManager from '@/common/behaviorManager';
 
@@ -202,6 +202,10 @@ const dragAddEdgeBehavior: DragAddEdgeBehavior & ThisType<DragAddEdgeBehavior & 
     if (!this.shouldAddRealEdge()) {
       graph.removeItem(this.edge);
     }
+
+    graph.emit(GraphCustomEvent.onAfterConnect, {
+      edge: this.edge,
+    });
 
     this.edge = null;
 
