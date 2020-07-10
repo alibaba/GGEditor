@@ -260,8 +260,6 @@ export enum GraphCustomEvent {
   onBeforeLayout = 'beforelayout',
   /** 布局完成后触发。调用 render 时会进行布局，因此 render 时布局完成后会触发。或用户主动调用图的 layout 时布局完成后触发 */
   onAfterLayout = 'afterlayout',
-  /** 连线完成之前触发 */
-  onBeforeConnect = 'beforeconnect',
   /** 连线完成之后触发 */
   onAfterConnect = 'afterconnect',
 }
