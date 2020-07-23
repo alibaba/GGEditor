@@ -12,6 +12,7 @@
   "main": "lib/index.js",
   "unpkg": "dist/index.js",
   "module": "es/index.js",
+  "browser": "dist/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "dist",
