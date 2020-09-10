@@ -8,6 +8,7 @@ import {
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
+  GraphComboEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
@@ -120,6 +121,7 @@ class GraphComponent extends React.Component<GraphProps, GraphState> {
       ...GraphCommonEvent,
       ...GraphNodeEvent,
       ...GraphEdgeEvent,
+      ...GraphComboEvent,
       ...GraphCanvasEvent,
       ...GraphCustomEvent,
     };
