@@ -36,6 +36,10 @@ class Register extends React.Component<RegisterProps, RegisterState> {
         G6.registerEdge(name, config, extend);
         break;
 
+      case 'combo':
+        G6.registerCombo(name, config, extend);
+        break;
+
       case 'command':
         commandManager.register(name, config as Command);
         break;
@@ -56,5 +60,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
 export const RegisterNode = Register.create('node');
 export const RegisterEdge = Register.create('edge');
+export const RegisterCombo = Register.create('combo');
 export const RegisterCommand = Register.create('command');
 export const RegisterBehavior = Register.create('behavior');

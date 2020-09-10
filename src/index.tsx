@@ -10,7 +10,7 @@ import Mind from '@/components/Mind';
 import Command from '@/components/Command';
 import ItemPanel, { Item } from '@/components/ItemPanel';
 import DetailPanel from '@/components/DetailPanel';
-import { RegisterNode, RegisterEdge, RegisterCommand, RegisterBehavior } from '@/components/Register';
+import { RegisterNode, RegisterEdge, RegisterCombo, RegisterCommand, RegisterBehavior } from '@/components/Register';
 import { withEditorContext } from '@/components/EditorContext';
 import { baseCommand } from '@/components/Graph/command/base';
 
@@ -36,6 +36,7 @@ export {
   DetailPanel,
   RegisterNode,
   RegisterEdge,
+  RegisterCombo,
   RegisterCommand,
   RegisterBehavior,
   withEditorContext,
