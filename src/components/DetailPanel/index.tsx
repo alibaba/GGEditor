@@ -1,15 +1,16 @@
 import React from 'react';
-import { getSelectedNodes, getSelectedEdges } from '@/utils';
+import { getSelectedNodes, getSelectedEdges, getSelectedCombos } from '@/utils';
 import { GraphState, EditorEvent } from '@/common/constants';
 import { EditorContextProps, withEditorContext } from '@/components/EditorContext';
-import { Node, Edge, GraphStateEvent } from '@/common/interfaces';
+import { Node, Edge, Combo, GraphStateEvent } from '@/common/interfaces';
 
-type DetailPanelType = 'node' | 'edge' | 'multi' | 'canvas';
+type DetailPanelType = 'node' | 'edge' | 'combo' | 'multi' | 'canvas';
 
 export interface DetailPanelComponentProps {
   type: DetailPanelType;
   nodes: Node[];
   edges: Edge[];
+  combos: Combo[];
 }
 
 class DetailPanel {
@@ -43,8 +44,9 @@ class DetailPanel {
 
           const nodes = getSelectedNodes(graph);
           const edges = getSelectedEdges(graph);
+          const combos = getSelectedCombos(graph);
 
-          return <WrappedComponent type={type} nodes={nodes} edges={edges} {...(this.props as any)} />;
+          return <WrappedComponent type={type} nodes={nodes} edges={edges} combos={combos} {...(this.props as any)} />;
         }
       }
 

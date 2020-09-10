@@ -6,6 +6,7 @@ import {
   GraphCommonEvent,
   GraphNodeEvent,
   GraphEdgeEvent,
+  GraphComboEvent,
   GraphCanvasEvent,
   GraphCustomEvent,
 } from '@/common/constants';
@@ -20,11 +21,12 @@ import {
   TreeGraphData as ITreeGraphData,
   NodeConfig as INodeConfig,
   EdgeConfig as IEdgeConfig,
+  ComboConfig as IComboConfig,
   BehaviorOption as IBehaviorOption,
   IG6GraphEvent as IGraphEvent,
 } from '@antv/g6/lib/types';
 import { ShapeOptions as IShapeOptions } from '@antv/g6/lib/interface/shape';
-import { INode, IEdge } from '@antv/g6/lib/interface/item';
+import { INode, IEdge, ICombo } from '@antv/g6/lib/interface/item';
 
 export interface GShape extends IGShape {}
 export interface GGroup extends IGGroup {}
@@ -43,16 +45,19 @@ export interface MindData extends ITreeGraphData {}
 
 export interface NodeModel extends INodeConfig {}
 export interface EdgeModel extends IEdgeConfig {}
+export interface ComboModel extends IComboConfig {}
 export interface GraphEvent extends IGraphEvent {}
 
 export interface GraphOptions extends IGraphOptions {}
 export interface CustomShape extends IShapeOptions {}
 export interface CustomNode extends CustomShape {}
 export interface CustomEdge extends CustomShape {}
+export interface CustomCombo extends CustomShape {}
 
-export type Item = Node | Edge;
+export type Item = Node | Edge | Combo;
 export interface Node extends INode {}
 export interface Edge extends IEdge {}
+export interface Combo extends ICombo {}
 
 export interface Behavior extends IBehaviorOption {
   graph?: Graph;
@@ -95,12 +100,19 @@ export interface LabelStateEvent {
   labelState: LabelState;
 }
 
-export type GraphNativeEvent = GraphCommonEvent | GraphNodeEvent | GraphEdgeEvent | GraphCanvasEvent | GraphCustomEvent;
+export type GraphNativeEvent =
+  | GraphCommonEvent
+  | GraphNodeEvent
+  | GraphEdgeEvent
+  | GraphComboEvent
+  | GraphCanvasEvent
+  | GraphCustomEvent;
 
 export type GraphReactEvent =
   | keyof typeof GraphCommonEvent
   | keyof typeof GraphNodeEvent
   | keyof typeof GraphEdgeEvent
+  | keyof typeof GraphComboEvent
   | keyof typeof GraphCanvasEvent
   | keyof typeof GraphCustomEvent;
 

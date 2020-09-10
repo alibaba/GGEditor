@@ -11,6 +11,7 @@ export enum RendererType {
 export enum ItemType {
   Node = 'node',
   Edge = 'edge',
+  Combo = 'combo',
 }
 
 export enum ItemState {
@@ -35,6 +36,7 @@ export enum GraphMode {
 export enum GraphState {
   NodeSelected = 'nodeSelected',
   EdgeSelected = 'edgeSelected',
+  ComboSelected = 'comboSelected',
   MultiSelected = 'multiSelected',
   CanvasSelected = 'canvasSelected',
 }
@@ -192,6 +194,41 @@ export enum GraphEdgeEvent {
   onEdgeMouseUp = 'edge:mouseup',
   /** 用户在边上右击鼠标时触发并打开右键菜单 */
   onEdgeContextMenu = 'edge:contextmenu',
+}
+
+export enum GraphComboEvent {
+  /** 鼠标左键单击 Combo 时触发 */
+  onComboClick = 'combo:click',
+  /** 鼠标双击左键 Combo 时触发 */
+  onComboDoubleClick = 'combo:dblclick',
+  /** 鼠标移入 Combo 时触发 */
+  onComboMouseEnter = 'combo:mouseenter',
+  /** 鼠标在 Combo 内部移到时不断触发，不能通过键盘触发 */
+  onComboMouseMove = 'combo:mousemove',
+  /** 鼠标移出 Combo 后触发 */
+  onComboMouseOut = 'combo:mouseout',
+  /** 鼠标移入 Combo 上方时触发 */
+  onComboMouseOver = 'combo:mouseover',
+  /** 鼠标移出 Combo 时触发 */
+  onComboMouseLeave = 'combo:mouseleave',
+  /** 鼠标按钮在 Combo 上按下（左键或者右键）时触发，不能通过键盘触发 */
+  onComboMouseDown = 'combo:mousedown',
+  /**  Combo 上按下的鼠标按钮被释放弹起时触发，不能通过键盘触发 */
+  onComboMouseUp = 'combo:mouseup',
+  /** 用户在 Combo 上右击鼠标时触发并打开右键菜单 */
+  onComboContextMenu = 'combo:contextmenu',
+  /** 当 Combo 开始被拖拽的时候触发的事件，此事件作用在被拖曳 Combo 上 */
+  onComboDragStart = 'combo:dragstart',
+  /** 当 Combo 在拖动过程中时触发的事件，此事件作用于被拖拽 Combo 上 */
+  onComboDrag = 'combo:drag',
+  /** 当拖拽完成后触发的事件，此事件作用在被拖曳 Combo 上 */
+  onComboDragEnd = 'combo:dragend',
+  /** 当拖曳 Combo 进入目标元素的时候触发的事件，此事件作用在目标元素上 */
+  onComboDragEnter = 'combo:dragenter',
+  /** 当拖曳 Combo 离开目标元素的时候触发的事件，此事件作用在目标元素上 */
+  onComboDragLeave = 'combo:dragleave',
+  /** 被拖拽的 Combo 在目标元素上同时鼠标放开触发的事件，此事件作用在目标元素上 */
+  onComboDrop = 'combo:drop',
 }
 
 export enum GraphCanvasEvent {
