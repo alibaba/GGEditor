@@ -11,6 +11,7 @@ export enum RendererType {
 export enum ItemType {
   Node = 'node',
   Edge = 'edge',
+  Combo = 'combo',
 }
 
 export enum ItemState {
@@ -35,6 +36,7 @@ export enum GraphMode {
 export enum GraphState {
   NodeSelected = 'nodeSelected',
   EdgeSelected = 'edgeSelected',
+  ComboSelected = 'comboSelected',
   MultiSelected = 'multiSelected',
   CanvasSelected = 'canvasSelected',
 }

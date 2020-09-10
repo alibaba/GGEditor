@@ -1,6 +1,6 @@
 import G6 from '@antv/g6';
 import { ItemType, ItemState, GraphState, EditorEvent } from '@/common/constants';
-import { Graph, TreeGraph, EdgeModel, Item, Node, Edge } from '@/common/interfaces';
+import { Graph, TreeGraph, EdgeModel, Item, Node, Edge, Combo } from '@/common/interfaces';
 
 /** 生成唯一标识 */
 export function guid() {
@@ -74,6 +74,30 @@ export function getSelectedEdges(graph: Graph): Edge[] {
   return graph.findAllByState(ItemType.Edge, ItemState.Selected);
 }
 
+/** 获取选中边线 */
+export function getSelectedCombos(graph: Graph): Combo[] {
+  return graph.findAllByState(ItemType.Combo, ItemState.Selected);
+}
+
+/** 获取选中元素 */
+export function getSelectedItems(graph: Graph): Item[] {
+  const selectedNodes = getSelectedNodes(graph);
+  const selectedEdges = getSelectedEdges(graph);
+  const selectedCombos = getSelectedCombos(graph);
+  return [...selectedNodes, ...selectedEdges, ...selectedCombos];
+}
+
+/** 清除选中状态 */
+export function clearSelectedState(graph: Graph, shouldUpdate: (item: Item) => boolean = () => true) {
+  executeBatch(graph, () => {
+    getSelectedItems(graph).forEach(item => {
+      if (shouldUpdate(item)) {
+        graph.setItemState(item, ItemState.Selected, false);
+      }
+    });
+  });
+}
+
 /** 获取高亮边线 */
 export function getHighlightEdges(graph: Graph): Edge[] {
   return graph.findAllByState(ItemType.Edge, ItemState.HighLight);
@@ -83,19 +107,23 @@ export function getHighlightEdges(graph: Graph): Edge[] {
 export function getGraphState(graph: Graph): GraphState {
   let graphState: GraphState = GraphState.MultiSelected;
 
-  const selectedNodes = getSelectedNodes(graph);
-  const selectedEdges = getSelectedEdges(graph);
+  const selectedItems = getSelectedItems(graph);
 
-  if (selectedNodes.length === 1 && !selectedEdges.length) {
-    graphState = GraphState.NodeSelected;
-  }
-
-  if (selectedEdges.length === 1 && !selectedNodes.length) {
-    graphState = GraphState.EdgeSelected;
-  }
-
-  if (!selectedNodes.length && !selectedEdges.length) {
-    graphState = GraphState.CanvasSelected;
+  if (selectedItems.length <= 1) {
+    switch (selectedItems[0] ? selectedItems[0].getType() : '') {
+      case ItemType.Node:
+        graphState = GraphState.NodeSelected;
+        break;
+      case ItemType.Edge:
+        graphState = GraphState.EdgeSelected;
+        break;
+      case ItemType.Combo:
+        graphState = GraphState.ComboSelected;
+        break;
+      default:
+        graphState = GraphState.CanvasSelected;
+        break;
+    }
   }
 
   return graphState;
@@ -104,12 +132,7 @@ export function getGraphState(graph: Graph): GraphState {
 /** 设置选中元素 */
 export function setSelectedItems(graph: Graph, items: Item[] | string[]) {
   executeBatch(graph, () => {
-    const selectedNodes = getSelectedNodes(graph);
-    const selectedEdges = getSelectedEdges(graph);
-
-    [...selectedNodes, ...selectedEdges].forEach(node => {
-      graph.setItemState(node, ItemState.Selected, false);
-    });
+    clearSelectedState(graph);
 
     items.forEach(item => {
       graph.setItemState(item, ItemState.Selected, true);
@@ -118,20 +141,6 @@ export function setSelectedItems(graph: Graph, items: Item[] | string[]) {
 
   graph.emit(EditorEvent.onGraphStateChange, {
     graphState: getGraphState(graph),
-  });
-}
-
-/** 清除选中状态 */
-export function clearSelectedState(graph: Graph, shouldUpdate: (item: Item) => boolean = () => true) {
-  const selectedNodes = getSelectedNodes(graph);
-  const selectedEdges = getSelectedEdges(graph);
-
-  executeBatch(graph, () => {
-    [...selectedNodes, ...selectedEdges].forEach(item => {
-      if (shouldUpdate(item)) {
-        graph.setItemState(item, ItemState.Selected, false);
-      }
-    });
   });
 }
 
